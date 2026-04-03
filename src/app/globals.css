@@ -1,0 +1,44 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --brand: #1a6ff5;
+  --brand-dark: #1359e1;
+  --brand-light: #eef7ff;
+}
+
+body {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+/* Pipeline steps */
+.pipeline-step {
+  @apply flex-1 text-center py-3 px-2 text-xs font-semibold transition-all relative;
+}
+.pipeline-step.done { @apply bg-emerald-500 text-white; }
+.pipeline-step.current { @apply bg-amber-500 text-white shadow-lg; }
+.pipeline-step.pending { @apply bg-gray-100 text-gray-400; }
+
+/* Gauge */
+.gauge-track { @apply w-full h-2.5 bg-gray-200 rounded-full overflow-hidden; }
+.gauge-fill { @apply h-full rounded-full transition-all duration-500; }
+
+/* Timeline */
+.timeline { @apply relative pl-7; }
+.timeline::before {
+  content: '';
+  @apply absolute left-2.5 top-0 bottom-0 w-0.5 bg-gray-200;
+}
+.timeline-dot {
+  @apply absolute -left-5 top-1 w-3 h-3 rounded-full border-2 border-white;
+  box-shadow: 0 0 0 2px theme('colors.gray.300');
+}
+.timeline-dot.done { @apply bg-emerald-500; box-shadow: 0 0 0 2px theme('colors.emerald.500'); }
+.timeline-dot.current { @apply bg-amber-500 animate-pulse; box-shadow: 0 0 0 2px theme('colors.amber.500'); }
+.timeline-dot.alert { @apply bg-red-500 animate-pulse; box-shadow: 0 0 0 2px theme('colors.red.500'); }
+
+/* Scrollbar */
+.scrollbar-thin::-webkit-scrollbar { width: 4px; }
+.scrollbar-thin::-webkit-scrollbar-track { background: transparent; }
+.scrollbar-thin::-webkit-scrollbar-thumb { @apply bg-gray-300 rounded-full; }
