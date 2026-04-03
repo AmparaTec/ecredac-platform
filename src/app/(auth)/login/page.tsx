@@ -41,18 +41,18 @@ export default function LoginPage() {
             <div className="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center font-black text-lg">E</div>
             <span className="text-2xl font-bold tracking-tight">E-CREDac</span>
           </div>
-          <p className="text-white/60 text-sm">Plataforma de Intermediacao de Creditos de ICMS</p>
+          <p className="text-white/60 text-sm">Plataforma de Intermediação de Créditos de ICMS</p>
         </div>
         <div>
           <h1 className="text-5xl font-black leading-tight mb-4">
-            O maior broker<br />de creditos de<br />
-            <span className="text-blue-300">ICMS do Brasil.</span>
+            O Maior amigo<br />do Caixa de<br />
+            <span className="text-blue-300">sua empresa.</span>
           </h1>
           <p className="text-xl text-white/80 max-w-lg mb-8">
-            Da originacao ao ultimo centavo utilizado. Transparencia total, zero burocracia, compliance nativo.
+            Acesso a Créditos de ICMS - Da originação ao último centavo utilizado. Transparência total, zero burocracia, compliance nativo.
           </p>
           <div className="flex gap-8">
-            <div><p className="text-3xl font-bold">R$ 8,2B</p><p className="text-sm text-white/60">em creditos</p></div>
+            <div><p className="text-3xl font-bold">R$ 8,2B</p><p className="text-sm text-white/60">em créditos</p></div>
             <div><p className="text-3xl font-bold">1.240+</p><p className="text-sm text-white/60">empresas</p></div>
             <div><p className="text-3xl font-bold">98%</p><p className="text-sm text-white/60">taxa de sucesso</p></div>
           </div>
@@ -66,7 +66,7 @@ export default function LoginPage() {
       <div className="w-full lg:w-1/2 flex items-center justify-center p-6 bg-gray-50">
         <div className="bg-white rounded-2xl shadow-xl p-8 w-full max-w-md">
           <h2 className="text-2xl font-bold text-gray-900">Bem-vindo de volta</h2>
-          <p className="text-gray-500 mt-1 mb-8">Acesse sua conta para gerenciar seus creditos</p>
+          <p className="text-gray-500 mt-1 mb-8">Acesse sua conta para gerenciar seus créditos</p>
 
           {error && (
             <div className="mb-4 p-3 rounded-xl bg-red-50 border border-red-200 text-red-700 text-sm">
@@ -108,9 +108,9 @@ export default function LoginPage() {
           </form>
 
           <p className="text-center text-sm text-gray-500 mt-6">
-            Ainda nao tem conta?{' '}
+            Ainda não tem conta?{' '}
             <Link href="/register" className="text-brand-600 hover:text-brand-700 font-semibold">
-              Cadastre-se gratis
+              Cadastre-se grátis
             </Link>
           </p>
 
