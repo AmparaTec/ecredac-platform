@@ -1,4 +1,6 @@
 {
+  "buildCommand": "next build",
+  "installCommand": "npm install",
   "crons": [
     {
       "path": "/api/matching",
