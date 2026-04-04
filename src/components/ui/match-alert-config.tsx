@@ -149,7 +149,7 @@ export function MatchAlertForm({ onSubmit, onCancel, initial }: AlertFormProps) 
             <label className="block text-xs font-medium text-gray-600 mb-1">Tipo de Alerta</label>
             <select
               value={form.alert_type}
-              onChange={e => setForm({ ...form, alert_type: e.target.value })}
+              onChange={e => setForm({ ...form, alert_type: e.target.value as 'credit' | 'demand' })}
               className="w-full rounded-xl border border-gray-200 px-3 py-2 text-sm"
             >
               <option value="credit">Quero Comprar Credito</option>
