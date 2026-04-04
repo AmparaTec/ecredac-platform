@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useRef, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 import { cnpjMask, isValidCNPJ } from '@/lib/utils'
@@ -15,15 +15,22 @@ export default function RegisterPage() {
   const [error, setError] = useState('')
   const [showPassword, setShowPassword] = useState(false)
   const [cnpjData, setCnpjData] = useState<any>(null)
+  const [cnpjError, setCnpjError] = useState('')
   const router = useRouter()
+  const lastVerified = useRef('')
 
-  async function verifyCNPJ() {
-    const digits = form.cnpj.replace(/\D/g, '')
+  const verifyCNPJ = useCallback(async (cnpjValue: string) => {
+    const digits = cnpjValue.replace(/\D/g, '')
+    if (digits.length !== 14) return
     if (!isValidCNPJ(digits)) {
-      setError('CNPJ invalido')
+      setCnpjError('CNPJ invalido')
+      setCnpjData(null)
       return
     }
+    if (lastVerified.current === digits) return
+    lastVerified.current = digits
     setVerifying(true)
+    setCnpjError('')
     setError('')
     try {
       const res = await fetch('/api/auth/cnpj-verify', {
@@ -36,12 +43,25 @@ export default function RegisterPage() {
         setCnpjData(data)
         setForm(f => ({ ...f, razaoSocial: data.razao_social }))
       } else {
-        setError(data.error || 'CNPJ nao encontrado ou inativo')
+        setCnpjData(null)
+        setCnpjError(data.error || 'CNPJ nao encontrado ou inativo')
       }
     } catch {
-      setError('Erro ao verificar CNPJ')
+      setCnpjError('Erro ao verificar CNPJ')
     }
     setVerifying(false)
+  }, [])
+
+  function handleCnpjChange(value: string) {
+    const masked = cnpjMask(value)
+    setForm(f => ({ ...f, cnpj: masked }))
+    setCnpjError('')
+    if (masked.length === 18) {
+      verifyCNPJ(masked)
+    } else {
+      setCnpjData(null)
+      lastVerified.current = ''
+    }
   }
 
   async function handleRegister(e: React.FormEvent) {
@@ -111,27 +131,47 @@ export default function RegisterPage() {
         <form onSubmit={handleRegister} className="space-y-4">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">CNPJ</label>
-            <div className="flex gap-2">
+            <div className="relative">
               <input
                 value={form.cnpj}
-                onChange={(e) => setForm({ ...form, cnpj: cnpjMask(e.target.value) })}
+                onChange={(e) => handleCnpjChange(e.target.value)}
                 placeholder="00.000.000/0001-00"
                 required
-                className="flex-1 rounded-xl border border-gray-200 px-4 py-2.5 text-sm focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20"
+                maxLength={18}
+                className={`w-full rounded-xl border px-4 py-2.5 pr-10 text-sm focus:ring-2 transition-colors ${
+                  cnpjData
+                    ? 'border-emerald-300 focus:border-emerald-500 focus:ring-emerald-500/20'
+                    : cnpjError
+                    ? 'border-red-300 focus:border-red-500 focus:ring-red-500/20'
+                    : 'border-gray-200 focus:border-brand-500 focus:ring-brand-500/20'
+                }`}
               />
-              <button
-                type="button"
-                onClick={verifyCNPJ}
-                disabled={verifying}
-                className="px-4 py-2 rounded-xl bg-gray-100 text-gray-700 font-medium text-sm hover:bg-gray-200 disabled:opacity-50"
-              >
-                {verifying ? 'Verificando...' : 'Verificar'}
-              </button>
+              <div className="absolute right-3 top-1/2 -translate-y-1/2">
+                {verifying && (
+                  <svg className="animate-spin h-5 w-5 text-brand-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                  </svg>
+                )}
+                {cnpjData && !verifying && (
+                  <svg className="h-5 w-5 text-emerald-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M20 6L9 17l-5-5" />
+                  </svg>
+                )}
+                {cnpjError && !verifying && (
+                  <svg className="h-5 w-5 text-red-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <circle cx="12" cy="12" r="10" /><line x1="15" y1="9" x2="9" y2="15" /><line x1="9" y1="9" x2="15" y2="15" />
+                  </svg>
+                )}
+              </div>
             </div>
             {cnpjData && (
               <p className="mt-1 text-xs text-emerald-600 font-medium">
-                ✓ {cnpjData.razao_social} — {cnpjData.situacao}
+                {cnpjData.razao_social} — {cnpjData.situacao}
               </p>
+            )}
+            {cnpjError && (
+              <p className="mt-1 text-xs text-red-500 font-medium">{cnpjError}</p>
             )}
           </div>
 
