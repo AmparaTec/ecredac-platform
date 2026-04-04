@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useRef, useCallback } from 'react'
+import { useState, useRef, useCallback, Suspense } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 import { cnpjMask, isValidCNPJ } from '@/lib/utils'
@@ -42,7 +42,7 @@ const ROLE_CONFIG = {
   },
 } as const
 
-export default function RegisterPage() {
+function RegisterForm() {
   const searchParams = useSearchParams()
   const referralCode = searchParams.get('ref') || ''
 
@@ -531,5 +531,17 @@ export default function RegisterPage() {
         </p>
       </div>
     </div>
+  )
+}
+
+export default function RegisterPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+        <div className="animate-spin h-8 w-8 border-4 border-brand-500 border-t-transparent rounded-full" />
+      </div>
+    }>
+      <RegisterForm />
+    </Suspense>
   )
 }
