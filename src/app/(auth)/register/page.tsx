@@ -48,43 +48,48 @@ export default function RegisterPage() {
     setLoading(true)
     setError('')
 
-    const supabase = createClient()
-
-    // 1. Create auth user
-    const { data: authData, error: authError } = await supabase.auth.signUp({
-      email: form.email,
-      password: form.password,
-    })
-
-    if (authError) {
-      setError(authError.message)
-      setLoading(false)
-      return
-    }
-
-    // 2. Create company record
-    if (authData.user) {
-      const { error: compError } = await supabase.from('companies').insert({
-        auth_user_id: authData.user.id,
-        cnpj: form.cnpj.replace(/\D/g, ''),
-        razao_social: form.razaoSocial,
-        nome_fantasia: cnpjData?.nome_fantasia || form.razaoSocial.split(' ')[0],
-        email: form.email,
-        type: form.tipo,
-        sefaz_status: 'pending',
-        lgpd_consent: true,
-        lgpd_consent_at: new Date().toISOString(),
+    try {
+      // 1. Call server-side register API (admin client — bypasses RLS & email confirmation)
+      const res = await fetch('/api/auth/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email: form.email,
+          password: form.password,
+          cnpj: form.cnpj,
+          razaoSocial: form.razaoSocial,
+          nomeFantasia: cnpjData?.nome_fantasia || form.razaoSocial.split(' ')[0],
+          tipo: form.tipo,
+        }),
       })
 
-      if (compError) {
-        setError('Erro ao criar empresa: ' + compError.message)
+      const data = await res.json()
+
+      if (!res.ok) {
+        setError(data.error || 'Erro ao criar conta')
         setLoading(false)
         return
       }
-    }
 
-    router.push('/dashboard')
-    router.refresh()
+      // 2. Sign in the user (now that account exists and is confirmed)
+      const supabase = createClient()
+      const { error: signInError } = await supabase.auth.signInWithPassword({
+        email: form.email,
+        password: form.password,
+      })
+
+      if (signInError) {
+        setError('Conta criada! Mas houve erro no login automatico. Tente fazer login manualmente.')
+        setLoading(false)
+        return
+      }
+
+      router.push('/dashboard')
+      router.refresh()
+    } catch {
+      setError('Erro de conexao. Tente novamente.')
+      setLoading(false)
+    }
   }
 
   return (

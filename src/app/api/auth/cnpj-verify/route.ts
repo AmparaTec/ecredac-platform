@@ -27,8 +27,8 @@ export async function POST(request: NextRequest) {
     })
 
     if (!response.ok) {
-      // Fallback: return mock data for development
-      if (process.env.NODE_ENV === 'development') {
+      // Fallback: return mock data for development/preview
+      if (process.env.NODE_ENV === 'development' || process.env.VERCEL_ENV === 'preview' || !process.env.CNPJ_API_KEY) {
         return NextResponse.json({
           valid: true,
           cnpj: digits,
