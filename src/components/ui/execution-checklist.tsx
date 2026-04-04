@@ -230,7 +230,7 @@ export function ExecutionChecklist({
                               {task.task_name}
                             </p>
                             {task.sla_critical && (
-                              <Shield size={12} className="text-amber-500 flex-shrink-0" title="SLA Critico" />
+                              <span title="SLA Critico"><Shield size={12} className="text-amber-500 flex-shrink-0" /></span>
                             )}
                           </div>
                           {task.task_description && (
