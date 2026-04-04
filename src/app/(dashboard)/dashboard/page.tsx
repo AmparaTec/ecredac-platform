@@ -3,6 +3,7 @@ import { formatBRL, formatNumber } from '@/lib/utils'
 import { Card } from '@/components/ui/card'
 import { StatCard } from '@/components/ui/stat-card'
 import { Badge } from '@/components/ui/badge'
+import { ProcuradorDashboard } from './procurador-dashboard'
 import Link from 'next/link'
 import {
   DollarSign, TrendingUp, ArrowLeftRight, Clock,
@@ -13,6 +14,67 @@ export default async function DashboardPage() {
   const supabase = createServerSupabase()
   const { data: { user } } = await supabase.auth.getUser()
 
+  // Get user profile (role)
+  const { data: userProfile } = await supabase
+    .from('user_profiles')
+    .select('id, full_name, role, referral_code')
+    .eq('auth_user_id', user!.id)
+    .single()
+
+  const role = userProfile?.role || 'titular'
+
+  // ─── PROCURADOR DASHBOARD ───
+  if (role === 'procurador' && userProfile) {
+    const { data: procurador } = await supabase
+      .from('procurador_profiles')
+      .select('*')
+      .eq('user_profile_id', userProfile.id)
+      .single()
+
+    // Get current tier info
+    const { data: tier } = procurador ? await supabase
+      .from('commission_tiers')
+      .select('*')
+      .eq('tier', procurador.tier || 'bronze')
+      .single() : { data: null }
+
+    // Get clients (companies linked to this procurador via company_members)
+    const { data: clients } = await supabase
+      .from('company_members')
+      .select('*, company:companies(*)')
+      .eq('user_profile_id', userProfile.id)
+      .eq('role', 'procurador')
+      .eq('active', true)
+
+    // Get recent commissions
+    const { data: commissions } = procurador ? await supabase
+      .from('commissions')
+      .select('*')
+      .eq('procurador_id', procurador.id)
+      .order('created_at', { ascending: false })
+      .limit(10) : { data: [] }
+
+    // Count pending invites
+    const { count: pendingInvites } = procurador ? await supabase
+      .from('referral_invites')
+      .select('*', { count: 'exact', head: true })
+      .eq('procurador_id', procurador.id)
+      .eq('status', 'pending') : { count: 0 }
+
+    return (
+      <ProcuradorDashboard
+        profile={userProfile}
+        procurador={procurador}
+        tier={tier}
+        clients={clients || []}
+        commissions={commissions || []}
+        pendingInvites={pendingInvites || 0}
+        referralCode={userProfile.referral_code || ''}
+      />
+    )
+  }
+
+  // ─── EMPRESA DASHBOARD (titular / representante) ───
   // Get company
   const { data: company } = await supabase
     .from('companies')
@@ -42,12 +104,22 @@ export default async function DashboardPage() {
   // Calculate volume from recent listings
   const totalVolume = recentListings?.reduce((acc, l) => acc + (l.amount || 0), 0) || 0
 
+  // Role label for header
+  const roleLabel = role === 'representante' ? 'Representante' : 'Titular'
+
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div>
-        <h1 className="text-2xl font-bold text-gray-900">Dashboard</h1>
-        <p className="text-gray-500 mt-1">Visao geral da sua operacao de creditos de ICMS</p>
+      <div className="flex items-center justify-between">
+        <div>
+          <h1 className="text-2xl font-bold text-gray-900">Dashboard</h1>
+          <p className="text-gray-500 mt-1">Visao geral da sua operacao de creditos de ICMS</p>
+        </div>
+        {role === 'representante' && (
+          <span className="inline-flex items-center px-2.5 py-1 rounded-lg bg-blue-50 text-blue-700 text-xs font-bold uppercase tracking-wider border border-blue-200">
+            Representante
+          </span>
+        )}
       </div>
 
       {/* Stats */}
@@ -255,6 +327,12 @@ export default async function DashboardPage() {
                    company?.type === 'buyer' ? 'Cessionario' : 'Ambos'}
                 </span>
               </div>
+              {role === 'representante' && (
+                <div className="flex justify-between">
+                  <span className="text-gray-500">Acesso</span>
+                  <span className="text-blue-700 font-medium">Representante</span>
+                </div>
+              )}
             </div>
           </Card>
         </div>

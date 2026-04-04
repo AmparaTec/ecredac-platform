@@ -13,25 +13,41 @@ export default async function DashboardLayout({
 
   if (!user) redirect('/login')
 
-  // Get company info
-  const { data: company } = await supabase
-    .from('companies')
-    .select('*')
-    .eq('auth_user_id', user.id)
-    .single()
+  // Fetch user_profile and company in parallel
+  const [{ data: userProfile }, { data: company }] = await Promise.all([
+    supabase
+      .from('user_profiles')
+      .select('id, full_name, role, referral_code')
+      .eq('auth_user_id', user.id)
+      .single(),
+    supabase
+      .from('companies')
+      .select('*')
+      .eq('auth_user_id', user.id)
+      .single(),
+  ])
 
-  const companyName = company?.nome_fantasia || company?.razao_social || 'Empresa'
+  const userRole = (userProfile?.role as 'titular' | 'representante' | 'procurador') || 'titular'
+  const displayName = userProfile?.full_name || company?.nome_fantasia || company?.razao_social || 'Usuario'
+  const companyName = company?.nome_fantasia || company?.razao_social || (userRole === 'procurador' ? 'Assessor' : 'Empresa')
   const companyTier = company?.tier || 'free'
 
   return (
     <div className="min-h-screen bg-gray-50 flex">
-      <Sidebar companyName={companyName} companyTier={companyTier} />
+      <Sidebar
+        companyName={companyName}
+        companyTier={companyTier}
+        userRole={userRole}
+        displayName={displayName}
+      />
 
       <main className="flex-1 ml-56 min-w-0">
         {/* Top bar */}
         <header className="h-14 bg-white border-b border-gray-100 flex items-center justify-between px-6 sticky top-0 z-20">
           <input
-            placeholder="Buscar operacoes, empresas, creditos..."
+            placeholder={userRole === 'procurador'
+              ? 'Buscar clientes, comissoes, convites...'
+              : 'Buscar operacoes, empresas, creditos...'}
             className="pl-4 pr-4 py-1.5 w-72 rounded-xl border border-gray-200 bg-gray-50 text-sm focus:bg-white focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 transition-all"
           />
           <div className="flex items-center gap-3">
@@ -41,9 +57,14 @@ export default async function DashboardLayout({
             </button>
             <div className="flex items-center gap-2 pl-3 border-l border-gray-100">
               <div className="w-7 h-7 rounded-lg bg-brand-100 text-brand-700 flex items-center justify-center font-bold text-xs">
-                {companyName.charAt(0)}
+                {displayName.charAt(0)}
               </div>
-              <span className="text-sm font-medium">{companyName}</span>
+              <div className="text-right">
+                <span className="text-sm font-medium block">{displayName}</span>
+                {userRole === 'procurador' && (
+                  <span className="text-[10px] text-brand-600 font-semibold uppercase tracking-wide">Assessor</span>
+                )}
+              </div>
             </div>
           </div>
         </header>
