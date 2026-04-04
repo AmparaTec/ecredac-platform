@@ -492,6 +492,130 @@ export interface ExecutionComment {
 }
 
 // ============================================
+// User Roles & Commission Types (Sprint 6)
+// ============================================
+
+export type UserRole = 'titular' | 'representante' | 'procurador'
+export type ProcuradorStatus = 'pending' | 'active' | 'suspended' | 'inactive'
+export type ProcuradorTier = 'bronze' | 'silver' | 'gold' | 'platinum' | 'diamond'
+export type CommissionStatus = 'pending' | 'earned' | 'processing' | 'paid' | 'cancelled'
+
+export interface UserProfile {
+  id: string
+  auth_user_id: string
+  full_name: string
+  cpf: string | null
+  phone: string | null
+  email: string
+  role: UserRole
+  avatar_url: string | null
+  referral_code: string | null
+  metadata: Record<string, unknown>
+  created_at: string
+  updated_at: string
+}
+
+export interface CompanyMember {
+  id: string
+  company_id: string
+  user_profile_id: string
+  role: UserRole
+  can_list_credits: boolean
+  can_request_credits: boolean
+  can_approve_matches: boolean
+  can_sign_contracts: boolean
+  can_view_financials: boolean
+  can_manage_team: boolean
+  active: boolean
+  invited_by: string | null
+  accepted_at: string | null
+  power_of_attorney_url: string | null
+  power_of_attorney_valid_until: string | null
+  created_at: string
+  updated_at: string
+  // Joined
+  company?: Company
+  user_profile?: UserProfile
+}
+
+export interface ProcuradorProfile {
+  id: string
+  user_profile_id: string
+  office_name: string
+  office_cnpj: string | null
+  office_crc: string | null
+  office_oab: string | null
+  specialty: string | null
+  status: ProcuradorStatus
+  tier: ProcuradorTier
+  approved_at: string | null
+  custom_commission_pct: number | null
+  total_companies: number
+  total_volume_intermediated: number
+  total_commissions_earned: number
+  total_commissions_paid: number
+  current_month_volume: number
+  bank_name: string | null
+  bank_agency: string | null
+  bank_account: string | null
+  bank_account_type: string | null
+  pix_key: string | null
+  metadata: Record<string, unknown>
+  created_at: string
+  updated_at: string
+  // Joined
+  user_profile?: UserProfile
+}
+
+export interface ReferralInvite {
+  id: string
+  procurador_id: string
+  invited_email: string | null
+  invited_cnpj: string | null
+  invited_company_name: string | null
+  referral_code: string
+  invite_url: string | null
+  status: string
+  accepted_at: string | null
+  accepted_by: string | null
+  company_id: string | null
+  expires_at: string
+  created_at: string
+  updated_at: string
+}
+
+export interface Commission {
+  id: string
+  procurador_id: string
+  transaction_id: string | null
+  company_id: string
+  transaction_value: number
+  commission_pct: number
+  commission_value: number
+  commission_type: string
+  status: CommissionStatus
+  paid_at: string | null
+  payment_reference: string | null
+  reference_month: string | null
+  created_at: string
+  updated_at: string
+  // Joined
+  company?: Company
+  transaction?: Transaction
+}
+
+export interface CommissionTier {
+  id: string
+  tier: ProcuradorTier
+  min_monthly_volume: number
+  max_monthly_volume: number | null
+  commission_pct: number
+  activation_bonus: number
+  benefits: Record<string, boolean>
+  created_at: string
+}
+
+// ============================================
 // API Types
 // ============================================
 
