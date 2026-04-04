@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { createClient } from '@/lib/supabase/server'
+import { createServerSupabase } from '@/lib/supabase/server'
 
 // GET /api/alerts — Listar alertas do usuario
 export async function GET(request: NextRequest) {
-  const supabase = await createClient()
+  const supabase = createServerSupabase()
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) return NextResponse.json({ error: 'Nao autenticado' }, { status: 401 })
 
@@ -23,7 +23,7 @@ export async function GET(request: NextRequest) {
 
 // POST /api/alerts — Criar novo alerta
 export async function POST(request: NextRequest) {
-  const supabase = await createClient()
+  const supabase = createServerSupabase()
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) return NextResponse.json({ error: 'Nao autenticado' }, { status: 401 })
 
@@ -58,7 +58,7 @@ export async function POST(request: NextRequest) {
 
 // PUT /api/alerts — Atualizar alerta (toggle, editar)
 export async function PUT(request: NextRequest) {
-  const supabase = await createClient()
+  const supabase = createServerSupabase()
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) return NextResponse.json({ error: 'Nao autenticado' }, { status: 401 })
 
@@ -90,7 +90,7 @@ export async function PUT(request: NextRequest) {
 
 // DELETE /api/alerts — Excluir alerta
 export async function DELETE(request: NextRequest) {
-  const supabase = await createClient()
+  const supabase = createServerSupabase()
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) return NextResponse.json({ error: 'Nao autenticado' }, { status: 401 })
 

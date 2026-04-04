@@ -1,11 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { createClient } from '@/lib/supabase/server'
+import { createServerSupabase } from '@/lib/supabase/server'
 
 // GET /api/execution?match_id=xxx — Buscar plano de execucao de um match
 // GET /api/execution?plan_id=xxx — Buscar plano por ID com todas as tasks
 // GET /api/execution/templates — Buscar templates
 export async function GET(request: NextRequest) {
-  const supabase = await createClient()
+  const supabase = createServerSupabase()
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) return NextResponse.json({ error: 'Nao autenticado' }, { status: 401 })
 
@@ -78,7 +78,7 @@ export async function GET(request: NextRequest) {
 
 // POST /api/execution — Acoes no plano de execucao
 export async function POST(request: NextRequest) {
-  const supabase = await createClient()
+  const supabase = createServerSupabase()
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) return NextResponse.json({ error: 'Nao autenticado' }, { status: 401 })
 

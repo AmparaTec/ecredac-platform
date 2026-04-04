@@ -1,11 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { createClient } from '@/lib/supabase/server'
+import { createServerSupabase } from '@/lib/supabase/server'
 
 // GET /api/auctions?listing_id=xxx — Buscar leilao por listing
 // GET /api/auctions?status=open — Listar leiloes abertos
 // GET /api/auctions?my=true — Meus leiloes (como vendedor)
 export async function GET(request: NextRequest) {
-  const supabase = await createClient()
+  const supabase = createServerSupabase()
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) return NextResponse.json({ error: 'Nao autenticado' }, { status: 401 })
 
@@ -97,7 +97,7 @@ export async function GET(request: NextRequest) {
 
 // POST /api/auctions — Criar leilao ou fazer lance
 export async function POST(request: NextRequest) {
-  const supabase = await createClient()
+  const supabase = createServerSupabase()
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) return NextResponse.json({ error: 'Nao autenticado' }, { status: 401 })
 

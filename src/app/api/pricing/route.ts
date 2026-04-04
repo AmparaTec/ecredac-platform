@@ -1,10 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { createClient } from '@/lib/supabase/server'
+import { createServerSupabase } from '@/lib/supabase/server'
 
 // GET /api/pricing?listing_id=xxx — Buscar recomendacao de preco
 // GET /api/pricing/benchmarks?type=acumulado&origin=exportacao — Buscar benchmarks
 export async function GET(request: NextRequest) {
-  const supabase = await createClient()
+  const supabase = createServerSupabase()
   const { data: { user } } = await supabase.auth.getUser()
 
   if (!user) {
@@ -74,7 +74,7 @@ export async function GET(request: NextRequest) {
 // POST /api/pricing — Calcular/recalcular recomendacao de preco
 // Body: { listing_id: string } ou { recalculate_all: true }
 export async function POST(request: NextRequest) {
-  const supabase = await createClient()
+  const supabase = createServerSupabase()
   const { data: { user } } = await supabase.auth.getUser()
 
   if (!user) {

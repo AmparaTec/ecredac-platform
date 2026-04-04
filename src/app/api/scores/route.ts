@@ -1,10 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { createClient } from '@/lib/supabase/server'
+import { createServerSupabase } from '@/lib/supabase/server'
 
 // GET /api/scores?listing_id=xxx — Buscar score de um credito
 // GET /api/scores — Buscar todos os scores (com filtros)
 export async function GET(request: NextRequest) {
-  const supabase = await createClient()
+  const supabase = createServerSupabase()
   const { data: { user } } = await supabase.auth.getUser()
 
   if (!user) {
@@ -63,7 +63,7 @@ export async function GET(request: NextRequest) {
 
 // POST /api/scores — Calcular/recalcular score de um credito
 export async function POST(request: NextRequest) {
-  const supabase = await createClient()
+  const supabase = createServerSupabase()
   const { data: { user } } = await supabase.auth.getUser()
 
   if (!user) {
