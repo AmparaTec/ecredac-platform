@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { createAdminSupabase } from '@/lib/supabase/server'
+import { createClient } from '@supabase/supabase-js'
 
 // POST /api/auth/register
 // Creates auth user + company record using admin client (bypasses RLS)
@@ -15,7 +15,12 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    const supabase = createAdminSupabase()
+    // Use createClient from @supabase/supabase-js with service role key
+    // This properly bypasses RLS (unlike the SSR createServerClient)
+    const supabase = createClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.SUPABASE_SERVICE_ROLE_KEY!
+    )
 
     // 1. Create auth user (admin API — no email confirmation required)
     const { data: authData, error: authError } = await supabase.auth.admin.createUser({
