@@ -63,11 +63,13 @@ export interface CreditListing {
   published_at: string | null
   expires_at: string | null
   description: string | null
+  credit_id: string | null
   metadata: Record<string, unknown>
   created_at: string
   updated_at: string
   // Joined
   company?: Company
+  credit_score?: CreditScore
 }
 
 export interface CreditRequest {
@@ -157,6 +159,335 @@ export interface Notification {
   read_at: string | null
   reference_type: string | null
   reference_id: string | null
+  created_at: string
+}
+
+// ============================================
+// Credit Score Types
+// ============================================
+
+export type CreditScoreGrade = 'A' | 'B' | 'C' | 'D'
+
+export interface CreditScore {
+  id: string
+  listing_id: string
+  score: number
+  grade: CreditScoreGrade
+  sefaz_risk_score: number
+  homologation_score: number
+  maturity_score: number
+  origin_score: number
+  documentation_score: number
+  historical_score: number
+  risk_factors: RiskFactor[]
+  estimated_homologation_days: number | null
+  algorithm_version: string
+  calculated_at: string
+  expires_at: string
+  created_at: string
+  updated_at: string
+}
+
+export interface RiskFactor {
+  factor: string
+  impact: number
+  description: string
+}
+
+export interface CreditScoreBreakdown {
+  score: number
+  grade: CreditScoreGrade
+  sefaz_risk: number
+  homologation: number
+  maturity: number
+  origin_quality: number
+  documentation: number
+  historical: number
+  risk_factors: RiskFactor[]
+  est_homologation_days: number
+}
+
+export interface PriceHistory {
+  id: string
+  listing_id: string | null
+  transaction_id: string | null
+  credit_type: CreditType
+  origin: CreditOrigin
+  amount: number
+  discount_applied: number
+  price_per_real: number
+  credit_score: number | null
+  credit_grade: CreditScoreGrade | null
+  region: string | null
+  recorded_at: string
+}
+
+// ============================================
+// Pricing Types (Sprint 2)
+// ============================================
+
+export type MarketPosition = 'abaixo_mercado' | 'na_media' | 'acima_mercado' | 'premium'
+
+export interface PriceFactor {
+  name: string
+  impact: number
+  desc: string
+}
+
+export interface PriceRecommendation {
+  id: string
+  listing_id: string
+  recommended_discount: number
+  discount_range_low: number
+  discount_range_high: number
+  recommended_price_per_real: number
+  confidence: number
+  factors: PriceFactor[]
+  vs_market_avg: number
+  vs_market_position: MarketPosition
+  estimated_days_to_sell: number | null
+  sell_probability_7d: number
+  sell_probability_30d: number
+  algorithm_version: string
+  calculated_at: string
+  expires_at: string
+  created_at: string
+  updated_at: string
+}
+
+export interface MarketBenchmark {
+  id: string
+  credit_type: CreditType
+  origin: CreditOrigin
+  credit_grade: CreditScoreGrade | null
+  avg_discount: number
+  min_discount: number
+  max_discount: number
+  median_discount: number
+  stddev_discount: number
+  total_volume: number
+  transaction_count: number
+  discount_trend: number
+  volume_trend: number
+  avg_days_to_sell: number | null
+  liquidity_score: number
+  period_start: string
+  period_end: string
+  sample_size: number
+  confidence_level: number
+  created_at: string
+  updated_at: string
+}
+
+export interface PriceRecommendationResult {
+  listing_id: string
+  recommended_discount: number
+  discount_range: { low: number; high: number }
+  price_per_real: number
+  confidence: number
+  factors: PriceFactor[]
+  market_position: MarketPosition
+  vs_market_avg: number
+  estimated_days_to_sell: number
+  sell_probability: { '7d': number; '30d': number }
+  data_points: {
+    history_transactions: number
+    supply_count: number
+    demand_count: number
+    supply_volume: number
+    demand_volume: number
+  }
+  algorithm_version: string
+}
+
+// ============================================
+// Active Matching Types (Sprint 3)
+// ============================================
+
+export type BidStatus = 'active' | 'won' | 'outbid' | 'expired' | 'cancelled'
+export type AlertChannel = 'in_app' | 'email' | 'both'
+export type AuctionStatus = 'open' | 'closed' | 'cancelled' | 'no_bids'
+export type BidStrategy = 'fixed' | 'market' | 'aggressive'
+export type AlertType = 'credit' | 'demand'
+
+export interface MatchAlert {
+  id: string
+  company_id: string
+  name: string
+  active: boolean
+  alert_type: AlertType
+  credit_types: CreditType[] | null
+  origins: CreditOrigin[] | null
+  min_amount: number | null
+  max_amount: number | null
+  min_grade: CreditScoreGrade | null
+  max_discount: number | null
+  min_discount: number | null
+  channel: AlertChannel
+  matches_found: number
+  last_triggered_at: string | null
+  max_triggers: number | null
+  created_at: string
+  updated_at: string
+}
+
+export interface AutoBidRule {
+  id: string
+  company_id: string
+  name: string
+  active: boolean
+  credit_types: CreditType[] | null
+  origins: CreditOrigin[] | null
+  min_grade: CreditScoreGrade | null
+  min_amount: number | null
+  max_amount: number | null
+  homologation_required: boolean
+  bid_strategy: BidStrategy
+  fixed_discount: number | null
+  market_offset: number | null
+  max_bid_discount: number
+  min_bid_discount: number
+  max_total_exposure: number | null
+  max_single_bid: number | null
+  max_bids_per_day: number
+  current_exposure: number
+  bids_today: number
+  total_bids: number
+  total_won: number
+  total_volume_won: number
+  created_at: string
+  updated_at: string
+}
+
+export interface SilentAuction {
+  id: string
+  listing_id: string
+  seller_company_id: string
+  status: AuctionStatus
+  min_discount: number
+  reserve_discount: number | null
+  starts_at: string
+  ends_at: string
+  extended_until: string | null
+  winning_bid_id: string | null
+  final_discount: number | null
+  total_bids: number
+  unique_bidders: number
+  auto_extend: boolean
+  auto_extend_minutes: number
+  visible_bid_count: boolean
+  visible_time_remaining: boolean
+  created_at: string
+  updated_at: string
+  // Joined
+  listing?: CreditListing
+  winning_bid?: AuctionBid
+}
+
+export interface AuctionBid {
+  id: string
+  auction_id: string
+  bidder_company_id: string
+  bid_discount: number
+  bid_amount: number
+  status: BidStatus
+  is_auto_bid: boolean
+  auto_bid_rule_id: string | null
+  placed_at: string
+  outbid_at: string | null
+  won_at: string | null
+  created_at: string
+  updated_at: string
+  // Joined
+  bidder_company?: Company
+}
+
+// ============================================
+// Guided Execution Types (Sprint 4)
+// ============================================
+
+export type ExecutionTaskStatus = 'pending' | 'in_progress' | 'completed' | 'blocked' | 'skipped'
+export type SLAStatus = 'on_track' | 'at_risk' | 'breached' | 'completed'
+export type ResponsibleRole = 'seller' | 'buyer' | 'platform' | 'sefaz' | 'legal' | 'financial'
+
+export interface ExecutionTemplate {
+  id: string
+  phase: number
+  phase_name: string
+  task_order: number
+  task_name: string
+  task_description: string | null
+  responsible: ResponsibleRole
+  sla_hours: number
+  sla_critical: boolean
+  required: boolean
+  depends_on_task: number | null
+  requires_document: boolean
+  document_type: string | null
+  auto_complete_condition: string | null
+  active: boolean
+  created_at: string
+  updated_at: string
+}
+
+export interface ExecutionPlan {
+  id: string
+  match_id: string
+  current_phase: number
+  overall_progress: number
+  overall_sla_status: SLAStatus
+  started_at: string
+  estimated_completion: string | null
+  completed_at: string | null
+  total_tasks: number
+  completed_tasks: number
+  blocked_tasks: number
+  breached_slas: number
+  created_at: string
+  updated_at: string
+  // Joined
+  tasks?: ExecutionTask[]
+  match?: Match
+}
+
+export interface ExecutionTask {
+  id: string
+  plan_id: string
+  template_id: string | null
+  phase: number
+  task_order: number
+  task_name: string
+  task_description: string | null
+  status: ExecutionTaskStatus
+  responsible: ResponsibleRole
+  assigned_company_id: string | null
+  assigned_user_name: string | null
+  sla_hours: number
+  sla_deadline: string | null
+  sla_status: SLAStatus
+  sla_breached_at: string | null
+  started_at: string | null
+  completed_at: string | null
+  completed_by: string | null
+  completion_note: string | null
+  blocked_reason: string | null
+  blocked_at: string | null
+  document_id: string | null
+  document_url: string | null
+  required: boolean
+  sla_critical: boolean
+  created_at: string
+  updated_at: string
+  // Joined
+  comments?: ExecutionComment[]
+}
+
+export interface ExecutionComment {
+  id: string
+  task_id: string
+  company_id: string | null
+  author_name: string | null
+  content: string
   created_at: string
 }
 

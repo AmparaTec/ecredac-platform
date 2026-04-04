@@ -2,17 +2,23 @@
 
 import { useState, useEffect } from 'react'
 import { createClient } from '@/lib/supabase/client'
-import { formatBRL, formatDate, creditTypeLabels, creditOriginLabels, homologationConfig } from '@/lib/utils'
+import { formatBRL, formatDate, creditTypeLabels, creditOriginLabels, homologationConfig, creditScoreConfig } from '@/lib/utils'
 import { Card } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
-import { DollarSign, Plus, Search, Filter, X } from 'lucide-react'
+import { ScoreBadge } from '@/components/ui/score-badge'
+import { CreditIdCard } from '@/components/ui/credit-id-card'
+import { PriceRecommendationCard } from '@/components/ui/price-recommendation'
+import { MarketBenchmarkCard } from '@/components/ui/market-benchmark'
+import { CreateAuctionForm } from '@/components/ui/silent-auction'
+import { DollarSign, Plus, Search, Filter, X, Shield, TrendingUp, Target, Gavel } from 'lucide-react'
 
 export default function MarketplacePage() {
   const [listings, setListings] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
   const [showNewForm, setShowNewForm] = useState(false)
-  const [filter, setFilter] = useState({ type: '', origin: '', status: 'active' })
+  const [filter, setFilter] = useState({ type: '', origin: '', status: 'active', grade: '' })
+  const [viewMode, setViewMode] = useState<'cards' | 'grid'>('cards')
   const [newListing, setNewListing] = useState({
     credit_type: 'acumulado',
     origin: 'exportacao',
@@ -23,9 +29,16 @@ export default function MarketplacePage() {
     description: '',
   })
   const [submitting, setSubmitting] = useState(false)
+  const [benchmarks, setBenchmarks] = useState<any[]>([])
+  const [selectedListing, setSelectedListing] = useState<any>(null)
+  const [priceRec, setPriceRec] = useState<any>(null)
+  const [priceRecLoading, setPriceRecLoading] = useState(false)
+  const [showAuctionForm, setShowAuctionForm] = useState<string | null>(null)
+  const [auctionLoading, setAuctionLoading] = useState(false)
 
   useEffect(() => {
     loadListings()
+    loadBenchmarks()
   }, [filter])
 
   async function loadListings() {
@@ -33,7 +46,7 @@ export default function MarketplacePage() {
     const supabase = createClient()
     let query = supabase
       .from('credit_listings')
-      .select('*, company:companies(*)')
+      .select('*, company:companies(*), credit_score:credit_scores(*)')
       .order('created_at', { ascending: false })
 
     if (filter.status) query = query.eq('status', filter.status)
@@ -41,8 +54,70 @@ export default function MarketplacePage() {
     if (filter.origin) query = query.eq('origin', filter.origin)
 
     const { data } = await query
-    setListings(data || [])
+
+    // Filtro por grade (client-side pois e um join)
+    let filtered = data || []
+    if (filter.grade) {
+      filtered = filtered.filter((l: any) => l.credit_score?.grade === filter.grade)
+    }
+
+    // Ordenar por score (maior primeiro)
+    filtered.sort((a: any, b: any) => {
+      const scoreA = a.credit_score?.score || 0
+      const scoreB = b.credit_score?.score || 0
+      return scoreB - scoreA
+    })
+
+    setListings(filtered)
     setLoading(false)
+  }
+
+  async function loadBenchmarks() {
+    try {
+      let url = '/api/pricing?'
+      if (filter.type) url += `type=${filter.type}&`
+      if (filter.origin) url += `origin=${filter.origin}&`
+      const res = await fetch(url)
+      if (res.ok) {
+        const data = await res.json()
+        setBenchmarks(data.benchmarks || [])
+      }
+    } catch (err) {
+      console.error('Failed to load benchmarks:', err)
+    }
+  }
+
+  async function loadPriceRecommendation(listingId: string) {
+    setPriceRecLoading(true)
+    setPriceRec(null)
+    try {
+      const res = await fetch(`/api/pricing?listing_id=${listingId}`)
+      if (res.ok) {
+        const data = await res.json()
+        setPriceRec(data.recommendation)
+      }
+    } catch (err) {
+      console.error('Failed to load price recommendation:', err)
+    }
+    setPriceRecLoading(false)
+  }
+
+  function handleListingClick(listing: any) {
+    setSelectedListing(listing)
+    loadPriceRecommendation(listing.id)
+  }
+
+  async function handleCreateAuction(data: any) {
+    setAuctionLoading(true)
+    try {
+      const res = await fetch('/api/auctions', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      })
+      if (res.ok) setShowAuctionForm(null)
+    } catch (err) { console.error(err) }
+    setAuctionLoading(false)
   }
 
   async function handleCreate(e: React.FormEvent) {
@@ -126,8 +201,29 @@ export default function MarketplacePage() {
             <option value="matched">Matched</option>
             <option value="sold">Vendidos</option>
           </select>
+          <select
+            value={filter.grade}
+            onChange={e => setFilter({ ...filter, grade: e.target.value })}
+            className="rounded-xl border border-gray-200 px-3 py-1.5 text-sm"
+          >
+            <option value="">Todos os scores</option>
+            <option value="A">Score A — Excelente</option>
+            <option value="B">Score B — Bom</option>
+            <option value="C">Score C — Regular</option>
+            <option value="D">Score D — Alto risco</option>
+          </select>
         </div>
       </Card>
+
+      {/* Market Benchmark Summary */}
+      {benchmarks.length > 0 && (
+        <MarketBenchmarkCard
+          benchmarks={benchmarks}
+          selectedType={filter.type || undefined}
+          selectedOrigin={filter.origin || undefined}
+          compact
+        />
+      )}
 
       {/* Listings Grid */}
       {loading ? (
@@ -137,58 +233,34 @@ export default function MarketplacePage() {
       ) : listings.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {listings.map(listing => (
-            <Card key={listing.id} className="p-5" hover>
-              <div className="flex items-start justify-between mb-3">
-                <div>
-                  <Badge variant="info">
-                    {creditTypeLabels[listing.credit_type] || listing.credit_type}
-                  </Badge>
-                  <Badge variant="default" className="ml-1">
-                    {creditOriginLabels[listing.origin] || listing.origin}
-                  </Badge>
-                </div>
-                <span className={homologationConfig[listing.homologation_status]?.badge || 'bg-gray-100 text-gray-700'}>
-                  <span className="text-[10px] px-2 py-0.5 rounded-full font-medium">
-                    {homologationConfig[listing.homologation_status]?.label || listing.homologation_status}
-                  </span>
-                </span>
-              </div>
-
-              <p className="text-2xl font-bold text-gray-900">{formatBRL(listing.amount)}</p>
-              <p className="text-sm text-gray-500 mt-1">
-                Restante: {formatBRL(listing.remaining_amount)}
-              </p>
-
-              <div className="mt-3 pt-3 border-t border-gray-100 space-y-1.5">
-                <div className="flex justify-between text-sm">
-                  <span className="text-gray-500">Desconto</span>
-                  <span className="font-medium">{listing.min_discount}% — {listing.max_discount}%</span>
-                </div>
-                {listing.e_credac_protocol && (
-                  <div className="flex justify-between text-sm">
-                    <span className="text-gray-500">Protocolo</span>
-                    <span className="font-mono text-xs">{listing.e_credac_protocol}</span>
-                  </div>
-                )}
-                <div className="flex justify-between text-sm">
-                  <span className="text-gray-500">Empresa</span>
-                  <span className="font-medium">{listing.company?.nome_fantasia || 'Anonimo'}</span>
-                </div>
-              </div>
-
-              {listing.description && (
-                <p className="mt-3 text-xs text-gray-400">{listing.description}</p>
-              )}
-
-              <div className="mt-4 flex gap-2">
+            <div key={listing.id}>
+              <CreditIdCard
+                listing={listing}
+                score={listing.credit_score}
+                onClick={() => handleListingClick(listing)}
+              />
+              <div className="mt-2 flex gap-2 px-1">
                 <Button variant="primary" size="sm" className="flex-1">
                   Tenho Interesse
                 </Button>
-                <Button variant="secondary" size="sm">
-                  Detalhes
+                <Button variant="secondary" size="sm" onClick={() => handleListingClick(listing)}>
+                  <Target size={14} /> Preco
+                </Button>
+                <Button variant="secondary" size="sm" onClick={() => setShowAuctionForm(listing.id)}>
+                  <Gavel size={14} />
                 </Button>
               </div>
-            </Card>
+              {showAuctionForm === listing.id && (
+                <div className="mt-2">
+                  <CreateAuctionForm
+                    listingId={listing.id}
+                    onSubmit={handleCreateAuction}
+                    onCancel={() => setShowAuctionForm(null)}
+                    loading={auctionLoading}
+                  />
+                </div>
+              )}
+            </div>
           ))}
         </div>
       ) : (
@@ -201,6 +273,55 @@ export default function MarketplacePage() {
             Publicar Credito
           </Button>
         </Card>
+      )}
+
+      {/* Listing Detail + Pricing Modal */}
+      {selectedListing && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4" onClick={() => { setSelectedListing(null); setPriceRec(null) }}>
+          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-2xl max-h-[85vh] overflow-y-auto" onClick={e => e.stopPropagation()}>
+            <div className="p-6 border-b border-gray-100 flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <Target size={20} className="text-blue-600" />
+                <div>
+                  <h2 className="text-lg font-bold text-gray-900">
+                    {selectedListing.credit_id || 'Credito'}
+                  </h2>
+                  <p className="text-xs text-gray-500">
+                    {creditTypeLabels[selectedListing.credit_type]} · {creditOriginLabels[selectedListing.origin]} · {formatBRL(selectedListing.amount)}
+                  </p>
+                </div>
+                {selectedListing.credit_score && (
+                  <ScoreBadge grade={selectedListing.credit_score.grade} score={selectedListing.credit_score.score} size="md" showScore />
+                )}
+              </div>
+              <button onClick={() => { setSelectedListing(null); setPriceRec(null) }} className="p-2 rounded-xl hover:bg-gray-100">
+                <X size={20} />
+              </button>
+            </div>
+
+            <div className="p-6 space-y-4">
+              <PriceRecommendationCard
+                recommendation={priceRec}
+                listingAmount={selectedListing.amount}
+                currentDiscount={{
+                  min: selectedListing.min_discount,
+                  max: selectedListing.max_discount,
+                }}
+                onRecalculate={() => loadPriceRecommendation(selectedListing.id)}
+                loading={priceRecLoading}
+              />
+
+              {/* Benchmark for this credit type */}
+              {benchmarks.length > 0 && (
+                <MarketBenchmarkCard
+                  benchmarks={benchmarks}
+                  selectedType={selectedListing.credit_type}
+                  selectedOrigin={selectedListing.origin}
+                />
+              )}
+            </div>
+          </div>
+        </div>
       )}
 
       {/* New Listing Form Modal */}

@@ -6,7 +6,7 @@ import { Badge } from '@/components/ui/badge'
 import Link from 'next/link'
 import {
   DollarSign, TrendingUp, ArrowLeftRight, Clock,
-  AlertTriangle, CheckCircle2, GitMerge
+  AlertTriangle, CheckCircle2, GitMerge, Shield
 } from 'lucide-react'
 
 export default async function DashboardPage() {
@@ -35,7 +35,7 @@ export default async function DashboardPage() {
     supabase.from('matches').select('*', { count: 'exact', head: true }).or(`seller_company_id.eq.${company?.id},buyer_company_id.eq.${company?.id}`).in('status', ['proposed', 'accepted_seller', 'accepted_buyer']),
     supabase.from('transactions').select('*', { count: 'exact', head: true }).or(`seller_company_id.eq.${company?.id},buyer_company_id.eq.${company?.id}`).eq('status', 'completed'),
     supabase.from('matches').select('*, seller_company:companies!seller_company_id(*), buyer_company:companies!buyer_company_id(*)').or(`seller_company_id.eq.${company?.id},buyer_company_id.eq.${company?.id}`).order('created_at', { ascending: false }).limit(5),
-    supabase.from('credit_listings').select('*').eq('company_id', company?.id).order('created_at', { ascending: false }).limit(5),
+    supabase.from('credit_listings').select('*, credit_score:credit_scores(*)').eq('company_id', company?.id).order('created_at', { ascending: false }).limit(5),
     supabase.from('notifications').select('*').eq('company_id', company?.id).eq('read', false).order('created_at', { ascending: false }).limit(5),
   ])
 
@@ -77,6 +77,52 @@ export default async function DashboardPage() {
           trendUp
         />
       </div>
+
+      {/* Recent Credits with Score */}
+      {recentListings && recentListings.length > 0 && (
+        <Card className="p-6">
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-lg font-bold text-gray-900">Seus Creditos</h2>
+            <Link href="/marketplace" className="text-sm text-brand-600 hover:text-brand-700 font-medium">
+              Ver todos →
+            </Link>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+            {recentListings.map((listing: any) => {
+              const score = listing.credit_score
+              const gradeColors: Record<string, string> = {
+                A: 'bg-emerald-50 border-emerald-200 text-emerald-700',
+                B: 'bg-blue-50 border-blue-200 text-blue-700',
+                C: 'bg-amber-50 border-amber-200 text-amber-700',
+                D: 'bg-red-50 border-red-200 text-red-700',
+              }
+              return (
+                <div key={listing.id} className="flex items-center gap-3 p-3 rounded-xl bg-gray-50 hover:bg-gray-100 transition-all">
+                  {score && (
+                    <div className={`w-10 h-10 rounded-lg border-2 font-bold flex items-center justify-center text-sm ${gradeColors[score.grade] || 'bg-gray-50 border-gray-200 text-gray-600'}`}>
+                      {score.grade}
+                    </div>
+                  )}
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2">
+                      <span className="font-mono text-xs font-bold text-brand-600">
+                        {listing.credit_id || 'Gerando...'}
+                      </span>
+                    </div>
+                    <p className="text-sm font-semibold">{formatBRL(listing.amount)}</p>
+                    <p className="text-xs text-gray-500">{listing.status === 'active' ? 'Ativo' : listing.status}</p>
+                  </div>
+                  {score && (
+                    <div className="text-right">
+                      <p className="text-xs font-medium text-gray-600">{score.score?.toFixed(0)}/100</p>
+                    </div>
+                  )}
+                </div>
+              )
+            })}
+          </div>
+        </Card>
+      )}
 
       {/* Main content */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
