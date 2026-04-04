@@ -15,12 +15,30 @@ export async function POST(request: NextRequest) {
       )
     }
 
+    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
+    const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY
+
+    // Validate env vars
+    if (!supabaseUrl || !serviceRoleKey) {
+      console.error('Missing env vars:', {
+        hasUrl: !!supabaseUrl,
+        hasKey: !!serviceRoleKey,
+        urlPrefix: supabaseUrl?.substring(0, 30)
+      })
+      return NextResponse.json(
+        { error: 'Configuracao do servidor incompleta. Contate o administrador.' },
+        { status: 500 }
+      )
+    }
+
     // Use createClient from @supabase/supabase-js with service role key
-    // This properly bypasses RLS (unlike the SSR createServerClient)
-    const supabase = createClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.SUPABASE_SERVICE_ROLE_KEY!
-    )
+    // MUST use these options to ensure proper server-side admin behavior
+    const supabase = createClient(supabaseUrl, serviceRoleKey, {
+      auth: {
+        autoRefreshToken: false,
+        persistSession: false,
+      },
+    })
 
     // 1. Create auth user (admin API — no email confirmation required)
     const { data: authData, error: authError } = await supabase.auth.admin.createUser({
