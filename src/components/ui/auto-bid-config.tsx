@@ -221,7 +221,7 @@ export function AutoBidForm({ onSubmit, onCancel }: AutoBidFormProps) {
 
         <div className="grid grid-cols-2 gap-3">
           <div>
-            <label className="block text-xs font-medium text-slate-400 mb-1">Desconto Maximo (%)</label>
+            <label className="block text-xs font-medium text-slate-400 mb-1">Desconto Máximo (%)</label>
             <input
               type="number"
               value={form.max_bid_discount}

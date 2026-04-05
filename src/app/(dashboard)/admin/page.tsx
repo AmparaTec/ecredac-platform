@@ -181,7 +181,7 @@ export default function AdminPage() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-slate-300 mb-1">Desconto Maximo Permitido (%)</label>
+              <label className="block text-sm font-medium text-slate-300 mb-1">Desconto Máximo Permitido (%)</label>
               <input
                 type="number"
                 value={settings.max_discount_pct}

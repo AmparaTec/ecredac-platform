@@ -102,7 +102,7 @@ export async function POST(request: NextRequest) {
   }
 
   if (!listing_id) {
-    return NextResponse.json({ error: 'listing_id obrigatorio' }, { status: 400 })
+    return NextResponse.json({ error: 'listing_id obrigatório' }, { status: 400 })
   }
 
   // Calcular score usando a stored procedure

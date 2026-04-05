@@ -76,7 +76,7 @@ export const urgencyConfig = {
 // Credit type labels
 export const creditTypeLabels: Record<string, string> = {
   acumulado: 'Acumulado',
-  st: 'Subst. Tributaria',
+  st: 'Subst. Tributária',
   rural: 'Rural',
 }
 
@@ -85,7 +85,7 @@ export const creditOriginLabels: Record<string, string> = {
   exportacao: 'Exportacao',
   diferimento: 'Diferimento',
   aliquota_reduzida: 'Aliquota Reduzida',
-  substituicao_tributaria: 'Subst. Tributaria',
+  substituicao_tributaria: 'Subst. Tributária',
 }
 
 // Homologation status

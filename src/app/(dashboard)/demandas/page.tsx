@@ -246,7 +246,7 @@ export default function DemandasPage() {
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-slate-300 mb-1">Desconto Maximo (%)</label>
+                  <label className="block text-sm font-medium text-slate-300 mb-1">Desconto Máximo (%)</label>
                   <input
                     type="number"
                     value={newRequest.max_discount_accepted}
@@ -300,7 +300,7 @@ export default function DemandasPage() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-slate-300 mb-1">Descricao (opcional)</label>
+                <label className="block text-sm font-medium text-slate-300 mb-1">Descrição (opcional)</label>
                 <textarea
                   value={newRequest.description}
                   onChange={e => setNewRequest({ ...newRequest, description: e.target.value })}

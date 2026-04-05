@@ -125,7 +125,7 @@ export async function POST(request: NextRequest) {
 
   // Calcular para um listing especifico
   if (!body.listing_id) {
-    return NextResponse.json({ error: 'listing_id obrigatorio' }, { status: 400 })
+    return NextResponse.json({ error: 'listing_id obrigatório' }, { status: 400 })
   }
 
   const { data, error } = await supabase.rpc(

@@ -185,7 +185,7 @@ export function BidForm({ auction, listingAmount, currentBid, onPlaceBid, loadin
             className="w-full rounded-xl border border-dark-500/50 px-4 py-2.5 text-lg font-bold text-center"
           />
           <p className="text-xs text-slate-500 mt-1">
-            Minimo: {formatDiscount(auction.min_discount)} · Menor desconto = melhor para o vendedor
+            Mínimo: {formatDiscount(auction.min_discount)} · Menor desconto = melhor para o vendedor
           </p>
         </div>
 
@@ -269,7 +269,7 @@ export function CreateAuctionForm({ listingId, onSubmit, onCancel, loading }: Cr
       <form onSubmit={handleSubmit} className="space-y-3">
         <div className="grid grid-cols-2 gap-3">
           <div>
-            <label className="block text-xs font-medium text-slate-400 mb-1">Desconto Minimo (%)</label>
+            <label className="block text-xs font-medium text-slate-400 mb-1">Desconto Mínimo (%)</label>
             <input
               type="number"
               value={form.min_discount}
@@ -285,7 +285,7 @@ export function CreateAuctionForm({ listingId, onSubmit, onCancel, loading }: Cr
               value={form.reserve_discount}
               onChange={e => setForm({ ...form, reserve_discount: e.target.value })}
               min={0} max={50} step={0.5}
-              placeholder="Opcional (preco minimo)"
+              placeholder="Opcional (preco mínimo)"
               className="w-full rounded-xl border border-dark-500/50 px-3 py-2 text-sm"
             />
             <p className="text-[10px] text-slate-500 mt-0.5">Não vende se desconto for maior que isso</p>

@@ -11,7 +11,7 @@ type UserRole = 'titular' | 'representante' | 'procurador'
 const ROLE_CONFIG = {
   titular: {
     title: 'Empresa',
-    subtitle: 'Sou proprietario ou socio da empresa',
+    subtitle: 'Sou proprietário ou sócio da empresa',
     icon: (
       <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
         <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z" />
@@ -21,7 +21,7 @@ const ROLE_CONFIG = {
   },
   representante: {
     title: 'Representante',
-    subtitle: 'Sou funcionario autorizado de uma empresa',
+    subtitle: 'Sou funcionário autorizado de uma empresa',
     icon: (
       <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
         <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2" />
@@ -31,7 +31,7 @@ const ROLE_CONFIG = {
   },
   procurador: {
     title: 'Assessor / Procurador',
-    subtitle: 'Sou contador, advogado ou consultor tributario',
+    subtitle: 'Sou contador, advogado ou consultor tributário',
     icon: (
       <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
         <rect x="2" y="3" width="20" height="14" rx="2" ry="2" />
@@ -78,7 +78,7 @@ function RegisterForm() {
     const digits = cnpjValue.replace(/\D/g, '')
     if (digits.length !== 14) return
     if (!isValidCNPJ(digits)) {
-      setCnpjError('CNPJ invalido')
+      setCnpjError('CNPJ inválido')
       setCnpjData(null)
       return
     }
@@ -174,7 +174,7 @@ function RegisterForm() {
       router.push('/dashboard')
       router.refresh()
     } catch {
-      setError('Erro de conexao. Tente novamente.')
+      setError('Erro de conexão. Tente novamente.')
       setLoading(false)
     }
   }
@@ -190,7 +190,7 @@ function RegisterForm() {
           </div>
 
           <h2 className="text-2xl font-bold text-white">Como você quer usar a plataforma?</h2>
-          <p className="text-slate-500 mt-1 mb-6">Escolha o perfil que melhor descreve sua atuacao</p>
+          <p className="text-slate-500 mt-1 mb-6">Escolha o perfil que melhor descreve sua atuação</p>
 
           <div className="space-y-3">
             {(Object.keys(ROLE_CONFIG) as UserRole[]).map((r) => {
@@ -286,7 +286,7 @@ function RegisterForm() {
         </h2>
         <p className="text-slate-400 mt-1 mb-6">
           {role === 'procurador'
-            ? 'Cadastre seu escritorio e comece a intermediar créditos'
+            ? 'Cadastre seu escritório e comece a intermediar créditos'
             : 'Cadastre sua empresa em menos de 2 minutos'}
         </p>
 
@@ -389,7 +389,7 @@ function RegisterForm() {
           {role === 'procurador' && (
             <>
               <div>
-                <label className="block text-sm font-medium text-slate-300 mb-1">Nome do escritorio</label>
+                <label className="block text-sm font-medium text-slate-300 mb-1">Nome do escritório</label>
                 <input
                   value={form.officeName}
                   onChange={(e) => setForm({ ...form, officeName: e.target.value })}
@@ -400,7 +400,7 @@ function RegisterForm() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-slate-300 mb-1">CNPJ do escritorio <span className="text-slate-500 font-normal">(opcional)</span></label>
+                <label className="block text-sm font-medium text-slate-300 mb-1">CNPJ do escritório <span className="text-slate-500 font-normal">(opcional)</span></label>
                 <input
                   value={form.officeCnpj}
                   onChange={(e) => setForm({ ...form, officeCnpj: cnpjMask(e.target.value) })}
@@ -419,7 +419,7 @@ function RegisterForm() {
                 >
                   <option value="">Selecione...</option>
                   <option value="contabilidade">Contabilidade</option>
-                  <option value="advocacia_tributaria">Advocacia Tributaria</option>
+                  <option value="advocacia_tributaria">Advocacia Tributária</option>
                   <option value="consultoria_fiscal">Consultoria Fiscal</option>
                   <option value="assessoria_empresarial">Assessoria Empresarial</option>
                   <option value="outro">Outro</option>
@@ -459,7 +459,7 @@ function RegisterForm() {
               autoComplete="email"
               value={form.email}
               onChange={(e) => setForm({ ...form, email: e.target.value })}
-              placeholder={role === 'procurador' ? 'contato@escritorio.com.br' : 'fiscal@suaempresa.com.br'}
+              placeholder={role === 'procurador' ? 'contato@escritório.com.br' : 'fiscal@suaempresa.com.br'}
               required
               className="w-full rounded-xl border border-dark-500/50 bg-dark-700 text-white placeholder:text-slate-500 px-4 py-2.5 text-sm focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20"
             />
@@ -475,7 +475,7 @@ function RegisterForm() {
                 autoComplete="new-password"
                 value={form.password}
                 onChange={(e) => setForm({ ...form, password: e.target.value })}
-                placeholder="Minimo 8 caracteres"
+                placeholder="Mínimo 8 caracteres"
                 required
                 minLength={8}
                 className="w-full rounded-xl border border-dark-500/50 bg-dark-700 text-white placeholder:text-slate-500 px-4 py-2.5 pr-12 text-sm focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20"
@@ -522,7 +522,7 @@ function RegisterForm() {
 
           <div className="flex items-start gap-2 text-sm text-slate-400">
             <input type="checkbox" required className="mt-1 rounded bg-dark-700 border-dark-500" />
-            <span>Aceito os <a href="#" className="text-brand-400">Termos de Uso</a> e a <a href="#" className="text-brand-400">Politica de Privacidade</a> (LGPD)</span>
+            <span>Aceito os <a href="#" className="text-brand-400">Termos de Uso</a> e a <a href="#" className="text-brand-400">Política de Privacidade</a> (LGPD)</span>
           </div>
 
           <button

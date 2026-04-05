@@ -10,12 +10,12 @@ interface BadgeProps {
 
 export function Badge({ children, variant = 'default', className }: BadgeProps) {
   const styles = {
-    default: 'bg-gray-100 text-gray-700',
-    success: 'bg-emerald-50 text-emerald-700 border border-emerald-200',
-    warning: 'bg-amber-50 text-amber-700 border border-amber-200',
-    danger: 'bg-red-50 text-red-700 border border-red-200',
-    info: 'bg-blue-50 text-blue-700 border border-blue-200',
-    premium: 'bg-gradient-to-r from-brand-600 to-accent-600 text-white',
+    default: 'bg-dark-500/60 text-dark-300 border border-dark-400/40',
+    success: 'bg-success-500/15 text-success-400 border border-success-500/25',
+    warning: 'bg-warning-500/15 text-warning-400 border border-warning-500/25',
+    danger: 'bg-danger-500/15 text-danger-400 border border-danger-500/25',
+    info: 'bg-brand-500/15 text-brand-400 border border-brand-500/25',
+    premium: 'bg-gradient-to-r from-brand-600 to-accent-600 text-white border-0',
   }
 
   return (

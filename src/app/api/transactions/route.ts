@@ -69,7 +69,7 @@ export async function POST(request: NextRequest) {
   const { match_id, payment_method } = body
 
   if (!match_id) {
-    return NextResponse.json({ error: 'match_id obrigatorio' }, { status: 400 })
+    return NextResponse.json({ error: 'match_id obrigatório' }, { status: 400 })
   }
 
   // Validate match exists and is confirmed

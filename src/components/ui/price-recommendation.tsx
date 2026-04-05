@@ -84,7 +84,7 @@ export function PriceRecommendationCard({
               <Target size={18} className="text-blue-600" />
             </div>
             <div>
-              <h3 className="text-sm font-bold text-white">Precificacao Inteligente</h3>
+              <h3 className="text-sm font-bold text-white">Precificação Inteligente</h3>
               <p className="text-[10px] text-slate-500">Recomendacao baseada em dados de mercado</p>
             </div>
           </div>

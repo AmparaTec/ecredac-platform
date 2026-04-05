@@ -198,11 +198,9 @@ async function saveToCache(cnpj: string, cnpjData: CnpjData): Promise<void> {
 // ─── Helpers ─────────────────────────────────────────────────────────────────
 
 function shouldUseMock(): boolean {
-  return (
-    process.env.NODE_ENV === 'development' ||
-    process.env.VERCEL_ENV === 'preview' ||
-    !process.env.CNPJ_API_KEY
-  )
+  // Mock apenas em dev local — no Vercel (preview ou production) chamamos a API real
+  // ReceitaWS plano free não exige API key
+  return process.env.NODE_ENV === 'development' && !process.env.VERCEL
 }
 
 function buildMockData(cnpj: string): CnpjData {

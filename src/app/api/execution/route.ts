@@ -73,7 +73,7 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ plan, tasks: tasks || [] })
   }
 
-  return NextResponse.json({ error: 'match_id, plan_id ou templates obrigatorio' }, { status: 400 })
+  return NextResponse.json({ error: 'match_id, plan_id ou templates obrigatório' }, { status: 400 })
 }
 
 // POST /api/execution — Acoes no plano de execucao
@@ -86,7 +86,7 @@ export async function POST(request: NextRequest) {
 
   // Criar plano de execucao para um match
   if (body.action === 'create_plan') {
-    if (!body.match_id) return NextResponse.json({ error: 'match_id obrigatorio' }, { status: 400 })
+    if (!body.match_id) return NextResponse.json({ error: 'match_id obrigatório' }, { status: 400 })
 
     const { data, error } = await supabase.rpc('create_execution_plan', { p_match_id: body.match_id })
     if (error) return NextResponse.json({ error: error.message }, { status: 500 })
@@ -104,7 +104,7 @@ export async function POST(request: NextRequest) {
 
   // Completar task
   if (body.action === 'complete_task') {
-    if (!body.task_id) return NextResponse.json({ error: 'task_id obrigatorio' }, { status: 400 })
+    if (!body.task_id) return NextResponse.json({ error: 'task_id obrigatório' }, { status: 400 })
 
     const { data, error } = await supabase.rpc('complete_execution_task', {
       p_task_id: body.task_id,
@@ -117,7 +117,7 @@ export async function POST(request: NextRequest) {
 
   // Iniciar task
   if (body.action === 'start_task') {
-    if (!body.task_id) return NextResponse.json({ error: 'task_id obrigatorio' }, { status: 400 })
+    if (!body.task_id) return NextResponse.json({ error: 'task_id obrigatório' }, { status: 400 })
 
     const { data, error } = await supabase
       .from('execution_tasks')
@@ -136,7 +136,7 @@ export async function POST(request: NextRequest) {
 
   // Bloquear task
   if (body.action === 'block_task') {
-    if (!body.task_id) return NextResponse.json({ error: 'task_id obrigatorio' }, { status: 400 })
+    if (!body.task_id) return NextResponse.json({ error: 'task_id obrigatório' }, { status: 400 })
 
     const { data, error } = await supabase
       .from('execution_tasks')

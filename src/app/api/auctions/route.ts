@@ -109,7 +109,7 @@ export async function POST(request: NextRequest) {
 
   // Criar leilao
   if (body.action === 'create_auction') {
-    if (!body.listing_id) return NextResponse.json({ error: 'listing_id obrigatorio' }, { status: 400 })
+    if (!body.listing_id) return NextResponse.json({ error: 'listing_id obrigatório' }, { status: 400 })
 
     // Verificar se listing pertence ao usuario
     const { data: listing } = await supabase
@@ -149,8 +149,8 @@ export async function POST(request: NextRequest) {
 
   // Fazer lance
   if (body.action === 'place_bid') {
-    if (!body.auction_id) return NextResponse.json({ error: 'auction_id obrigatorio' }, { status: 400 })
-    if (!body.bid_discount) return NextResponse.json({ error: 'bid_discount obrigatorio' }, { status: 400 })
+    if (!body.auction_id) return NextResponse.json({ error: 'auction_id obrigatório' }, { status: 400 })
+    if (!body.bid_discount) return NextResponse.json({ error: 'bid_discount obrigatório' }, { status: 400 })
 
     // Verificar leilao aberto
     const { data: auction } = await supabase
@@ -169,7 +169,7 @@ export async function POST(request: NextRequest) {
     // Verificar desconto minimo
     if (body.bid_discount < auction.min_discount) {
       return NextResponse.json({
-        error: `Desconto minimo para este leilão: ${auction.min_discount}%`
+        error: `Desconto mínimo para este leilão: ${auction.min_discount}%`
       }, { status: 400 })
     }
 
@@ -240,7 +240,7 @@ export async function POST(request: NextRequest) {
 
   // Fechar leilao manualmente
   if (body.action === 'close_auction') {
-    if (!body.auction_id) return NextResponse.json({ error: 'auction_id obrigatorio' }, { status: 400 })
+    if (!body.auction_id) return NextResponse.json({ error: 'auction_id obrigatório' }, { status: 400 })
 
     const { data, error } = await supabase.rpc('close_auction', { p_auction_id: body.auction_id })
     if (error) return NextResponse.json({ error: error.message }, { status: 500 })

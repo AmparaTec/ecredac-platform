@@ -29,10 +29,10 @@ export function ScoreBadge({ grade, score, size = 'md', showScore = false, showL
         {grade}
       </div>
       {showScore && score !== undefined && (
-        <span className="text-xs text-gray-500 font-medium">{score.toFixed(0)}/100</span>
+        <span className="text-xs text-slate-500 font-medium">{score.toFixed(0)}/100</span>
       )}
       {showLabel && (
-        <span className="text-xs text-gray-500">{config.description}</span>
+        <span className="text-xs text-slate-500">{config.description}</span>
       )}
     </div>
   )
@@ -52,10 +52,10 @@ export function ScoreBar({ label, value, maxValue = 100, color }: ScoreBarProps)
   return (
     <div className="space-y-1">
       <div className="flex justify-between text-xs">
-        <span className="text-gray-600">{label}</span>
-        <span className="font-medium text-gray-800">{value.toFixed(0)}</span>
+        <span className="text-slate-400">{label}</span>
+        <span className="font-medium text-white">{value.toFixed(0)}</span>
       </div>
-      <div className="h-2 bg-gray-100 rounded-full overflow-hidden">
+      <div className="h-2 bg-dark-600 rounded-full overflow-hidden">
         <div
           className="h-full rounded-full transition-all duration-500"
           style={{ width: `${percentage}%`, backgroundColor: barColor }}

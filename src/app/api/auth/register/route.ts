@@ -33,7 +33,7 @@ export async function POST(request: NextRequest) {
 
     if (role === 'procurador' && !officeName) {
       return NextResponse.json(
-        { error: 'Nome do escritorio e obrigatorio.' },
+        { error: 'Nome do escritório e obrigatório.' },
         { status: 400 }
       )
     }
@@ -278,7 +278,7 @@ export async function POST(request: NextRequest) {
       referral_code: profile?.referral_code,
       role,
       message: role === 'procurador'
-        ? 'Escritorio cadastrado com sucesso! Bem-vindo ao programa de assessores.'
+        ? 'Escritório cadastrado com sucesso! Bem-vindo ao programa de assessores.'
         : 'Conta criada com sucesso!',
     })
   } catch (error) {

@@ -63,7 +63,7 @@ export async function PUT(request: NextRequest) {
   if (!user) return NextResponse.json({ error: 'Não autenticado' }, { status: 401 })
 
   const body = await request.json()
-  if (!body.id) return NextResponse.json({ error: 'id obrigatorio' }, { status: 400 })
+  if (!body.id) return NextResponse.json({ error: 'id obrigatório' }, { status: 400 })
 
   const updates: any = {}
   if (body.active !== undefined) updates.active = body.active
@@ -96,7 +96,7 @@ export async function DELETE(request: NextRequest) {
 
   const { searchParams } = new URL(request.url)
   const id = searchParams.get('id')
-  if (!id) return NextResponse.json({ error: 'id obrigatorio' }, { status: 400 })
+  if (!id) return NextResponse.json({ error: 'id obrigatório' }, { status: 400 })
 
   const { error } = await supabase.from('match_alerts').delete().eq('id', id)
   if (error) return NextResponse.json({ error: error.message }, { status: 500 })

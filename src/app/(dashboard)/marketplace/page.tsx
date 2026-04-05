@@ -177,7 +177,7 @@ export default function MarketplacePage() {
           >
             <option value="">Todos os tipos</option>
             <option value="acumulado">Acumulado</option>
-            <option value="st">Subst. Tributaria</option>
+            <option value="st">Subst. Tributária</option>
             <option value="rural">Rural</option>
           </select>
           <select
@@ -189,7 +189,7 @@ export default function MarketplacePage() {
             <option value="exportacao">Exportacao</option>
             <option value="diferimento">Diferimento</option>
             <option value="aliquota_reduzida">Aliquota Reduzida</option>
-            <option value="substituicao_tributaria">Subst. Tributaria</option>
+            <option value="substituicao_tributaria">Subst. Tributária</option>
           </select>
           <select
             value={filter.status}
@@ -344,7 +344,7 @@ export default function MarketplacePage() {
                     className="w-full rounded-xl border border-dark-500/50 bg-dark-700 text-white px-4 py-2.5 text-sm"
                   >
                     <option value="acumulado">Acumulado</option>
-                    <option value="st">Subst. Tributaria</option>
+                    <option value="st">Subst. Tributária</option>
                     <option value="rural">Rural</option>
                   </select>
                 </div>
@@ -358,7 +358,7 @@ export default function MarketplacePage() {
                     <option value="exportacao">Exportacao</option>
                     <option value="diferimento">Diferimento</option>
                     <option value="aliquota_reduzida">Aliquota Reduzida</option>
-                    <option value="substituicao_tributaria">Subst. Tributaria</option>
+                    <option value="substituicao_tributaria">Subst. Tributária</option>
                   </select>
                 </div>
               </div>
@@ -378,7 +378,7 @@ export default function MarketplacePage() {
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-slate-300 mb-1">Desconto Minimo (%)</label>
+                  <label className="block text-sm font-medium text-slate-300 mb-1">Desconto Mínimo (%)</label>
                   <input
                     type="number"
                     value={newListing.min_discount}
@@ -388,7 +388,7 @@ export default function MarketplacePage() {
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-slate-300 mb-1">Desconto Maximo (%)</label>
+                  <label className="block text-sm font-medium text-slate-300 mb-1">Desconto Máximo (%)</label>
                   <input
                     type="number"
                     value={newListing.max_discount}
@@ -411,7 +411,7 @@ export default function MarketplacePage() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-slate-300 mb-1">Descricao (opcional)</label>
+                <label className="block text-sm font-medium text-slate-300 mb-1">Descrição (opcional)</label>
                 <textarea
                   value={newListing.description}
                   onChange={e => setNewListing({ ...newListing, description: e.target.value })}
