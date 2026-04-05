@@ -11,6 +11,7 @@ import { MatchAlertList, MatchAlertForm } from '@/components/ui/match-alert-conf
 import { AutoBidList, AutoBidForm } from '@/components/ui/auto-bid-config'
 import { AuctionCard } from '@/components/ui/silent-auction'
 import { GitMerge, Zap, Check, X, RefreshCw, ArrowRight, Shield, Bell, Gavel } from 'lucide-react'
+import { ScoreDisclaimer } from '@/components/compliance/score-disclaimer'
 
 export default function MatchingPage() {
   const [matches, setMatches] = useState<any[]>([])
@@ -186,6 +187,7 @@ export default function MatchingPage() {
         <div>
           <h1 className="text-2xl font-bold text-white">Active Matching</h1>
           <p className="text-slate-400 mt-1">Matches, alertas, auto-bidding e leilões</p>
+          <ScoreDisclaimer variant="inline" className="mt-2 max-w-xl" />
         </div>
         <Button onClick={runMatchingEngine} disabled={running}>
           {running ? (
@@ -347,7 +349,7 @@ export default function MatchingPage() {
                                 </span>
                               )}
                               {needsMyAction && (
-                                <Badge variant="warning">Sua acao necessaria</Badge>
+                                <Badge variant="warning">Sua ação necessária</Badge>
                               )}
                             </div>
 

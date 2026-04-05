@@ -6,7 +6,7 @@ import { cn } from '@/lib/utils'
 import {
   LayoutDashboard, DollarSign, TrendingUp, GitMerge,
   ArrowLeftRight, Building2, Settings, LogOut,
-  Users, Wallet, Send, Award, BarChart3, Briefcase, Shield
+  Users, Wallet, Send, Award, BarChart3, Briefcase, Shield, FileCheck, Gavel
 } from 'lucide-react'
 
 type UserRole = 'titular' | 'representante' | 'procurador'
@@ -25,7 +25,9 @@ const companyNav: NavItem[] = [
   { href: '/matching', label: 'Matching', icon: GitMerge },
   { href: '/transacoes', label: 'Transações', icon: ArrowLeftRight },
   { href: '/operacao', label: 'Operações', icon: Shield },
+  { href: '/compliance/kyc', label: 'Verificação KYC', icon: FileCheck },
   { href: '/empresas', label: 'Empresas', icon: Building2 },
+  { href: '/admin/compliance', label: 'Compliance', icon: Gavel },
   { href: '/admin', label: 'Admin', icon: Settings },
 ]
 
@@ -37,6 +39,7 @@ const representanteNav: NavItem[] = [
   { href: '/matching', label: 'Matching', icon: GitMerge },
   { href: '/transacoes', label: 'Transações', icon: ArrowLeftRight },
   { href: '/operacao', label: 'Operações', icon: Shield },
+  { href: '/compliance/kyc', label: 'Verificação KYC', icon: FileCheck },
 ]
 
 const procuradorNav: NavItem[] = [
@@ -45,7 +48,7 @@ const procuradorNav: NavItem[] = [
   { href: '/demandas', label: 'Demandas', icon: TrendingUp },
   { href: '/pipeline', label: 'Pipeline', icon: GitMerge },
   { href: '/assessor/clientes', label: 'Meus Clientes', icon: Users },
-  { href: '/assessor/comissões', label: 'Comissões', icon: Wallet },
+  { href: '/assessor/comissoes', label: 'Comissões', icon: Wallet },
   { href: '/assessor/convites', label: 'Convites', icon: Send },
   { href: '/assessor/ranking', label: 'Ranking & Tier', icon: Award },
 ]
@@ -128,27 +131,28 @@ export function Sidebar({ companyName, companyTier, userRole = 'titular', displa
 
       {/* User */}
       <div className="p-4 border-t border-dark-500/40">
-        <div className="flex items-center gap-3">
+        <Link href="/perfil" className="flex items-center gap-3 group mb-2">
           <div className={cn(
-            'w-9 h-9 rounded-xl flex items-center justify-center font-bold text-xs',
+            'w-9 h-9 rounded-xl flex items-center justify-center font-bold text-xs transition-all',
             userRole === 'procurador'
-              ? 'bg-accent-600/20 text-accent-400'
-              : 'bg-brand-600/20 text-brand-400'
+              ? 'bg-accent-600/20 text-accent-400 group-hover:bg-accent-600/30'
+              : 'bg-brand-600/20 text-brand-400 group-hover:bg-brand-600/30'
           )}>
             {(displayName || companyName).charAt(0)}
           </div>
           <div className="flex-1 min-w-0">
-            <p className="text-sm font-medium text-white truncate">{displayName || companyName}</p>
+            <p className="text-sm font-medium text-white truncate group-hover:text-brand-400 transition-colors">{displayName || companyName}</p>
             <p className="text-xs text-slate-500">
               {userRole === 'procurador' ? 'Assessor' : companyTier === 'premium' ? 'Premium' : 'Free'}
             </p>
           </div>
-          <form action="/api/auth/logout" method="POST">
-            <button type="submit" className="p-2 rounded-lg hover:bg-dark-600 text-slate-500 hover:text-slate-300 transition-colors">
-              <LogOut size={14} />
-            </button>
-          </form>
-        </div>
+        </Link>
+        <form action="/api/auth/logout" method="POST">
+          <button type="submit" className="w-full flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-dark-600 text-slate-500 hover:text-slate-300 transition-colors text-sm">
+            <LogOut size={14} />
+            Sair
+          </button>
+        </form>
       </div>
     </aside>
   )

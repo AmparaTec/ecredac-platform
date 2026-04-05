@@ -127,7 +127,7 @@ export default async function ComissoesPage() {
             <Wallet size={40} className="mx-auto text-slate-600 mb-3" />
             <p className="text-slate-400 font-medium">Nenhuma comissão registrada</p>
             <p className="text-sm text-slate-500 mt-1">
-              Comissões sao geradas automaticamente quando transações de seus clientes sao concluidas
+              Comissões são geradas automaticamente quando transações de seus clientes são concluídas
             </p>
           </div>
         )}

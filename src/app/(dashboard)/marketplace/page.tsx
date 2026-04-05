@@ -12,6 +12,7 @@ import { PriceRecommendationCard } from '@/components/ui/price-recommendation'
 import { MarketBenchmarkCard } from '@/components/ui/market-benchmark'
 import { CreateAuctionForm } from '@/components/ui/silent-auction'
 import { DollarSign, Plus, Search, Filter, X, Shield, TrendingUp, Target, Gavel } from 'lucide-react'
+import { ScoreDisclaimer } from '@/components/compliance/score-disclaimer'
 
 export default function MarketplacePage() {
   const [listings, setListings] = useState<any[]>([])
@@ -159,6 +160,7 @@ export default function MarketplacePage() {
         <div>
           <h1 className="text-2xl font-bold text-white">Marketplace de Créditos</h1>
           <p className="text-slate-400 mt-1">Créditos acumulados de ICMS homologados e disponíveis para transferência via e-CredAc</p>
+          <ScoreDisclaimer variant="inline" className="mt-2 max-w-xl" />
         </div>
         <Button onClick={() => setShowNewForm(true)}>
           <Plus size={16} />

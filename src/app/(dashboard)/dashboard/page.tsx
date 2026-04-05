@@ -278,7 +278,7 @@ export default async function DashboardPage() {
 
           {/* Quick Actions */}
           <Card className="p-5">
-            <h3 className="text-sm font-bold text-white mb-3">Acoes Rapidas</h3>
+            <h3 className="text-sm font-bold text-white mb-3">Ações Rápidas</h3>
             <div className="space-y-2">
               <Link
                 href="/marketplace"

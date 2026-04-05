@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Relius — Mapa de Riscos Jurídicos</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0C0F14;
+  --bg-card: #151921;
+  --bg-card-hover: #1A1F2B;
+  --border: rgba(255,255,255,0.06);
+  --border-accent: rgba(255,255,255,0.12);
+  --text: #E8E6E1;
+  --text-muted: #8A8880;
+  --text-dim: #5C5A55;
+  --accent-gold: #C9A84C;
+  --accent-gold-dim: rgba(201,168,76,0.15);
+  --critico: #C0392B;
+  --critico-bg: rgba(192,57,43,0.1);
+  --critico-border: rgba(192,57,43,0.3);
+  --alto: #D4870E;
+  --alto-bg: rgba(212,135,14,0.1);
+  --alto-border: rgba(212,135,14,0.3);
+  --moderado: #1E8449;
+  --moderado-bg: rgba(30,132,73,0.1);
+  --moderado-border: rgba(30,132,73,0.3);
+  --monitorar: #5D6D7E;
+  --monitorar-bg: rgba(93,109,126,0.1);
+  --monitorar-border: rgba(93,109,126,0.3);
+  --mitigacao: #2471A3;
+  --mitigacao-bg: rgba(36,113,163,0.08);
+  --mitigacao-border: rgba(36,113,163,0.25);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'DM Sans', sans-serif;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+.noise {
+  position: fixed;
+  top: 0; left: 0; width: 100%; height: 100%;
+  opacity: 0.03;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 0;
+}
+
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 60px 32px 80px;
+  position: relative;
+  z-index: 1;
+}
+
+/* Header */
+.header {
+  margin-bottom: 56px;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 40px;
+}
+
+.header-tag {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: var(--accent-gold);
+  background: var(--accent-gold-dim);
+  padding: 6px 14px;
+  border-radius: 4px;
+  margin-bottom: 20px;
+}
+
+.header h1 {
+  font-family: 'DM Serif Display', serif;
+  font-size: 42px;
+  font-weight: 400;
+  color: var(--text);
+  line-height: 1.15;
+  margin-bottom: 12px;
+}
+
+.header h1 span {
+  color: var(--accent-gold);
+}
+
+.header p {
+  font-size: 16px;
+  color: var(--text-muted);
+  max-width: 640px;
+}
+
+/* Legend */
+.legend {
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+  margin-bottom: 48px;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-muted);
+}
+
+.legend-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+}
+
+/* Risk rows */
+.risk-row {
+  display: grid;
+  grid-template-columns: 1fr 40px 1fr;
+  align-items: stretch;
+  margin-bottom: 24px;
+  opacity: 0;
+  transform: translateY(16px);
+  animation: fadeUp 0.5s ease forwards;
+}
+
+.risk-row:nth-child(1) { animation-delay: 0.1s; }
+.risk-row:nth-child(2) { animation-delay: 0.2s; }
+.risk-row:nth-child(3) { animation-delay: 0.3s; }
+.risk-row:nth-child(4) { animation-delay: 0.4s; }
+.risk-row:nth-child(5) { animation-delay: 0.5s; }
+.risk-row:nth-child(6) { animation-delay: 0.6s; }
+.risk-row:nth-child(7) { animation-delay: 0.7s; }
+
+@keyframes fadeUp {
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.risk-card {
+  padding: 24px 28px;
+  border-radius: 10px;
+  border: 1px solid;
+  transition: transform 0.2s ease, border-color 0.2s ease;
+  position: relative;
+}
+
+.risk-card:hover {
+  transform: translateY(-2px);
+}
+
+.risk-card.critico {
+  background: var(--critico-bg);
+  border-color: var(--critico-border);
+}
+.risk-card.alto {
+  background: var(--alto-bg);
+  border-color: var(--alto-border);
+}
+.risk-card.moderado {
+  background: var(--moderado-bg);
+  border-color: var(--moderado-border);
+}
+.risk-card.monitorar {
+  background: var(--monitorar-bg);
+  border-color: var(--monitorar-border);
+}
+
+.risk-card.mitigacao {
+  background: var(--mitigacao-bg);
+  border-color: var(--mitigacao-border);
+}
+
+.risk-number {
+  position: absolute;
+  top: -10px;
+  left: 20px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  padding: 2px 10px;
+  border-radius: 3px;
+  text-transform: uppercase;
+}
+
+.risk-number.critico { background: var(--critico); color: #fff; }
+.risk-number.alto { background: var(--alto); color: #fff; }
+.risk-number.moderado { background: var(--moderado); color: #fff; }
+.risk-number.monitorar { background: var(--monitorar); color: #fff; }
+
+.risk-title {
+  font-family: 'DM Serif Display', serif;
+  font-size: 20px;
+  font-weight: 400;
+  margin-bottom: 10px;
+  margin-top: 6px;
+  color: var(--text);
+}
+
+.risk-desc {
+  font-size: 14px;
+  color: var(--text-muted);
+  line-height: 1.65;
+}
+
+.risk-detail {
+  font-size: 12px;
+  color: var(--text-dim);
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid var(--border);
+  line-height: 1.6;
+}
+
+/* Arrow connector */
+.connector {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-dim);
+  font-size: 20px;
+}
+
+.connector svg {
+  width: 24px;
+  height: 24px;
+  stroke: var(--text-dim);
+  stroke-width: 2;
+  fill: none;
+}
+
+/* Mitigação title */
+.mit-label {
+  position: absolute;
+  top: -10px;
+  left: 20px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  padding: 2px 10px;
+  border-radius: 3px;
+  text-transform: uppercase;
+  background: var(--mitigacao);
+  color: #fff;
+}
+
+/* Footer disclaimer */
+.footer {
+  margin-top: 64px;
+  padding-top: 32px;
+  border-top: 1px solid var(--border);
+}
+
+.footer p {
+  font-size: 12px;
+  color: var(--text-dim);
+  line-height: 1.7;
+  max-width: 800px;
+}
+
+.footer .brand {
+  font-family: 'DM Serif Display', serif;
+  font-size: 16px;
+  color: var(--accent-gold);
+  margin-bottom: 12px;
+}
+
+/* Summary stats */
+.stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 48px;
+}
+
+.stat-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 20px 24px;
+  text-align: center;
+}
+
+.stat-number {
+  font-family: 'DM Serif Display', serif;
+  font-size: 32px;
+  margin-bottom: 4px;
+}
+
+.stat-label {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.stat-card:nth-child(1) .stat-number { color: var(--critico); }
+.stat-card:nth-child(2) .stat-number { color: var(--alto); }
+.stat-card:nth-child(3) .stat-number { color: var(--moderado); }
+.stat-card:nth-child(4) .stat-number { color: var(--monitorar); }
+
+/* Print */
+@media print {
+  body { background: #fff; color: #111; }
+  .noise { display: none; }
+  .risk-card { border-width: 2px; }
+  .risk-row { opacity: 1; transform: none; animation: none; }
+  .container { padding: 20px; }
+  .header h1 { font-size: 28px; color: #111; }
+  .header h1 span { color: #8B7332; }
+  .risk-title { color: #111; }
+  .risk-desc, .risk-detail { color: #444; }
+  .stat-card { background: #f5f5f5; }
+}
+
+@media (max-width: 768px) {
+  .risk-row { grid-template-columns: 1fr; gap: 8px; }
+  .connector { transform: rotate(90deg); padding: 4px 0; }
+  .stats { grid-template-columns: repeat(2, 1fr); }
+  .header h1 { font-size: 28px; }
+  .container { padding: 32px 16px 48px; }
+}
+</style>
+</head>
+<body>
+<div class="noise"></div>
+<div class="container">
+
+  <div class="header">
+    <div class="header-tag">Análise Jurídica Estratégica</div>
+    <h1>Mapa de riscos jurídicos<br><span>Relius</span></h1>
+    <p>Plataforma de intermediação e estruturação de créditos tributários ICMS E-CredAc. Mapeamento de riscos com estratégias de mitigação para operação segura e escalável.</p>
+  </div>
+
+  <div class="stats">
+    <div class="stat-card">
+      <div class="stat-number">2</div>
+      <div class="stat-label">Críticos</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-number">2</div>
+      <div class="stat-label">Altos</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-number">2</div>
+      <div class="stat-label">Moderados</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-number">1</div>
+      <div class="stat-label">Monitorar</div>
+    </div>
+  </div>
+
+  <div class="legend">
+    <div class="legend-item"><div class="legend-dot" style="background:var(--critico)"></div> Crítico — resolver antes do lançamento</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--alto)"></div> Alto — implementar no MVP</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--moderado)"></div> Moderado — mitigar com disclaimers e contratos</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--monitorar)"></div> Monitorar — acompanhar evolução regulatória</div>
+  </div>
+
+  <!-- RISCO 1 -->
+  <div class="risk-row">
+    <div class="risk-card critico">
+      <div class="risk-number critico">Crítico</div>
+      <div class="risk-title">PLD / Lavagem de dinheiro</div>
+      <div class="risk-desc">Cessão de créditos ICMS com deságio pode ser usada para mascarar origem ilícita de recursos. Comprador paga R$ 800 mil por R$ 1 milhão em crédito — o "desconto" pode ocultar dinheiro sujo.</div>
+      <div class="risk-detail">Lei 9.613/98 obriga setores financeiros a reportar operações suspeitas ao COAF. Plataformas de intermediação podem ser enquadradas por analogia.</div>
+    </div>
+    <div class="connector"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+    <div class="risk-card mitigacao">
+      <div class="mit-label">Mitigação</div>
+      <div class="risk-title">KYC robusto + monitoramento</div>
+      <div class="risk-desc">Implementar cadastro completo (CNPJ, contrato social, certidões) de cedentes e cessionários. Alertas automáticos para deságios atípicos (&lt;10% ou &gt;40%), volumes incompatíveis com porte e operações repetidas entre mesmas partes.</div>
+      <div class="risk-detail">Cadastro voluntário no COAF/Siscoaf. Transforma risco em diferencial — investidores institucionais exigem compliance de PLD.</div>
+    </div>
+  </div>
+
+  <!-- RISCO 2 -->
+  <div class="risk-row">
+    <div class="risk-card critico">
+      <div class="risk-number critico">Crítico</div>
+      <div class="risk-title">Enquadramento CVM</div>
+      <div class="risk-desc">Se o Relius fracionar créditos, oferecer "cotas" de operações ou captar investidores para financiar compra de créditos, pode ser caracterizado como oferta pública de valores mobiliários sem registro.</div>
+      <div class="risk-detail">Resolução CVM 88: plataformas eletrônicas de investimento participativo exigem registro, capital mínimo de R$ 200 mil e procedimentos específicos.</div>
+    </div>
+    <div class="connector"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+    <div class="risk-card mitigacao">
+      <div class="mit-label">Mitigação</div>
+      <div class="risk-title">Intermediação comercial, não custódia</div>
+      <div class="risk-desc">Posicionar o Relius como plataforma de matching e estruturação. Cessão acontece diretamente entre partes via E-CredAc/SEFAZ. Relius não detém, custodia ou fraciona créditos. Nunca usar termos como "investimento" ou "rendimento".</div>
+      <div class="risk-detail">Para FIDCs e family offices: ser parceiro de originação de FIDC já regulado. Relius origina, FIDC compra. Sem necessidade de registro CVM.</div>
+    </div>
+  </div>
+
+  <!-- RISCO 3 -->
+  <div class="risk-row">
+    <div class="risk-card alto">
+      <div class="risk-number alto">Alto</div>
+      <div class="risk-title">LGPD e sigilo fiscal</div>
+      <div class="risk-desc">Armazenar dados fiscais dos cedentes (saldos E-CredAc, extratos, protocolos SEFAZ) torna a plataforma controladora de dados sensíveis sob a LGPD. Compartilhar login/senha do e-Gov viola LGPD e políticas da SEFAZ.</div>
+      <div class="risk-detail">Resolução SF 20/2012 protege informações sob sigilo fiscal. SEFAZ alterou sistemas pós-LGPD para restringir acesso a XMLs e dados fiscais.</div>
+    </div>
+    <div class="connector"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+    <div class="risk-card mitigacao">
+      <div class="mit-label">Mitigação</div>
+      <div class="risk-title">Minimização de dados + RLS</div>
+      <div class="risk-desc">Comprador vê apenas status, protocolo e valor — nunca a situação fiscal completa do vendedor. Row Level Security no Supabase como enforcement técnico. Consentimento expresso do cedente para dados compartilhados.</div>
+      <div class="risk-detail">Nomear DPO (mesmo externo). Política de privacidade robusta. Registrar tratamento de dados conforme LGPD. Retenção de 5 anos após operação.</div>
+    </div>
+  </div>
+
+  <!-- RISCO 4 -->
+  <div class="risk-row">
+    <div class="risk-card alto">
+      <div class="risk-number alto">Alto</div>
+      <div class="risk-title">Risco contratual</div>
+      <div class="risk-desc">Se a SEFAZ indeferir a cessão após o comprador já ter efetuado pagamento, gera-se um impasse sobre quem arca com o prejuízo. A Portaria SRE 65/2023 lista condições para deferimento que podem não ser atendidas.</div>
+      <div class="risk-detail">Condições: inexistência de débito fiscal, conta E-CredAc ativa com saldo, hipótese de transferência permitida, destinatário em situação regular.</div>
+    </div>
+    <div class="connector"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+    <div class="risk-card mitigacao">
+      <div class="mit-label">Mitigação</div>
+      <div class="risk-title">Escrow por marcos + condição suspensiva</div>
+      <div class="risk-desc">Pagamento vinculado a marcos verificáveis: sinal na assinatura, parcela no protocolo SEFAZ, saldo final na efetiva transferência. Contrato com condição suspensiva — pagamento integral condicionado ao deferimento.</div>
+      <div class="risk-detail">Cláusula de responsabilidade do cedente pela legitimidade. Cláusula arbitral para resolução de disputas. Direito de regresso.</div>
+    </div>
+  </div>
+
+  <!-- RISCO 5 -->
+  <div class="risk-row">
+    <div class="risk-card moderado">
+      <div class="risk-number moderado">Moderado</div>
+      <div class="risk-title">Responsabilidade civil</div>
+      <div class="risk-desc">O Credit Liquidity Score (A/B/C) cria expectativa de confiabilidade. Se o Relius classifica um crédito como "A" e a SEFAZ indefere a cessão, o comprador pode processar a plataforma por danos.</div>
+      <div class="risk-detail">Score indicativo pode ser interpretado como recomendação de investimento ou garantia, ampliando responsabilidade da plataforma.</div>
+    </div>
+    <div class="connector"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+    <div class="risk-card mitigacao">
+      <div class="mit-label">Mitigação</div>
+      <div class="risk-title">Disclaimers + critérios objetivos + seguro E&O</div>
+      <div class="risk-desc">Score baseado em critérios objetivos documentados (regularidade fiscal, histórico E-CredAc, porte). Disclaimer obrigatório em toda exibição do score. Termos de uso com limitação de responsabilidade.</div>
+      <div class="risk-detail">Contratar seguro de responsabilidade civil profissional (Errors & Omissions). Aceite específico do disclaimer antes do primeiro uso.</div>
+    </div>
+  </div>
+
+  <!-- RISCO 6 -->
+  <div class="risk-row">
+    <div class="risk-card moderado">
+      <div class="risk-number moderado">Moderado</div>
+      <div class="risk-title">Risco tributário</div>
+      <div class="risk-desc">Jurisprudência não consolidada sobre incidência de PIS/COFINS no deságio da cessão. STF decidiu que não incide em créditos de exportação (RE 606.107), mas CARF tem decisões divergentes para outros tipos.</div>
+      <div class="risk-detail">Tratamento contábil da cessão varia: pode ser reconhecido como perda direta ou como nova receita, com implicações fiscais distintas.</div>
+    </div>
+    <div class="connector"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+    <div class="risk-card mitigacao">
+      <div class="mit-label">Mitigação</div>
+      <div class="risk-title">Relius cobra fee (ISS). Nunca dar consultoria</div>
+      <div class="risk-desc">Modelo de receita da plataforma é fee de intermediação (ISS sobre serviço). Relius não é parte tributária na operação. Disclaimers claros de que a plataforma não presta consultoria tributária, jurídica ou financeira.</div>
+      <div class="risk-detail">Ter parceiro jurídico-tributário indicável aos clientes. Nunca assumir responsabilidade sobre tratamento fiscal da cessão.</div>
+    </div>
+  </div>
+
+  <!-- RISCO 7 -->
+  <div class="risk-row">
+    <div class="risk-card monitorar">
+      <div class="risk-number monitorar">Monitorar</div>
+      <div class="risk-title">Reforma tributária</div>
+      <div class="risk-desc">ICMS será extinto progressivamente de 2029 a 2033, substituído pelo IBS. Créditos acumulados serão convertidos em créditos financeiros compensáveis com IBS em até 240 parcelas a partir de 2033.</div>
+      <div class="risk-detail">LC 214/2025 garante que créditos não serão perdidos, mas passam a regras próprias de transição. Modelo atual do Relius tem prazo de validade.</div>
+    </div>
+    <div class="connector"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+    <div class="risk-card mitigacao">
+      <div class="mit-label">Mitigação</div>
+      <div class="risk-title">Janela de urgência até 2029. Pivot-ready.</div>
+      <div class="risk-desc">A extinção do ICMS cria corrida para resolver créditos acumulados — empresas precisam agir nos próximos 3-7 anos. Depois, pivotar para créditos financeiros convertidos (que também precisarão de cessão) ou IBS/CBS.</div>
+      <div class="risk-detail">Nome "Relius" foi escolhido para ser pivot-ready. A infraestrutura de intermediação, KYC e trilha de auditoria serve qualquer classe de crédito.</div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <div class="brand">Relius</div>
+    <p>
+      <strong>Aviso legal:</strong> Este documento é uma análise estratégica de riscos para fins de planejamento empresarial. Não constitui parecer jurídico. As informações são baseadas na legislação e jurisprudência vigentes em abril de 2026 e podem estar sujeitas a alterações. Recomenda-se consultar advogado tributarista e especialista em mercado de capitais para validação e detalhamento dos pontos aqui apresentados.
+    </p>
+    <p style="margin-top:8px; color:var(--text-dim);">Gerado em abril de 2026 · Relius — Visibilidade total. Acesso zero.</p>
+  </div>
+
+</div>
+</body>
+</html>

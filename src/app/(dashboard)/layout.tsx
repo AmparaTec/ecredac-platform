@@ -2,6 +2,7 @@ import { redirect } from 'next/navigation'
 import { createServerSupabase } from '@/lib/supabase/server'
 import { Sidebar } from '@/components/sidebar'
 import { NotificationDropdown } from '@/components/ui/notification-dropdown'
+import { TermsChecker } from '@/components/compliance/terms-checker'
 import { Search } from 'lucide-react'
 
 export default async function DashboardLayout({
@@ -75,6 +76,9 @@ export default async function DashboardLayout({
           {children}
         </div>
       </main>
+
+      {/* Modal de termos pendentes — verifica automaticamente */}
+      <TermsChecker />
     </div>
   )
 }

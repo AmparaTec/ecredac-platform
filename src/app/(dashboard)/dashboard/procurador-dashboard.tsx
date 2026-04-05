@@ -5,10 +5,11 @@ import { formatBRL } from '@/lib/utils'
 import { Card } from '@/components/ui/card'
 import { StatCard } from '@/components/ui/stat-card'
 import { Badge } from '@/components/ui/badge'
+import { ShareInvite } from '@/components/ui/share-invite'
 import Link from 'next/link'
 import {
   Users, Wallet, Send, Award, TrendingUp, DollarSign,
-  Copy, Check, ArrowRight, Building2, Search,
+  ArrowRight, Building2, Search,
   ClipboardList, CircleDollarSign, Rocket, ChevronRight,
   ShieldCheck, BarChart3
 } from 'lucide-react'
@@ -41,14 +42,6 @@ const commStatusConfig: Record<string, { label: string; badge: string }> = {
 
 // ─── ONBOARDING COMPONENT ───
 function OnboardingView({ referralCode, profile }: { referralCode: string; profile: any }) {
-  const [copied, setCopied] = useState(false)
-
-  const handleCopy = (text: string) => {
-    navigator.clipboard.writeText(text)
-    setCopied(true)
-    setTimeout(() => setCopied(false), 2000)
-  }
-
   const steps = [
     {
       number: 1,
@@ -108,34 +101,16 @@ function OnboardingView({ referralCode, profile }: { referralCode: string; profi
           </div>
         </div>
 
-        {/* Referral Code inline */}
-        <div className="relative mt-6 flex items-center gap-3 bg-dark-800/60 backdrop-blur rounded-xl p-4 border border-dark-500/50">
-          <div className="flex-1">
-            <p className="text-xs text-slate-500 mb-1">Seu código de indicação</p>
-            <span className="font-mono text-xl font-black tracking-[0.25em] text-brand-400">
-              {referralCode || '--------'}
-            </span>
-          </div>
-          <button
-            onClick={() => handleCopy(referralCode || '')}
-            className="flex items-center gap-1.5 px-4 py-2.5 bg-brand-600 text-white rounded-xl text-sm font-bold hover:bg-brand-500 transition-all shadow-lg shadow-brand-600/20"
-          >
-            {copied ? <Check size={14} /> : <Copy size={14} />}
-            {copied ? 'Copiado!' : 'Copiar'}
-          </button>
-          <button
-            onClick={() => handleCopy(`https://ecredac.com.br/register?ref=${referralCode || ''}`)}
-            className="flex items-center gap-1.5 px-4 py-2.5 bg-dark-500 text-slate-300 rounded-xl text-sm font-medium hover:bg-dark-400 transition-all border border-dark-400/50"
-          >
-            <Send size={14} />
-            Copiar Link
-          </button>
+        {/* Referral Code + Envio */}
+        <div className="relative mt-6 bg-dark-800/60 backdrop-blur rounded-xl p-4 border border-dark-500/50">
+          <p className="text-xs text-slate-500 mb-3">Envie seu convite de indicação</p>
+          <ShareInvite referralCode={referralCode || ''} />
         </div>
       </div>
 
       {/* Steps */}
       <div>
-        <h2 className="text-lg font-bold text-white mb-4">Como comecar</h2>
+        <h2 className="text-lg font-bold text-white mb-4">Como começar</h2>
         <div className="space-y-4">
           {steps.map((step) => {
             const Icon = step.icon
@@ -185,7 +160,7 @@ function OnboardingView({ referralCode, profile }: { referralCode: string; profi
             <h3 className="font-bold text-sm text-white">Seguro</h3>
           </div>
           <p className="text-xs text-slate-500 leading-relaxed">
-            Todas as transações sao validadas pela SEFAZ e registradas com rastreabilidade completa.
+            Todas as transações são validadas pela SEFAZ e registradas com rastreabilidade completa.
           </p>
         </Card>
         <Card className="p-5 border-l-2 border-l-emerald-500">
@@ -215,18 +190,11 @@ function OnboardingView({ referralCode, profile }: { referralCode: string; profi
 function ActiveDashboard({
   profile, procurador, tier, clients, commissions, pendingInvites, referralCode
 }: ProcuradorDashboardProps) {
-  const [copied, setCopied] = useState(false)
   const tc = tierConfig[procurador?.tier || 'bronze'] || tierConfig.bronze
   const totalEarned = procurador?.total_commissions_earned || 0
   const totalPaid = procurador?.total_commissions_paid || 0
   const totalVolume = procurador?.total_volume_intermediated || 0
   const totalClients = procurador?.total_companies || clients?.length || 0
-
-  const handleCopy = (text: string) => {
-    navigator.clipboard.writeText(text)
-    setCopied(true)
-    setTimeout(() => setCopied(false), 2000)
-  }
 
   return (
     <div className="space-y-6">
@@ -282,7 +250,7 @@ function ActiveDashboard({
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         <StatCard title="Clientes Ativos" value={String(totalClients)} subtitle="empresas na carteira" />
         <StatCard title="Volume Intermediado" value={formatBRL(totalVolume)} subtitle="total acumulado" />
-        <StatCard title="Comissões Ganhas" value={formatBRL(totalEarned)} subtitle={`${formatBRL(totalPaid)} ja pago`} />
+        <StatCard title="Comissões Ganhas" value={formatBRL(totalEarned)} subtitle={`${formatBRL(totalPaid)} já pago`} />
         <StatCard title="Convites Pendentes" value={String(pendingInvites)} subtitle="aguardando aceite" />
       </div>
 
@@ -338,7 +306,7 @@ function ActiveDashboard({
           <Card className="p-6">
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-lg font-bold text-white">Comissões Recentes</h2>
-              <Link href="/assessor/comissões" className="text-sm text-brand-400 hover:text-brand-300 font-medium">Ver todas →</Link>
+              <Link href="/assessor/comissoes" className="text-sm text-brand-400 hover:text-brand-300 font-medium">Ver todas →</Link>
             </div>
             {commissions && commissions.length > 0 ? (
               <div className="space-y-2">
@@ -358,7 +326,7 @@ function ActiveDashboard({
             ) : (
               <div className="text-center py-6">
                 <Wallet size={28} className="mx-auto text-slate-600 mb-2" />
-                <p className="text-sm text-slate-500">Comissões aparecem apos transações concluidas</p>
+                <p className="text-sm text-slate-500">Comissões aparecem após transações concluídas</p>
               </div>
             )}
           </Card>
@@ -368,7 +336,7 @@ function ActiveDashboard({
         <div className="space-y-4">
           {/* Quick Actions */}
           <Card className="p-5">
-            <h3 className="text-sm font-bold text-white mb-3">Acoes Rapidas</h3>
+            <h3 className="text-sm font-bold text-white mb-3">Ações Rápidas</h3>
             <div className="space-y-2">
               <Link href="/marketplace" className="flex items-center gap-2 p-3 rounded-xl bg-brand-500/10 hover:bg-brand-500/20 text-brand-400 text-sm font-bold transition-all border border-brand-500/20">
                 <DollarSign size={18} />
@@ -405,20 +373,10 @@ function ActiveDashboard({
             </div>
           </Card>
 
-          {/* Referral Code */}
+          {/* Referral Code + Envio */}
           <Card className="p-5">
-            <h3 className="text-sm font-bold text-white mb-2">Código de Indicação</h3>
-            <div className="flex items-center gap-2 p-3 bg-dark-600 rounded-xl border border-dark-500/50">
-              <span className="font-mono text-lg font-black tracking-[0.2em] text-brand-400 flex-1">
-                {referralCode || '--------'}
-              </span>
-              <button
-                onClick={() => handleCopy(referralCode || '')}
-                className="p-2 rounded-lg bg-brand-600 text-white hover:bg-brand-500 transition-all"
-              >
-                {copied ? <Check size={14} /> : <Copy size={14} />}
-              </button>
-            </div>
+            <h3 className="text-sm font-bold text-white mb-3">Enviar Convite</h3>
+            <ShareInvite referralCode={referralCode || ''} />
           </Card>
 
           {/* Tier Progress */}
@@ -430,7 +388,7 @@ function ActiveDashboard({
                 <p className={`text-sm font-bold ${tc.color}`}>
                   {(procurador?.tier || 'bronze').charAt(0).toUpperCase() + (procurador?.tier || 'bronze').slice(1)}
                 </p>
-                <p className="text-[10px] text-slate-500">{tier?.commission_pct || '0.50'}% por transacao</p>
+                <p className="text-[10px] text-slate-500">{tier?.commission_pct || '0.50'}% por transação</p>
               </div>
               <Link href="/assessor/ranking" className="text-xs text-brand-400 font-medium">Ver →</Link>
             </div>

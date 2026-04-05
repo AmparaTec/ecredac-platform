@@ -268,7 +268,7 @@ export default function TransacoesPage() {
         <Card className="p-12 text-center">
           <ArrowLeftRight size={40} className="mx-auto text-slate-600 mb-3" />
           <p className="text-lg font-medium text-slate-500">Nenhuma transação encontrada</p>
-          <p className="text-sm text-slate-500 mt-1">As transações aparecem aqui apos a confirmacao de um match</p>
+          <p className="text-sm text-slate-500 mt-1">As transações aparecem aqui após a confirmação de um match</p>
         </Card>
       )}
     </div>

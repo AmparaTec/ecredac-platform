@@ -174,7 +174,7 @@ const TEMPLATES: Record<EmailTemplate, {
     body: (d) => `
       <h2>Match confirmado!</h2>
       <p>Ambas as partes aceitaram. A transação de <strong>R$ ${d.amount}</strong> está pronta para prosseguir.</p>
-      ${ctaButton('Iniciar Transação', `${d.appUrl}/transações`)}
+      ${ctaButton('Iniciar Transação', `${d.appUrl}/transacoes`)}
     `,
   },
 
@@ -198,7 +198,7 @@ const TEMPLATES: Record<EmailTemplate, {
         ['Método', String(d.method)],
         ['Status', 'Confirmado'],
       ])}
-      ${ctaButton('Ver Transação', `${d.appUrl}/transações`)}
+      ${ctaButton('Ver Transação', `${d.appUrl}/transacoes`)}
     `,
   },
 
@@ -231,7 +231,7 @@ const TEMPLATES: Record<EmailTemplate, {
         ['Protocolo SEFAZ', String(d.protocolNumber)],
         ['Data', String(d.date)],
       ])}
-      ${ctaButton('Ver Detalhes', `${d.appUrl}/transações`)}
+      ${ctaButton('Ver Detalhes', `${d.appUrl}/transacoes`)}
     `,
   },
 
@@ -274,7 +274,7 @@ const TEMPLATES: Record<EmailTemplate, {
         ['Comissão', `R$ ${d.commissionValue}`],
         ['Tier', String(d.tier)],
       ])}
-      ${ctaButton('Ver Comissões', `${d.appUrl}/assessor/comissões`)}
+      ${ctaButton('Ver Comissões', `${d.appUrl}/assessor/comissoes`)}
     `,
   },
 
@@ -297,7 +297,7 @@ const TEMPLATES: Record<EmailTemplate, {
         ['Desconto final', `${d.finalDiscount}%`],
         ['Total a pagar', `R$ ${d.totalPayment}`],
       ])}
-      ${ctaButton('Finalizar Transação', `${d.appUrl}/transações`)}
+      ${ctaButton('Finalizar Transação', `${d.appUrl}/transacoes`)}
     `,
   },
 
