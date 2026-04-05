@@ -168,7 +168,7 @@ export async function POST(request: NextRequest) {
     action: existing ? 'kyc_updated' : 'kyc_created',
     user_id: user.id,
     description: `KYC ${existing ? 'atualizado' : 'criado'} para empresa ${companyId}`,
-  }).catch(() => {})
+  })
 
   return NextResponse.json({ kyc: result.data })
 }
@@ -205,7 +205,7 @@ export async function PATCH(request: NextRequest) {
       action: 'kyc_submitted',
       user_id: user.id,
       description: 'KYC submetido para análise',
-    }).catch(() => {})
+    })
 
     return NextResponse.json({ ok: true, status: 'em_analise' })
   }
@@ -241,7 +241,7 @@ export async function PATCH(request: NextRequest) {
       action: 'kyc_approved',
       user_id: user.id,
       description: 'KYC aprovado pelo admin',
-    }).catch(() => {})
+    })
 
     return NextResponse.json({ ok: true, status: 'aprovado' })
   }
@@ -265,7 +265,7 @@ export async function PATCH(request: NextRequest) {
       action: 'kyc_rejected',
       user_id: user.id,
       description: `KYC reprovado: ${reason || 'Documentação insuficiente'}`,
-    }).catch(() => {})
+    })
 
     return NextResponse.json({ ok: true, status: 'reprovado' })
   }
