@@ -6,7 +6,7 @@ import { cn } from '@/lib/utils'
 import {
   LayoutDashboard, DollarSign, TrendingUp, GitMerge,
   ArrowLeftRight, Building2, Settings, LogOut,
-  Users, Wallet, Send, Award, BarChart3, Briefcase
+  Users, Wallet, Send, Award, BarChart3, Briefcase, Shield
 } from 'lucide-react'
 
 type UserRole = 'titular' | 'representante' | 'procurador'
@@ -23,7 +23,8 @@ const companyNav: NavItem[] = [
   { href: '/marketplace', label: 'Marketplace', icon: DollarSign },
   { href: '/demandas', label: 'Demandas', icon: TrendingUp },
   { href: '/matching', label: 'Matching', icon: GitMerge },
-  { href: '/transações', label: 'Transações', icon: ArrowLeftRight },
+  { href: '/transacoes', label: 'Transações', icon: ArrowLeftRight },
+  { href: '/operacao', label: 'Operações', icon: Shield },
   { href: '/empresas', label: 'Empresas', icon: Building2 },
   { href: '/admin', label: 'Admin', icon: Settings },
 ]
@@ -34,7 +35,8 @@ const representanteNav: NavItem[] = [
   { href: '/marketplace', label: 'Marketplace', icon: DollarSign },
   { href: '/demandas', label: 'Demandas', icon: TrendingUp },
   { href: '/matching', label: 'Matching', icon: GitMerge },
-  { href: '/transações', label: 'Transações', icon: ArrowLeftRight },
+  { href: '/transacoes', label: 'Transações', icon: ArrowLeftRight },
+  { href: '/operacao', label: 'Operações', icon: Shield },
 ]
 
 const procuradorNav: NavItem[] = [

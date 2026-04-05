@@ -1,7 +1,8 @@
 import { redirect } from 'next/navigation'
 import { createServerSupabase } from '@/lib/supabase/server'
 import { Sidebar } from '@/components/sidebar'
-import { Bell, Search } from 'lucide-react'
+import { NotificationDropdown } from '@/components/ui/notification-dropdown'
+import { Search } from 'lucide-react'
 
 export default async function DashboardLayout({
   children,
@@ -54,10 +55,7 @@ export default async function DashboardLayout({
             />
           </div>
           <div className="flex items-center gap-4">
-            <button className="relative p-2.5 rounded-xl bg-dark-700 hover:bg-dark-600 text-slate-400 hover:text-white transition-all border border-dark-500/50">
-              <Bell size={16} />
-              <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-danger-500 rounded-full ring-2 ring-dark-800" />
-            </button>
+            <NotificationDropdown />
             <div className="flex items-center gap-3 pl-4 border-l border-dark-500/40">
               <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-brand-500/20 to-accent-600/20 text-brand-400 flex items-center justify-center font-bold text-xs border border-brand-500/20">
                 {displayName.charAt(0)}
