@@ -140,7 +140,7 @@ export async function PATCH(request: NextRequest) {
     action: `pld_${action}`,
     user_id: user.id,
     description: `Alerta PLD ${action}: ${notes || 'sem observações'}`,
-  }).catch(() => {})
+  })
 
   return NextResponse.json({ ok: true, status: newStatus })
 }

@@ -141,7 +141,7 @@ export async function POST(request: NextRequest) {
       user_id: user.id,
       description: `Termos aceitos: ${inserts.map(i => `${i.tipo} v${i.versao}`).join(', ')}`,
       metadata: { termos: inserts.map(i => ({ tipo: i.tipo, versao: i.versao })) },
-    }).catch(() => {})
+    })
   }
 
   return NextResponse.json({

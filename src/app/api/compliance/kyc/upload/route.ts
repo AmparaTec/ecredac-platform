@@ -119,7 +119,7 @@ export async function POST(request: NextRequest) {
     action: 'kyc_doc_uploaded',
     user_id: user.id,
     description: `Documento ${docType} enviado: ${file.name}`,
-  }).catch(() => {})
+  })
 
   return NextResponse.json({ document: doc })
 }
@@ -160,7 +160,7 @@ export async function DELETE(request: NextRequest) {
   }
 
   // Remover do storage
-  await supabase.storage.from('kyc-documents').remove([doc.file_path]).catch(() => {})
+  await supabase.storage.from('kyc-documents').remove([doc.file_path])
 
   // Remover do banco
   const { error } = await supabase
