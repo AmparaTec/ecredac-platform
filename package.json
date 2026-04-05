@@ -7,9 +7,11 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
+    "lint:ptbr": "node scripts/check-ptbr.js",
     "db:migrate": "supabase db push",
     "db:reset": "supabase db reset",
-    "db:seed": "npx tsx supabase/seed.ts"
+    "db:seed": "npx tsx supabase/seed.ts",
+    "prepare": "husky"
   },
   "dependencies": {
     "next": "^14.2.0",
@@ -35,6 +37,14 @@
     "@types/react-dom": "^18.3.0",
     "typescript": "^5.5.0",
     "eslint": "^8.57.0",
-    "eslint-config-next": "^14.2.0"
+    "eslint-config-next": "^14.2.0",
+    "husky": "^9.0.0",
+    "lint-staged": "^15.0.0"
+  },
+  "lint-staged": {
+    "src/**/*.{ts,tsx}": [
+      "node scripts/check-ptbr.js",
+      "next lint --fix --file"
+    ]
   }
 }
