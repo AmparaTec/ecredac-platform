@@ -333,4 +333,18 @@ function buildPaymentPayload(input: CreatePaymentInput): Record<string, unknown>
   // Payment method specifics
   if (input.paymentMethod === 'pix') {
     payment.pix = {
-      expires_in:
+      expires_in: 1800, // 30 minutos
+    }
+  }
+
+  if (input.paymentMethod === 'boleto') {
+    payment.boleto = {
+      instructions: 'Crédito de ICMS — E-CREDac',
+      due_at: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000).toISOString(), // 3 dias
+    }
+  }
+
+  // TED não requer configuração adicional no payload
+
+  return payment
+}
