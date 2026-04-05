@@ -29,7 +29,7 @@ export const CreatePaymentSchema = z.object({
   seller: z.object({
     recipientId: z.string().optional(), // Pagar.me recipient ID for split
   }).optional(),
-  platformFeeCents: z.number().int().nonneg().default(0),
+  platformFeeCents: z.number().int().nonnegative().default(0),
   metadata: z.record(z.string()).optional(),
 })
 
@@ -333,18 +333,4 @@ function buildPaymentPayload(input: CreatePaymentInput): Record<string, unknown>
   // Payment method specifics
   if (input.paymentMethod === 'pix') {
     payment.pix = {
-      expires_in: 1800, // 30 min
-    }
-  }
-
-  if (input.paymentMethod === 'boleto') {
-    const dueDate = new Date()
-    dueDate.setDate(dueDate.getDate() + 3) // 3 dias úteis
-    payment.boleto = {
-      due_at: dueDate.toISOString(),
-      instructions: 'Pagamento referente a crédito de ICMS — E-CREDac Platform',
-    }
-  }
-
-  return payment
-}
+      expires_in:
