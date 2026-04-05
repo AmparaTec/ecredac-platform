@@ -360,7 +360,7 @@ function RegisterForm() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-slate-300 mb-1">Razao Social</label>
+                <label className="block text-sm font-medium text-slate-300 mb-1">Razão Social</label>
                 <input
                   value={form.razaoSocial}
                   onChange={(e) => setForm({ ...form, razaoSocial: e.target.value })}
@@ -515,14 +515,14 @@ function RegisterForm() {
                 className="w-full rounded-xl border border-dark-500/50 bg-dark-700 text-white placeholder:text-slate-500 px-4 py-2.5 text-sm focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20"
               />
               {form.referralCode && (
-                <p className="mt-1 text-xs text-brand-400">Você sera vinculado ao assessor que indicou este código</p>
+                <p className="mt-1 text-xs text-brand-400">Você será vinculado ao assessor que indicou este código</p>
               )}
             </div>
           )}
 
           <div className="flex items-start gap-2 text-sm text-slate-400">
             <input type="checkbox" required className="mt-1 rounded bg-dark-700 border-dark-500" />
-            <span>Aceito os <a href="#" className="text-brand-400">Termos de Uso</a> e a <a href="#" className="text-brand-400">Política de Privacidade</a> (LGPD)</span>
+            <span>Aceito os <Link href="/termos-de-uso" target="_blank" className="text-brand-400 hover:text-brand-300">Termos de Uso</Link> e a <Link href="/politica-de-privacidade" target="_blank" className="text-brand-400 hover:text-brand-300">Política de Privacidade</Link> (LGPD)</span>
           </div>
 
           <button
