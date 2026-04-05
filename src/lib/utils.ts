@@ -82,16 +82,16 @@ export const creditTypeLabels: Record<string, string> = {
 
 // Credit origin labels
 export const creditOriginLabels: Record<string, string> = {
-  exportacao: 'Exportacao',
+  exportacao: 'Exportação',
   diferimento: 'Diferimento',
-  aliquota_reduzida: 'Aliquota Reduzida',
+  aliquota_reduzida: 'Alíquota Reduzida',
   substituicao_tributaria: 'Subst. Tributária',
 }
 
 // Homologation status
 export const homologationConfig: Record<string, { label: string; badge: string }> = {
   pendente: { label: 'Pendente', badge: 'bg-gray-100 text-gray-800' },
-  em_analise: { label: 'Em analise', badge: 'bg-amber-100 text-amber-800' },
+  em_analise: { label: 'Em análise', badge: 'bg-amber-100 text-amber-800' },
   homologado: { label: 'Homologado', badge: 'bg-emerald-100 text-emerald-800' },
   rejeitado: { label: 'Rejeitado', badge: 'bg-red-100 text-red-800' },
 }

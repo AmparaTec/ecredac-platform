@@ -186,9 +186,9 @@ export default function MarketplacePage() {
             className="rounded-xl border border-dark-500/50 bg-dark-700 text-white px-3 py-1.5 text-sm"
           >
             <option value="">Todas as origens</option>
-            <option value="exportacao">Exportacao</option>
+            <option value="exportacao">Exportação</option>
             <option value="diferimento">Diferimento</option>
-            <option value="aliquota_reduzida">Aliquota Reduzida</option>
+            <option value="aliquota_reduzida">Alíquota Reduzida</option>
             <option value="substituicao_tributaria">Subst. Tributária</option>
           </select>
           <select
@@ -355,9 +355,9 @@ export default function MarketplacePage() {
                     onChange={e => setNewListing({ ...newListing, origin: e.target.value })}
                     className="w-full rounded-xl border border-dark-500/50 bg-dark-700 text-white px-4 py-2.5 text-sm"
                   >
-                    <option value="exportacao">Exportacao</option>
+                    <option value="exportacao">Exportação</option>
                     <option value="diferimento">Diferimento</option>
-                    <option value="aliquota_reduzida">Aliquota Reduzida</option>
+                    <option value="aliquota_reduzida">Alíquota Reduzida</option>
                     <option value="substituicao_tributaria">Subst. Tributária</option>
                   </select>
                 </div>
