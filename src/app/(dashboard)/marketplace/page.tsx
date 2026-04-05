@@ -26,6 +26,9 @@ export default function MarketplacePage() {
     min_discount: '5',
     max_discount: '20',
     e_credac_protocol: '',
+    modalidade_apropriacao: 'simplificado',
+    status_homologacao: 'homologado',
+    conta_corrente_status: 'ativa',
     description: '',
   })
   const [submitting, setSubmitting] = useState(false)
@@ -140,7 +143,7 @@ export default function MarketplacePage() {
       })
       if (res.ok) {
         setShowNewForm(false)
-        setNewListing({ credit_type: 'acumulado', origin: 'exportacao', amount: '', min_discount: '5', max_discount: '20', e_credac_protocol: '', description: '' })
+        setNewListing({ credit_type: 'acumulado', origin: 'exportacao', amount: '', min_discount: '5', max_discount: '20', e_credac_protocol: '', modalidade_apropriacao: 'simplificado', status_homologacao: 'homologado', conta_corrente_status: 'ativa', description: '' })
         loadListings()
       }
     } catch (err) {
@@ -154,8 +157,8 @@ export default function MarketplacePage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-white">Marketplace</h1>
-          <p className="text-slate-400 mt-1">Créditos de ICMS disponíveis para negociação</p>
+          <h1 className="text-2xl font-bold text-white">Marketplace de Créditos</h1>
+          <p className="text-slate-400 mt-1">Créditos acumulados de ICMS homologados e disponíveis para transferência via e-CredAc</p>
         </div>
         <Button onClick={() => setShowNewForm(true)}>
           <Plus size={16} />
@@ -176,9 +179,10 @@ export default function MarketplacePage() {
             className="rounded-xl border border-dark-500/50 bg-dark-700 text-white px-3 py-1.5 text-sm"
           >
             <option value="">Todos os tipos</option>
-            <option value="acumulado">Acumulado</option>
+            <option value="acumulado">Crédito Acumulado</option>
             <option value="st">Subst. Tributária</option>
-            <option value="rural">Rural</option>
+            <option value="rural">Produtor Rural</option>
+            <option value="outorgado">Crédito Outorgado</option>
           </select>
           <select
             value={filter.origin}
@@ -186,9 +190,11 @@ export default function MarketplacePage() {
             className="rounded-xl border border-dark-500/50 bg-dark-700 text-white px-3 py-1.5 text-sm"
           >
             <option value="">Todas as origens</option>
-            <option value="exportacao">Exportação</option>
+            <option value="exportacao">Exportação (Art. 7º, V)</option>
             <option value="diferimento">Diferimento</option>
             <option value="aliquota_reduzida">Alíquota Reduzida</option>
+            <option value="isencao">Isenção / Não Incidência</option>
+            <option value="aliquotas_diversificadas">Alíquotas Diversificadas</option>
             <option value="substituicao_tributaria">Subst. Tributária</option>
           </select>
           <select
@@ -343,42 +349,81 @@ export default function MarketplacePage() {
                     onChange={e => setNewListing({ ...newListing, credit_type: e.target.value })}
                     className="w-full rounded-xl border border-dark-500/50 bg-dark-700 text-white px-4 py-2.5 text-sm"
                   >
-                    <option value="acumulado">Acumulado</option>
+                    <option value="acumulado">Crédito Acumulado</option>
                     <option value="st">Subst. Tributária</option>
-                    <option value="rural">Rural</option>
+                    <option value="rural">Produtor Rural</option>
+                    <option value="outorgado">Crédito Outorgado</option>
                   </select>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-slate-300 mb-1">Origem</label>
+                  <label className="block text-sm font-medium text-slate-300 mb-1">Hipótese de Geração</label>
                   <select
                     value={newListing.origin}
                     onChange={e => setNewListing({ ...newListing, origin: e.target.value })}
                     className="w-full rounded-xl border border-dark-500/50 bg-dark-700 text-white px-4 py-2.5 text-sm"
                   >
-                    <option value="exportacao">Exportação</option>
+                    <option value="exportacao">Exportação (Art. 7º, V RICMS)</option>
                     <option value="diferimento">Diferimento</option>
                     <option value="aliquota_reduzida">Alíquota Reduzida</option>
+                    <option value="isencao">Isenção / Não Incidência</option>
+                    <option value="aliquotas_diversificadas">Alíquotas Diversificadas</option>
                     <option value="substituicao_tributaria">Subst. Tributária</option>
                   </select>
                 </div>
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-slate-300 mb-1">Valor do Crédito (R$)</label>
+                <label className="block text-sm font-medium text-slate-300 mb-1">Valor do Crédito em Conta Corrente (R$)</label>
                 <input
                   type="number"
                   value={newListing.amount}
                   onChange={e => setNewListing({ ...newListing, amount: e.target.value })}
-                  placeholder="Ex: 500000"
+                  placeholder="Saldo disponível na conta corrente e-CredAc"
                   required
                   min={1000}
                   className="w-full rounded-xl border border-dark-500/50 bg-dark-700 text-white px-4 py-2.5 text-sm"
                 />
               </div>
 
+              {/* Campos SEFAZ e-CredAc */}
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-slate-300 mb-1">Desconto Mínimo (%)</label>
+                  <label className="block text-sm font-medium text-slate-300 mb-1">Modalidade de Apropriação</label>
+                  <select
+                    value={newListing.modalidade_apropriacao}
+                    onChange={e => setNewListing({ ...newListing, modalidade_apropriacao: e.target.value })}
+                    className="w-full rounded-xl border border-dark-500/50 bg-dark-700 text-white px-4 py-2.5 text-sm"
+                  >
+                    <option value="simplificado">Apuração Simplificada (até 10.000 UFESPs)</option>
+                    <option value="custeio">Sistemática de Custeio (sem limite)</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-slate-300 mb-1">Status da Homologação</label>
+                  <select
+                    value={newListing.status_homologacao}
+                    onChange={e => setNewListing({ ...newListing, status_homologacao: e.target.value })}
+                    className="w-full rounded-xl border border-dark-500/50 bg-dark-700 text-white px-4 py-2.5 text-sm"
+                  >
+                    <option value="homologado">Homologado (pronto para transferir)</option>
+                    <option value="deferido">Deferido (em conta corrente)</option>
+                    <option value="em_analise">Em Análise Fiscal</option>
+                    <option value="arquivo_enviado">Arquivo Digital Enviado</option>
+                  </select>
+                </div>
+              </div>
+
+              {newListing.status_homologacao !== 'homologado' && newListing.status_homologacao !== 'deferido' && (
+                <div className="bg-amber-900/20 border border-amber-700/30 rounded-xl p-3">
+                  <p className="text-xs text-amber-400">
+                    ⚠️ Créditos ainda não homologados pela SEFAZ ficam visíveis no marketplace, mas só podem ser negociados após a homologação e registro na conta corrente do e-CredAc.
+                  </p>
+                </div>
+              )}
+
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-slate-300 mb-1">Deságio Mínimo (%)</label>
                   <input
                     type="number"
                     value={newListing.min_discount}
@@ -388,7 +433,7 @@ export default function MarketplacePage() {
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-slate-300 mb-1">Desconto Máximo (%)</label>
+                  <label className="block text-sm font-medium text-slate-300 mb-1">Deságio Máximo (%)</label>
                   <input
                     type="number"
                     value={newListing.max_discount}
@@ -400,18 +445,19 @@ export default function MarketplacePage() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-slate-300 mb-1">Protocolo E-CREDac (opcional)</label>
+                <label className="block text-sm font-medium text-slate-300 mb-1">Protocolo e-CredAc / Visto Eletrônico</label>
                 <input
                   type="text"
                   value={newListing.e_credac_protocol}
                   onChange={e => setNewListing({ ...newListing, e_credac_protocol: e.target.value })}
-                  placeholder="Número do protocolo"
+                  placeholder="Nº do protocolo de apropriação ou visto eletrônico (12 dígitos)"
                   className="w-full rounded-xl border border-dark-500/50 bg-dark-700 text-white px-4 py-2.5 text-sm"
                 />
+                <p className="text-xs text-slate-500 mt-1">Obtido no sistema e-CredAc da SEFAZ-SP após deferimento</p>
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-slate-300 mb-1">Descrição (opcional)</label>
+                <label className="block text-sm font-medium text-slate-300 mb-1">Observações (opcional)</label>
                 <textarea
                   value={newListing.description}
                   onChange={e => setNewListing({ ...newListing, description: e.target.value })}

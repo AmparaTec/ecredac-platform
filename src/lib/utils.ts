@@ -73,27 +73,110 @@ export const urgencyConfig = {
   low: { label: 'Baixa', color: 'text-blue-700', bg: 'bg-blue-50', badge: 'bg-blue-100 text-blue-800' },
 }
 
-// Credit type labels
+// Credit type labels (conforme Art. 71 e 81 RICMS/SP)
 export const creditTypeLabels: Record<string, string> = {
-  acumulado: 'Acumulado',
+  acumulado: 'Crédito Acumulado',
   st: 'Subst. Tributária',
-  rural: 'Rural',
+  rural: 'Produtor Rural',
+  outorgado: 'Crédito Outorgado',
 }
 
-// Credit origin labels
+// Credit origin labels (hipóteses do Art. 71 RICMS/SP)
 export const creditOriginLabels: Record<string, string> = {
-  exportacao: 'Exportação',
+  exportacao: 'Exportação (Art. 7º, V)',
   diferimento: 'Diferimento',
   aliquota_reduzida: 'Alíquota Reduzida',
+  isencao: 'Isenção / Não Incidência',
   substituicao_tributaria: 'Subst. Tributária',
+  aliquotas_diversificadas: 'Alíquotas Diversificadas',
 }
 
-// Homologation status
-export const homologationConfig: Record<string, { label: string; badge: string }> = {
-  pendente: { label: 'Pendente', badge: 'bg-gray-100 text-gray-800' },
-  em_analise: { label: 'Em análise', badge: 'bg-amber-100 text-amber-800' },
-  homologado: { label: 'Homologado', badge: 'bg-emerald-100 text-emerald-800' },
+// Modalidade de apropriação (Portaria SRE 65/2023)
+export const apropriacaoModalidadeConfig: Record<string, { label: string; badge: string; description: string; limite: string }> = {
+  simplificado: {
+    label: 'Apuração Simplificada',
+    badge: 'bg-blue-100 text-blue-800',
+    description: 'Custo estimado com Percentual Médio de Crédito',
+    limite: 'Até 10.000 UFESPs/mês (~R$ 353.600)',
+  },
+  custeio: {
+    label: 'Sistemática de Custeio',
+    badge: 'bg-purple-100 text-purple-800',
+    description: 'Mapeamento completo de custos — acompanha fluxo do ICMS desde entrada até saída',
+    limite: 'Sem limite de valor',
+  },
+}
+
+// Status do arquivo digital e-CredAc
+export const arquivoDigitalStatusConfig: Record<string, { label: string; badge: string }> = {
+  nao_enviado: { label: 'Não Enviado', badge: 'bg-gray-100 text-gray-600' },
+  transmitido: { label: 'Transmitido via TED', badge: 'bg-blue-100 text-blue-800' },
+  pre_validado: { label: 'Pré-validado', badge: 'bg-cyan-100 text-cyan-800' },
+  acolhido: { label: 'Acolhido pela SEFAZ', badge: 'bg-emerald-100 text-emerald-800' },
   rejeitado: { label: 'Rejeitado', badge: 'bg-red-100 text-red-800' },
+}
+
+// Homologation status (etapas da apropriação no e-CredAc)
+export const homologationConfig: Record<string, { label: string; badge: string; description: string }> = {
+  pendente: { label: 'Pendente', badge: 'bg-gray-100 text-gray-800', description: 'Aguardando envio do arquivo digital' },
+  arquivo_enviado: { label: 'Arquivo Enviado', badge: 'bg-blue-100 text-blue-800', description: 'Arquivo digital transmitido à SEFAZ' },
+  em_analise: { label: 'Em Análise Fiscal', badge: 'bg-amber-100 text-amber-800', description: 'SEFAZ analisando — cruzamento eletrônico de dados' },
+  deferido: { label: 'Deferido', badge: 'bg-emerald-100 text-emerald-800', description: 'Apropriação autorizada — crédito na conta corrente' },
+  deferido_condicional: { label: 'Deferido sob Condição', badge: 'bg-yellow-100 text-yellow-800', description: 'Aprovado com condições a cumprir' },
+  indeferido: { label: 'Indeferido', badge: 'bg-red-100 text-red-800', description: 'Apropriação negada pela SEFAZ' },
+  homologado: { label: 'Homologado', badge: 'bg-emerald-100 text-emerald-800', description: 'Crédito homologado e disponível em conta corrente' },
+  rejeitado: { label: 'Rejeitado', badge: 'bg-red-100 text-red-800', description: 'Crédito rejeitado pela autoridade fiscal' },
+}
+
+// Status da conta corrente e-CredAc (Art. 4º, I, Portaria SRE 65/2023)
+export const contaCorrenteStatusConfig: Record<string, { label: string; badge: string; description: string }> = {
+  ativa: { label: 'Ativa', badge: 'bg-emerald-100 text-emerald-800', description: 'Conta corrente regular — crédito disponível para transferência' },
+  bloqueada: { label: 'Bloqueada', badge: 'bg-red-100 text-red-800', description: 'Conta bloqueada — regularizar via SIPET' },
+  sem_saldo: { label: 'Sem Saldo', badge: 'bg-gray-100 text-gray-600', description: 'Sem saldo disponível em conta corrente' },
+}
+
+// Motivos de bloqueio da conta corrente (Art. 4º Portaria SRE 65/2023)
+export const motivosBloqueioContaCorrente: Record<string, string> = {
+  ie_suspensa: 'IE suspensa ou inapta no Cadastro de Contribuintes',
+  dados_desatualizados: 'Dados desatualizados no Cadastro de Contribuintes',
+  debito_fiscal: 'Débito fiscal do ICMS (Art. 82 RICMS)',
+  omissao_gia: 'Omissão na apresentação de GIA ou EFD',
+  gia_substitutiva: 'GIA substitutiva ou retificação de EFD com alteração de saldo credor',
+  irregularidade_efd: 'Omissão ou irregularidade na EFD (SPED Fiscal)',
+  reincorporacao_pendente: 'Descumprimento de obrigação de reincorporação de crédito',
+  lancamento_oficio: 'Lançamento de ofício em elaboração (implicaria débito)',
+  apropriacao_irregular: 'Apropriação de crédito em desacordo com a legislação',
+  deferimento_condicional: 'Condição de deferimento não satisfeita',
+  parcelamento_pendente: 'Parcelas vincendas de débitos parcelados sem pedido de liquidação',
+}
+
+// Natureza da transferência (Art. 73 RICMS/SP)
+export const naturezaTransferenciaConfig: Record<string, { label: string; description: string; badge: string }> = {
+  interdependente: {
+    label: 'Estabelecimento Interdependente',
+    description: 'Transferência entre empresas do mesmo grupo econômico (Art. 73, II)',
+    badge: 'bg-indigo-100 text-indigo-800',
+  },
+  fornecedor_mp: {
+    label: 'Fornecedor de Matéria-Prima',
+    description: 'Pagamento a fornecedor de matéria-prima, material secundário ou embalagem (Art. 73, III, a)',
+    badge: 'bg-cyan-100 text-cyan-800',
+  },
+  fornecedor_energia: {
+    label: 'Fornecedor de Energia/Combustível',
+    description: 'Pagamento de energia elétrica ou combustível (Art. 73, III, b)',
+    badge: 'bg-yellow-100 text-yellow-800',
+  },
+  fornecedor_ativo: {
+    label: 'Fornecedor de Ativo Imobilizado',
+    description: 'Pagamento de bem do ativo imobilizado (Art. 73, IV)',
+    badge: 'bg-orange-100 text-orange-800',
+  },
+  terceiros: {
+    label: 'Transferência a Terceiros',
+    description: 'Transferência a empresa não interdependente — requer autorização do Secretário (Art. 84, II)',
+    badge: 'bg-purple-100 text-purple-800',
+  },
 }
 
 // Match status
@@ -110,7 +193,7 @@ export const matchStatusConfig: Record<string, { label: string; badge: string }>
 export const creditScoreConfig: Record<string, { label: string; badge: string; color: string; description: string }> = {
   A: { label: 'A', badge: 'bg-emerald-100 text-emerald-800 border-emerald-300', color: '#059669', description: 'Excelente — baixo risco, alta liquidez' },
   B: { label: 'B', badge: 'bg-blue-100 text-blue-800 border-blue-300', color: '#2563eb', description: 'Bom — risco moderado, boa liquidez' },
-  C: { label: 'C', badge: 'bg-amber-100 text-amber-800 border-amber-300', color: '#d97706', description: 'Regular — requer atencao, liquidez limitada' },
+  C: { label: 'C', badge: 'bg-amber-100 text-amber-800 border-amber-300', color: '#d97706', description: 'Regular — requer atenção, liquidez limitada' },
   D: { label: 'D', badge: 'bg-red-100 text-red-800 border-red-300', color: '#dc2626', description: 'Alto risco — liquidez muito baixa' },
 }
 
@@ -154,7 +237,7 @@ export function formatPricePerReal(price: number): string {
 export const executionTaskStatusConfig: Record<string, { label: string; badge: string; icon: string }> = {
   pending: { label: 'Pendente', badge: 'bg-gray-100 text-gray-700', icon: '○' },
   in_progress: { label: 'Em Andamento', badge: 'bg-blue-100 text-blue-800', icon: '◉' },
-  completed: { label: 'Concluido', badge: 'bg-emerald-100 text-emerald-800', icon: '✓' },
+  completed: { label: 'Concluído', badge: 'bg-emerald-100 text-emerald-800', icon: '✓' },
   blocked: { label: 'Bloqueado', badge: 'bg-red-100 text-red-800', icon: '✕' },
   skipped: { label: 'Pulado', badge: 'bg-gray-100 text-gray-500', icon: '—' },
 }
@@ -164,7 +247,7 @@ export const slaStatusConfig: Record<string, { label: string; badge: string; col
   on_track: { label: 'No Prazo', badge: 'bg-emerald-100 text-emerald-800', color: '#059669' },
   at_risk: { label: 'Em Risco', badge: 'bg-amber-100 text-amber-800', color: '#d97706' },
   breached: { label: 'SLA Violado', badge: 'bg-red-100 text-red-800', color: '#dc2626' },
-  completed: { label: 'Concluido', badge: 'bg-gray-100 text-gray-700', color: '#6b7280' },
+  completed: { label: 'Concluído', badge: 'bg-gray-100 text-gray-700', color: '#6b7280' },
 }
 
 // Responsible role config
@@ -173,20 +256,65 @@ export const responsibleRoleConfig: Record<string, { label: string; badge: strin
   buyer: { label: 'Cessionário', badge: 'bg-indigo-100 text-indigo-800' },
   platform: { label: 'Plataforma', badge: 'bg-brand-100 text-brand-800' },
   sefaz: { label: 'SEFAZ', badge: 'bg-amber-100 text-amber-800' },
-  legal: { label: 'Juridico', badge: 'bg-gray-100 text-gray-800' },
+  legal: { label: 'Jurídico', badge: 'bg-gray-100 text-gray-800' },
   financial: { label: 'Financeiro', badge: 'bg-emerald-100 text-emerald-800' },
 }
 
-// Phase names for execution
+// Phase names for execution (fluxo real e-CredAc SEFAZ-SP)
 export const executionPhaseNames: Record<number, string> = {
-  1: 'Originacao',
+  1: 'Originação',
   2: 'Matching',
-  3: 'Conclusao Comercial',
-  4: 'Procuracao Digital',
-  5: 'Contrato',
-  6: 'Transferência SEFAZ',
-  7: 'Uso do Crédito',
-  8: 'Concluido',
+  3: 'Acordo Comercial',
+  4: 'Verificação Fiscal',
+  5: 'Contrato & Procuração',
+  6: 'Transferência e-CredAc',
+  7: 'Aceite do Cessionário',
+  8: 'Liquidação & Conclusão',
+}
+
+// Descrição detalhada de cada fase (baseado no fluxo real da SEFAZ)
+export const executionPhaseDescriptions: Record<number, string> = {
+  1: 'Cedente cadastra crédito acumulado com protocolo e-CredAc e dados de homologação',
+  2: 'Motor de matching conecta cedente e cessionário com base em tipo, valor e deságio',
+  3: 'Partes negociam deságio final e condições — assinatura do termo comercial',
+  4: 'Verificação de regularidade fiscal: IE ativa, sem débitos, GIA/EFD em dia, conta corrente desbloqueada',
+  5: 'Contrato de cessão de crédito via Clicksign + procuração digital se necessário',
+  6: 'Cedente solicita transferência no e-CredAc (Pedido > Transferência > Solicitar) com dados do cessionário',
+  7: 'Cessionário tem até 10 dias para aceitar a transferência no e-CredAc',
+  8: 'Pagamento ao cedente (PIX/TED/Boleto) + escrituração na EFD com visto eletrônico',
+}
+
+// Checklist de documentos por natureza da operação
+export const documentosTransferencia: Record<string, string[]> = {
+  geral: [
+    'Protocolo e-CredAc de apropriação deferida',
+    'Extrato da conta corrente e-CredAc atualizado',
+    'Certidão de regularidade fiscal (ICMS)',
+    'GIA ou EFD do período sem pendências',
+    'Contrato de cessão de crédito assinado digitalmente',
+  ],
+  com_nfe: [
+    'Chave de acesso da NF-e do fornecedor',
+  ],
+  sem_nfe: [
+    'Documentos comprobatórios da operação (fatura de energia, etc.)',
+    'Encaminhar documentos à Delegacia Regional',
+  ],
+  interdependente: [
+    'Número do processo de reconhecimento de interdependência',
+  ],
+  terceiros: [
+    'Justificativa de impossibilidade de uso próprio do crédito',
+    'Autorização do Secretário da Fazenda (Art. 84, II RICMS)',
+  ],
+}
+
+// Escrituração EFD — códigos de ajuste para crédito acumulado
+export const codigosEFD: Record<string, { codigo: string; descricao: string }> = {
+  apropriacao: { codigo: 'SP000221', descricao: 'Apropriação de crédito acumulado mediante autorização eletrônica' },
+  devolucao: { codigo: 'SP000220', descricao: 'Devolução de crédito acumulado mediante autorização eletrônica' },
+  recebimento: { codigo: 'SP020740', descricao: 'Recebimento de crédito acumulado mediante autorização eletrônica' },
+  reincorporacao: { codigo: 'SP020741', descricao: 'Reincorporação de crédito acumulado mediante autorização eletrônica' },
 }
 
 // Format remaining time
@@ -207,7 +335,7 @@ export const transactionStatusConfig: Record<string, { label: string; badge: str
   pending_payment: { label: 'Ag. Pagamento', badge: 'bg-amber-100 text-amber-800' },
   paid: { label: 'Pago', badge: 'bg-blue-100 text-blue-800' },
   transferring: { label: 'Transferindo', badge: 'bg-blue-100 text-blue-800' },
-  completed: { label: 'Concluido', badge: 'bg-emerald-100 text-emerald-800' },
+  completed: { label: 'Concluído', badge: 'bg-emerald-100 text-emerald-800' },
   disputed: { label: 'Em disputa', badge: 'bg-red-100 text-red-800' },
   cancelled: { label: 'Cancelado', badge: 'bg-gray-100 text-gray-800' },
 }

@@ -40,8 +40,8 @@ interface Deal {
 }
 
 const PHASE_LABELS = [
-  '', 'Originacao', 'Matching', 'Conclusao Comercial', 'Procuracao Digital',
-  'Contrato', 'Transferência', 'Uso do Crédito', 'Concluido'
+  '', 'Originação', 'Matching', 'Acordo Comercial', 'Verificação Fiscal',
+  'Contrato & Procuração', 'Transferência e-CredAc', 'Aceite Cessionário', 'Conclusão'
 ]
 
 export default function PipelinePage() {
