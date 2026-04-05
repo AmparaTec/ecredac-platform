@@ -8,7 +8,7 @@ export async function GET(request: NextRequest) {
   const { data: { user } } = await supabase.auth.getUser()
 
   if (!user) {
-    return NextResponse.json({ error: 'Nao autenticado' }, { status: 401 })
+    return NextResponse.json({ error: 'Não autenticado' }, { status: 401 })
   }
 
   const { searchParams } = new URL(request.url)
@@ -67,7 +67,7 @@ export async function POST(request: NextRequest) {
   const { data: { user } } = await supabase.auth.getUser()
 
   if (!user) {
-    return NextResponse.json({ error: 'Nao autenticado' }, { status: 401 })
+    return NextResponse.json({ error: 'Não autenticado' }, { status: 401 })
   }
 
   const body = await request.json()

@@ -92,33 +92,33 @@ export function SLATracker({ plan, tasks }: SLATrackerProps) {
     <div className="space-y-4">
       {/* SLA Overview Cards */}
       <div className="grid grid-cols-4 gap-3">
-        <div className="p-3 rounded-xl bg-emerald-50 border border-emerald-100 text-center">
-          <CheckCircle2 size={16} className="mx-auto text-emerald-600 mb-1" />
-          <p className="text-lg font-bold text-emerald-700">{totalOnTrack + totalCompleted}</p>
-          <p className="text-[10px] text-emerald-600 uppercase tracking-wider">No Prazo</p>
+        <div className="p-3 rounded-xl bg-emerald-500/15 border border-emerald-500/25 text-center">
+          <CheckCircle2 size={16} className="mx-auto text-emerald-400 mb-1" />
+          <p className="text-lg font-bold text-emerald-400">{totalOnTrack + totalCompleted}</p>
+          <p className="text-[10px] text-emerald-400 uppercase tracking-wider">No Prazo</p>
         </div>
-        <div className="p-3 rounded-xl bg-amber-50 border border-amber-100 text-center">
-          <Clock size={16} className="mx-auto text-amber-600 mb-1" />
-          <p className="text-lg font-bold text-amber-700">{totalAtRisk}</p>
-          <p className="text-[10px] text-amber-600 uppercase tracking-wider">Em Risco</p>
+        <div className="p-3 rounded-xl bg-amber-500/15 border border-amber-500/25 text-center">
+          <Clock size={16} className="mx-auto text-amber-400 mb-1" />
+          <p className="text-lg font-bold text-amber-400">{totalAtRisk}</p>
+          <p className="text-[10px] text-amber-400 uppercase tracking-wider">Em Risco</p>
         </div>
-        <div className="p-3 rounded-xl bg-red-50 border border-red-100 text-center">
-          <AlertTriangle size={16} className="mx-auto text-red-600 mb-1" />
-          <p className="text-lg font-bold text-red-700">{totalBreached}</p>
-          <p className="text-[10px] text-red-600 uppercase tracking-wider">Violados</p>
+        <div className="p-3 rounded-xl bg-red-500/15 border border-red-500/25 text-center">
+          <AlertTriangle size={16} className="mx-auto text-red-400 mb-1" />
+          <p className="text-lg font-bold text-red-400">{totalBreached}</p>
+          <p className="text-[10px] text-red-400 uppercase tracking-wider">Violados</p>
         </div>
-        <div className="p-3 rounded-xl bg-gray-50 border border-gray-100 text-center">
-          <BarChart3 size={16} className="mx-auto text-gray-600 mb-1" />
-          <p className="text-lg font-bold text-gray-700">{plan.overall_progress}%</p>
-          <p className="text-[10px] text-gray-600 uppercase tracking-wider">Progresso</p>
+        <div className="p-3 rounded-xl bg-dark-600/50 border border-dark-500/40 text-center">
+          <BarChart3 size={16} className="mx-auto text-slate-400 mb-1" />
+          <p className="text-lg font-bold text-slate-300">{plan.overall_progress}%</p>
+          <p className="text-[10px] text-slate-400 uppercase tracking-wider">Progresso</p>
         </div>
       </div>
 
       {/* Upcoming Deadlines Alert */}
       {upcomingDeadlines.length > 0 && (
-        <Card className="p-4 border-amber-200 bg-amber-50/50">
+        <Card className="p-4 border-amber-200 bg-amber-500/15/50">
           <div className="flex items-center gap-2 mb-2">
-            <Clock size={14} className="text-amber-600" />
+            <Clock size={14} className="text-amber-400" />
             <span className="text-xs font-bold text-amber-800">Prazos nas proximas 24h</span>
           </div>
           <div className="space-y-2">
@@ -128,12 +128,12 @@ export function SLATracker({ plan, tasks }: SLATrackerProps) {
                 <div key={task.id} className="flex items-center justify-between text-xs">
                   <div className="flex items-center gap-2">
                     {task.sla_critical && <Shield size={10} className="text-red-500" />}
-                    <span className="font-medium text-gray-800">{task.task_name}</span>
+                    <span className="font-medium text-white">{task.task_name}</span>
                     <span className={cn('px-1.5 py-0.5 rounded-full text-[10px] font-semibold', roleCfg?.badge)}>
                       {roleCfg?.label}
                     </span>
                   </div>
-                  <span className="font-mono text-amber-700 font-bold">
+                  <span className="font-mono text-amber-400 font-bold">
                     {formatTimeRemaining(task.sla_deadline!)}
                   </span>
                 </div>
@@ -159,20 +159,20 @@ export function SLATracker({ plan, tasks }: SLATrackerProps) {
                   <div className={cn(
                     'w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-bold',
                     summary.completedTasks === summary.totalTasks
-                      ? 'bg-emerald-100 text-emerald-700'
+                      ? 'bg-emerald-500/15 text-emerald-400'
                       : isCurrentPhase
                         ? 'bg-brand-100 text-brand-700'
-                        : 'bg-gray-100 text-gray-500'
+                        : 'bg-dark-600 text-slate-500'
                   )}>
                     {summary.completedTasks === summary.totalTasks ? '✓' : summary.phase}
                   </div>
                   <div>
-                    <p className="text-xs font-bold text-gray-900">
+                    <p className="text-xs font-bold text-white">
                       {executionPhaseNames[summary.phase] || `Fase ${summary.phase}`}
                     </p>
-                    <p className="text-[10px] text-gray-500">
+                    <p className="text-[10px] text-slate-500">
                       {summary.completedTasks}/{summary.totalTasks} tarefas
-                      {summary.avgCompletionHours !== null && ` · Media: ${summary.avgCompletionHours}h`}
+                      {summary.avgCompletionHours !== null && ` · Média: ${summary.avgCompletionHours}h`}
                     </p>
                   </div>
                 </div>
@@ -180,29 +180,29 @@ export function SLATracker({ plan, tasks }: SLATrackerProps) {
                 <div className="flex items-center gap-1.5">
                   {/* SLA mini indicators */}
                   {summary.onTrack > 0 && (
-                    <span className="text-[10px] font-semibold px-1.5 py-0.5 rounded-full bg-emerald-100 text-emerald-700">
+                    <span className="text-[10px] font-semibold px-1.5 py-0.5 rounded-full bg-emerald-500/15 text-emerald-400">
                       {summary.onTrack}
                     </span>
                   )}
                   {summary.atRisk > 0 && (
-                    <span className="text-[10px] font-semibold px-1.5 py-0.5 rounded-full bg-amber-100 text-amber-700">
+                    <span className="text-[10px] font-semibold px-1.5 py-0.5 rounded-full bg-amber-500/15 text-amber-400">
                       {summary.atRisk}
                     </span>
                   )}
                   {summary.breached > 0 && (
-                    <span className="text-[10px] font-semibold px-1.5 py-0.5 rounded-full bg-red-100 text-red-700">
+                    <span className="text-[10px] font-semibold px-1.5 py-0.5 rounded-full bg-red-500/15 text-red-400">
                       {summary.breached}
                     </span>
                   )}
 
                   {/* Phase progress bar */}
-                  <div className="w-16 bg-gray-100 rounded-full h-1.5 ml-2">
+                  <div className="w-16 bg-dark-600 rounded-full h-1.5 ml-2">
                     <div
                       className={cn(
                         'h-1.5 rounded-full transition-all',
-                        summary.breached > 0 ? 'bg-red-500' :
-                        summary.atRisk > 0 ? 'bg-amber-500' :
-                        summary.completedTasks === summary.totalTasks ? 'bg-emerald-500' :
+                        summary.breached > 0 ? 'bg-red-500/150' :
+                        summary.atRisk > 0 ? 'bg-amber-500/150' :
+                        summary.completedTasks === summary.totalTasks ? 'bg-emerald-500/150' :
                         'bg-brand-500'
                       )}
                       style={{ width: `${summary.totalTasks > 0 ? Math.round((summary.completedTasks / summary.totalTasks) * 100) : 0}%` }}
@@ -213,23 +213,23 @@ export function SLATracker({ plan, tasks }: SLATrackerProps) {
 
               {/* Critical task alerts */}
               {hasCritical && (
-                <div className="mt-2 pt-2 border-t border-gray-100 space-y-1">
+                <div className="mt-2 pt-2 border-t border-dark-500/40 space-y-1">
                   {summary.criticalTasks.map(task => (
                     <div key={task.id} className="flex items-center justify-between text-[10px]">
                       <div className="flex items-center gap-1.5">
                         <AlertTriangle size={10} className={
                           task.sla_status === 'breached' ? 'text-red-500' : 'text-amber-500'
                         } />
-                        <span className="font-medium text-gray-700">{task.task_name}</span>
+                        <span className="font-medium text-slate-300">{task.task_name}</span>
                         <span className={cn(
                           'px-1 py-0.5 rounded font-semibold',
-                          task.sla_status === 'breached' ? 'bg-red-100 text-red-700' : 'bg-amber-100 text-amber-700'
+                          task.sla_status === 'breached' ? 'bg-red-500/15 text-red-400' : 'bg-amber-500/15 text-amber-400'
                         )}>
                           {task.sla_status === 'breached' ? 'VIOLADO' : 'EM RISCO'}
                         </span>
                       </div>
                       {task.sla_deadline && (
-                        <span className="font-mono text-gray-500">{formatTimeRemaining(task.sla_deadline)}</span>
+                        <span className="font-mono text-slate-500">{formatTimeRemaining(task.sla_deadline)}</span>
                       )}
                     </div>
                   ))}
@@ -242,7 +242,7 @@ export function SLATracker({ plan, tasks }: SLATrackerProps) {
 
       {/* Estimated completion */}
       {plan.estimated_completion && (
-        <div className="flex items-center justify-between px-2 text-xs text-gray-500">
+        <div className="flex items-center justify-between px-2 text-xs text-slate-500">
           <span>
             <TrendingUp size={12} className="inline mr-1" />
             Conclusao estimada: <strong>{formatDate(plan.estimated_completion)}</strong>

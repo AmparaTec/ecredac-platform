@@ -69,7 +69,7 @@ export function cnpjMask(value: string): string {
 // Urgency label/color
 export const urgencyConfig = {
   high: { label: 'Alta', color: 'text-red-700', bg: 'bg-red-50', badge: 'bg-red-100 text-red-800' },
-  medium: { label: 'Media', color: 'text-amber-700', bg: 'bg-amber-50', badge: 'bg-amber-100 text-amber-800' },
+  medium: { label: 'Média', color: 'text-amber-700', bg: 'bg-amber-50', badge: 'bg-amber-100 text-amber-800' },
   low: { label: 'Baixa', color: 'text-blue-700', bg: 'bg-blue-50', badge: 'bg-blue-100 text-blue-800' },
 }
 
@@ -100,7 +100,7 @@ export const homologationConfig: Record<string, { label: string; badge: string }
 export const matchStatusConfig: Record<string, { label: string; badge: string }> = {
   proposed: { label: 'Proposto', badge: 'bg-amber-100 text-amber-800' },
   accepted_seller: { label: 'Aceito (cedente)', badge: 'bg-blue-100 text-blue-800' },
-  accepted_buyer: { label: 'Aceito (cessionario)', badge: 'bg-blue-100 text-blue-800' },
+  accepted_buyer: { label: 'Aceito (cessionário)', badge: 'bg-blue-100 text-blue-800' },
   confirmed: { label: 'Confirmado', badge: 'bg-emerald-100 text-emerald-800' },
   cancelled: { label: 'Cancelado', badge: 'bg-red-100 text-red-800' },
   expired: { label: 'Expirado', badge: 'bg-gray-100 text-gray-800' },
@@ -117,19 +117,19 @@ export const creditScoreConfig: Record<string, { label: string; badge: string; c
 // Score component labels
 export const scoreComponentLabels: Record<string, string> = {
   sefaz_risk_score: 'Risco SEFAZ',
-  homologation_score: 'Homologacao',
+  homologation_score: 'Homologação',
   maturity_score: 'Maturidade',
   origin_score: 'Origem',
-  documentation_score: 'Documentacao',
-  historical_score: 'Historico',
+  documentation_score: 'Documentação',
+  historical_score: 'Histórico',
 }
 
 // Market position config
 export const marketPositionConfig: Record<string, { label: string; badge: string; icon: string; description: string }> = {
-  premium: { label: 'Premium', badge: 'bg-purple-100 text-purple-800 border-purple-300', icon: '⭐', description: 'Preco acima do mercado — alta qualidade percebida' },
-  acima_mercado: { label: 'Acima do Mercado', badge: 'bg-emerald-100 text-emerald-800 border-emerald-300', icon: '↑', description: 'Preco levemente acima da media' },
-  na_media: { label: 'Na Media', badge: 'bg-blue-100 text-blue-800 border-blue-300', icon: '≈', description: 'Preco alinhado com o mercado' },
-  abaixo_mercado: { label: 'Abaixo do Mercado', badge: 'bg-amber-100 text-amber-800 border-amber-300', icon: '↓', description: 'Preco abaixo da media — venda mais rapida' },
+  premium: { label: 'Premium', badge: 'bg-purple-100 text-purple-800 border-purple-300', icon: '⭐', description: 'Preço acima do mercado — alta qualidade percebida' },
+  acima_mercado: { label: 'Acima do Mercado', badge: 'bg-emerald-100 text-emerald-800 border-emerald-300', icon: '↑', description: 'Preço levemente acima da média' },
+  na_media: { label: 'Na Média', badge: 'bg-blue-100 text-blue-800 border-blue-300', icon: '≈', description: 'Preço alinhado com o mercado' },
+  abaixo_mercado: { label: 'Abaixo do Mercado', badge: 'bg-amber-100 text-amber-800 border-amber-300', icon: '↓', description: 'Preço abaixo da média — venda mais rápida' },
 }
 
 // Confidence level config
@@ -170,7 +170,7 @@ export const slaStatusConfig: Record<string, { label: string; badge: string; col
 // Responsible role config
 export const responsibleRoleConfig: Record<string, { label: string; badge: string }> = {
   seller: { label: 'Cedente', badge: 'bg-purple-100 text-purple-800' },
-  buyer: { label: 'Cessionario', badge: 'bg-indigo-100 text-indigo-800' },
+  buyer: { label: 'Cessionário', badge: 'bg-indigo-100 text-indigo-800' },
   platform: { label: 'Plataforma', badge: 'bg-brand-100 text-brand-800' },
   sefaz: { label: 'SEFAZ', badge: 'bg-amber-100 text-amber-800' },
   legal: { label: 'Juridico', badge: 'bg-gray-100 text-gray-800' },
@@ -184,8 +184,8 @@ export const executionPhaseNames: Record<number, string> = {
   3: 'Conclusao Comercial',
   4: 'Procuracao Digital',
   5: 'Contrato',
-  6: 'Transferencia SEFAZ',
-  7: 'Uso do Credito',
+  6: 'Transferência SEFAZ',
+  7: 'Uso do Crédito',
   8: 'Concluido',
 }
 

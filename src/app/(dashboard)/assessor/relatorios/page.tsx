@@ -55,8 +55,8 @@ export default async function RelatoriosPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-bold text-gray-900">Relatorios</h1>
-        <p className="text-gray-500 mt-1">Analise sua performance como assessor</p>
+        <h1 className="text-2xl font-bold text-white">Relatorios</h1>
+        <p className="text-slate-500 mt-1">Analise sua performance como assessor</p>
       </div>
 
       {/* KPIs */}
@@ -67,7 +67,7 @@ export default async function RelatoriosPage() {
           subtitle="acumulado"
         />
         <StatCard
-          title="Comissoes Totais"
+          title="Comissões Totais"
           value={formatBRL(totalEarned)}
           subtitle={`${formatBRL(totalPaid)} pago`}
         />
@@ -77,7 +77,7 @@ export default async function RelatoriosPage() {
           subtitle="na carteira"
         />
         <StatCard
-          title="Comissao Media/Cliente"
+          title="Comissão Média/Cliente"
           value={formatBRL(avgCommPerClient)}
           subtitle="por empresa"
         />
@@ -86,41 +86,41 @@ export default async function RelatoriosPage() {
       {/* Performance Summary */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <Card className="p-6">
-          <h2 className="text-lg font-bold text-gray-900 mb-4">Resumo de Performance</h2>
+          <h2 className="text-lg font-bold text-white mb-4">Resumo de Performance</h2>
           <div className="space-y-4">
-            <div className="flex items-center justify-between p-3 rounded-xl bg-gray-50">
+            <div className="flex items-center justify-between p-3 rounded-xl bg-dark-600/50">
               <div className="flex items-center gap-2">
-                <TrendingUp size={16} className="text-brand-600" />
-                <span className="text-sm text-gray-600">Volume mensal atual</span>
+                <TrendingUp size={16} className="text-brand-400" />
+                <span className="text-sm text-slate-400">Volume mensal atual</span>
               </div>
-              <span className="font-bold">{formatBRL(procurador.current_month_volume || 0)}</span>
+              <span className="font-bold text-white">{formatBRL(procurador.current_month_volume || 0)}</span>
             </div>
-            <div className="flex items-center justify-between p-3 rounded-xl bg-gray-50">
+            <div className="flex items-center justify-between p-3 rounded-xl bg-dark-600/50">
               <div className="flex items-center gap-2">
-                <Award size={16} className="text-purple-600" />
-                <span className="text-sm text-gray-600">Tier atual</span>
+                <Award size={16} className="text-purple-400" />
+                <span className="text-sm text-slate-400">Tier atual</span>
               </div>
-              <span className="font-bold capitalize">{procurador.tier || 'bronze'}</span>
+              <span className="font-bold capitalize text-white">{procurador.tier || 'bronze'}</span>
             </div>
-            <div className="flex items-center justify-between p-3 rounded-xl bg-gray-50">
+            <div className="flex items-center justify-between p-3 rounded-xl bg-dark-600/50">
               <div className="flex items-center gap-2">
-                <Wallet size={16} className="text-emerald-600" />
-                <span className="text-sm text-gray-600">Taxa de comissao</span>
+                <Wallet size={16} className="text-emerald-400" />
+                <span className="text-sm text-slate-400">Taxa de comissão</span>
               </div>
-              <span className="font-bold">{procurador.custom_commission_pct || '0.50'}%</span>
+              <span className="font-bold text-white">{procurador.custom_commission_pct || '0.50'}%</span>
             </div>
-            <div className="flex items-center justify-between p-3 rounded-xl bg-gray-50">
+            <div className="flex items-center justify-between p-3 rounded-xl bg-dark-600/50">
               <div className="flex items-center gap-2">
-                <BarChart3 size={16} className="text-blue-600" />
-                <span className="text-sm text-gray-600">Taxa de conversao</span>
+                <BarChart3 size={16} className="text-blue-400" />
+                <span className="text-sm text-slate-400">Taxa de conversao</span>
               </div>
-              <span className="font-bold">{conversionRate.toFixed(1)}%</span>
+              <span className="font-bold text-white">{conversionRate.toFixed(1)}%</span>
             </div>
           </div>
         </Card>
 
         <Card className="p-6">
-          <h2 className="text-lg font-bold text-gray-900 mb-4">Distribuicao de Comissoes</h2>
+          <h2 className="text-lg font-bold text-white mb-4">Distribuicao de Comissões</h2>
           {allComm.length > 0 ? (
             <div className="space-y-3">
               {['paid', 'earned', 'processing', 'pending', 'cancelled'].map(status => {
@@ -131,16 +131,16 @@ export default async function RelatoriosPage() {
                   paid: 'Pagas', earned: 'Apuradas', processing: 'Processando', pending: 'Pendentes', cancelled: 'Canceladas'
                 }
                 const colors: Record<string, string> = {
-                  paid: 'bg-emerald-500', earned: 'bg-blue-500', processing: 'bg-blue-400', pending: 'bg-amber-500', cancelled: 'bg-gray-400'
+                  paid: 'bg-emerald-500', earned: 'bg-blue-500', processing: 'bg-blue-400', pending: 'bg-amber-500', cancelled: 'bg-slate-500'
                 }
                 const pct = (count / allComm.length) * 100
                 return (
                   <div key={status}>
                     <div className="flex justify-between text-sm mb-1">
-                      <span className="text-gray-600">{labels[status]} ({count})</span>
-                      <span className="font-medium">{formatBRL(total)}</span>
+                      <span className="text-slate-400">{labels[status]} ({count})</span>
+                      <span className="font-medium text-white">{formatBRL(total)}</span>
                     </div>
-                    <div className="w-full bg-gray-200 rounded-full h-2">
+                    <div className="w-full bg-dark-500 rounded-full h-2">
                       <div className={`${colors[status]} h-2 rounded-full`} style={{ width: `${pct}%` }} />
                     </div>
                   </div>
@@ -149,8 +149,8 @@ export default async function RelatoriosPage() {
             </div>
           ) : (
             <div className="text-center py-8">
-              <BarChart3 size={32} className="mx-auto text-gray-300 mb-2" />
-              <p className="text-sm text-gray-500">Dados insuficientes para exibir relatorio</p>
+              <BarChart3 size={32} className="mx-auto text-slate-600 mb-2" />
+              <p className="text-sm text-slate-400">Dados insuficientes para exibir relatorio</p>
             </div>
           )}
         </Card>

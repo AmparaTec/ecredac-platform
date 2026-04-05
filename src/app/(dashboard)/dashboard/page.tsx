@@ -112,11 +112,11 @@ export default async function DashboardPage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Dashboard</h1>
-          <p className="text-gray-500 mt-1">Visao geral da sua operacao de creditos de ICMS</p>
+          <h1 className="text-2xl font-bold text-white">Dashboard</h1>
+          <p className="text-slate-500 mt-1">Visão geral da sua operação de créditos de ICMS</p>
         </div>
         {role === 'representante' && (
-          <span className="inline-flex items-center px-2.5 py-1 rounded-lg bg-blue-50 text-blue-700 text-xs font-bold uppercase tracking-wider border border-blue-200">
+          <span className="inline-flex items-center px-2.5 py-1 rounded-lg bg-blue-500/15 text-blue-400 text-xs font-bold uppercase tracking-wider border border-blue-500/25">
             Representante
           </span>
         )}
@@ -125,7 +125,7 @@ export default async function DashboardPage() {
       {/* Stats */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         <StatCard
-          title="Creditos Ativos"
+          title="Créditos Ativos"
           value={String(activeListings || 0)}
           subtitle="ofertas publicadas"
           trend="+12% este mes"
@@ -139,10 +139,10 @@ export default async function DashboardPage() {
         <StatCard
           title="Matches Pendentes"
           value={String(pendingMatches || 0)}
-          subtitle="aguardando aprovacao"
+          subtitle="aguardando aprovação"
         />
         <StatCard
-          title="Transacoes Concluidas"
+          title="Transações Concluidas"
           value={String(completedTx || 0)}
           subtitle="com sucesso"
           trend="98% taxa de sucesso"
@@ -154,8 +154,8 @@ export default async function DashboardPage() {
       {recentListings && recentListings.length > 0 && (
         <Card className="p-6">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-lg font-bold text-gray-900">Seus Creditos</h2>
-            <Link href="/marketplace" className="text-sm text-brand-600 hover:text-brand-700 font-medium">
+            <h2 className="text-lg font-bold text-white">Seus Créditos</h2>
+            <Link href="/marketplace" className="text-sm text-brand-400 hover:text-brand-300 font-medium">
               Ver todos →
             </Link>
           </div>
@@ -163,30 +163,30 @@ export default async function DashboardPage() {
             {recentListings.map((listing: any) => {
               const score = listing.credit_score
               const gradeColors: Record<string, string> = {
-                A: 'bg-emerald-50 border-emerald-200 text-emerald-700',
-                B: 'bg-blue-50 border-blue-200 text-blue-700',
-                C: 'bg-amber-50 border-amber-200 text-amber-700',
-                D: 'bg-red-50 border-red-200 text-red-700',
+                A: 'bg-emerald-500/15 border-emerald-500/30 text-emerald-400',
+                B: 'bg-blue-500/15 border-blue-500/30 text-blue-400',
+                C: 'bg-amber-500/15 border-amber-500/30 text-amber-400',
+                D: 'bg-red-500/15 border-red-500/30 text-red-400',
               }
               return (
-                <div key={listing.id} className="flex items-center gap-3 p-3 rounded-xl bg-gray-50 hover:bg-gray-100 transition-all">
+                <div key={listing.id} className="flex items-center gap-3 p-3 rounded-xl bg-dark-600/50 hover:bg-dark-600 transition-all">
                   {score && (
-                    <div className={`w-10 h-10 rounded-lg border-2 font-bold flex items-center justify-center text-sm ${gradeColors[score.grade] || 'bg-gray-50 border-gray-200 text-gray-600'}`}>
+                    <div className={`w-10 h-10 rounded-lg border-2 font-bold flex items-center justify-center text-sm ${gradeColors[score.grade] || 'bg-dark-600 border-dark-500 text-slate-400'}`}>
                       {score.grade}
                     </div>
                   )}
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2">
-                      <span className="font-mono text-xs font-bold text-brand-600">
+                      <span className="font-mono text-xs font-bold text-brand-400">
                         {listing.credit_id || 'Gerando...'}
                       </span>
                     </div>
-                    <p className="text-sm font-semibold">{formatBRL(listing.amount)}</p>
-                    <p className="text-xs text-gray-500">{listing.status === 'active' ? 'Ativo' : listing.status}</p>
+                    <p className="text-sm font-semibold text-white">{formatBRL(listing.amount)}</p>
+                    <p className="text-xs text-slate-500">{listing.status === 'active' ? 'Ativo' : listing.status}</p>
                   </div>
                   {score && (
                     <div className="text-right">
-                      <p className="text-xs font-medium text-gray-600">{score.score?.toFixed(0)}/100</p>
+                      <p className="text-xs font-medium text-slate-400">{score.score?.toFixed(0)}/100</p>
                     </div>
                   )}
                 </div>
@@ -202,8 +202,8 @@ export default async function DashboardPage() {
         <div className="lg:col-span-2">
           <Card className="p-6">
             <div className="flex items-center justify-between mb-4">
-              <h2 className="text-lg font-bold text-gray-900">Matches Recentes</h2>
-              <Link href="/matching" className="text-sm text-brand-600 hover:text-brand-700 font-medium">
+              <h2 className="text-lg font-bold text-white">Matches Recentes</h2>
+              <Link href="/matching" className="text-sm text-brand-400 hover:text-brand-300 font-medium">
                 Ver todos →
               </Link>
             </div>
@@ -211,22 +211,22 @@ export default async function DashboardPage() {
             {recentMatches && recentMatches.length > 0 ? (
               <div className="space-y-3">
                 {recentMatches.map((match: any) => (
-                  <div key={match.id} className="flex items-center justify-between p-3 rounded-xl bg-gray-50 hover:bg-gray-100 transition-all">
+                  <div key={match.id} className="flex items-center justify-between p-3 rounded-xl bg-dark-600/50 hover:bg-dark-600 transition-all">
                     <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-xl bg-brand-100 text-brand-700 flex items-center justify-center">
+                      <div className="w-10 h-10 rounded-xl bg-brand-500/15 text-brand-400 flex items-center justify-center">
                         <GitMerge size={18} />
                       </div>
                       <div>
-                        <p className="text-sm font-medium">
-                          {match.seller_company?.nome_fantasia || 'Cedente'} → {match.buyer_company?.nome_fantasia || 'Cessionario'}
+                        <p className="text-sm font-medium text-white">
+                          {match.seller_company?.nome_fantasia || 'Cedente'} → {match.buyer_company?.nome_fantasia || 'Cessionário'}
                         </p>
-                        <p className="text-xs text-gray-500">
+                        <p className="text-xs text-slate-500">
                           Score: {match.match_score || '—'}% · Desconto: {match.agreed_discount}%
                         </p>
                       </div>
                     </div>
                     <div className="text-right">
-                      <p className="text-sm font-bold">{formatBRL(match.matched_amount)}</p>
+                      <p className="text-sm font-bold text-white">{formatBRL(match.matched_amount)}</p>
                       <Badge variant={
                         match.status === 'confirmed' ? 'success' :
                         match.status === 'proposed' ? 'warning' : 'info'
@@ -240,10 +240,10 @@ export default async function DashboardPage() {
               </div>
             ) : (
               <div className="text-center py-8">
-                <GitMerge size={32} className="mx-auto text-gray-300 mb-2" />
-                <p className="text-sm text-gray-500">Nenhum match encontrado ainda</p>
-                <p className="text-xs text-gray-400 mt-1">
-                  Publique creditos ou crie demandas para iniciar o matching automatico
+                <GitMerge size={32} className="mx-auto text-slate-600 mb-2" />
+                <p className="text-sm text-slate-400">Nenhum match encontrado ainda</p>
+                <p className="text-xs text-slate-500 mt-1">
+                  Publique créditos ou crie demandas para iniciar o matching automático
                 </p>
               </div>
             )}
@@ -254,49 +254,49 @@ export default async function DashboardPage() {
         <div className="space-y-4">
           {/* Notifications */}
           <Card className="p-5">
-            <h3 className="text-sm font-bold text-gray-900 mb-3">Notificacoes</h3>
+            <h3 className="text-sm font-bold text-white mb-3">Notificações</h3>
             {notifications && notifications.length > 0 ? (
               <div className="space-y-2">
                 {notifications.map((n: any) => (
-                  <div key={n.id} className="flex items-start gap-2 p-2 rounded-lg bg-blue-50/50">
-                    <span className="text-brand-600 mt-0.5">
+                  <div key={n.id} className="flex items-start gap-2 p-2 rounded-lg bg-brand-500/10">
+                    <span className="text-brand-400 mt-0.5">
                       {n.type === 'match_found' ? <GitMerge size={14} /> :
                        n.type === 'payment' ? <DollarSign size={14} /> :
                        <AlertTriangle size={14} />}
                     </span>
                     <div>
-                      <p className="text-xs font-medium">{n.title}</p>
-                      <p className="text-xs text-gray-500">{n.body}</p>
+                      <p className="text-xs font-medium text-white">{n.title}</p>
+                      <p className="text-xs text-slate-500">{n.body}</p>
                     </div>
                   </div>
                 ))}
               </div>
             ) : (
-              <p className="text-xs text-gray-400 text-center py-3">Nenhuma notificacao nova</p>
+              <p className="text-xs text-slate-500 text-center py-3">Nenhuma notificação nova</p>
             )}
           </Card>
 
           {/* Quick Actions */}
           <Card className="p-5">
-            <h3 className="text-sm font-bold text-gray-900 mb-3">Acoes Rapidas</h3>
+            <h3 className="text-sm font-bold text-white mb-3">Acoes Rapidas</h3>
             <div className="space-y-2">
               <Link
                 href="/marketplace"
-                className="flex items-center gap-2 p-2.5 rounded-xl bg-brand-50 hover:bg-brand-100 text-brand-700 text-sm font-medium transition-all"
+                className="flex items-center gap-2 p-2.5 rounded-xl bg-brand-500/15 hover:bg-brand-500/25 text-brand-400 text-sm font-medium transition-all"
               >
                 <DollarSign size={16} />
-                Publicar Credito
+                Publicar Crédito
               </Link>
               <Link
                 href="/demandas"
-                className="flex items-center gap-2 p-2.5 rounded-xl bg-emerald-50 hover:bg-emerald-100 text-emerald-700 text-sm font-medium transition-all"
+                className="flex items-center gap-2 p-2.5 rounded-xl bg-emerald-500/15 hover:bg-emerald-500/25 text-emerald-400 text-sm font-medium transition-all"
               >
                 <TrendingUp size={16} />
                 Criar Demanda
               </Link>
               <Link
                 href="/pipeline"
-                className="flex items-center gap-2 p-2.5 rounded-xl bg-amber-50 hover:bg-amber-100 text-amber-700 text-sm font-medium transition-all"
+                className="flex items-center gap-2 p-2.5 rounded-xl bg-amber-500/15 hover:bg-amber-500/25 text-amber-400 text-sm font-medium transition-all"
               >
                 <Clock size={16} />
                 Ver Pipeline
@@ -306,31 +306,31 @@ export default async function DashboardPage() {
 
           {/* Company Status */}
           <Card className="p-5">
-            <h3 className="text-sm font-bold text-gray-900 mb-3">Status da Empresa</h3>
+            <h3 className="text-sm font-bold text-white mb-3">Status da Empresa</h3>
             <div className="space-y-2 text-sm">
               <div className="flex justify-between">
-                <span className="text-gray-500">SEFAZ-SP</span>
+                <span className="text-slate-500">SEFAZ-SP</span>
                 <Badge variant={company?.sefaz_status === 'regular' ? 'success' : 'warning'}>
                   {company?.sefaz_status === 'regular' ? 'Regular' : company?.sefaz_status || 'Pendente'}
                 </Badge>
               </div>
               <div className="flex justify-between">
-                <span className="text-gray-500">Plano</span>
+                <span className="text-slate-500">Plano</span>
                 <Badge variant={company?.tier === 'premium' ? 'premium' : 'default'}>
                   {company?.tier === 'premium' ? 'Premium' : 'Free'}
                 </Badge>
               </div>
               <div className="flex justify-between">
-                <span className="text-gray-500">Tipo</span>
-                <span className="text-gray-700 font-medium">
+                <span className="text-slate-500">Tipo</span>
+                <span className="text-slate-300 font-medium">
                   {company?.type === 'seller' ? 'Cedente' :
-                   company?.type === 'buyer' ? 'Cessionario' : 'Ambos'}
+                   company?.type === 'buyer' ? 'Cessionário' : 'Ambos'}
                 </span>
               </div>
               {role === 'representante' && (
                 <div className="flex justify-between">
-                  <span className="text-gray-500">Acesso</span>
-                  <span className="text-blue-700 font-medium">Representante</span>
+                  <span className="text-slate-500">Acesso</span>
+                  <span className="text-blue-400 font-medium">Representante</span>
                 </div>
               )}
             </div>

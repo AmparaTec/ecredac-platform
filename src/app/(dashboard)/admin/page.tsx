@@ -118,8 +118,8 @@ export default function AdminPage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Administracao</h1>
-          <p className="text-gray-500 mt-1">Painel de controle da plataforma E-CREDac</p>
+          <h1 className="text-2xl font-bold text-white">Administracao</h1>
+          <p className="text-slate-500 mt-1">Painel de controle da plataforma E-CREDac</p>
         </div>
         <Badge variant="premium">Admin</Badge>
       </div>
@@ -127,36 +127,36 @@ export default function AdminPage() {
       {/* Platform Stats */}
       <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-3">
         <Card className="p-3 text-center">
-          <Users size={16} className="mx-auto text-gray-400 mb-1" />
+          <Users size={16} className="mx-auto text-slate-500 mb-1" />
           <p className="text-lg font-bold">{stats.companies}</p>
-          <p className="text-[10px] text-gray-500">Empresas</p>
+          <p className="text-[10px] text-slate-500">Empresas</p>
         </Card>
         <Card className="p-3 text-center">
-          <DollarSign size={16} className="mx-auto text-gray-400 mb-1" />
+          <DollarSign size={16} className="mx-auto text-slate-500 mb-1" />
           <p className="text-lg font-bold">{stats.listings}</p>
-          <p className="text-[10px] text-gray-500">Listings</p>
+          <p className="text-[10px] text-slate-500">Listings</p>
         </Card>
         <Card className="p-3 text-center">
-          <Activity size={16} className="mx-auto text-gray-400 mb-1" />
+          <Activity size={16} className="mx-auto text-slate-500 mb-1" />
           <p className="text-lg font-bold">{stats.requests}</p>
-          <p className="text-[10px] text-gray-500">Demandas</p>
+          <p className="text-[10px] text-slate-500">Demandas</p>
         </Card>
         <Card className="p-3 text-center">
-          <Zap size={16} className="mx-auto text-gray-400 mb-1" />
+          <Zap size={16} className="mx-auto text-slate-500 mb-1" />
           <p className="text-lg font-bold">{stats.matches}</p>
-          <p className="text-[10px] text-gray-500">Matches</p>
+          <p className="text-[10px] text-slate-500">Matches</p>
         </Card>
         <Card className="p-3 text-center">
           <p className="text-lg font-bold">{stats.transactions}</p>
-          <p className="text-[10px] text-gray-500">Transacoes</p>
+          <p className="text-[10px] text-slate-500">Transações</p>
         </Card>
         <Card className="p-3 text-center">
-          <p className="text-lg font-bold text-brand-600">{formatBRL(stats.totalVolume)}</p>
-          <p className="text-[10px] text-gray-500">Volume</p>
+          <p className="text-lg font-bold text-brand-400">{formatBRL(stats.totalVolume)}</p>
+          <p className="text-[10px] text-slate-500">Volume</p>
         </Card>
         <Card className="p-3 text-center">
-          <p className="text-lg font-bold text-emerald-600">{formatBRL(stats.totalFees)}</p>
-          <p className="text-[10px] text-gray-500">Receita</p>
+          <p className="text-lg font-bold text-emerald-400">{formatBRL(stats.totalFees)}</p>
+          <p className="text-[10px] text-slate-500">Receita</p>
         </Card>
       </div>
 
@@ -164,39 +164,39 @@ export default function AdminPage() {
         {/* Platform Settings */}
         <Card className="p-6">
           <div className="flex items-center gap-2 mb-4">
-            <Settings size={18} className="text-gray-500" />
-            <h2 className="text-lg font-bold text-gray-900">Configuracoes</h2>
+            <Settings size={18} className="text-slate-500" />
+            <h2 className="text-lg font-bold text-white">Configurações</h2>
           </div>
 
           <div className="space-y-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Taxa da Plataforma (%)</label>
+              <label className="block text-sm font-medium text-slate-300 mb-1">Taxa da Plataforma (%)</label>
               <input
                 type="number"
                 value={settings.platform_fee_pct}
                 onChange={e => setSettings({ ...settings, platform_fee_pct: Number(e.target.value) })}
                 min={0} max={10} step={0.1}
-                className="w-full rounded-xl border border-gray-200 px-4 py-2.5 text-sm"
+                className="w-full rounded-xl border border-dark-500/50 bg-dark-700 text-white px-4 py-2.5 text-sm"
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Desconto Maximo Permitido (%)</label>
+              <label className="block text-sm font-medium text-slate-300 mb-1">Desconto Maximo Permitido (%)</label>
               <input
                 type="number"
                 value={settings.max_discount_pct}
                 onChange={e => setSettings({ ...settings, max_discount_pct: Number(e.target.value) })}
                 min={0} max={50} step={1}
-                className="w-full rounded-xl border border-gray-200 px-4 py-2.5 text-sm"
+                className="w-full rounded-xl border border-dark-500/50 bg-dark-700 text-white px-4 py-2.5 text-sm"
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Intervalo do Matching</label>
+              <label className="block text-sm font-medium text-slate-300 mb-1">Intervalo do Matching</label>
               <select
                 value={settings.matching_interval}
                 onChange={e => setSettings({ ...settings, matching_interval: e.target.value })}
-                className="w-full rounded-xl border border-gray-200 px-4 py-2.5 text-sm"
+                className="w-full rounded-xl border border-dark-500/50 bg-dark-700 text-white px-4 py-2.5 text-sm"
               >
                 <option value="realtime">Tempo Real</option>
                 <option value="hourly">A cada hora</option>
@@ -206,13 +206,13 @@ export default function AdminPage() {
 
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-gray-700">Auto-Matching</p>
-                <p className="text-xs text-gray-500">Executar matching automaticamente</p>
+                <p className="text-sm font-medium text-slate-300">Auto-Matching</p>
+                <p className="text-xs text-slate-500">Executar matching automaticamente</p>
               </div>
               <button
                 onClick={() => setSettings({ ...settings, auto_matching: !settings.auto_matching })}
                 className={`w-12 h-6 rounded-full transition-all ${
-                  settings.auto_matching ? 'bg-brand-600' : 'bg-gray-300'
+                  settings.auto_matching ? 'bg-brand-600' : 'bg-slate-600'
                 }`}
               >
                 <div className={`w-5 h-5 bg-white rounded-full shadow transition-all ${
@@ -222,7 +222,7 @@ export default function AdminPage() {
             </div>
 
             <Button onClick={saveSettings} disabled={saving} className="w-full">
-              {saving ? 'Salvando...' : 'Salvar Configuracoes'}
+              {saving ? 'Salvando...' : 'Salvar Configurações'}
             </Button>
           </div>
         </Card>
@@ -230,37 +230,37 @@ export default function AdminPage() {
         {/* Audit Log */}
         <Card className="p-6">
           <div className="flex items-center gap-2 mb-4">
-            <Shield size={18} className="text-gray-500" />
-            <h2 className="text-lg font-bold text-gray-900">Log de Auditoria</h2>
+            <Shield size={18} className="text-slate-500" />
+            <h2 className="text-lg font-bold text-white">Log de Auditoria</h2>
           </div>
 
           {recentAudit.length > 0 ? (
             <div className="space-y-2 max-h-96 overflow-y-auto">
               {recentAudit.map((log: any) => (
-                <div key={log.id} className="flex items-start gap-3 p-2 rounded-lg hover:bg-gray-50">
+                <div key={log.id} className="flex items-start gap-3 p-2 rounded-lg hover:bg-dark-600/30">
                   <div className={`w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5 ${
-                    log.action?.includes('create') ? 'bg-emerald-100' :
-                    log.action?.includes('update') ? 'bg-blue-100' :
-                    log.action?.includes('delete') ? 'bg-red-100' : 'bg-gray-100'
+                    log.action?.includes('create') ? 'bg-emerald-500/20' :
+                    log.action?.includes('update') ? 'bg-blue-500/20' :
+                    log.action?.includes('delete') ? 'bg-red-500/20' : 'bg-dark-600'
                   }`}>
                     <Database size={10} className={
-                      log.action?.includes('create') ? 'text-emerald-600' :
-                      log.action?.includes('update') ? 'text-blue-600' :
-                      log.action?.includes('delete') ? 'text-red-600' : 'text-gray-600'
+                      log.action?.includes('create') ? 'text-emerald-400' :
+                      log.action?.includes('update') ? 'text-blue-400' :
+                      log.action?.includes('delete') ? 'text-red-400' : 'text-slate-500'
                     } />
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p className="text-xs font-medium text-gray-700">{log.action}</p>
-                    <p className="text-[10px] text-gray-400">{log.entity_type} · {log.entity_id?.slice(0, 8)}</p>
+                    <p className="text-xs font-medium text-slate-300">{log.action}</p>
+                    <p className="text-[10px] text-slate-500">{log.entity_type} · {log.entity_id?.slice(0, 8)}</p>
                   </div>
-                  <span className="text-[10px] text-gray-400 flex-shrink-0">
+                  <span className="text-[10px] text-slate-500 flex-shrink-0">
                     {formatDate(log.created_at)}
                   </span>
                 </div>
               ))}
             </div>
           ) : (
-            <div className="text-center py-8 text-gray-400">
+            <div className="text-center py-8 text-slate-500">
               <Shield size={24} className="mx-auto mb-2" />
               <p className="text-sm">Nenhum registro de auditoria</p>
             </div>
@@ -271,36 +271,36 @@ export default function AdminPage() {
       {/* System Health */}
       <Card className="p-6">
         <div className="flex items-center gap-2 mb-4">
-          <Activity size={18} className="text-gray-500" />
-          <h2 className="text-lg font-bold text-gray-900">Saude do Sistema</h2>
+          <Activity size={18} className="text-slate-500" />
+          <h2 className="text-lg font-bold text-white">Saude do Sistema</h2>
         </div>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          <div className="flex items-center gap-3 p-3 rounded-xl bg-emerald-50">
+          <div className="flex items-center gap-3 p-3 rounded-xl bg-emerald-500/15">
             <div className="w-3 h-3 rounded-full bg-emerald-500 animate-pulse" />
             <div>
-              <p className="text-sm font-medium text-emerald-800">Supabase</p>
-              <p className="text-xs text-emerald-600">Operacional</p>
+              <p className="text-sm font-medium text-emerald-400">Supabase</p>
+              <p className="text-xs text-emerald-400">Operacional</p>
             </div>
           </div>
-          <div className="flex items-center gap-3 p-3 rounded-xl bg-emerald-50">
+          <div className="flex items-center gap-3 p-3 rounded-xl bg-emerald-500/15">
             <div className="w-3 h-3 rounded-full bg-emerald-500 animate-pulse" />
             <div>
-              <p className="text-sm font-medium text-emerald-800">SEFAZ-SP</p>
-              <p className="text-xs text-emerald-600">Conectado</p>
+              <p className="text-sm font-medium text-emerald-400">SEFAZ-SP</p>
+              <p className="text-xs text-emerald-400">Conectado</p>
             </div>
           </div>
-          <div className="flex items-center gap-3 p-3 rounded-xl bg-emerald-50">
+          <div className="flex items-center gap-3 p-3 rounded-xl bg-emerald-500/15">
             <div className="w-3 h-3 rounded-full bg-emerald-500 animate-pulse" />
             <div>
-              <p className="text-sm font-medium text-emerald-800">Matching Engine</p>
-              <p className="text-xs text-emerald-600">Ativo</p>
+              <p className="text-sm font-medium text-emerald-400">Matching Engine</p>
+              <p className="text-xs text-emerald-400">Ativo</p>
             </div>
           </div>
-          <div className="flex items-center gap-3 p-3 rounded-xl bg-emerald-50">
+          <div className="flex items-center gap-3 p-3 rounded-xl bg-emerald-500/15">
             <div className="w-3 h-3 rounded-full bg-emerald-500 animate-pulse" />
             <div>
-              <p className="text-sm font-medium text-emerald-800">Clicksign</p>
-              <p className="text-xs text-emerald-600">Integrado</p>
+              <p className="text-sm font-medium text-emerald-400">Clicksign</p>
+              <p className="text-xs text-emerald-400">Integrado</p>
             </div>
           </div>
         </div>

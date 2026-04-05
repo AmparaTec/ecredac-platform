@@ -49,70 +49,70 @@ export default async function ComissoesPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-bold text-gray-900">Comissoes</h1>
-        <p className="text-gray-500 mt-1">Historico e acompanhamento de todas as suas comissoes</p>
+        <h1 className="text-2xl font-bold text-white">Comissões</h1>
+        <p className="text-slate-500 mt-1">Histórico e acompanhamento de todas as suas comissões</p>
       </div>
 
       {/* Summary */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
         <Card className="p-5">
           <div className="flex items-center gap-2 mb-1">
-            <DollarSign size={16} className="text-emerald-600" />
-            <p className="text-sm text-gray-500">Total Ganho</p>
+            <DollarSign size={16} className="text-emerald-400" />
+            <p className="text-sm text-slate-500">Total Ganho</p>
           </div>
-          <p className="text-2xl font-bold text-emerald-600">{formatBRL(totalEarned)}</p>
+          <p className="text-2xl font-bold text-emerald-400">{formatBRL(totalEarned)}</p>
         </Card>
         <Card className="p-5">
           <div className="flex items-center gap-2 mb-1">
-            <Wallet size={16} className="text-brand-600" />
-            <p className="text-sm text-gray-500">Ja Pago</p>
+            <Wallet size={16} className="text-brand-400" />
+            <p className="text-sm text-slate-500">Já Pago</p>
           </div>
-          <p className="text-2xl font-bold text-brand-600">{formatBRL(totalPaid)}</p>
+          <p className="text-2xl font-bold text-brand-400">{formatBRL(totalPaid)}</p>
         </Card>
         <Card className="p-5">
           <div className="flex items-center gap-2 mb-1">
-            <Clock size={16} className="text-amber-600" />
-            <p className="text-sm text-gray-500">Pendente</p>
+            <Clock size={16} className="text-amber-400" />
+            <p className="text-sm text-slate-500">Pendente</p>
           </div>
-          <p className="text-2xl font-bold text-amber-600">{formatBRL(totalPending)}</p>
+          <p className="text-2xl font-bold text-amber-400">{formatBRL(totalPending)}</p>
         </Card>
         <Card className="p-5">
           <div className="flex items-center gap-2 mb-1">
-            <TrendingUp size={16} className="text-gray-600" />
-            <p className="text-sm text-gray-500">Taxa Atual</p>
+            <TrendingUp size={16} className="text-slate-400" />
+            <p className="text-sm text-slate-500">Taxa Atual</p>
           </div>
-          <p className="text-2xl font-bold">{procurador.custom_commission_pct || '0.50'}%</p>
+          <p className="text-2xl font-bold text-white">{procurador.custom_commission_pct || '0.50'}%</p>
         </Card>
       </div>
 
       {/* Commissions Table */}
       <Card className="p-6">
-        <h2 className="text-lg font-bold text-gray-900 mb-4">Historico de Comissoes</h2>
+        <h2 className="text-lg font-bold text-white mb-4">Histórico de Comissões</h2>
         {allComm.length > 0 ? (
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
-                <tr className="border-b border-gray-200">
-                  <th className="text-left py-3 px-2 text-gray-500 font-medium">Data</th>
-                  <th className="text-left py-3 px-2 text-gray-500 font-medium">Empresa</th>
-                  <th className="text-right py-3 px-2 text-gray-500 font-medium">Valor Transacao</th>
-                  <th className="text-right py-3 px-2 text-gray-500 font-medium">Taxa</th>
-                  <th className="text-right py-3 px-2 text-gray-500 font-medium">Comissao</th>
-                  <th className="text-center py-3 px-2 text-gray-500 font-medium">Status</th>
+                <tr className="border-b border-dark-500/50">
+                  <th className="text-left py-3 px-2 text-slate-500 font-medium">Data</th>
+                  <th className="text-left py-3 px-2 text-slate-500 font-medium">Empresa</th>
+                  <th className="text-right py-3 px-2 text-slate-500 font-medium">Valor Transação</th>
+                  <th className="text-right py-3 px-2 text-slate-500 font-medium">Taxa</th>
+                  <th className="text-right py-3 px-2 text-slate-500 font-medium">Comissão</th>
+                  <th className="text-center py-3 px-2 text-slate-500 font-medium">Status</th>
                 </tr>
               </thead>
               <tbody>
                 {allComm.map((comm: any) => {
                   const cs = commStatusConfig[comm.status] || commStatusConfig.pending
                   return (
-                    <tr key={comm.id} className="border-b border-gray-100 hover:bg-gray-50">
-                      <td className="py-3 px-2 text-gray-600">{formatDate(comm.created_at)}</td>
-                      <td className="py-3 px-2 font-medium">
+                    <tr key={comm.id} className="border-b border-dark-500/40 hover:bg-dark-600/50">
+                      <td className="py-3 px-2 text-slate-400">{formatDate(comm.created_at)}</td>
+                      <td className="py-3 px-2 font-medium text-white">
                         {comm.company?.nome_fantasia || comm.company?.razao_social || '—'}
                       </td>
-                      <td className="py-3 px-2 text-right text-gray-600">{formatBRL(comm.transaction_value)}</td>
-                      <td className="py-3 px-2 text-right text-gray-600">{comm.commission_pct}%</td>
-                      <td className="py-3 px-2 text-right font-bold">{formatBRL(comm.commission_value)}</td>
+                      <td className="py-3 px-2 text-right text-slate-400">{formatBRL(comm.transaction_value)}</td>
+                      <td className="py-3 px-2 text-right text-slate-400">{comm.commission_pct}%</td>
+                      <td className="py-3 px-2 text-right font-bold text-white">{formatBRL(comm.commission_value)}</td>
                       <td className="py-3 px-2 text-center">
                         <Badge variant={cs.variant}>{cs.label}</Badge>
                       </td>
@@ -124,10 +124,10 @@ export default async function ComissoesPage() {
           </div>
         ) : (
           <div className="text-center py-12">
-            <Wallet size={40} className="mx-auto text-gray-300 mb-3" />
-            <p className="text-gray-500 font-medium">Nenhuma comissao registrada</p>
-            <p className="text-sm text-gray-400 mt-1">
-              Comissoes sao geradas automaticamente quando transacoes de seus clientes sao concluidas
+            <Wallet size={40} className="mx-auto text-slate-600 mb-3" />
+            <p className="text-slate-400 font-medium">Nenhuma comissão registrada</p>
+            <p className="text-sm text-slate-500 mt-1">
+              Comissões sao geradas automaticamente quando transações de seus clientes sao concluidas
             </p>
           </div>
         )}

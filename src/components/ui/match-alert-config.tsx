@@ -18,10 +18,10 @@ interface MatchAlertListProps {
 export function MatchAlertList({ alerts, onToggle, onDelete, onCreate }: MatchAlertListProps) {
   return (
     <Card className="overflow-hidden">
-      <div className="p-4 border-b border-gray-100 flex items-center justify-between">
+      <div className="p-4 border-b border-dark-500/40 flex items-center justify-between">
         <div className="flex items-center gap-2">
           <Bell size={18} className="text-brand-600" />
-          <h3 className="text-sm font-bold text-gray-900">Meus Alertas</h3>
+          <h3 className="text-sm font-bold text-white">Meus Alertas</h3>
           <Badge variant="info">{alerts.filter(a => a.active).length} ativos</Badge>
         </div>
         <Button size="sm" onClick={onCreate}>
@@ -31,9 +31,9 @@ export function MatchAlertList({ alerts, onToggle, onDelete, onCreate }: MatchAl
 
       {alerts.length === 0 ? (
         <div className="p-8 text-center">
-          <Bell size={28} className="mx-auto text-gray-300 mb-2" />
-          <p className="text-sm text-gray-500">Nenhum alerta configurado</p>
-          <p className="text-xs text-gray-400 mt-1">Crie alertas para ser notificado quando creditos compativeis surgirem</p>
+          <Bell size={28} className="mx-auto text-slate-600 mb-2" />
+          <p className="text-sm text-slate-500">Nenhum alerta configurado</p>
+          <p className="text-xs text-slate-500 mt-1">Crie alertas para ser notificado quando créditos compativeis surgirem</p>
         </div>
       ) : (
         <div className="divide-y divide-gray-100">
@@ -44,7 +44,7 @@ export function MatchAlertList({ alerts, onToggle, onDelete, onCreate }: MatchAl
                 className={`w-8 h-8 rounded-lg flex items-center justify-center transition-all ${
                   alert.active
                     ? 'bg-brand-100 text-brand-600 hover:bg-brand-200'
-                    : 'bg-gray-100 text-gray-400 hover:bg-gray-200'
+                    : 'bg-dark-600 text-slate-500 hover:bg-dark-500'
                 }`}
               >
                 {alert.active ? <Bell size={16} /> : <BellOff size={16} />}
@@ -52,12 +52,12 @@ export function MatchAlertList({ alerts, onToggle, onDelete, onCreate }: MatchAl
 
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2">
-                  <p className="text-sm font-medium text-gray-900">{alert.name}</p>
+                  <p className="text-sm font-medium text-white">{alert.name}</p>
                   <Badge variant={alert.alert_type === 'credit' ? 'info' : 'success'}>
                     {alert.alert_type === 'credit' ? 'Compra' : 'Venda'}
                   </Badge>
                 </div>
-                <div className="flex items-center gap-3 mt-1 text-xs text-gray-500">
+                <div className="flex items-center gap-3 mt-1 text-xs text-slate-500">
                   {alert.credit_types && (
                     <span>Tipos: {alert.credit_types.map(t => creditTypeLabels[t] || t).join(', ')}</span>
                   )}
@@ -67,7 +67,7 @@ export function MatchAlertList({ alerts, onToggle, onDelete, onCreate }: MatchAl
                 </div>
               </div>
 
-              <div className="text-right text-xs text-gray-400">
+              <div className="text-right text-xs text-slate-500">
                 <p>{alert.matches_found} disparos</p>
                 {alert.last_triggered_at && (
                   <p>Ultimo: {new Date(alert.last_triggered_at).toLocaleDateString('pt-BR')}</p>
@@ -76,7 +76,7 @@ export function MatchAlertList({ alerts, onToggle, onDelete, onCreate }: MatchAl
 
               <button
                 onClick={() => onDelete(alert.id)}
-                className="p-1.5 rounded-lg hover:bg-red-50 text-gray-300 hover:text-red-500 transition-all"
+                className="p-1.5 rounded-lg hover:bg-red-500/15 text-slate-600 hover:text-red-500 transition-all"
               >
                 <Trash2 size={14} />
               </button>
@@ -128,40 +128,40 @@ export function MatchAlertForm({ onSubmit, onCancel, initial }: AlertFormProps) 
 
   return (
     <Card className="p-5">
-      <h3 className="text-sm font-bold text-gray-900 mb-4">
+      <h3 className="text-sm font-bold text-white mb-4">
         {initial ? 'Editar Alerta' : 'Novo Alerta'}
       </h3>
       <form onSubmit={handleSubmit} className="space-y-3">
         <div>
-          <label className="block text-xs font-medium text-gray-600 mb-1">Nome do Alerta</label>
+          <label className="block text-xs font-medium text-slate-400 mb-1">Nome do Alerta</label>
           <input
             type="text"
             value={form.name}
             onChange={e => setForm({ ...form, name: e.target.value })}
-            placeholder="Ex: Creditos A de exportacao acima de R$500K"
+            placeholder="Ex: Créditos A de exportacao acima de R$500K"
             required
-            className="w-full rounded-xl border border-gray-200 px-3 py-2 text-sm"
+            className="w-full rounded-xl border border-dark-500/50 px-3 py-2 text-sm"
           />
         </div>
 
         <div className="grid grid-cols-2 gap-3">
           <div>
-            <label className="block text-xs font-medium text-gray-600 mb-1">Tipo de Alerta</label>
+            <label className="block text-xs font-medium text-slate-400 mb-1">Tipo de Alerta</label>
             <select
               value={form.alert_type}
               onChange={e => setForm({ ...form, alert_type: e.target.value as 'credit' | 'demand' })}
-              className="w-full rounded-xl border border-gray-200 px-3 py-2 text-sm"
+              className="w-full rounded-xl border border-dark-500/50 px-3 py-2 text-sm"
             >
-              <option value="credit">Quero Comprar Credito</option>
-              <option value="demand">Quero Vender Credito</option>
+              <option value="credit">Quero Comprar Crédito</option>
+              <option value="demand">Quero Vender Crédito</option>
             </select>
           </div>
           <div>
-            <label className="block text-xs font-medium text-gray-600 mb-1">Grade Minima</label>
+            <label className="block text-xs font-medium text-slate-400 mb-1">Grade Minima</label>
             <select
               value={form.min_grade}
               onChange={e => setForm({ ...form, min_grade: e.target.value })}
-              className="w-full rounded-xl border border-gray-200 px-3 py-2 text-sm"
+              className="w-full rounded-xl border border-dark-500/50 px-3 py-2 text-sm"
             >
               <option value="">Qualquer</option>
               <option value="A">A — Excelente</option>
@@ -174,24 +174,24 @@ export function MatchAlertForm({ onSubmit, onCancel, initial }: AlertFormProps) 
 
         <div className="grid grid-cols-2 gap-3">
           <div>
-            <label className="block text-xs font-medium text-gray-600 mb-1">Valor Minimo (R$)</label>
+            <label className="block text-xs font-medium text-slate-400 mb-1">Valor Minimo (R$)</label>
             <input
               type="number"
               value={form.min_amount}
               onChange={e => setForm({ ...form, min_amount: e.target.value })}
               placeholder="Opcional"
-              className="w-full rounded-xl border border-gray-200 px-3 py-2 text-sm"
+              className="w-full rounded-xl border border-dark-500/50 px-3 py-2 text-sm"
             />
           </div>
           <div>
-            <label className="block text-xs font-medium text-gray-600 mb-1">Desconto Maximo (%)</label>
+            <label className="block text-xs font-medium text-slate-400 mb-1">Desconto Maximo (%)</label>
             <input
               type="number"
               value={form.max_discount}
               onChange={e => setForm({ ...form, max_discount: e.target.value })}
               min={0} max={50} step={0.5}
               placeholder="Opcional"
-              className="w-full rounded-xl border border-gray-200 px-3 py-2 text-sm"
+              className="w-full rounded-xl border border-dark-500/50 px-3 py-2 text-sm"
             />
           </div>
         </div>

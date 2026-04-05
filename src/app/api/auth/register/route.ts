@@ -44,7 +44,7 @@ export async function POST(request: NextRequest) {
     if (!supabaseUrl || !serviceRoleKey) {
       console.error('Missing env vars:', { hasUrl: !!supabaseUrl, hasKey: !!serviceRoleKey })
       return NextResponse.json(
-        { error: 'Configuracao do servidor incompleta. Contate o administrador.' },
+        { error: 'Configuração do servidor incompleta. Contate o administrador.' },
         { status: 500 }
       )
     }
@@ -63,7 +63,7 @@ export async function POST(request: NextRequest) {
     if (authError) {
       if (authError.message?.includes('already been registered') || authError.message?.includes('already exists')) {
         return NextResponse.json(
-          { error: 'Este email ja esta cadastrado. Tente fazer login.' },
+          { error: 'Este email já está cadastrado. Tente fazer login.' },
           { status: 409 }
         )
       }
@@ -111,7 +111,7 @@ export async function POST(request: NextRequest) {
         await rollback()
         console.error('Company insert error:', compError)
         if (compError.message?.includes('duplicate') || compError.message?.includes('unique')) {
-          return NextResponse.json({ error: 'Este CNPJ ja esta cadastrado.' }, { status: 409 })
+          return NextResponse.json({ error: 'Este CNPJ já está cadastrado.' }, { status: 409 })
         }
         return NextResponse.json(
           { error: 'Erro ao criar empresa: ' + compError.message },

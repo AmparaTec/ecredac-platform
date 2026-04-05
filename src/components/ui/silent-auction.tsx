@@ -46,10 +46,10 @@ export function AuctionCard({ auction, myBid, isSeller, onClick }: AuctionCardPr
 
   const listing = auction.listing
   const statusConfig: Record<string, { label: string; badge: string }> = {
-    open: { label: 'Aberto', badge: 'bg-emerald-100 text-emerald-800' },
-    closed: { label: 'Encerrado', badge: 'bg-gray-100 text-gray-800' },
-    cancelled: { label: 'Cancelado', badge: 'bg-red-100 text-red-800' },
-    no_bids: { label: 'Sem lances', badge: 'bg-amber-100 text-amber-800' },
+    open: { label: 'Aberto', badge: 'bg-emerald-500/15 text-emerald-400' },
+    closed: { label: 'Encerrado', badge: 'bg-dark-600 text-white' },
+    cancelled: { label: 'Cancelado', badge: 'bg-red-500/150/15 text-red-400' },
+    no_bids: { label: 'Sem lances', badge: 'bg-amber-500/15 text-amber-400' },
   }
   const sc = statusConfig[auction.status] || statusConfig.open
 
@@ -57,14 +57,14 @@ export function AuctionCard({ auction, myBid, isSeller, onClick }: AuctionCardPr
     <Card className="p-4 cursor-pointer hover:shadow-md transition-all" hover onClick={onClick}>
       <div className="flex items-start justify-between mb-3">
         <div className="flex items-center gap-2">
-          <div className="w-9 h-9 rounded-lg bg-purple-50 flex items-center justify-center">
+          <div className="w-9 h-9 rounded-lg bg-purple-500/15 flex items-center justify-center">
             <Gavel size={18} className="text-purple-600" />
           </div>
           <div>
             {listing?.credit_id && (
               <p className="font-mono text-xs font-bold text-brand-600">{listing.credit_id}</p>
             )}
-            <p className="text-sm font-bold text-gray-900">{formatBRL(listing?.amount || 0)}</p>
+            <p className="text-sm font-bold text-white">{formatBRL(listing?.amount || 0)}</p>
           </div>
         </div>
         <span className={`text-xs font-semibold px-2 py-0.5 rounded-full ${sc.badge}`}>
@@ -72,7 +72,7 @@ export function AuctionCard({ auction, myBid, isSeller, onClick }: AuctionCardPr
         </span>
       </div>
 
-      <div className="flex items-center gap-3 text-xs text-gray-500 mb-3">
+      <div className="flex items-center gap-3 text-xs text-slate-500 mb-3">
         {listing?.credit_type && (
           <span>{creditTypeLabels[listing.credit_type]}</span>
         )}
@@ -87,16 +87,16 @@ export function AuctionCard({ auction, myBid, isSeller, onClick }: AuctionCardPr
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3 text-xs">
           {auction.visible_time_remaining && (
-            <span className="flex items-center gap-1 text-gray-600">
+            <span className="flex items-center gap-1 text-slate-400">
               <Clock size={12} /> {timeLeft}
             </span>
           )}
           {auction.visible_bid_count && (
-            <span className="flex items-center gap-1 text-gray-600">
+            <span className="flex items-center gap-1 text-slate-400">
               <Users size={12} /> {auction.unique_bidders} participantes
             </span>
           )}
-          <span className="text-gray-500">
+          <span className="text-slate-500">
             Min: {formatDiscount(auction.min_discount)}
           </span>
         </div>
@@ -142,11 +142,11 @@ export function BidForm({ auction, listingAmount, currentBid, onPlaceBid, loadin
 
   if (auction.status !== 'open') {
     return (
-      <Card className="p-4 text-center bg-gray-50">
-        <Lock size={20} className="mx-auto text-gray-400 mb-2" />
-        <p className="text-sm text-gray-500">Leilao encerrado</p>
+      <Card className="p-4 text-center bg-dark-600/50">
+        <Lock size={20} className="mx-auto text-slate-500 mb-2" />
+        <p className="text-sm text-slate-500">Leilão encerrado</p>
         {auction.final_discount && (
-          <p className="text-xs text-gray-400 mt-1">Lance vencedor: {formatDiscount(auction.final_discount)}</p>
+          <p className="text-xs text-slate-500 mt-1">Lance vencedor: {formatDiscount(auction.final_discount)}</p>
         )}
       </Card>
     )
@@ -156,14 +156,14 @@ export function BidForm({ auction, listingAmount, currentBid, onPlaceBid, loadin
     <Card className="p-5 border-purple-200 bg-gradient-to-br from-white to-purple-50/30">
       <div className="flex items-center gap-2 mb-4">
         <Gavel size={18} className="text-purple-600" />
-        <h3 className="text-sm font-bold text-gray-900">
+        <h3 className="text-sm font-bold text-white">
           {currentBid ? 'Atualizar Lance' : 'Fazer Lance'}
         </h3>
       </div>
 
       {currentBid && (
-        <div className="mb-3 p-2.5 rounded-lg bg-blue-50 border border-blue-200 text-xs">
-          <p className="text-blue-700">
+        <div className="mb-3 p-2.5 rounded-lg bg-blue-500/15 border border-blue-500/25 text-xs">
+          <p className="text-blue-400">
             Seu lance atual: <strong>{formatDiscount(currentBid.bid_discount)}</strong>
             {' '}(valor liquido: {formatBRL(listingAmount * (1 - currentBid.bid_discount / 100))})
           </p>
@@ -172,7 +172,7 @@ export function BidForm({ auction, listingAmount, currentBid, onPlaceBid, loadin
 
       <div className="space-y-3">
         <div>
-          <label className="block text-xs font-medium text-gray-600 mb-1">
+          <label className="block text-xs font-medium text-slate-400 mb-1">
             Seu desconto oferecido (%)
           </label>
           <input
@@ -182,30 +182,30 @@ export function BidForm({ auction, listingAmount, currentBid, onPlaceBid, loadin
             min={auction.min_discount}
             max={50}
             step={0.5}
-            className="w-full rounded-xl border border-gray-200 px-4 py-2.5 text-lg font-bold text-center"
+            className="w-full rounded-xl border border-dark-500/50 px-4 py-2.5 text-lg font-bold text-center"
           />
-          <p className="text-xs text-gray-400 mt-1">
+          <p className="text-xs text-slate-500 mt-1">
             Minimo: {formatDiscount(auction.min_discount)} · Menor desconto = melhor para o vendedor
           </p>
         </div>
 
-        <div className="p-3 rounded-lg bg-gray-50">
+        <div className="p-3 rounded-lg bg-dark-600/50">
           <div className="flex justify-between text-xs">
-            <span className="text-gray-500">Valor do credito</span>
+            <span className="text-slate-500">Valor do crédito</span>
             <span className="font-medium">{formatBRL(listingAmount)}</span>
           </div>
           <div className="flex justify-between text-xs mt-1">
-            <span className="text-gray-500">Seu desconto</span>
-            <span className="font-medium text-purple-700">{isValid ? formatDiscount(discountNum) : '—'}</span>
+            <span className="text-slate-500">Seu desconto</span>
+            <span className="font-medium text-purple-400">{isValid ? formatDiscount(discountNum) : '—'}</span>
           </div>
-          <div className="flex justify-between text-sm mt-1.5 pt-1.5 border-t border-gray-200">
-            <span className="font-medium text-gray-700">Voce pagaria</span>
-            <span className="font-bold text-emerald-600">{isValid ? formatBRL(netValue) : '—'}</span>
+          <div className="flex justify-between text-sm mt-1.5 pt-1.5 border-t border-dark-500/50">
+            <span className="font-medium text-slate-300">Você pagaria</span>
+            <span className="font-bold text-emerald-400">{isValid ? formatBRL(netValue) : '—'}</span>
           </div>
         </div>
 
         {!isValid && (
-          <div className="flex items-center gap-2 p-2 rounded-lg bg-red-50 text-xs text-red-700">
+          <div className="flex items-center gap-2 p-2 rounded-lg bg-red-500/15 text-xs text-red-400">
             <AlertTriangle size={12} />
             Desconto deve ser entre {formatDiscount(auction.min_discount)} e 50%
           </div>
@@ -260,44 +260,44 @@ export function CreateAuctionForm({ listingId, onSubmit, onCancel, loading }: Cr
     <Card className="p-5 border-purple-200">
       <div className="flex items-center gap-2 mb-4">
         <Gavel size={18} className="text-purple-600" />
-        <h3 className="text-sm font-bold text-gray-900">Criar Leilao Silencioso</h3>
+        <h3 className="text-sm font-bold text-white">Criar Leilão Silencioso</h3>
       </div>
-      <p className="text-xs text-gray-500 mb-4">
+      <p className="text-xs text-slate-500 mb-4">
         Os compradores fazem lances sem ver os lances dos outros. O menor desconto vence.
       </p>
 
       <form onSubmit={handleSubmit} className="space-y-3">
         <div className="grid grid-cols-2 gap-3">
           <div>
-            <label className="block text-xs font-medium text-gray-600 mb-1">Desconto Minimo (%)</label>
+            <label className="block text-xs font-medium text-slate-400 mb-1">Desconto Minimo (%)</label>
             <input
               type="number"
               value={form.min_discount}
               onChange={e => setForm({ ...form, min_discount: e.target.value })}
               min={1} max={40} step={0.5}
-              className="w-full rounded-xl border border-gray-200 px-3 py-2 text-sm"
+              className="w-full rounded-xl border border-dark-500/50 px-3 py-2 text-sm"
             />
           </div>
           <div>
-            <label className="block text-xs font-medium text-gray-600 mb-1">Desconto Reserva (%)</label>
+            <label className="block text-xs font-medium text-slate-400 mb-1">Desconto Reserva (%)</label>
             <input
               type="number"
               value={form.reserve_discount}
               onChange={e => setForm({ ...form, reserve_discount: e.target.value })}
               min={0} max={50} step={0.5}
               placeholder="Opcional (preco minimo)"
-              className="w-full rounded-xl border border-gray-200 px-3 py-2 text-sm"
+              className="w-full rounded-xl border border-dark-500/50 px-3 py-2 text-sm"
             />
-            <p className="text-[10px] text-gray-400 mt-0.5">Nao vende se desconto for maior que isso</p>
+            <p className="text-[10px] text-slate-500 mt-0.5">Não vende se desconto for maior que isso</p>
           </div>
         </div>
 
         <div>
-          <label className="block text-xs font-medium text-gray-600 mb-1">Duracao</label>
+          <label className="block text-xs font-medium text-slate-400 mb-1">Duracao</label>
           <select
             value={form.duration_hours}
             onChange={e => setForm({ ...form, duration_hours: e.target.value })}
-            className="w-full rounded-xl border border-gray-200 px-3 py-2 text-sm"
+            className="w-full rounded-xl border border-dark-500/50 px-3 py-2 text-sm"
           >
             <option value="6">6 horas</option>
             <option value="12">12 horas</option>
@@ -331,7 +331,7 @@ export function CreateAuctionForm({ listingId, onSubmit, onCancel, loading }: Cr
 
         <div className="flex gap-2 pt-1">
           <Button type="submit" disabled={loading} className="flex-1">
-            {loading ? 'Criando...' : 'Criar Leilao'}
+            {loading ? 'Criando...' : 'Criar Leilão'}
           </Button>
           <Button type="button" variant="secondary" onClick={onCancel}>
             Cancelar

@@ -33,7 +33,7 @@ export async function updateSession(request: NextRequest) {
     request.nextUrl.pathname.startsWith('/marketplace') ||
     request.nextUrl.pathname.startsWith('/demandas') ||
     request.nextUrl.pathname.startsWith('/matching') ||
-    request.nextUrl.pathname.startsWith('/transacoes') ||
+    request.nextUrl.pathname.startsWith('/transações') ||
     request.nextUrl.pathname.startsWith('/empresas') ||
     request.nextUrl.pathname.startsWith('/admin')
 

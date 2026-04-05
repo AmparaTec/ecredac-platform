@@ -141,7 +141,7 @@ export async function POST(request: NextRequest) {
       action: 'create',
       entity_type: 'credit_listing',
       entity_id: created.id,
-      description: `Nova oferta de credito: R$ ${parsed.data.amount} — Score: ${scoreResult?.[0]?.grade || 'calculando'}`,
+      description: `Nova oferta de crédito: R$ ${parsed.data.amount} — Score: ${scoreResult?.[0]?.grade || 'calculando'}`,
     })
 
     return NextResponse.json({

@@ -32,25 +32,25 @@ export default async function ClientesPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-bold text-gray-900">Meus Clientes</h1>
-        <p className="text-gray-500 mt-1">Empresas vinculadas ao seu codigo de assessor</p>
+        <h1 className="text-2xl font-bold text-white">Meus Clientes</h1>
+        <p className="text-slate-500 mt-1">Empresas vinculadas ao seu código de assessor</p>
       </div>
 
       {/* Stats */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <Card className="p-5">
-          <p className="text-sm text-gray-500">Total de Clientes</p>
-          <p className="text-2xl font-bold mt-1">{clients.length}</p>
+          <p className="text-sm text-slate-500">Total de Clientes</p>
+          <p className="text-2xl font-bold mt-1 text-white">{clients.length}</p>
         </Card>
         <Card className="p-5">
-          <p className="text-sm text-gray-500">Ativos</p>
-          <p className="text-2xl font-bold mt-1 text-emerald-600">
+          <p className="text-sm text-slate-500">Ativos</p>
+          <p className="text-2xl font-bold mt-1 text-emerald-400">
             {clients.filter(c => c.active).length}
           </p>
         </Card>
         <Card className="p-5">
-          <p className="text-sm text-gray-500">SEFAZ Regular</p>
-          <p className="text-2xl font-bold mt-1 text-brand-600">
+          <p className="text-sm text-slate-500">SEFAZ Regular</p>
+          <p className="text-2xl font-bold mt-1 text-brand-400">
             {clients.filter(c => c.company?.sefaz_status === 'regular').length}
           </p>
         </Card>
@@ -63,19 +63,19 @@ export default async function ClientesPage() {
             {clients.map((membership: any) => {
               const comp = membership.company
               return (
-                <div key={membership.id} className="flex items-center justify-between p-4 rounded-xl bg-gray-50 hover:bg-gray-100 transition-all">
+                <div key={membership.id} className="flex items-center justify-between p-4 rounded-xl bg-dark-600/50 hover:bg-dark-600 transition-all">
                   <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 rounded-xl bg-brand-100 text-brand-700 flex items-center justify-center font-bold text-lg">
+                    <div className="w-12 h-12 rounded-xl bg-brand-500/10 text-brand-400 flex items-center justify-center font-bold text-lg">
                       {(comp?.nome_fantasia || comp?.razao_social || '?').charAt(0)}
                     </div>
                     <div>
-                      <p className="font-semibold text-gray-900">
+                      <p className="font-semibold text-white">
                         {comp?.nome_fantasia || comp?.razao_social || 'Empresa'}
                       </p>
-                      <p className="text-sm text-gray-500">
+                      <p className="text-sm text-slate-500">
                         {comp?.cnpj ? formatCNPJ(comp.cnpj) : '—'}
                       </p>
-                      <p className="text-xs text-gray-400 mt-0.5">
+                      <p className="text-xs text-slate-500 mt-0.5">
                         Cliente desde {formatDate(membership.created_at)}
                       </p>
                     </div>
@@ -85,8 +85,8 @@ export default async function ClientesPage() {
                       <Badge variant={comp?.sefaz_status === 'regular' ? 'success' : 'warning'}>
                         {comp?.sefaz_status === 'regular' ? 'Regular' : 'Pendente'}
                       </Badge>
-                      <p className="text-xs text-gray-500 mt-1">
-                        {comp?.type === 'seller' ? 'Cedente' : comp?.type === 'buyer' ? 'Cessionario' : 'Ambos'}
+                      <p className="text-xs text-slate-500 mt-1">
+                        {comp?.type === 'seller' ? 'Cedente' : comp?.type === 'buyer' ? 'Cessionário' : 'Ambos'}
                       </p>
                     </div>
                   </div>
@@ -96,10 +96,10 @@ export default async function ClientesPage() {
           </div>
         ) : (
           <div className="text-center py-12">
-            <Users size={40} className="mx-auto text-gray-300 mb-3" />
-            <p className="text-gray-500 font-medium">Nenhum cliente na carteira ainda</p>
-            <p className="text-sm text-gray-400 mt-1">
-              Compartilhe seu codigo de indicacao para empresas se cadastrarem como seus clientes
+            <Users size={40} className="mx-auto text-slate-600 mb-3" />
+            <p className="text-slate-400 font-medium">Nenhum cliente na carteira ainda</p>
+            <p className="text-sm text-slate-500 mt-1">
+              Compartilhe seu código de indicação para empresas se cadastrarem como seus clientes
             </p>
           </div>
         )}

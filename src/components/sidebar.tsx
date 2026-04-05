@@ -23,7 +23,7 @@ const companyNav: NavItem[] = [
   { href: '/marketplace', label: 'Marketplace', icon: DollarSign },
   { href: '/demandas', label: 'Demandas', icon: TrendingUp },
   { href: '/matching', label: 'Matching', icon: GitMerge },
-  { href: '/transacoes', label: 'Transacoes', icon: ArrowLeftRight },
+  { href: '/transações', label: 'Transações', icon: ArrowLeftRight },
   { href: '/empresas', label: 'Empresas', icon: Building2 },
   { href: '/admin', label: 'Admin', icon: Settings },
 ]
@@ -34,37 +34,33 @@ const representanteNav: NavItem[] = [
   { href: '/marketplace', label: 'Marketplace', icon: DollarSign },
   { href: '/demandas', label: 'Demandas', icon: TrendingUp },
   { href: '/matching', label: 'Matching', icon: GitMerge },
-  { href: '/transacoes', label: 'Transacoes', icon: ArrowLeftRight },
+  { href: '/transações', label: 'Transações', icon: ArrowLeftRight },
 ]
 
 const procuradorNav: NavItem[] = [
   { href: '/dashboard', label: 'Painel', icon: LayoutDashboard },
+  { href: '/marketplace', label: 'Créditos', icon: DollarSign },
+  { href: '/demandas', label: 'Demandas', icon: TrendingUp },
+  { href: '/pipeline', label: 'Pipeline', icon: GitMerge },
   { href: '/assessor/clientes', label: 'Meus Clientes', icon: Users },
-  { href: '/assessor/comissoes', label: 'Comissoes', icon: Wallet },
+  { href: '/assessor/comissões', label: 'Comissões', icon: Wallet },
   { href: '/assessor/convites', label: 'Convites', icon: Send },
   { href: '/assessor/ranking', label: 'Ranking & Tier', icon: Award },
-  { href: '/assessor/relatorios', label: 'Relatorios', icon: BarChart3 },
 ]
 
 function getNavItems(role: UserRole): NavItem[] {
   switch (role) {
-    case 'procurador':
-      return procuradorNav
-    case 'representante':
-      return representanteNav
-    default:
-      return companyNav
+    case 'procurador': return procuradorNav
+    case 'representante': return representanteNav
+    default: return companyNav
   }
 }
 
 function getRoleBadge(role: UserRole) {
   switch (role) {
-    case 'procurador':
-      return { label: 'Assessor', color: 'bg-purple-100 text-purple-700' }
-    case 'representante':
-      return { label: 'Representante', color: 'bg-blue-100 text-blue-700' }
-    default:
-      return null
+    case 'procurador': return { label: 'Assessor', color: 'bg-accent-600/20 text-accent-400 border border-accent-500/30' }
+    case 'representante': return { label: 'Representante', color: 'bg-brand-600/20 text-brand-400 border border-brand-500/30' }
+    default: return null
   }
 }
 
@@ -81,19 +77,21 @@ export function Sidebar({ companyName, companyTier, userRole = 'titular', displa
   const roleBadge = getRoleBadge(userRole)
 
   return (
-    <aside className="fixed top-0 left-0 z-40 h-screen w-56 bg-white border-r border-gray-100 flex flex-col">
+    <aside className="fixed top-0 left-0 z-40 h-screen w-60 bg-dark-800 border-r border-dark-500/40 flex flex-col">
       {/* Logo */}
-      <div className="h-14 flex items-center gap-2 px-4 border-b border-gray-100">
-        <div className="w-8 h-8 rounded-lg bg-brand-600 flex items-center justify-center text-white font-black text-sm">
+      <div className="h-16 flex items-center gap-3 px-5 border-b border-dark-500/40">
+        <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-brand-500 to-accent-600 flex items-center justify-center text-white font-black text-sm shadow-lg shadow-brand-600/30">
           E
         </div>
-        <span className="text-lg font-bold tracking-tight">E-CREDac</span>
+        <div>
+          <span className="text-lg font-bold tracking-tight text-white">E-CREDac</span>
+        </div>
       </div>
 
       {/* Role Badge */}
       {roleBadge && (
-        <div className="px-4 pt-3 pb-1">
-          <span className={cn('inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] font-bold uppercase tracking-wider', roleBadge.color)}>
+        <div className="px-5 pt-4 pb-1">
+          <span className={cn('inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[10px] font-bold uppercase tracking-wider', roleBadge.color)}>
             <Briefcase size={10} />
             {roleBadge.label}
           </span>
@@ -101,7 +99,7 @@ export function Sidebar({ companyName, companyTier, userRole = 'titular', displa
       )}
 
       {/* Navigation */}
-      <nav className="flex-1 p-2 space-y-0.5 overflow-y-auto">
+      <nav className="flex-1 p-3 space-y-1 overflow-y-auto scrollbar-thin">
         {navItems.map((item) => {
           const isActive = pathname === item.href || pathname.startsWith(item.href + '/')
           const Icon = item.icon
@@ -110,38 +108,41 @@ export function Sidebar({ companyName, companyTier, userRole = 'titular', displa
               key={item.href}
               href={item.href}
               className={cn(
-                'flex items-center gap-2.5 px-3 py-2 rounded-xl text-sm font-medium transition-all',
+                'flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200',
                 isActive
-                  ? 'bg-brand-50 text-brand-700'
-                  : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
+                  ? 'bg-brand-600/15 text-brand-400 border border-brand-500/20 shadow-sm shadow-brand-500/10'
+                  : 'text-slate-400 hover:bg-dark-600 hover:text-white border border-transparent'
               )}
             >
-              <Icon size={18} />
+              <Icon size={18} className={isActive ? 'text-brand-400' : ''} />
               {item.label}
+              {isActive && (
+                <div className="ml-auto w-1.5 h-1.5 rounded-full bg-brand-400" />
+              )}
             </Link>
           )
         })}
       </nav>
 
       {/* User */}
-      <div className="p-3 border-t border-gray-100">
-        <div className="flex items-center gap-2 p-2">
+      <div className="p-4 border-t border-dark-500/40">
+        <div className="flex items-center gap-3">
           <div className={cn(
-            'w-8 h-8 rounded-lg flex items-center justify-center font-bold text-xs',
+            'w-9 h-9 rounded-xl flex items-center justify-center font-bold text-xs',
             userRole === 'procurador'
-              ? 'bg-purple-100 text-purple-700'
-              : 'bg-brand-100 text-brand-700'
+              ? 'bg-accent-600/20 text-accent-400'
+              : 'bg-brand-600/20 text-brand-400'
           )}>
             {(displayName || companyName).charAt(0)}
           </div>
           <div className="flex-1 min-w-0">
-            <p className="text-sm font-medium truncate">{displayName || companyName}</p>
-            <p className="text-xs text-gray-400">
+            <p className="text-sm font-medium text-white truncate">{displayName || companyName}</p>
+            <p className="text-xs text-slate-500">
               {userRole === 'procurador' ? 'Assessor' : companyTier === 'premium' ? 'Premium' : 'Free'}
             </p>
           </div>
           <form action="/api/auth/logout" method="POST">
-            <button type="submit" className="p-1 rounded hover:bg-gray-100 text-gray-400">
+            <button type="submit" className="p-2 rounded-lg hover:bg-dark-600 text-slate-500 hover:text-slate-300 transition-colors">
               <LogOut size={14} />
             </button>
           </form>

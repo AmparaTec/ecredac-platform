@@ -29,11 +29,11 @@ interface ExecutionChecklistProps {
 }
 
 const STATUS_ICONS: Record<ExecutionTaskStatus, React.ReactNode> = {
-  pending: <Circle size={18} className="text-gray-400" />,
+  pending: <Circle size={18} className="text-slate-500" />,
   in_progress: <PlayCircle size={18} className="text-blue-600 animate-pulse" />,
-  completed: <CheckCircle2 size={18} className="text-emerald-600" />,
+  completed: <CheckCircle2 size={18} className="text-emerald-400" />,
   blocked: <Ban size={18} className="text-red-600" />,
-  skipped: <SkipForward size={18} className="text-gray-400" />,
+  skipped: <SkipForward size={18} className="text-slate-500" />,
 }
 
 export function ExecutionChecklist({
@@ -58,16 +58,16 @@ export function ExecutionChecklist({
   if (!plan) {
     return (
       <Card className="p-6 text-center">
-        <div className="mx-auto w-12 h-12 rounded-full bg-brand-50 flex items-center justify-center mb-3">
+        <div className="mx-auto w-12 h-12 rounded-full bg-brand-500/15 flex items-center justify-center mb-3">
           <FileText size={24} className="text-brand-600" />
         </div>
-        <h3 className="text-sm font-bold text-gray-900 mb-1">Plano de Execucao</h3>
-        <p className="text-xs text-gray-500 mb-4">
-          Nenhum plano de execucao foi criado para esta operacao.
+        <h3 className="text-sm font-bold text-white mb-1">Plano de Execução</h3>
+        <p className="text-xs text-slate-500 mb-4">
+          Nenhum plano de execução foi criado para esta operação.
         </p>
         {onCreatePlan && (
           <Button variant="primary" onClick={onCreatePlan} disabled={loading}>
-            {loading ? 'Criando...' : 'Criar Plano de Execucao'}
+            {loading ? 'Criando...' : 'Criar Plano de Execução'}
           </Button>
         )}
       </Card>
@@ -108,7 +108,7 @@ export function ExecutionChecklist({
       {/* Plan summary bar */}
       <div className="flex items-center justify-between px-1">
         <div className="flex items-center gap-3">
-          <span className="text-xs font-bold text-gray-700 uppercase tracking-wider">Execucao</span>
+          <span className="text-xs font-bold text-slate-300 uppercase tracking-wider">Execução</span>
           <Badge variant={plan.overall_sla_status === 'on_track' ? 'success' : plan.overall_sla_status === 'breached' ? 'danger' : 'warning'}>
             {plan.completed_tasks}/{plan.total_tasks} tarefas
           </Badge>
@@ -130,7 +130,7 @@ export function ExecutionChecklist({
       </div>
 
       {/* Overall progress bar */}
-      <div className="w-full bg-gray-100 rounded-full h-2">
+      <div className="w-full bg-dark-600 rounded-full h-2">
         <div
           className="h-2 rounded-full bg-gradient-to-r from-brand-500 to-accent-500 transition-all duration-500"
           style={{ width: `${plan.overall_progress}%` }}
@@ -153,25 +153,25 @@ export function ExecutionChecklist({
           )}>
             {/* Phase header */}
             <button
-              className="w-full flex items-center justify-between p-4 hover:bg-gray-50 transition-colors"
+              className="w-full flex items-center justify-between p-4 hover:bg-dark-600/50 transition-colors"
               onClick={() => setExpandedPhase(isExpanded ? null : phase)}
             >
               <div className="flex items-center gap-3">
                 <div className={cn(
                   'w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold',
-                  isDone ? 'bg-emerald-100 text-emerald-700' :
+                  isDone ? 'bg-emerald-500/15 text-emerald-400' :
                   isCurrent ? 'bg-brand-100 text-brand-700' :
-                  hasBlocked ? 'bg-red-100 text-red-700' :
-                  'bg-gray-100 text-gray-500'
+                  hasBlocked ? 'bg-red-500/15 text-red-400' :
+                  'bg-dark-600 text-slate-500'
                 )}>
                   {isDone ? '✓' : phase}
                 </div>
                 <div className="text-left">
-                  <p className="text-sm font-bold text-gray-900">
+                  <p className="text-sm font-bold text-white">
                     {executionPhaseNames[phase] || `Fase ${phase}`}
                   </p>
-                  <p className="text-xs text-gray-500">
-                    {stats.completed}/{stats.total} concluida{stats.total > 1 ? 's' : ''}
+                  <p className="text-xs text-slate-500">
+                    {stats.completed}/{stats.total} concluída{stats.total > 1 ? 's' : ''}
                     {stats.inProgress > 0 && ` · ${stats.inProgress} em andamento`}
                     {stats.blocked > 0 && ` · ${stats.blocked} bloqueada${stats.blocked > 1 ? 's' : ''}`}
                   </p>
@@ -179,23 +179,23 @@ export function ExecutionChecklist({
               </div>
               <div className="flex items-center gap-3">
                 {/* Mini progress */}
-                <div className="w-20 bg-gray-100 rounded-full h-1.5 hidden sm:block">
+                <div className="w-20 bg-dark-600 rounded-full h-1.5 hidden sm:block">
                   <div
                     className={cn(
                       'h-1.5 rounded-full transition-all',
-                      isDone ? 'bg-emerald-500' : hasBlocked ? 'bg-red-400' : 'bg-brand-500'
+                      isDone ? 'bg-emerald-500' : hasBlocked ? 'bg-red-400' : 'bg-brand-500/150'
                     )}
                     style={{ width: `${stats.pct}%` }}
                   />
                 </div>
-                <span className="text-xs font-bold text-gray-500">{stats.pct}%</span>
-                {isExpanded ? <ChevronDown size={16} className="text-gray-400" /> : <ChevronRight size={16} className="text-gray-400" />}
+                <span className="text-xs font-bold text-slate-500">{stats.pct}%</span>
+                {isExpanded ? <ChevronDown size={16} className="text-slate-500" /> : <ChevronRight size={16} className="text-slate-500" />}
               </div>
             </button>
 
             {/* Task list */}
             {isExpanded && (
-              <div className="border-t border-gray-100">
+              <div className="border-t border-dark-500/40">
                 {(tasksByPhase[phase] || []).map((task, idx) => {
                   const isTaskExpanded = expandedTask === task.id
                   const isLoading = actionLoading === task.id
@@ -205,13 +205,13 @@ export function ExecutionChecklist({
 
                   return (
                     <div key={task.id} className={cn(
-                      'border-b border-gray-50 last:border-b-0',
+                      'border-b border-dark-600/50 last:border-b-0',
                       task.status === 'blocked' && 'bg-red-50/50',
-                      task.status === 'in_progress' && 'bg-blue-50/30'
+                      task.status === 'in_progress' && 'bg-blue-500/15/30'
                     )}>
                       {/* Task row */}
                       <div
-                        className="flex items-center gap-3 px-4 py-3 cursor-pointer hover:bg-gray-50/50 transition-colors"
+                        className="flex items-center gap-3 px-4 py-3 cursor-pointer hover:bg-dark-600/50/50 transition-colors"
                         onClick={() => setExpandedTask(isTaskExpanded ? null : task.id)}
                       >
                         {/* Status icon */}
@@ -224,8 +224,8 @@ export function ExecutionChecklist({
                           <div className="flex items-center gap-2">
                             <p className={cn(
                               'text-sm font-medium truncate',
-                              task.status === 'completed' && 'line-through text-gray-400',
-                              task.status === 'blocked' && 'text-red-700'
+                              task.status === 'completed' && 'line-through text-slate-500',
+                              task.status === 'blocked' && 'text-red-400'
                             )}>
                               {task.task_name}
                             </p>
@@ -234,7 +234,7 @@ export function ExecutionChecklist({
                             )}
                           </div>
                           {task.task_description && (
-                            <p className="text-xs text-gray-400 truncate">{task.task_description}</p>
+                            <p className="text-xs text-slate-500 truncate">{task.task_description}</p>
                           )}
                         </div>
 
@@ -247,7 +247,7 @@ export function ExecutionChecklist({
                         {task.sla_deadline && task.status !== 'completed' && task.status !== 'skipped' && (
                           <span className={cn(
                             'text-[10px] font-mono flex-shrink-0',
-                            slaUrgent ? 'text-red-600 font-bold' : 'text-gray-400'
+                            slaUrgent ? 'text-red-600 font-bold' : 'text-slate-500'
                           )}>
                             <Clock size={10} className="inline mr-0.5" />
                             {formatTimeRemaining(task.sla_deadline)}
@@ -256,14 +256,14 @@ export function ExecutionChecklist({
 
                         {/* Comments count */}
                         {task.comments && task.comments.length > 0 && (
-                          <span className="text-[10px] text-gray-400 flex-shrink-0">
+                          <span className="text-[10px] text-slate-500 flex-shrink-0">
                             <MessageSquare size={10} className="inline mr-0.5" />
                             {task.comments.length}
                           </span>
                         )}
 
                         <ChevronRight size={14} className={cn(
-                          'text-gray-300 transition-transform flex-shrink-0',
+                          'text-slate-600 transition-transform flex-shrink-0',
                           isTaskExpanded && 'rotate-90'
                         )} />
                       </div>
@@ -277,17 +277,17 @@ export function ExecutionChecklist({
                               {statusCfg?.label}
                             </span>
                             {task.sla_deadline && (
-                              <span className="text-gray-500">
+                              <span className="text-slate-500">
                                 Prazo: {formatDate(task.sla_deadline)}
                               </span>
                             )}
                             {task.completed_at && (
-                              <span className="text-emerald-600">
+                              <span className="text-emerald-400">
                                 Concluido: {formatDate(task.completed_at)}
                               </span>
                             )}
                             {task.completed_by && (
-                              <span className="text-gray-500">
+                              <span className="text-slate-500">
                                 <User size={10} className="inline mr-0.5" />
                                 {task.completed_by}
                               </span>
@@ -296,7 +296,7 @@ export function ExecutionChecklist({
 
                           {/* Blocked reason */}
                           {task.status === 'blocked' && task.blocked_reason && (
-                            <div className="p-2 rounded-lg bg-red-50 border border-red-200 text-xs text-red-700">
+                            <div className="p-2 rounded-lg bg-red-50 border border-red-500/25 text-xs text-red-400">
                               <AlertTriangle size={12} className="inline mr-1" />
                               {task.blocked_reason}
                             </div>
@@ -304,7 +304,7 @@ export function ExecutionChecklist({
 
                           {/* Completion note */}
                           {task.completion_note && (
-                            <div className="p-2 rounded-lg bg-emerald-50 border border-emerald-200 text-xs text-emerald-700">
+                            <div className="p-2 rounded-lg bg-emerald-50 border border-emerald-500/25 text-xs text-emerald-400">
                               {task.completion_note}
                             </div>
                           )}
@@ -312,14 +312,14 @@ export function ExecutionChecklist({
                           {/* Comments */}
                           {task.comments && task.comments.length > 0 && (
                             <div className="space-y-2">
-                              <p className="text-xs font-bold text-gray-600">Comentarios</p>
+                              <p className="text-xs font-bold text-slate-400">Comentarios</p>
                               {task.comments.map((c: ExecutionComment) => (
-                                <div key={c.id} className="p-2 rounded-lg bg-gray-50 text-xs">
+                                <div key={c.id} className="p-2 rounded-lg bg-dark-600/50 text-xs">
                                   <div className="flex items-center justify-between mb-1">
-                                    <span className="font-semibold text-gray-700">{c.author_name || 'Anonimo'}</span>
-                                    <span className="text-gray-400">{formatDate(c.created_at)}</span>
+                                    <span className="font-semibold text-slate-300">{c.author_name || 'Anonimo'}</span>
+                                    <span className="text-slate-500">{formatDate(c.created_at)}</span>
                                   </div>
-                                  <p className="text-gray-600">{c.content}</p>
+                                  <p className="text-slate-400">{c.content}</p>
                                 </div>
                               ))}
                             </div>
@@ -348,7 +348,7 @@ export function ExecutionChecklist({
                                   <input
                                     type="text"
                                     placeholder="Nota de conclusao (opcional)"
-                                    className="w-full px-3 py-1.5 text-xs border border-gray-200 rounded-lg focus:ring-2 focus:ring-brand-200 focus:border-brand-400 outline-none"
+                                    className="w-full px-3 py-1.5 text-xs border border-dark-500/50 rounded-lg focus:ring-2 focus:ring-brand-200 focus:border-brand-400 outline-none"
                                     value={completionNote}
                                     onChange={e => setCompletionNote(e.target.value)}
                                     onClick={e => e.stopPropagation()}
@@ -377,7 +377,7 @@ export function ExecutionChecklist({
                                 <input
                                   type="text"
                                   placeholder="Motivo do bloqueio"
-                                  className="px-2 py-1.5 text-xs border border-gray-200 rounded-lg focus:ring-2 focus:ring-red-200 focus:border-red-400 outline-none w-36"
+                                  className="px-2 py-1.5 text-xs border border-dark-500/50 rounded-lg focus:ring-2 focus:ring-red-200 focus:border-red-400 outline-none w-36"
                                   value={blockReason}
                                   onChange={e => setBlockReason(e.target.value)}
                                   onClick={e => e.stopPropagation()}
@@ -405,7 +405,7 @@ export function ExecutionChecklist({
                             <input
                               type="text"
                               placeholder="Adicionar comentario..."
-                              className="flex-1 px-3 py-1.5 text-xs border border-gray-200 rounded-lg focus:ring-2 focus:ring-brand-200 focus:border-brand-400 outline-none"
+                              className="flex-1 px-3 py-1.5 text-xs border border-dark-500/50 rounded-lg focus:ring-2 focus:ring-brand-200 focus:border-brand-400 outline-none"
                               value={expandedTask === task.id ? commentText : ''}
                               onChange={e => setCommentText(e.target.value)}
                               onClick={e => e.stopPropagation()}

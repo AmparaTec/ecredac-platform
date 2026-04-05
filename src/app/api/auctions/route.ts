@@ -7,7 +7,7 @@ import { createServerSupabase } from '@/lib/supabase/server'
 export async function GET(request: NextRequest) {
   const supabase = createServerSupabase()
   const { data: { user } } = await supabase.auth.getUser()
-  if (!user) return NextResponse.json({ error: 'Nao autenticado' }, { status: 401 })
+  if (!user) return NextResponse.json({ error: 'Não autenticado' }, { status: 401 })
 
   const { searchParams } = new URL(request.url)
   const listingId = searchParams.get('listing_id')
@@ -70,7 +70,7 @@ export async function GET(request: NextRequest) {
   if (my === 'true') {
     const { data: company } = await supabase
       .from('companies').select('id').eq('auth_user_id', user.id).single()
-    if (!company) return NextResponse.json({ error: 'Empresa nao encontrada' }, { status: 404 })
+    if (!company) return NextResponse.json({ error: 'Empresa não encontrada' }, { status: 404 })
 
     const { data, error } = await supabase
       .from('silent_auctions')
@@ -99,11 +99,11 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   const supabase = createServerSupabase()
   const { data: { user } } = await supabase.auth.getUser()
-  if (!user) return NextResponse.json({ error: 'Nao autenticado' }, { status: 401 })
+  if (!user) return NextResponse.json({ error: 'Não autenticado' }, { status: 401 })
 
   const { data: company } = await supabase
     .from('companies').select('id').eq('auth_user_id', user.id).single()
-  if (!company) return NextResponse.json({ error: 'Empresa nao encontrada' }, { status: 404 })
+  if (!company) return NextResponse.json({ error: 'Empresa não encontrada' }, { status: 404 })
 
   const body = await request.json()
 
@@ -118,7 +118,7 @@ export async function POST(request: NextRequest) {
       .eq('id', body.listing_id)
       .eq('company_id', company.id)
       .single()
-    if (!listing) return NextResponse.json({ error: 'Listing nao encontrado ou nao pertence a voce' }, { status: 403 })
+    if (!listing) return NextResponse.json({ error: 'Listing não encontrado ou não pertence a você' }, { status: 403 })
 
     const durationHours = body.duration_hours || 24
     const endsAt = new Date(Date.now() + durationHours * 60 * 60 * 1000).toISOString()
@@ -159,17 +159,17 @@ export async function POST(request: NextRequest) {
       .eq('id', body.auction_id)
       .eq('status', 'open')
       .single()
-    if (!auction) return NextResponse.json({ error: 'Leilao nao encontrado ou fechado' }, { status: 404 })
+    if (!auction) return NextResponse.json({ error: 'Leilão não encontrado ou fechado' }, { status: 404 })
 
-    // Nao pode dar lance no proprio leilao
+    // Não pode dar lance no próprio leilão
     if (auction.seller_company_id === company.id) {
-      return NextResponse.json({ error: 'Voce nao pode dar lance no seu proprio leilao' }, { status: 400 })
+      return NextResponse.json({ error: 'Você não pode dar lance no seu próprio leilão' }, { status: 400 })
     }
 
     // Verificar desconto minimo
     if (body.bid_discount < auction.min_discount) {
       return NextResponse.json({
-        error: `Desconto minimo para este leilao: ${auction.min_discount}%`
+        error: `Desconto minimo para este leilão: ${auction.min_discount}%`
       }, { status: 400 })
     }
 
@@ -230,7 +230,7 @@ export async function POST(request: NextRequest) {
       company_id: auction.seller_company_id,
       type: 'new_bid',
       title: 'Novo lance recebido!',
-      body: `Lance de ${body.bid_discount}% recebido no seu leilao.`,
+      body: `Lance de ${body.bid_discount}% recebido no seu leilão.`,
       reference_type: 'silent_auction',
       reference_id: body.auction_id,
     })

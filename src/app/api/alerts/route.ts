@@ -5,11 +5,11 @@ import { createServerSupabase } from '@/lib/supabase/server'
 export async function GET(request: NextRequest) {
   const supabase = createServerSupabase()
   const { data: { user } } = await supabase.auth.getUser()
-  if (!user) return NextResponse.json({ error: 'Nao autenticado' }, { status: 401 })
+  if (!user) return NextResponse.json({ error: 'Não autenticado' }, { status: 401 })
 
   const { data: company } = await supabase
     .from('companies').select('id').eq('auth_user_id', user.id).single()
-  if (!company) return NextResponse.json({ error: 'Empresa nao encontrada' }, { status: 404 })
+  if (!company) return NextResponse.json({ error: 'Empresa não encontrada' }, { status: 404 })
 
   const { data, error } = await supabase
     .from('match_alerts')
@@ -25,11 +25,11 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   const supabase = createServerSupabase()
   const { data: { user } } = await supabase.auth.getUser()
-  if (!user) return NextResponse.json({ error: 'Nao autenticado' }, { status: 401 })
+  if (!user) return NextResponse.json({ error: 'Não autenticado' }, { status: 401 })
 
   const { data: company } = await supabase
     .from('companies').select('id').eq('auth_user_id', user.id).single()
-  if (!company) return NextResponse.json({ error: 'Empresa nao encontrada' }, { status: 404 })
+  if (!company) return NextResponse.json({ error: 'Empresa não encontrada' }, { status: 404 })
 
   const body = await request.json()
 
@@ -60,7 +60,7 @@ export async function POST(request: NextRequest) {
 export async function PUT(request: NextRequest) {
   const supabase = createServerSupabase()
   const { data: { user } } = await supabase.auth.getUser()
-  if (!user) return NextResponse.json({ error: 'Nao autenticado' }, { status: 401 })
+  if (!user) return NextResponse.json({ error: 'Não autenticado' }, { status: 401 })
 
   const body = await request.json()
   if (!body.id) return NextResponse.json({ error: 'id obrigatorio' }, { status: 400 })
@@ -92,7 +92,7 @@ export async function PUT(request: NextRequest) {
 export async function DELETE(request: NextRequest) {
   const supabase = createServerSupabase()
   const { data: { user } } = await supabase.auth.getUser()
-  if (!user) return NextResponse.json({ error: 'Nao autenticado' }, { status: 401 })
+  if (!user) return NextResponse.json({ error: 'Não autenticado' }, { status: 401 })
 
   const { searchParams } = new URL(request.url)
   const id = searchParams.get('id')

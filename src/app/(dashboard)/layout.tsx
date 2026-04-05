@@ -1,7 +1,7 @@
 import { redirect } from 'next/navigation'
 import { createServerSupabase } from '@/lib/supabase/server'
 import { Sidebar } from '@/components/sidebar'
-import { Bell } from 'lucide-react'
+import { Bell, Search } from 'lucide-react'
 
 export default async function DashboardLayout({
   children,
@@ -33,7 +33,7 @@ export default async function DashboardLayout({
   const companyTier = company?.tier || 'free'
 
   return (
-    <div className="min-h-screen bg-gray-50 flex">
+    <div className="min-h-screen bg-dark-900 flex">
       <Sidebar
         companyName={companyName}
         companyTier={companyTier}
@@ -41,28 +41,31 @@ export default async function DashboardLayout({
         displayName={displayName}
       />
 
-      <main className="flex-1 ml-56 min-w-0">
+      <main className="flex-1 ml-60 min-w-0">
         {/* Top bar */}
-        <header className="h-14 bg-white border-b border-gray-100 flex items-center justify-between px-6 sticky top-0 z-20">
-          <input
-            placeholder={userRole === 'procurador'
-              ? 'Buscar clientes, comissoes, convites...'
-              : 'Buscar operacoes, empresas, creditos...'}
-            className="pl-4 pr-4 py-1.5 w-72 rounded-xl border border-gray-200 bg-gray-50 text-sm focus:bg-white focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 transition-all"
-          />
-          <div className="flex items-center gap-3">
-            <button className="relative p-2 rounded-xl hover:bg-gray-100 text-gray-500">
-              <Bell size={18} />
-              <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full" />
+        <header className="h-16 bg-dark-800/80 backdrop-blur-xl border-b border-dark-500/40 flex items-center justify-between px-6 sticky top-0 z-20">
+          <div className="relative">
+            <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500" />
+            <input
+              placeholder={userRole === 'procurador'
+                ? 'Buscar clientes, comissões, convites...'
+                : 'Buscar operações, empresas, créditos...'}
+              className="pl-10 pr-4 py-2 w-80 rounded-xl bg-dark-700 border border-dark-500/50 text-sm text-white placeholder-slate-500 focus:bg-dark-600 focus:border-brand-500/50 focus:ring-2 focus:ring-brand-500/20 transition-all"
+            />
+          </div>
+          <div className="flex items-center gap-4">
+            <button className="relative p-2.5 rounded-xl bg-dark-700 hover:bg-dark-600 text-slate-400 hover:text-white transition-all border border-dark-500/50">
+              <Bell size={16} />
+              <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-danger-500 rounded-full ring-2 ring-dark-800" />
             </button>
-            <div className="flex items-center gap-2 pl-3 border-l border-gray-100">
-              <div className="w-7 h-7 rounded-lg bg-brand-100 text-brand-700 flex items-center justify-center font-bold text-xs">
+            <div className="flex items-center gap-3 pl-4 border-l border-dark-500/40">
+              <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-brand-500/20 to-accent-600/20 text-brand-400 flex items-center justify-center font-bold text-xs border border-brand-500/20">
                 {displayName.charAt(0)}
               </div>
-              <div className="text-right">
-                <span className="text-sm font-medium block">{displayName}</span>
+              <div>
+                <span className="text-sm font-medium text-white block">{displayName}</span>
                 {userRole === 'procurador' && (
-                  <span className="text-[10px] text-brand-600 font-semibold uppercase tracking-wide">Assessor</span>
+                  <span className="text-[10px] text-accent-400 font-semibold uppercase tracking-wide">Assessor</span>
                 )}
               </div>
             </div>

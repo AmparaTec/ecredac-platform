@@ -7,7 +7,7 @@ import { createServerSupabase } from '@/lib/supabase/server'
 export async function GET(request: NextRequest) {
   const supabase = createServerSupabase()
   const { data: { user } } = await supabase.auth.getUser()
-  if (!user) return NextResponse.json({ error: 'Nao autenticado' }, { status: 401 })
+  if (!user) return NextResponse.json({ error: 'Não autenticado' }, { status: 401 })
 
   const { searchParams } = new URL(request.url)
   const matchId = searchParams.get('match_id')
@@ -80,7 +80,7 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   const supabase = createServerSupabase()
   const { data: { user } } = await supabase.auth.getUser()
-  if (!user) return NextResponse.json({ error: 'Nao autenticado' }, { status: 401 })
+  if (!user) return NextResponse.json({ error: 'Não autenticado' }, { status: 401 })
 
   const body = await request.json()
 
@@ -142,7 +142,7 @@ export async function POST(request: NextRequest) {
       .from('execution_tasks')
       .update({
         status: 'blocked',
-        blocked_reason: body.reason || 'Motivo nao informado',
+        blocked_reason: body.reason || 'Motivo não informado',
         blocked_at: new Date().toISOString(),
         updated_at: new Date().toISOString(),
       })

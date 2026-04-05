@@ -99,7 +99,7 @@ function RegisterForm() {
         setForm(f => ({ ...f, razaoSocial: data.razao_social }))
       } else {
         setCnpjData(null)
-        setCnpjError(data.error || 'CNPJ nao encontrado ou inativo')
+        setCnpjError(data.error || 'CNPJ não encontrado ou inativo')
       }
     } catch {
       setCnpjError('Erro ao verificar CNPJ')
@@ -166,7 +166,7 @@ function RegisterForm() {
       })
 
       if (signInError) {
-        setError('Conta criada! Mas houve erro no login automatico. Tente fazer login manualmente.')
+        setError('Conta criada! Mas houve erro no login automático. Tente fazer login manualmente.')
         setLoading(false)
         return
       }
@@ -189,7 +189,7 @@ function RegisterForm() {
             <span className="text-xl font-bold text-white">E-CREDac</span>
           </div>
 
-          <h2 className="text-2xl font-bold text-white">Como voce quer usar a plataforma?</h2>
+          <h2 className="text-2xl font-bold text-white">Como você quer usar a plataforma?</h2>
           <p className="text-slate-500 mt-1 mb-6">Escolha o perfil que melhor descreve sua atuacao</p>
 
           <div className="space-y-3">
@@ -231,7 +231,7 @@ function RegisterForm() {
           {role === 'procurador' && (
             <div className="mt-4 p-3 rounded-xl bg-amber-500/15 border border-amber-500/25 text-amber-300 text-sm">
               <p className="font-semibold">Programa de Assessores E-CREDac</p>
-              <p className="mt-1">Cadastre seus clientes, intermedie operacoes de credito e ganhe comissoes sobre cada transacao. Modelo similar aos assessores de investimentos.</p>
+              <p className="mt-1">Cadastre seus clientes, intermedie operações de crédito e ganhe comissões sobre cada transação. Modelo similar aos assessores de investimentos.</p>
             </div>
           )}
 
@@ -243,7 +243,7 @@ function RegisterForm() {
           </button>
 
           <p className="text-center text-sm text-slate-500 mt-6">
-            Ja tem conta?{' '}
+            Já tem conta?{' '}
             <Link href="/login" className="text-brand-400 hover:text-brand-300 font-semibold">Fazer login</Link>
           </p>
         </div>
@@ -286,7 +286,7 @@ function RegisterForm() {
         </h2>
         <p className="text-slate-400 mt-1 mb-6">
           {role === 'procurador'
-            ? 'Cadastre seu escritorio e comece a intermediar creditos'
+            ? 'Cadastre seu escritorio e comece a intermediar créditos'
             : 'Cadastre sua empresa em menos de 2 minutos'}
         </p>
 
@@ -371,14 +371,14 @@ function RegisterForm() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-slate-300 mb-1">Tipo de operacao</label>
+                <label className="block text-sm font-medium text-slate-300 mb-1">Tipo de operação</label>
                 <select
                   value={form.tipo}
                   onChange={(e) => setForm({ ...form, tipo: e.target.value as any })}
                   className="w-full rounded-xl border border-dark-500/50 bg-dark-700 text-white px-4 py-2.5 text-sm focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20"
                 >
-                  <option value="seller">Cedente (tenho creditos para vender)</option>
-                  <option value="buyer">Cessionario (preciso de creditos)</option>
+                  <option value="seller">Cedente (tenho créditos para vender)</option>
+                  <option value="buyer">Cessionário (preciso de créditos)</option>
                   <option value="both">Ambos</option>
                 </select>
               </div>
@@ -505,7 +505,7 @@ function RegisterForm() {
           {role !== 'procurador' && (
             <div>
               <label className="block text-sm font-medium text-slate-300 mb-1">
-                Codigo do assessor <span className="text-slate-500 font-normal">(opcional)</span>
+                Código do assessor <span className="text-slate-500 font-normal">(opcional)</span>
               </label>
               <input
                 value={form.referralCode}
@@ -515,7 +515,7 @@ function RegisterForm() {
                 className="w-full rounded-xl border border-dark-500/50 bg-dark-700 text-white placeholder:text-slate-500 px-4 py-2.5 text-sm focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20"
               />
               {form.referralCode && (
-                <p className="mt-1 text-xs text-brand-400">Voce sera vinculado ao assessor que indicou este codigo</p>
+                <p className="mt-1 text-xs text-brand-400">Você sera vinculado ao assessor que indicou este código</p>
               )}
             </div>
           )}
@@ -535,7 +535,7 @@ function RegisterForm() {
         </form>
 
         <p className="text-center text-sm text-slate-500 mt-6">
-          Ja tem conta?{' '}
+          Já tem conta?{' '}
           <Link href="/login" className="text-brand-400 hover:text-brand-300 font-semibold">Fazer login</Link>
         </p>
       </div>

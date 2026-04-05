@@ -154,12 +154,12 @@ export default function MarketplacePage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Marketplace</h1>
-          <p className="text-gray-500 mt-1">Creditos de ICMS disponiveis para negociacao</p>
+          <h1 className="text-2xl font-bold text-white">Marketplace</h1>
+          <p className="text-slate-400 mt-1">Créditos de ICMS disponíveis para negociação</p>
         </div>
         <Button onClick={() => setShowNewForm(true)}>
           <Plus size={16} />
-          Publicar Credito
+          Publicar Crédito
         </Button>
       </div>
 
@@ -167,13 +167,13 @@ export default function MarketplacePage() {
       <Card className="p-4">
         <div className="flex items-center gap-4 flex-wrap">
           <div className="flex items-center gap-2">
-            <Filter size={16} className="text-gray-400" />
-            <span className="text-sm font-medium text-gray-600">Filtros:</span>
+            <Filter size={16} className="text-slate-500" />
+            <span className="text-sm font-medium text-slate-400">Filtros:</span>
           </div>
           <select
             value={filter.type}
             onChange={e => setFilter({ ...filter, type: e.target.value })}
-            className="rounded-xl border border-gray-200 px-3 py-1.5 text-sm"
+            className="rounded-xl border border-dark-500/50 bg-dark-700 text-white px-3 py-1.5 text-sm"
           >
             <option value="">Todos os tipos</option>
             <option value="acumulado">Acumulado</option>
@@ -183,7 +183,7 @@ export default function MarketplacePage() {
           <select
             value={filter.origin}
             onChange={e => setFilter({ ...filter, origin: e.target.value })}
-            className="rounded-xl border border-gray-200 px-3 py-1.5 text-sm"
+            className="rounded-xl border border-dark-500/50 bg-dark-700 text-white px-3 py-1.5 text-sm"
           >
             <option value="">Todas as origens</option>
             <option value="exportacao">Exportacao</option>
@@ -194,7 +194,7 @@ export default function MarketplacePage() {
           <select
             value={filter.status}
             onChange={e => setFilter({ ...filter, status: e.target.value })}
-            className="rounded-xl border border-gray-200 px-3 py-1.5 text-sm"
+            className="rounded-xl border border-dark-500/50 bg-dark-700 text-white px-3 py-1.5 text-sm"
           >
             <option value="active">Ativos</option>
             <option value="">Todos</option>
@@ -204,7 +204,7 @@ export default function MarketplacePage() {
           <select
             value={filter.grade}
             onChange={e => setFilter({ ...filter, grade: e.target.value })}
-            className="rounded-xl border border-gray-200 px-3 py-1.5 text-sm"
+            className="rounded-xl border border-dark-500/50 bg-dark-700 text-white px-3 py-1.5 text-sm"
           >
             <option value="">Todos os scores</option>
             <option value="A">Score A — Excelente</option>
@@ -228,7 +228,7 @@ export default function MarketplacePage() {
       {/* Listings Grid */}
       {loading ? (
         <div className="flex items-center justify-center h-48">
-          <div className="animate-spin w-8 h-8 border-4 border-brand-200 border-t-brand-600 rounded-full" />
+          <div className="animate-spin w-8 h-8 border-4 border-brand-500/20 border-t-brand-400 rounded-full" />
         </div>
       ) : listings.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -244,7 +244,7 @@ export default function MarketplacePage() {
                   Tenho Interesse
                 </Button>
                 <Button variant="secondary" size="sm" onClick={() => handleListingClick(listing)}>
-                  <Target size={14} /> Preco
+                  <Target size={14} /> Preço
                 </Button>
                 <Button variant="secondary" size="sm" onClick={() => setShowAuctionForm(listing.id)}>
                   <Gavel size={14} />
@@ -265,12 +265,12 @@ export default function MarketplacePage() {
         </div>
       ) : (
         <Card className="p-12 text-center">
-          <DollarSign size={40} className="mx-auto text-gray-300 mb-3" />
-          <p className="text-lg font-medium text-gray-500">Nenhum credito encontrado</p>
-          <p className="text-sm text-gray-400 mt-1">Ajuste os filtros ou publique o primeiro credito</p>
+          <DollarSign size={40} className="mx-auto text-slate-600 mb-3" />
+          <p className="text-lg font-medium text-slate-400">Nenhum crédito encontrado</p>
+          <p className="text-sm text-slate-500 mt-1">Ajuste os filtros ou publique o primeiro crédito</p>
           <Button className="mt-4" onClick={() => setShowNewForm(true)}>
             <Plus size={16} />
-            Publicar Credito
+            Publicar Crédito
           </Button>
         </Card>
       )}
@@ -278,15 +278,15 @@ export default function MarketplacePage() {
       {/* Listing Detail + Pricing Modal */}
       {selectedListing && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4" onClick={() => { setSelectedListing(null); setPriceRec(null) }}>
-          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-2xl max-h-[85vh] overflow-y-auto" onClick={e => e.stopPropagation()}>
-            <div className="p-6 border-b border-gray-100 flex items-center justify-between">
+          <div className="bg-dark-700 rounded-2xl shadow-2xl w-full max-w-2xl max-h-[85vh] overflow-y-auto" onClick={e => e.stopPropagation()}>
+            <div className="p-6 border-b border-dark-500/40 flex items-center justify-between">
               <div className="flex items-center gap-3">
                 <Target size={20} className="text-blue-600" />
                 <div>
-                  <h2 className="text-lg font-bold text-gray-900">
-                    {selectedListing.credit_id || 'Credito'}
+                  <h2 className="text-lg font-bold text-white">
+                    {selectedListing.credit_id || 'Crédito'}
                   </h2>
-                  <p className="text-xs text-gray-500">
+                  <p className="text-xs text-slate-400">
                     {creditTypeLabels[selectedListing.credit_type]} · {creditOriginLabels[selectedListing.origin]} · {formatBRL(selectedListing.amount)}
                   </p>
                 </div>
@@ -294,7 +294,7 @@ export default function MarketplacePage() {
                   <ScoreBadge grade={selectedListing.credit_score.grade} score={selectedListing.credit_score.score} size="md" showScore />
                 )}
               </div>
-              <button onClick={() => { setSelectedListing(null); setPriceRec(null) }} className="p-2 rounded-xl hover:bg-gray-100">
+              <button onClick={() => { setSelectedListing(null); setPriceRec(null) }} className="p-2 rounded-xl hover:bg-dark-600/50">
                 <X size={20} />
               </button>
             </div>
@@ -327,21 +327,21 @@ export default function MarketplacePage() {
       {/* New Listing Form Modal */}
       {showNewForm && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4" onClick={() => setShowNewForm(false)}>
-          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-lg" onClick={e => e.stopPropagation()}>
-            <div className="p-6 border-b border-gray-100 flex items-center justify-between">
-              <h2 className="text-xl font-bold text-gray-900">Publicar Credito</h2>
-              <button onClick={() => setShowNewForm(false)} className="p-2 rounded-xl hover:bg-gray-100">
+          <div className="bg-dark-700 rounded-2xl shadow-2xl w-full max-w-lg" onClick={e => e.stopPropagation()}>
+            <div className="p-6 border-b border-dark-500/40 flex items-center justify-between">
+              <h2 className="text-xl font-bold text-white">Publicar Crédito</h2>
+              <button onClick={() => setShowNewForm(false)} className="p-2 rounded-xl hover:bg-dark-600">
                 <X size={20} />
               </button>
             </div>
             <form onSubmit={handleCreate} className="p-6 space-y-4">
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Tipo de Credito</label>
+                  <label className="block text-sm font-medium text-slate-300 mb-1">Tipo de Crédito</label>
                   <select
                     value={newListing.credit_type}
                     onChange={e => setNewListing({ ...newListing, credit_type: e.target.value })}
-                    className="w-full rounded-xl border border-gray-200 px-4 py-2.5 text-sm"
+                    className="w-full rounded-xl border border-dark-500/50 bg-dark-700 text-white px-4 py-2.5 text-sm"
                   >
                     <option value="acumulado">Acumulado</option>
                     <option value="st">Subst. Tributaria</option>
@@ -349,11 +349,11 @@ export default function MarketplacePage() {
                   </select>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Origem</label>
+                  <label className="block text-sm font-medium text-slate-300 mb-1">Origem</label>
                   <select
                     value={newListing.origin}
                     onChange={e => setNewListing({ ...newListing, origin: e.target.value })}
-                    className="w-full rounded-xl border border-gray-200 px-4 py-2.5 text-sm"
+                    className="w-full rounded-xl border border-dark-500/50 bg-dark-700 text-white px-4 py-2.5 text-sm"
                   >
                     <option value="exportacao">Exportacao</option>
                     <option value="diferimento">Diferimento</option>
@@ -364,7 +364,7 @@ export default function MarketplacePage() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Valor do Credito (R$)</label>
+                <label className="block text-sm font-medium text-slate-300 mb-1">Valor do Crédito (R$)</label>
                 <input
                   type="number"
                   value={newListing.amount}
@@ -372,58 +372,58 @@ export default function MarketplacePage() {
                   placeholder="Ex: 500000"
                   required
                   min={1000}
-                  className="w-full rounded-xl border border-gray-200 px-4 py-2.5 text-sm"
+                  className="w-full rounded-xl border border-dark-500/50 bg-dark-700 text-white px-4 py-2.5 text-sm"
                 />
               </div>
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Desconto Minimo (%)</label>
+                  <label className="block text-sm font-medium text-slate-300 mb-1">Desconto Minimo (%)</label>
                   <input
                     type="number"
                     value={newListing.min_discount}
                     onChange={e => setNewListing({ ...newListing, min_discount: e.target.value })}
                     min={0} max={50} step={0.5}
-                    className="w-full rounded-xl border border-gray-200 px-4 py-2.5 text-sm"
+                    className="w-full rounded-xl border border-dark-500/50 bg-dark-700 text-white px-4 py-2.5 text-sm"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Desconto Maximo (%)</label>
+                  <label className="block text-sm font-medium text-slate-300 mb-1">Desconto Maximo (%)</label>
                   <input
                     type="number"
                     value={newListing.max_discount}
                     onChange={e => setNewListing({ ...newListing, max_discount: e.target.value })}
                     min={0} max={50} step={0.5}
-                    className="w-full rounded-xl border border-gray-200 px-4 py-2.5 text-sm"
+                    className="w-full rounded-xl border border-dark-500/50 bg-dark-700 text-white px-4 py-2.5 text-sm"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Protocolo E-CREDac (opcional)</label>
+                <label className="block text-sm font-medium text-slate-300 mb-1">Protocolo E-CREDac (opcional)</label>
                 <input
                   type="text"
                   value={newListing.e_credac_protocol}
                   onChange={e => setNewListing({ ...newListing, e_credac_protocol: e.target.value })}
-                  placeholder="Numero do protocolo"
-                  className="w-full rounded-xl border border-gray-200 px-4 py-2.5 text-sm"
+                  placeholder="Número do protocolo"
+                  className="w-full rounded-xl border border-dark-500/50 bg-dark-700 text-white px-4 py-2.5 text-sm"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Descricao (opcional)</label>
+                <label className="block text-sm font-medium text-slate-300 mb-1">Descricao (opcional)</label>
                 <textarea
                   value={newListing.description}
                   onChange={e => setNewListing({ ...newListing, description: e.target.value })}
                   rows={3}
-                  placeholder="Detalhes adicionais sobre o credito..."
-                  className="w-full rounded-xl border border-gray-200 px-4 py-2.5 text-sm"
+                  placeholder="Detalhes adicionais sobre o crédito..."
+                  className="w-full rounded-xl border border-dark-500/50 bg-dark-700 text-white px-4 py-2.5 text-sm"
                 />
               </div>
 
               <div className="flex gap-3 pt-2">
                 <Button type="submit" disabled={submitting} className="flex-1">
-                  {submitting ? 'Publicando...' : 'Publicar Credito'}
+                  {submitting ? 'Publicando...' : 'Publicar Crédito'}
                 </Button>
                 <Button type="button" variant="secondary" onClick={() => setShowNewForm(false)}>
                   Cancelar

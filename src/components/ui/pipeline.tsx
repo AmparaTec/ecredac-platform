@@ -8,8 +8,8 @@ const PHASES = [
   { n: 3, label: 'Conclusao Comercial', icon: '✅' },
   { n: 4, label: 'Procuracao Digital', icon: '📝' },
   { n: 5, label: 'Contrato', icon: '📄' },
-  { n: 6, label: 'Transferencia', icon: '🔄' },
-  { n: 7, label: 'Uso do Credito', icon: '📊' },
+  { n: 6, label: 'Transferência', icon: '🔄' },
+  { n: 7, label: 'Uso do Crédito', icon: '📊' },
   { n: 8, label: 'Concluido', icon: '🏆' },
 ]
 
