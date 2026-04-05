@@ -97,7 +97,7 @@ export async function GET(request: NextRequest) {
     const evidenciasPorMarco: Record<string, typeof evidenciasRes.data> = {}
     for (const ev of evidenciasRes.data || []) {
       if (!evidenciasPorMarco[ev.marco_id]) evidenciasPorMarco[ev.marco_id] = []
-      evidenciasPorMarco[ev.marco_id].push(ev)
+      evidenciasPorMarco[ev.marco_id]!.push(ev)
     }
 
     // Montar marcos com evidências
