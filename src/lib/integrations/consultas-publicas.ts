@@ -189,7 +189,7 @@ export function calcularScoreRelius(dd: DueDiligenceResult): DueDiligenceResult[
   let ecredac = 0
   let regularidade = 0
   let cadastral = 0
-  let plataforma = 0 // preenchido externamente com dados da plataforma
+  const plataforma = 0 // preenchido externamente com dados da plataforma
 
   // Componente cadastral (max 20)
   if (dd.cadesp) {
@@ -255,10 +255,10 @@ export async function executarDueDiligence(
   const motivos_bloqueio: string[] = []
 
   if (cadesp?.situacao_cadastral && cadesp.situacao_cadastral !== 'ATIVO') {
-    motivos_bloqueio.push(\`CADESP: situação \${cadesp.situacao_cadastral}\`)
+    motivos_bloqueio.push('CADESP: situacao ' + cadesp.situacao_cadastral)
   }
   if (cadesp?.regime_apuracao && cadesp.regime_apuracao !== 'RPA') {
-    motivos_bloqueio.push(\`CADESP: regime \${cadesp.regime_apuracao} (requer RPA)\`)
+    motivos_bloqueio.push('CADESP: regime ' + cadesp.regime_apuracao + ' (requer RPA)')
   }
   if (cnd_federal?.situacao === 'POSITIVA') {
     motivos_bloqueio.push('CND Federal: POSITIVA (débitos federais)')
