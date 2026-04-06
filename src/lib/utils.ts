@@ -223,6 +223,34 @@ export const confidenceConfig = (confidence: number) => {
   return { label: 'Baixa', color: 'text-red-700', bg: 'bg-red-50', badge: 'bg-red-100 text-red-800' }
 }
 
+// Parse BRL string back to number (remove dots, replace comma with dot)
+export function parseBRL(value: string): number {
+  const cleaned = value.replace(/[^\d,.-]/g, '').replace(/\./g, '').replace(',', '.')
+  const num = parseFloat(cleaned)
+  return isNaN(num) ? 0 : num
+}
+
+// Format number input as BRL (without R$ prefix, just 1.234.567,89)
+export function formatNumberBR(value: string | number): string {
+  const num = typeof value === 'string' ? parseBRL(value) : value
+  if (num === 0 && typeof value === 'string' && value === '') return ''
+  return new Intl.NumberFormat('pt-BR', {
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 2,
+  }).format(num)
+}
+
+// Mask input value as BRL while typing (digits only → formatted)
+export function maskCurrencyBR(rawValue: string): string {
+  const digits = rawValue.replace(/\D/g, '')
+  if (!digits) return ''
+  const num = parseInt(digits, 10) / 100
+  return new Intl.NumberFormat('pt-BR', {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  }).format(num)
+}
+
 // Format discount
 export function formatDiscount(discount: number): string {
   return `${discount.toFixed(1)}%`

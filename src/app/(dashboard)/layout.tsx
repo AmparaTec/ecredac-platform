@@ -3,6 +3,7 @@ import { createServerSupabase } from '@/lib/supabase/server'
 import { Sidebar } from '@/components/sidebar'
 import { NotificationDropdown } from '@/components/ui/notification-dropdown'
 import { TermsChecker } from '@/components/compliance/terms-checker'
+import { FeedbackButton } from '@/components/ui/feedback-button'
 import { Search } from 'lucide-react'
 
 export default async function DashboardLayout({
@@ -43,7 +44,7 @@ export default async function DashboardLayout({
         displayName={displayName}
       />
 
-      <main className="flex-1 ml-60 min-w-0">
+      <main className="flex-1 ml-60 min-w-0 flex flex-col">
         {/* Top bar */}
         <header className="h-16 bg-dark-800/80 backdrop-blur-xl border-b border-dark-500/40 flex items-center justify-between px-6 sticky top-0 z-20">
           <div className="relative">
@@ -72,13 +73,34 @@ export default async function DashboardLayout({
         </header>
 
         {/* Page content */}
-        <div className="p-6 max-w-7xl">
+        <div className="p-6 max-w-7xl flex-1">
           {children}
         </div>
+
+        {/* Footer */}
+        <footer className="border-t border-dark-500/30 px-6 py-3 mt-auto">
+          <div className="flex items-center justify-between text-[11px] text-slate-600">
+            <span>E-CREDac by Rede Ampara Tec</span>
+            <div className="flex items-center gap-4">
+              <a href="/termos-de-uso" target="_blank" className="hover:text-slate-400 transition-colors">
+                Termos de Uso
+              </a>
+              <a href="/politica-de-privacidade" target="_blank" className="hover:text-slate-400 transition-colors">
+                Política de Privacidade
+              </a>
+              <a href="/institucional" className="hover:text-slate-400 transition-colors">
+                Quem Somos
+              </a>
+            </div>
+          </div>
+        </footer>
       </main>
 
       {/* Modal de termos pendentes — verifica automaticamente */}
       <TermsChecker />
+
+      {/* Botão discreto de feedback */}
+      <FeedbackButton />
     </div>
   )
 }

@@ -120,6 +120,11 @@ export async function sendEmailResend(
 }
 
 /**
+ * Tipo para retorno dos templates (sem 'to', que é adicionado pelo caller)
+ */
+type EmailTemplateOptions = Omit<EmailOptions, 'to'>
+
+/**
  * Templates de email disponíveis
  */
 export const emailTemplates = {
@@ -128,7 +133,7 @@ export const emailTemplates = {
     amount: string
     procurador: string
     mensagem?: string
-  }): EmailOptions => ({
+  }): EmailTemplateOptions => ({
     subject: `Novo crédito indicado - ${data.creditId}`,
     html: `
       <h1>Crédito indicado para você!</h1>
@@ -153,7 +158,7 @@ export const emailTemplates = {
     creditId: string
     amount: string
     valorDesagio: string
-  }): EmailOptions => ({
+  }): EmailTemplateOptions => ({
     subject: `Crédito ativado - ${data.creditId}`,
     html: `
       <h1>Crédito ativado com sucesso!</h1>
@@ -177,7 +182,7 @@ export const emailTemplates = {
   notificacaoComprador: (data: {
     creditId: string
     vendedor: string
-  }): EmailOptions => ({
+  }): EmailTemplateOptions => ({
     subject: `Novo interesse em seu crédito - ${data.creditId}`,
     html: `
       <h1>Novo interesse em seu crédito!</h1>

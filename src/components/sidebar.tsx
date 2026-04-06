@@ -6,7 +6,7 @@ import { cn } from '@/lib/utils'
 import {
   LayoutDashboard, DollarSign, TrendingUp, GitMerge,
   ArrowLeftRight, Building2, Settings, LogOut,
-  Users, Wallet, Send, Award, BarChart3, Briefcase, Shield, FileCheck, Gavel
+  Users, Wallet, Send, Award, BarChart3, Briefcase, Shield, FileCheck, Gavel, Info
 } from 'lucide-react'
 
 type UserRole = 'titular' | 'representante' | 'procurador'
@@ -29,6 +29,7 @@ const companyNav: NavItem[] = [
   { href: '/empresas', label: 'Empresas', icon: Building2 },
   { href: '/admin/compliance', label: 'Compliance', icon: Gavel },
   { href: '/admin', label: 'Admin', icon: Settings },
+  { href: '/institucional', label: 'Quem Somos', icon: Info },
 ]
 
 const representanteNav: NavItem[] = [
@@ -40,6 +41,7 @@ const representanteNav: NavItem[] = [
   { href: '/transacoes', label: 'Transações', icon: ArrowLeftRight },
   { href: '/operacao', label: 'Operações', icon: Shield },
   { href: '/compliance/kyc', label: 'Verificação KYC', icon: FileCheck },
+  { href: '/institucional', label: 'Quem Somos', icon: Info },
 ]
 
 const procuradorNav: NavItem[] = [
@@ -51,6 +53,7 @@ const procuradorNav: NavItem[] = [
   { href: '/assessor/comissoes', label: 'Comissões', icon: Wallet },
   { href: '/assessor/convites', label: 'Convites', icon: Send },
   { href: '/assessor/ranking', label: 'Ranking & Tier', icon: Award },
+  { href: '/institucional', label: 'Quem Somos', icon: Info },
 ]
 
 function getNavItems(role: UserRole): NavItem[] {
