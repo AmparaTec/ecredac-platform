@@ -3,14 +3,14 @@
 import { cn } from '@/lib/utils'
 
 const PHASES = [
-  { n: 1, label: 'Originacao', icon: '⭐' },
+  { n: 1, label: 'Originação', icon: '⭐' },
   { n: 2, label: 'Matching', icon: '🔗' },
-  { n: 3, label: 'Conclusao Comercial', icon: '✅' },
-  { n: 4, label: 'Procuracao Digital', icon: '📝' },
-  { n: 5, label: 'Contrato', icon: '📄' },
-  { n: 6, label: 'Transferencia', icon: '🔄' },
-  { n: 7, label: 'Uso do Credito', icon: '📊' },
-  { n: 8, label: 'Concluido', icon: '🏆' },
+  { n: 3, label: 'Acordo Comercial', icon: '🤝' },
+  { n: 4, label: 'Verificação Fiscal', icon: '🔍' },
+  { n: 5, label: 'Contrato & Procuração', icon: '📝' },
+  { n: 6, label: 'Transferência e-CredAc', icon: '🔄' },
+  { n: 7, label: 'Aceite Cessionário', icon: '✅' },
+  { n: 8, label: 'Conclusão', icon: '🏆' },
 ]
 
 interface PipelineProps {

@@ -5,8 +5,8 @@ import './globals.css'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'E-CREDac | Plataforma de Intermediacao de Creditos de ICMS',
-  description: 'O maior broker de creditos de ICMS do Brasil. Da originacao ao ultimo centavo utilizado.',
+  title: 'E-CREDac | Plataforma de Intermediacao de Créditos de ICMS',
+  description: 'O maior broker de créditos de ICMS do Brasil. Da originacao ao ultimo centavo utilizado.',
 }
 
 export default function RootLayout({

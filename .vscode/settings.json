@@ -1,0 +1,71 @@
+{
+  "cSpell.language": "pt-BR,en",
+  "cSpell.enableFiletypes": [
+    "typescript",
+    "typescriptreact",
+    "javascript",
+    "javascriptreact"
+  ],
+  "cSpell.words": [
+    "ecredac",
+    "supabase",
+    "vercel",
+    "cnpj",
+    "icms",
+    "cedente",
+    "cessionário",
+    "homologação",
+    "amparatec",
+    "nextjs",
+    "receitaws",
+    "pkce",
+    "middlewares",
+    "shadcn",
+    "lucide",
+    "tailwind",
+    "zod",
+    "prisma",
+    "upsert",
+    "prefetch",
+    "pathname",
+    "recharts",
+    "toastify",
+    "sonner",
+    "useState",
+    "useEffect",
+    "useCallback",
+    "useMemo",
+    "useRouter",
+    "usePathname",
+    "debounce",
+    "tooltip",
+    "dropdown",
+    "sidebar",
+    "checkbox",
+    "textarea",
+    "readonly",
+    "nullable",
+    "boolean",
+    "signin",
+    "signout",
+    "signup"
+  ],
+  "cSpell.ignorePaths": [
+    "node_modules",
+    ".next",
+    ".git",
+    "*.lock",
+    "*.json",
+    "*.md",
+    "supabase/migrations"
+  ],
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnSave": true,
+  "typescript.preferences.importModuleSpecifier": "non-relative",
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  }
+}

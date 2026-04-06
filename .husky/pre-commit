@@ -1,0 +1,5 @@
+#!/bin/sh
+# Pre-commit hook — verifica PT-BR e roda lint nos arquivos staged
+# Instalado via: npm install --save-dev husky && npx husky init
+
+npx lint-staged

@@ -4,21 +4,22 @@ import { cn } from '@/lib/utils'
 import { type ButtonHTMLAttributes, forwardRef } from 'react'
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: 'primary' | 'secondary' | 'success' | 'danger' | 'ghost' | 'warning'
+  variant?: 'primary' | 'secondary' | 'success' | 'danger' | 'ghost' | 'warning' | 'accent'
   size?: 'sm' | 'md' | 'lg'
 }
 
 const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, variant = 'primary', size = 'md', children, disabled, ...props }, ref) => {
-    const base = 'inline-flex items-center justify-center gap-1.5 font-semibold rounded-xl transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed'
+    const base = 'inline-flex items-center justify-center gap-1.5 font-semibold rounded-xl transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-dark-900 disabled:opacity-50 disabled:cursor-not-allowed'
 
     const variants = {
-      primary: 'bg-brand-600 hover:bg-brand-700 text-white focus:ring-brand-500 shadow-lg shadow-brand-500/25',
-      secondary: 'bg-white hover:bg-gray-50 text-gray-700 border border-gray-200 focus:ring-brand-500',
-      success: 'bg-emerald-600 hover:bg-emerald-700 text-white focus:ring-emerald-500',
-      danger: 'bg-red-600 hover:bg-red-700 text-white focus:ring-red-500',
-      warning: 'bg-amber-500 hover:bg-amber-600 text-white focus:ring-amber-500',
-      ghost: 'bg-transparent hover:bg-gray-100 text-gray-600 focus:ring-gray-400',
+      primary: 'bg-brand-600 hover:bg-brand-500 text-white focus:ring-brand-500 shadow-lg shadow-brand-600/20',
+      secondary: 'bg-dark-600 hover:bg-dark-500 text-slate-300 border border-dark-400/50 focus:ring-brand-500',
+      accent: 'bg-accent-600 hover:bg-accent-500 text-white focus:ring-accent-500 shadow-lg shadow-accent-600/20',
+      success: 'bg-success-500 hover:bg-success-400 text-white focus:ring-success-500 shadow-lg shadow-success-500/20',
+      danger: 'bg-danger-500 hover:bg-danger-400 text-white focus:ring-danger-500 shadow-lg shadow-danger-500/20',
+      warning: 'bg-warning-500 hover:bg-warning-400 text-dark-900 focus:ring-warning-500',
+      ghost: 'bg-transparent hover:bg-dark-600 text-slate-400 hover:text-white focus:ring-dark-400',
     }
 
     const sizes = {

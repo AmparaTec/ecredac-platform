@@ -45,7 +45,7 @@ export async function POST(request: NextRequest) {
           company_id: matchData.seller_company_id,
           type: 'match_found',
           title: 'Novo match encontrado!',
-          body: `Seu credito de R$ ${match.matched_amount.toLocaleString('pt-BR')} foi matched com ${matchData.buyer_company?.nome_fantasia}. Desconto: ${match.agreed_discount}%`,
+          body: `Seu crédito de R$ ${match.matched_amount.toLocaleString('pt-BR')} foi matched com ${matchData.buyer_company?.nome_fantasia}. Desconto: ${match.agreed_discount}%`,
           reference_type: 'match',
           reference_id: match.match_id,
         })
@@ -54,8 +54,8 @@ export async function POST(request: NextRequest) {
         await admin.from('notifications').insert({
           company_id: matchData.buyer_company_id,
           type: 'match_found',
-          title: 'Credito compativel encontrado!',
-          body: `Encontramos R$ ${match.matched_amount.toLocaleString('pt-BR')} em creditos de ${matchData.seller_company?.nome_fantasia}. Desconto: ${match.agreed_discount}%`,
+          title: 'Crédito compatível encontrado!',
+          body: `Encontramos R$ ${match.matched_amount.toLocaleString('pt-BR')} em créditos de ${matchData.seller_company?.nome_fantasia}. Desconto: ${match.agreed_discount}%`,
           reference_type: 'match',
           reference_id: match.match_id,
         })

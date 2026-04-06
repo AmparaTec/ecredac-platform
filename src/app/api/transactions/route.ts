@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createServerSupabase, createAdminSupabase } from '@/lib/supabase/server'
+import { createPayment, sendEmail, IntegrationError } from '@/lib/integrations'
 
 // GET /api/transactions — List transactions for the authenticated user
 export async function GET(request: NextRequest) {
@@ -7,7 +8,7 @@ export async function GET(request: NextRequest) {
   const { data: { user }, error: authError } = await supabase.auth.getUser()
 
   if (authError || !user) {
-    return NextResponse.json({ error: 'Nao autenticado' }, { status: 401 })
+    return NextResponse.json({ error: 'Não autenticado' }, { status: 401 })
   }
 
   const { data: company } = await supabase
@@ -17,7 +18,7 @@ export async function GET(request: NextRequest) {
     .single()
 
   if (!company) {
-    return NextResponse.json({ error: 'Empresa nao encontrada' }, { status: 404 })
+    return NextResponse.json({ error: 'Empresa não encontrada' }, { status: 404 })
   }
 
   const { searchParams } = new URL(request.url)
@@ -61,26 +62,30 @@ export async function POST(request: NextRequest) {
 
   const { data: { user }, error: authError } = await supabase.auth.getUser()
   if (authError || !user) {
-    return NextResponse.json({ error: 'Nao autenticado' }, { status: 401 })
+    return NextResponse.json({ error: 'Não autenticado' }, { status: 401 })
   }
 
   const body = await request.json()
   const { match_id, payment_method } = body
 
   if (!match_id) {
-    return NextResponse.json({ error: 'match_id obrigatorio' }, { status: 400 })
+    return NextResponse.json({ error: 'match_id obrigatório' }, { status: 400 })
   }
 
   // Validate match exists and is confirmed
   const { data: match, error: matchError } = await supabase
     .from('matches')
-    .select('*')
+    .select(`
+      *,
+      seller_company:companies!seller_company_id(*),
+      buyer_company:companies!buyer_company_id(*)
+    `)
     .eq('id', match_id)
     .eq('status', 'confirmed')
     .single()
 
   if (matchError || !match) {
-    return NextResponse.json({ error: 'Match nao encontrado ou nao confirmado' }, { status: 404 })
+    return NextResponse.json({ error: 'Match não encontrado ou não confirmado' }, { status: 404 })
   }
 
   // Check no existing transaction for this match
@@ -91,10 +96,10 @@ export async function POST(request: NextRequest) {
     .single()
 
   if (existing) {
-    return NextResponse.json({ error: 'Transacao ja existe para este match' }, { status: 409 })
+    return NextResponse.json({ error: 'Transação já existe para este match' }, { status: 409 })
   }
 
-  // Create transaction
+  // Create transaction record
   const { data: transaction, error: txError } = await adminSupabase
     .from('transactions')
     .insert({
@@ -114,22 +119,57 @@ export async function POST(request: NextRequest) {
     .single()
 
   if (txError) {
-    return NextResponse.json({ error: 'Erro ao criar transacao: ' + txError.message }, { status: 500 })
+    return NextResponse.json({ error: 'Erro ao criar transação: ' + txError.message }, { status: 500 })
   }
 
-  // Update match status
+  // ─── Pagar.me — Create payment if method specified ───
+  let paymentData = null
+  if (payment_method && process.env.PAGARME_API_KEY) {
+    try {
+      const buyer = match.buyer_company
+      paymentData = await createPayment({
+        transactionId: transaction.id,
+        amount: Math.round((match.total_payment || 0) * 100), // centavos
+        paymentMethod: payment_method,
+        buyer: {
+          name: buyer?.razao_social || buyer?.nome_fantasia || 'Comprador',
+          email: buyer?.email || user.email || '',
+          document: buyer?.cnpj || '',
+        },
+        platformFeeCents: Math.round((match.platform_fee || 0) * 100),
+        metadata: {
+          match_id,
+          platform: 'ecredac',
+        },
+      })
+
+      // Update transaction with payment reference
+      await adminSupabase
+        .from('transactions')
+        .update({
+          payment_reference: paymentData.orderId,
+          payment_details: paymentData,
+          updated_at: new Date().toISOString(),
+        })
+        .eq('id', transaction.id)
+    } catch (error) {
+      // Payment creation failure — transaction is created but payment pending
+      console.error('[Transactions] Pagar.me error:', (error as Error).message)
+      paymentData = { error: (error as Error).message }
+    }
+  }
+
+  // Update match and listing statuses
   await adminSupabase
     .from('matches')
     .update({ status: 'confirmed' })
     .eq('id', match_id)
 
-  // Update listing status
   await adminSupabase
     .from('credit_listings')
     .update({ status: 'sold' })
     .eq('id', match.listing_id)
 
-  // Update request status
   await adminSupabase
     .from('credit_requests')
     .update({ status: 'fulfilled' })
@@ -141,24 +181,30 @@ export async function POST(request: NextRequest) {
     action: 'transaction_created',
     entity_type: 'transaction',
     entity_id: transaction.id,
-    details: { match_id, payment_method },
+    details: { match_id, payment_method, payment: paymentData },
   })
 
-  // Notify both parties
+  // Notifications (in-app)
+  const amountStr = new Intl.NumberFormat('pt-BR', {
+    style: 'currency',
+    currency: 'BRL',
+    minimumFractionDigits: 0,
+  }).format(match.matched_amount)
+
   const notifications = [
     {
       company_id: match.seller_company_id,
       type: 'transaction_created',
-      title: 'Nova transacao criada',
-      body: `Transacao de ${new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL', minimumFractionDigits: 0 }).format(match.matched_amount)} iniciada. Aguardando pagamento.`,
+      title: 'Nova transação criada',
+      body: `Transação de ${amountStr} iniciada. Aguardando pagamento.`,
       reference_type: 'transaction',
       reference_id: transaction.id,
     },
     {
       company_id: match.buyer_company_id,
       type: 'transaction_created',
-      title: 'Nova transacao criada',
-      body: `Transacao de ${new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL', minimumFractionDigits: 0 }).format(match.matched_amount)} iniciada. Realize o pagamento para prosseguir.`,
+      title: 'Nova transação criada',
+      body: `Transação de ${amountStr} iniciada. Realize o pagamento para prosseguir.`,
       reference_type: 'transaction',
       reference_id: transaction.id,
     },
@@ -166,5 +212,24 @@ export async function POST(request: NextRequest) {
 
   await adminSupabase.from('notifications').insert(notifications)
 
-  return NextResponse.json({ transaction }, { status: 201 })
+  // ─── Email notifications ───
+  const appUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://ecredac-platform.vercel.app'
+
+  await Promise.allSettled([
+    sendEmail({
+      to: match.seller_company?.email,
+      template: 'match_confirmed',
+      data: { amount: amountStr, appUrl },
+    }),
+    sendEmail({
+      to: match.buyer_company?.email,
+      template: 'match_confirmed',
+      data: { amount: amountStr, appUrl },
+    }),
+  ])
+
+  return NextResponse.json({
+    transaction,
+    payment: paymentData,
+  }, { status: 201 })
 }

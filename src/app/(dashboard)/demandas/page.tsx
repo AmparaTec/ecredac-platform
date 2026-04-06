@@ -95,8 +95,8 @@ export default function DemandasPage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Demandas</h1>
-          <p className="text-gray-500 mt-1">Gerencie suas necessidades de creditos de ICMS</p>
+          <h1 className="text-2xl font-bold text-white">Demandas</h1>
+          <p className="text-slate-500 mt-1">Gerencie suas necessidades de créditos de ICMS</p>
         </div>
         <Button onClick={() => setShowNewForm(true)}>
           <Plus size={16} />
@@ -107,18 +107,18 @@ export default function DemandasPage() {
       {/* Stats */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <Card className="p-4">
-          <p className="text-sm text-gray-500">Demandas Ativas</p>
+          <p className="text-sm text-slate-500">Demandas Ativas</p>
           <p className="text-2xl font-bold mt-1">{requests.filter(r => r.status === 'active').length}</p>
         </Card>
         <Card className="p-4">
-          <p className="text-sm text-gray-500">Volume Total Buscado</p>
+          <p className="text-sm text-slate-500">Volume Total Buscado</p>
           <p className="text-2xl font-bold mt-1">
             {formatBRL(requests.filter(r => r.status === 'active').reduce((a, r) => a + r.remaining_needed, 0))}
           </p>
         </Card>
         <Card className="p-4">
-          <p className="text-sm text-gray-500">Demandas Atendidas</p>
-          <p className="text-2xl font-bold mt-1 text-emerald-600">{requests.filter(r => r.status === 'fulfilled').length}</p>
+          <p className="text-sm text-slate-500">Demandas Atendidas</p>
+          <p className="text-2xl font-bold mt-1 text-emerald-400">{requests.filter(r => r.status === 'fulfilled').length}</p>
         </Card>
       </div>
 
@@ -157,46 +157,46 @@ export default function DemandasPage() {
 
                     <div className="flex items-baseline gap-6">
                       <div>
-                        <p className="text-xs text-gray-500">Valor Necessario</p>
+                        <p className="text-xs text-slate-500">Valor Necessario</p>
                         <p className="text-xl font-bold">{formatBRL(req.amount_needed)}</p>
                       </div>
                       <div>
-                        <p className="text-xs text-gray-500">Restante</p>
-                        <p className="text-xl font-bold text-brand-600">{formatBRL(req.remaining_needed)}</p>
+                        <p className="text-xs text-slate-500">Restante</p>
+                        <p className="text-xl font-bold text-brand-400">{formatBRL(req.remaining_needed)}</p>
                       </div>
                       <div>
-                        <p className="text-xs text-gray-500">Desconto Max</p>
+                        <p className="text-xs text-slate-500">Desconto Max</p>
                         <p className="text-lg font-bold">{req.max_discount_accepted}%</p>
                       </div>
                     </div>
 
                     {req.description && (
-                      <p className="mt-2 text-sm text-gray-500">{req.description}</p>
+                      <p className="mt-2 text-sm text-slate-500">{req.description}</p>
                     )}
                   </div>
 
                   <div className="text-right">
                     {daysLeft !== null && (
                       <div className={`flex items-center gap-1 text-sm font-medium ${
-                        daysLeft < 30 ? 'text-red-600' : daysLeft < 90 ? 'text-amber-600' : 'text-gray-500'
+                        daysLeft < 30 ? 'text-red-400' : daysLeft < 90 ? 'text-amber-400' : 'text-slate-500'
                       }`}>
                         {daysLeft < 30 && <AlertTriangle size={14} />}
                         <Clock size={14} />
                         <span>{daysLeft}d para vencimento</span>
                       </div>
                     )}
-                    <p className="text-xs text-gray-400 mt-1">Criada em {formatDate(req.created_at)}</p>
+                    <p className="text-xs text-slate-500 mt-1">Criada em {formatDate(req.created_at)}</p>
                   </div>
                 </div>
 
                 {/* Progress bar */}
                 {req.amount_needed > req.remaining_needed && (
                   <div className="mt-3">
-                    <div className="flex justify-between text-xs text-gray-500 mb-1">
+                    <div className="flex justify-between text-xs text-slate-500 mb-1">
                       <span>Progresso</span>
                       <span>{Math.round(((req.amount_needed - req.remaining_needed) / req.amount_needed) * 100)}%</span>
                     </div>
-                    <div className="h-2 bg-gray-100 rounded-full overflow-hidden">
+                    <div className="h-2 bg-dark-600 rounded-full overflow-hidden">
                       <div
                         className="h-full bg-brand-500 rounded-full transition-all"
                         style={{ width: `${((req.amount_needed - req.remaining_needed) / req.amount_needed) * 100}%` }}
@@ -210,9 +210,9 @@ export default function DemandasPage() {
         </div>
       ) : (
         <Card className="p-12 text-center">
-          <TrendingUp size={40} className="mx-auto text-gray-300 mb-3" />
-          <p className="text-lg font-medium text-gray-500">Nenhuma demanda criada</p>
-          <p className="text-sm text-gray-400 mt-1">Crie sua primeira demanda para encontrar creditos automaticamente</p>
+          <TrendingUp size={40} className="mx-auto text-slate-600 mb-3" />
+          <p className="text-lg font-medium text-slate-500">Nenhuma demanda criada</p>
+          <p className="text-sm text-slate-500 mt-1">Crie sua primeira demanda para encontrar créditos automaticamente</p>
           <Button className="mt-4" onClick={() => setShowNewForm(true)}>
             <Plus size={16} />
             Nova Demanda
@@ -223,16 +223,16 @@ export default function DemandasPage() {
       {/* New Request Form Modal */}
       {showNewForm && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4" onClick={() => setShowNewForm(false)}>
-          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-lg" onClick={e => e.stopPropagation()}>
-            <div className="p-6 border-b border-gray-100 flex items-center justify-between">
-              <h2 className="text-xl font-bold text-gray-900">Nova Demanda de Credito</h2>
-              <button onClick={() => setShowNewForm(false)} className="p-2 rounded-xl hover:bg-gray-100">
+          <div className="bg-dark-700 rounded-2xl shadow-2xl w-full max-w-lg" onClick={e => e.stopPropagation()}>
+            <div className="p-6 border-b border-dark-500/50 flex items-center justify-between">
+              <h2 className="text-xl font-bold text-white">Nova Demanda de Crédito</h2>
+              <button onClick={() => setShowNewForm(false)} className="p-2 rounded-xl hover:bg-dark-600/50">
                 <X size={20} />
               </button>
             </div>
             <form onSubmit={handleCreate} className="p-6 space-y-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Valor Necessario (R$)</label>
+                <label className="block text-sm font-medium text-slate-300 mb-1">Valor Necessario (R$)</label>
                 <input
                   type="number"
                   value={newRequest.amount_needed}
@@ -240,47 +240,47 @@ export default function DemandasPage() {
                   placeholder="Ex: 500000"
                   required
                   min={1000}
-                  className="w-full rounded-xl border border-gray-200 px-4 py-2.5 text-sm"
+                  className="w-full rounded-xl border border-dark-500/50 bg-dark-700 text-white px-4 py-2.5 text-sm"
                 />
               </div>
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Desconto Maximo (%)</label>
+                  <label className="block text-sm font-medium text-slate-300 mb-1">Desconto Máximo (%)</label>
                   <input
                     type="number"
                     value={newRequest.max_discount_accepted}
                     onChange={e => setNewRequest({ ...newRequest, max_discount_accepted: e.target.value })}
                     min={0} max={50} step={0.5}
-                    className="w-full rounded-xl border border-gray-200 px-4 py-2.5 text-sm"
+                    className="w-full rounded-xl border border-dark-500/50 bg-dark-700 text-white px-4 py-2.5 text-sm"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Urgencia</label>
+                  <label className="block text-sm font-medium text-slate-300 mb-1">Urgencia</label>
                   <select
                     value={newRequest.urgency}
                     onChange={e => setNewRequest({ ...newRequest, urgency: e.target.value })}
-                    className="w-full rounded-xl border border-gray-200 px-4 py-2.5 text-sm"
+                    className="w-full rounded-xl border border-dark-500/50 bg-dark-700 text-white px-4 py-2.5 text-sm"
                   >
                     <option value="low">Baixa</option>
-                    <option value="medium">Media</option>
+                    <option value="medium">Média</option>
                     <option value="high">Alta</option>
                   </select>
                 </div>
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Data de Vencimento do ICMS</label>
+                <label className="block text-sm font-medium text-slate-300 mb-1">Data de Vencimento do ICMS</label>
                 <input
                   type="date"
                   value={newRequest.icms_due_date}
                   onChange={e => setNewRequest({ ...newRequest, icms_due_date: e.target.value })}
-                  className="w-full rounded-xl border border-gray-200 px-4 py-2.5 text-sm"
+                  className="w-full rounded-xl border border-dark-500/50 bg-dark-700 text-white px-4 py-2.5 text-sm"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Tipos de Credito Preferidos</label>
+                <label className="block text-sm font-medium text-slate-300 mb-2">Tipos de Crédito Preferidos</label>
                 <div className="flex gap-2">
                   {['acumulado', 'st', 'rural'].map(t => (
                     <button
@@ -289,8 +289,8 @@ export default function DemandasPage() {
                       onClick={() => toggleCreditType(t)}
                       className={`px-3 py-1.5 rounded-xl text-sm font-medium border transition-all ${
                         newRequest.preferred_credit_types.includes(t)
-                          ? 'bg-brand-50 border-brand-300 text-brand-700'
-                          : 'bg-gray-50 border-gray-200 text-gray-600 hover:bg-gray-100'
+                          ? 'bg-brand-500/20 border-brand-500/50 text-brand-300'
+                          : 'bg-dark-600/50 border-dark-500/50 text-slate-400 hover:bg-dark-600'
                       }`}
                     >
                       {creditTypeLabels[t]}
@@ -300,13 +300,13 @@ export default function DemandasPage() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Descricao (opcional)</label>
+                <label className="block text-sm font-medium text-slate-300 mb-1">Descrição (opcional)</label>
                 <textarea
                   value={newRequest.description}
                   onChange={e => setNewRequest({ ...newRequest, description: e.target.value })}
                   rows={3}
                   placeholder="Detalhes sobre a necessidade..."
-                  className="w-full rounded-xl border border-gray-200 px-4 py-2.5 text-sm"
+                  className="w-full rounded-xl border border-dark-500/50 bg-dark-700 text-white px-4 py-2.5 text-sm"
                 />
               </div>
 

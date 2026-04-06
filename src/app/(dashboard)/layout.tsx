@@ -1,7 +1,9 @@
 import { redirect } from 'next/navigation'
 import { createServerSupabase } from '@/lib/supabase/server'
 import { Sidebar } from '@/components/sidebar'
-import { Bell } from 'lucide-react'
+import { NotificationDropdown } from '@/components/ui/notification-dropdown'
+import { TermsChecker } from '@/components/compliance/terms-checker'
+import { Search } from 'lucide-react'
 
 export default async function DashboardLayout({
   children,
@@ -13,37 +15,58 @@ export default async function DashboardLayout({
 
   if (!user) redirect('/login')
 
-  // Get company info
-  const { data: company } = await supabase
-    .from('companies')
-    .select('*')
-    .eq('auth_user_id', user.id)
-    .single()
+  // Fetch user_profile and company in parallel
+  const [{ data: userProfile }, { data: company }] = await Promise.all([
+    supabase
+      .from('user_profiles')
+      .select('id, full_name, role, referral_code')
+      .eq('auth_user_id', user.id)
+      .single(),
+    supabase
+      .from('companies')
+      .select('*')
+      .eq('auth_user_id', user.id)
+      .single(),
+  ])
 
-  const companyName = company?.nome_fantasia || company?.razao_social || 'Empresa'
+  const userRole = (userProfile?.role as 'titular' | 'representante' | 'procurador') || 'titular'
+  const displayName = userProfile?.full_name || company?.nome_fantasia || company?.razao_social || 'Usuario'
+  const companyName = company?.nome_fantasia || company?.razao_social || (userRole === 'procurador' ? 'Assessor' : 'Empresa')
   const companyTier = company?.tier || 'free'
 
   return (
-    <div className="min-h-screen bg-gray-50 flex">
-      <Sidebar companyName={companyName} companyTier={companyTier} />
+    <div className="min-h-screen bg-dark-900 flex">
+      <Sidebar
+        companyName={companyName}
+        companyTier={companyTier}
+        userRole={userRole}
+        displayName={displayName}
+      />
 
-      <main className="flex-1 ml-56 min-w-0">
+      <main className="flex-1 ml-60 min-w-0">
         {/* Top bar */}
-        <header className="h-14 bg-white border-b border-gray-100 flex items-center justify-between px-6 sticky top-0 z-20">
-          <input
-            placeholder="Buscar operacoes, empresas, creditos..."
-            className="pl-4 pr-4 py-1.5 w-72 rounded-xl border border-gray-200 bg-gray-50 text-sm focus:bg-white focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 transition-all"
-          />
-          <div className="flex items-center gap-3">
-            <button className="relative p-2 rounded-xl hover:bg-gray-100 text-gray-500">
-              <Bell size={18} />
-              <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full" />
-            </button>
-            <div className="flex items-center gap-2 pl-3 border-l border-gray-100">
-              <div className="w-7 h-7 rounded-lg bg-brand-100 text-brand-700 flex items-center justify-center font-bold text-xs">
-                {companyName.charAt(0)}
+        <header className="h-16 bg-dark-800/80 backdrop-blur-xl border-b border-dark-500/40 flex items-center justify-between px-6 sticky top-0 z-20">
+          <div className="relative">
+            <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500" />
+            <input
+              placeholder={userRole === 'procurador'
+                ? 'Buscar clientes, comissões, convites...'
+                : 'Buscar operações, empresas, créditos...'}
+              className="pl-10 pr-4 py-2 w-80 rounded-xl bg-dark-700 border border-dark-500/50 text-sm text-white placeholder-slate-500 focus:bg-dark-600 focus:border-brand-500/50 focus:ring-2 focus:ring-brand-500/20 transition-all"
+            />
+          </div>
+          <div className="flex items-center gap-4">
+            <NotificationDropdown />
+            <div className="flex items-center gap-3 pl-4 border-l border-dark-500/40">
+              <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-brand-500/20 to-accent-600/20 text-brand-400 flex items-center justify-center font-bold text-xs border border-brand-500/20">
+                {displayName.charAt(0)}
               </div>
-              <span className="text-sm font-medium">{companyName}</span>
+              <div>
+                <span className="text-sm font-medium text-white block">{displayName}</span>
+                {userRole === 'procurador' && (
+                  <span className="text-[10px] text-accent-400 font-semibold uppercase tracking-wide">Assessor</span>
+                )}
+              </div>
             </div>
           </div>
         </header>
@@ -53,6 +76,9 @@ export default async function DashboardLayout({
           {children}
         </div>
       </main>
+
+      {/* Modal de termos pendentes — verifica automaticamente */}
+      <TermsChecker />
     </div>
   )
 }

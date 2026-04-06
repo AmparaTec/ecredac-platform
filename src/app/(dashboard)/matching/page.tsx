@@ -2,20 +2,34 @@
 
 import { useState, useEffect } from 'react'
 import { createClient } from '@/lib/supabase/client'
-import { formatBRL, formatDate, matchStatusConfig } from '@/lib/utils'
+import { formatBRL, formatDate, matchStatusConfig, creditScoreConfig } from '@/lib/utils'
 import { Card } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
-import { GitMerge, Zap, Check, X, RefreshCw, ArrowRight } from 'lucide-react'
+import { ScoreBadge } from '@/components/ui/score-badge'
+import { MatchAlertList, MatchAlertForm } from '@/components/ui/match-alert-config'
+import { AutoBidList, AutoBidForm } from '@/components/ui/auto-bid-config'
+import { AuctionCard } from '@/components/ui/silent-auction'
+import { GitMerge, Zap, Check, X, RefreshCw, ArrowRight, Shield, Bell, Gavel } from 'lucide-react'
+import { ScoreDisclaimer } from '@/components/compliance/score-disclaimer'
 
 export default function MatchingPage() {
   const [matches, setMatches] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
   const [running, setRunning] = useState(false)
   const [companyId, setCompanyId] = useState<string | null>(null)
+  const [activeTab, setActiveTab] = useState<'matches' | 'alerts' | 'autobid' | 'auctions'>('matches')
+  const [alerts, setAlerts] = useState<any[]>([])
+  const [autoBidRules, setAutoBidRules] = useState<any[]>([])
+  const [auctions, setAuctions] = useState<any[]>([])
+  const [showAlertForm, setShowAlertForm] = useState(false)
+  const [showAutoBidForm, setShowAutoBidForm] = useState(false)
 
   useEffect(() => {
     loadMatches()
+    loadAlerts()
+    loadAutoBidRules()
+    loadAuctions()
   }, [])
 
   async function loadMatches() {
@@ -34,7 +48,7 @@ export default function MatchingPage() {
         *,
         seller_company:companies!seller_company_id(id, nome_fantasia, razao_social, cnpj),
         buyer_company:companies!buyer_company_id(id, nome_fantasia, razao_social, cnpj),
-        listing:credit_listings(credit_type, origin, amount),
+        listing:credit_listings(credit_id, credit_type, origin, amount, credit_score:credit_scores(*)),
         request:credit_requests(amount_needed, urgency)
       `)
       .or(`seller_company_id.eq.${company.id},buyer_company_id.eq.${company.id}`)
@@ -42,6 +56,79 @@ export default function MatchingPage() {
 
     setMatches(data || [])
     setLoading(false)
+  }
+
+  async function loadAlerts() {
+    try {
+      const res = await fetch('/api/alerts')
+      if (res.ok) {
+        const data = await res.json()
+        setAlerts(data.alerts || [])
+      }
+    } catch (err) { console.error(err) }
+  }
+
+  async function loadAutoBidRules() {
+    const supabase = createClient()
+    const { data: { user } } = await supabase.auth.getUser()
+    if (!user) return
+    const { data: company } = await supabase.from('companies').select('id').eq('auth_user_id', user.id).single()
+    if (!company) return
+    const { data } = await supabase.from('auto_bid_rules').select('*').eq('company_id', company.id).order('created_at', { ascending: false })
+    setAutoBidRules(data || [])
+  }
+
+  async function loadAuctions() {
+    try {
+      const res = await fetch('/api/auctions?status=open')
+      if (res.ok) {
+        const data = await res.json()
+        setAuctions(data.auctions || [])
+      }
+    } catch (err) { console.error(err) }
+  }
+
+  async function toggleAlert(id: string, active: boolean) {
+    const res = await fetch('/api/alerts', {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ id, active }),
+    })
+    if (res.ok) loadAlerts()
+  }
+
+  async function deleteAlert(id: string) {
+    const res = await fetch(`/api/alerts?id=${id}`, { method: 'DELETE' })
+    if (res.ok) loadAlerts()
+  }
+
+  async function createAlert(data: any) {
+    const res = await fetch('/api/alerts', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
+    })
+    if (res.ok) { setShowAlertForm(false); loadAlerts() }
+  }
+
+  async function toggleAutoBid(id: string, active: boolean) {
+    const supabase = createClient()
+    await supabase.from('auto_bid_rules').update({ active }).eq('id', id)
+    loadAutoBidRules()
+  }
+
+  async function deleteAutoBid(id: string) {
+    const supabase = createClient()
+    await supabase.from('auto_bid_rules').delete().eq('id', id)
+    loadAutoBidRules()
+  }
+
+  async function createAutoBid(data: any) {
+    if (!companyId) return
+    const supabase = createClient()
+    await supabase.from('auto_bid_rules').insert({ ...data, company_id: companyId })
+    setShowAutoBidForm(false)
+    loadAutoBidRules()
   }
 
   async function runMatchingEngine() {
@@ -98,8 +185,9 @@ export default function MatchingPage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Matching Engine</h1>
-          <p className="text-gray-500 mt-1">Matches automaticos entre creditos e demandas</p>
+          <h1 className="text-2xl font-bold text-white">Active Matching</h1>
+          <p className="text-slate-400 mt-1">Matches, alertas, auto-bidding e leilões</p>
+          <ScoreDisclaimer variant="inline" className="mt-2 max-w-xl" />
         </div>
         <Button onClick={runMatchingEngine} disabled={running}>
           {running ? (
@@ -110,22 +198,105 @@ export default function MatchingPage() {
         </Button>
       </div>
 
-      {/* Stats */}
+      {/* Tabs */}
+      <div className="flex gap-1 bg-dark-600 p-1 rounded-xl">
+        {[
+          { key: 'matches', label: 'Matches', icon: <GitMerge size={14} />, count: matches.length },
+          { key: 'alerts', label: 'Alertas', icon: <Bell size={14} />, count: alerts.filter(a => a.active).length },
+          { key: 'autobid', label: 'Auto-Bid', icon: <Zap size={14} />, count: autoBidRules.filter(r => r.active).length },
+          { key: 'auctions', label: 'Leilões', icon: <Gavel size={14} />, count: auctions.length },
+        ].map(tab => (
+          <button
+            key={tab.key}
+            onClick={() => setActiveTab(tab.key as any)}
+            className={`flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-medium transition-all flex-1 justify-center ${
+              activeTab === tab.key
+                ? 'bg-dark-700 shadow text-white'
+                : 'text-slate-400 hover:text-slate-300'
+            }`}
+          >
+            {tab.icon} {tab.label}
+            {tab.count > 0 && (
+              <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded-full ${
+                activeTab === tab.key ? 'bg-brand-500/20 text-brand-300' : 'bg-dark-500/50 text-slate-400'
+              }`}>{tab.count}</span>
+            )}
+          </button>
+        ))}
+      </div>
+
+      {/* Alerts Tab */}
+      {activeTab === 'alerts' && (
+        <div className="space-y-4">
+          {showAlertForm ? (
+            <MatchAlertForm onSubmit={createAlert} onCancel={() => setShowAlertForm(false)} />
+          ) : (
+            <MatchAlertList
+              alerts={alerts}
+              onToggle={toggleAlert}
+              onDelete={deleteAlert}
+              onCreate={() => setShowAlertForm(true)}
+            />
+          )}
+        </div>
+      )}
+
+      {/* Auto-Bid Tab */}
+      {activeTab === 'autobid' && (
+        <div className="space-y-4">
+          {showAutoBidForm ? (
+            <AutoBidForm onSubmit={createAutoBid} onCancel={() => setShowAutoBidForm(false)} />
+          ) : (
+            <AutoBidList
+              rules={autoBidRules}
+              onToggle={toggleAutoBid}
+              onDelete={deleteAutoBid}
+              onCreate={() => setShowAutoBidForm(true)}
+            />
+          )}
+        </div>
+      )}
+
+      {/* Auctions Tab */}
+      {activeTab === 'auctions' && (
+        <div className="space-y-4">
+          <div className="flex items-center justify-between">
+            <h2 className="text-lg font-bold text-white">Leilões Abertos</h2>
+            <span className="text-sm text-slate-400">{auctions.length} leiloes</span>
+          </div>
+          {auctions.length === 0 ? (
+            <Card className="p-8 text-center">
+              <Gavel size={28} className="mx-auto text-slate-600 mb-2" />
+              <p className="text-sm text-slate-400">Nenhum leilão aberto no momento</p>
+              <p className="text-xs text-slate-500 mt-1">Leilões silenciosos aparecerao aqui quando criados</p>
+            </Card>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+              {auctions.map((auction: any) => (
+                <AuctionCard key={auction.id} auction={auction} />
+              ))}
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* Matches Tab */}
+      {activeTab === 'matches' && (<>
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
         <Card className="p-4 text-center">
-          <p className="text-sm text-gray-500">Total Matches</p>
+          <p className="text-sm text-slate-400">Total Matches</p>
           <p className="text-3xl font-bold mt-1">{matches.length}</p>
         </Card>
         <Card className="p-4 text-center">
-          <p className="text-sm text-gray-500">Pendentes</p>
-          <p className="text-3xl font-bold mt-1 text-amber-600">{pendingMatches.length}</p>
+          <p className="text-sm text-slate-500">Pendentes</p>
+          <p className="text-3xl font-bold mt-1 text-amber-400">{pendingMatches.length}</p>
         </Card>
         <Card className="p-4 text-center">
-          <p className="text-sm text-gray-500">Confirmados</p>
-          <p className="text-3xl font-bold mt-1 text-emerald-600">{confirmedMatches.length}</p>
+          <p className="text-sm text-slate-500">Confirmados</p>
+          <p className="text-3xl font-bold mt-1 text-emerald-400">{confirmedMatches.length}</p>
         </Card>
         <Card className="p-4 text-center">
-          <p className="text-sm text-gray-500">Volume Total</p>
+          <p className="text-sm text-slate-500">Volume Total</p>
           <p className="text-2xl font-bold mt-1">
             {formatBRL(matches.reduce((a, m) => a + m.matched_amount, 0))}
           </p>
@@ -134,14 +305,14 @@ export default function MatchingPage() {
 
       {loading ? (
         <div className="flex items-center justify-center h-48">
-          <div className="animate-spin w-8 h-8 border-4 border-brand-200 border-t-brand-600 rounded-full" />
+          <div className="animate-spin w-8 h-8 border-4 border-brand-500/20 border-t-brand-400 rounded-full" />
         </div>
       ) : (
         <>
           {/* Pending Matches - Action Required */}
           {pendingMatches.length > 0 && (
             <div>
-              <h2 className="text-lg font-bold text-gray-900 mb-3">Aguardando Resposta</h2>
+              <h2 className="text-lg font-bold text-white mb-3">Aguardando Resposta</h2>
               <div className="space-y-3">
                 {pendingMatches.map(match => {
                   const isSeller = match.seller_company_id === companyId
@@ -156,35 +327,43 @@ export default function MatchingPage() {
                     <Card key={match.id} className="p-5">
                       <div className="flex items-start justify-between">
                         <div className="flex items-start gap-4">
-                          <div className="w-12 h-12 rounded-xl bg-brand-50 flex items-center justify-center">
-                            <GitMerge size={24} className="text-brand-600" />
+                          <div className="w-12 h-12 rounded-xl bg-brand-500/15 flex items-center justify-center">
+                            <GitMerge size={24} className="text-brand-400" />
                           </div>
                           <div>
                             <div className="flex items-center gap-2 mb-1">
                               <span className={`text-xs font-semibold px-2 py-0.5 rounded-full ${cfg?.badge}`}>
                                 {cfg?.label}
                               </span>
+                              {match.listing?.credit_id && (
+                                <span className="font-mono text-xs font-bold text-brand-400 bg-brand-500/15 px-2 py-0.5 rounded border border-brand-500/25">
+                                  {match.listing.credit_id}
+                                </span>
+                              )}
+                              {match.listing?.credit_score && (
+                                <ScoreBadge grade={match.listing.credit_score.grade} size="sm" />
+                              )}
                               {match.match_score && (
-                                <span className="text-xs font-medium text-gray-500">
-                                  Score: {match.match_score}%
+                                <span className="text-xs font-medium text-slate-400">
+                                  Match: {match.match_score}%
                                 </span>
                               )}
                               {needsMyAction && (
-                                <Badge variant="warning">Sua acao necessaria</Badge>
+                                <Badge variant="warning">Sua ação necessária</Badge>
                               )}
                             </div>
 
                             <div className="flex items-center gap-2 text-sm">
                               <span className="font-medium">{match.seller_company?.nome_fantasia || 'Cedente'}</span>
-                              <ArrowRight size={14} className="text-gray-400" />
-                              <span className="font-medium">{match.buyer_company?.nome_fantasia || 'Cessionario'}</span>
+                              <ArrowRight size={14} className="text-slate-500" />
+                              <span className="font-medium">{match.buyer_company?.nome_fantasia || 'Cessionário'}</span>
                             </div>
 
-                            <div className="flex gap-6 mt-2 text-sm text-gray-500">
-                              <span>Valor: <strong className="text-gray-900">{formatBRL(match.matched_amount)}</strong></span>
-                              <span>Desconto: <strong className="text-gray-900">{match.agreed_discount}%</strong></span>
-                              <span>Taxa: <strong className="text-gray-900">{formatBRL(match.platform_fee)}</strong></span>
-                              <span>Liquido: <strong className="text-emerald-600">{formatBRL(match.net_to_seller)}</strong></span>
+                            <div className="flex gap-6 mt-2 text-sm text-slate-400">
+                              <span>Valor: <strong className="text-white">{formatBRL(match.matched_amount)}</strong></span>
+                              <span>Desconto: <strong className="text-white">{match.agreed_discount}%</strong></span>
+                              <span>Taxa: <strong className="text-white">{formatBRL(match.platform_fee)}</strong></span>
+                              <span>Liquido: <strong className="text-emerald-400">{formatBRL(match.net_to_seller)}</strong></span>
                             </div>
                           </div>
                         </div>
@@ -218,29 +397,37 @@ export default function MatchingPage() {
           {/* Confirmed Matches */}
           {confirmedMatches.length > 0 && (
             <div>
-              <h2 className="text-lg font-bold text-gray-900 mb-3">Matches Confirmados</h2>
+              <h2 className="text-lg font-bold text-white mb-3">Matches Confirmados</h2>
               <div className="space-y-3">
                 {confirmedMatches.map(match => (
                   <Card key={match.id} className="p-5">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-4">
-                        <div className="w-10 h-10 rounded-xl bg-emerald-50 flex items-center justify-center">
-                          <Check size={20} className="text-emerald-600" />
+                        <div className="w-10 h-10 rounded-xl bg-emerald-500/15 flex items-center justify-center">
+                          <Check size={20} className="text-emerald-400" />
                         </div>
                         <div>
                           <div className="flex items-center gap-2 text-sm">
+                            {match.listing?.credit_id && (
+                              <span className="font-mono text-xs font-bold text-brand-400 bg-brand-500/15 px-1.5 py-0.5 rounded border border-brand-500/25">
+                                {match.listing.credit_id}
+                              </span>
+                            )}
                             <span className="font-medium">{match.seller_company?.nome_fantasia}</span>
-                            <ArrowRight size={14} className="text-gray-400" />
+                            <ArrowRight size={14} className="text-slate-500" />
                             <span className="font-medium">{match.buyer_company?.nome_fantasia}</span>
+                            {match.listing?.credit_score && (
+                              <ScoreBadge grade={match.listing.credit_score.grade} size="sm" />
+                            )}
                           </div>
-                          <p className="text-xs text-gray-500 mt-0.5">
+                          <p className="text-xs text-slate-400 mt-0.5">
                             Confirmado em {match.confirmed_at ? formatDate(match.confirmed_at) : '—'}
                           </p>
                         </div>
                       </div>
                       <div className="text-right">
                         <p className="text-lg font-bold">{formatBRL(match.matched_amount)}</p>
-                        <p className="text-xs text-gray-500">{match.agreed_discount}% desconto</p>
+                        <p className="text-xs text-slate-400">{match.agreed_discount}% desconto</p>
                       </div>
                     </div>
                   </Card>
@@ -252,9 +439,9 @@ export default function MatchingPage() {
           {/* Empty State */}
           {matches.length === 0 && (
             <Card className="p-12 text-center">
-              <GitMerge size={40} className="mx-auto text-gray-300 mb-3" />
-              <p className="text-lg font-medium text-gray-500">Nenhum match encontrado</p>
-              <p className="text-sm text-gray-400 mt-1">
+              <GitMerge size={40} className="mx-auto text-slate-600 mb-3" />
+              <p className="text-lg font-medium text-slate-400">Nenhum match encontrado</p>
+              <p className="text-sm text-slate-500 mt-1">
                 Execute o matching engine para encontrar pares automaticamente
               </p>
               <Button className="mt-4" onClick={runMatchingEngine} disabled={running}>
@@ -265,6 +452,7 @@ export default function MatchingPage() {
           )}
         </>
       )}
+      </>)}
     </div>
   )
 }

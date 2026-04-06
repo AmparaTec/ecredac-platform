@@ -36,7 +36,8 @@ export async function GET(request: NextRequest) {
       .from('credit_listings')
       .select(`
         *,
-        company:companies(id, cnpj, razao_social, nome_fantasia, sefaz_status, tier)
+        company:companies(id, cnpj, razao_social, nome_fantasia, sefaz_status, tier),
+        credit_score:credit_scores(id, score, grade, sefaz_risk_score, homologation_score, maturity_score, origin_score, documentation_score, historical_score, risk_factors, estimated_homologation_days, calculated_at)
       `, { count: 'exact' })
 
     if (status !== 'all') {
@@ -128,6 +129,11 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Erro ao criar oferta' }, { status: 500 })
     }
 
+    // Calcular score automaticamente
+    const { data: scoreResult } = await supabase.rpc('calculate_credit_score', {
+      p_listing_id: created.id
+    })
+
     // Audit log
     await supabase.from('audit_log').insert({
       user_id: user.id,
@@ -135,10 +141,13 @@ export async function POST(request: NextRequest) {
       action: 'create',
       entity_type: 'credit_listing',
       entity_id: created.id,
-      description: `Nova oferta de credito: R$ ${parsed.data.amount}`,
+      description: `Nova oferta de crédito: R$ ${parsed.data.amount} — Score: ${scoreResult?.[0]?.grade || 'calculando'}`,
     })
 
-    return NextResponse.json({ listing: created }, { status: 201 })
+    return NextResponse.json({
+      listing: created,
+      score: scoreResult?.[0] || null
+    }, { status: 201 })
   } catch (error) {
     console.error('Create listing error:', error)
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 })

@@ -34,7 +34,12 @@ export async function updateSession(request: NextRequest) {
     request.nextUrl.pathname.startsWith('/demandas') ||
     request.nextUrl.pathname.startsWith('/matching') ||
     request.nextUrl.pathname.startsWith('/transacoes') ||
+    request.nextUrl.pathname.startsWith('/operacao') ||
     request.nextUrl.pathname.startsWith('/empresas') ||
+    request.nextUrl.pathname.startsWith('/pipeline') ||
+    request.nextUrl.pathname.startsWith('/assessor') ||
+    request.nextUrl.pathname.startsWith('/perfil') ||
+    request.nextUrl.pathname.startsWith('/compliance') ||
     request.nextUrl.pathname.startsWith('/admin')
 
   if (!user && isProtectedPage) {

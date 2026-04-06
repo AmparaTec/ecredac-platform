@@ -58,53 +58,53 @@ export default function TransacoesPage() {
     <div className="space-y-6">
       {/* Header */}
       <div>
-        <h1 className="text-2xl font-bold text-gray-900">Transacoes</h1>
-        <p className="text-gray-500 mt-1">Historico completo de operacoes com creditos de ICMS</p>
+        <h1 className="text-2xl font-bold text-white">Transações</h1>
+        <p className="text-slate-500 mt-1">Histórico completo de operações com créditos de ICMS</p>
       </div>
 
       {/* Stats */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
         <Card className="p-4">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-brand-50 flex items-center justify-center">
-              <ArrowLeftRight size={18} className="text-brand-600" />
+            <div className="w-10 h-10 rounded-xl bg-brand-500/15 flex items-center justify-center">
+              <ArrowLeftRight size={18} className="text-brand-400" />
             </div>
             <div>
-              <p className="text-xs text-gray-500">Total Transacoes</p>
+              <p className="text-xs text-slate-500">Total Transações</p>
               <p className="text-xl font-bold">{transactions.length}</p>
             </div>
           </div>
         </Card>
         <Card className="p-4">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-emerald-50 flex items-center justify-center">
-              <DollarSign size={18} className="text-emerald-600" />
+            <div className="w-10 h-10 rounded-xl bg-emerald-500/15 flex items-center justify-center">
+              <DollarSign size={18} className="text-emerald-400" />
             </div>
             <div>
-              <p className="text-xs text-gray-500">Volume Total</p>
+              <p className="text-xs text-slate-500">Volume Total</p>
               <p className="text-xl font-bold">{formatBRL(totalVolume)}</p>
             </div>
           </div>
         </Card>
         <Card className="p-4">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-amber-50 flex items-center justify-center">
-              <Clock size={18} className="text-amber-600" />
+            <div className="w-10 h-10 rounded-xl bg-amber-500/15 flex items-center justify-center">
+              <Clock size={18} className="text-amber-400" />
             </div>
             <div>
-              <p className="text-xs text-gray-500">Taxas Geradas</p>
+              <p className="text-xs text-slate-500">Taxas Geradas</p>
               <p className="text-xl font-bold">{formatBRL(totalFees)}</p>
             </div>
           </div>
         </Card>
         <Card className="p-4">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center">
-              <CheckCircle2 size={18} className="text-blue-600" />
+            <div className="w-10 h-10 rounded-xl bg-blue-500/15 flex items-center justify-center">
+              <CheckCircle2 size={18} className="text-blue-400" />
             </div>
             <div>
-              <p className="text-xs text-gray-500">Concluidas</p>
-              <p className="text-xl font-bold text-emerald-600">{completedCount}</p>
+              <p className="text-xs text-slate-500">Concluidas</p>
+              <p className="text-xl font-bold text-emerald-400">{completedCount}</p>
             </div>
           </div>
         </Card>
@@ -125,7 +125,7 @@ export default function TransacoesPage() {
             className={`px-4 py-1.5 rounded-xl text-sm font-medium transition-all ${
               filterStatus === f.value
                 ? 'bg-brand-600 text-white'
-                : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                : 'bg-dark-600 text-slate-400 hover:bg-dark-600/80'
             }`}
           >
             {f.label}
@@ -148,29 +148,29 @@ export default function TransacoesPage() {
               <Card key={tx.id} className="overflow-hidden">
                 {/* Main row */}
                 <div
-                  className="p-5 flex items-center justify-between cursor-pointer hover:bg-gray-50 transition-all"
+                  className="p-5 flex items-center justify-between cursor-pointer hover:bg-dark-600/50 transition-all"
                   onClick={() => setExpandedTx(expanded ? null : tx.id)}
                 >
                   <div className="flex items-center gap-4">
                     <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${
-                      tx.status === 'completed' ? 'bg-emerald-50' :
-                      tx.status === 'transferring' ? 'bg-blue-50' : 'bg-amber-50'
+                      tx.status === 'completed' ? 'bg-emerald-500/15' :
+                      tx.status === 'transferring' ? 'bg-blue-500/15' : 'bg-amber-500/15'
                     }`}>
                       <ArrowLeftRight size={18} className={
-                        tx.status === 'completed' ? 'text-emerald-600' :
-                        tx.status === 'transferring' ? 'text-blue-600' : 'text-amber-600'
+                        tx.status === 'completed' ? 'text-emerald-400' :
+                        tx.status === 'transferring' ? 'text-blue-400' : 'text-amber-400'
                       } />
                     </div>
                     <div>
                       <div className="flex items-center gap-2">
                         <span className="text-sm font-medium">{tx.seller_company?.nome_fantasia || 'Cedente'}</span>
-                        <span className="text-gray-400">→</span>
-                        <span className="text-sm font-medium">{tx.buyer_company?.nome_fantasia || 'Cessionario'}</span>
+                        <span className="text-slate-500">→</span>
+                        <span className="text-sm font-medium">{tx.buyer_company?.nome_fantasia || 'Cessionário'}</span>
                         <span className={`text-xs font-semibold px-2 py-0.5 rounded-full ${cfg?.badge}`}>
                           {cfg?.label}
                         </span>
                       </div>
-                      <p className="text-xs text-gray-500 mt-0.5">
+                      <p className="text-xs text-slate-500 mt-0.5">
                         #{tx.id.slice(0, 8)} · {formatDate(tx.created_at)}
                       </p>
                     </div>
@@ -179,52 +179,52 @@ export default function TransacoesPage() {
                   <div className="flex items-center gap-6">
                     <div className="text-right">
                       <p className="text-lg font-bold">{formatBRL(tx.credit_amount)}</p>
-                      <p className="text-xs text-gray-500">{tx.discount_applied}% desc.</p>
+                      <p className="text-xs text-slate-500">{tx.discount_applied}% desc.</p>
                     </div>
-                    {expanded ? <ChevronUp size={18} className="text-gray-400" /> : <ChevronDown size={18} className="text-gray-400" />}
+                    {expanded ? <ChevronUp size={18} className="text-slate-500" /> : <ChevronDown size={18} className="text-slate-500" />}
                   </div>
                 </div>
 
                 {/* Expanded details */}
                 {expanded && (
-                  <div className="px-5 pb-5 border-t border-gray-100 pt-4 space-y-4">
+                  <div className="px-5 pb-5 border-t border-dark-500/50 pt-4 space-y-4">
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                      <div className="p-3 rounded-xl bg-gray-50">
-                        <p className="text-xs text-gray-500">Valor do Credito</p>
+                      <div className="p-3 rounded-xl bg-dark-600/50">
+                        <p className="text-xs text-slate-500">Valor do Crédito</p>
                         <p className="text-lg font-bold">{formatBRL(tx.credit_amount)}</p>
                       </div>
-                      <div className="p-3 rounded-xl bg-gray-50">
-                        <p className="text-xs text-gray-500">Pagamento Total</p>
+                      <div className="p-3 rounded-xl bg-dark-600/50">
+                        <p className="text-xs text-slate-500">Pagamento Total</p>
                         <p className="text-lg font-bold">{formatBRL(tx.total_payment)}</p>
                       </div>
-                      <div className="p-3 rounded-xl bg-gray-50">
-                        <p className="text-xs text-gray-500">Taxa Plataforma</p>
-                        <p className="text-lg font-bold text-brand-600">{formatBRL(tx.platform_fee)}</p>
+                      <div className="p-3 rounded-xl bg-dark-600/50">
+                        <p className="text-xs text-slate-500">Taxa Plataforma</p>
+                        <p className="text-lg font-bold text-brand-400">{formatBRL(tx.platform_fee)}</p>
                       </div>
-                      <div className="p-3 rounded-xl bg-emerald-50">
-                        <p className="text-xs text-gray-500">Liquido Cedente</p>
-                        <p className="text-lg font-bold text-emerald-600">{formatBRL(tx.net_to_seller)}</p>
+                      <div className="p-3 rounded-xl bg-emerald-500/15">
+                        <p className="text-xs text-slate-500">Liquido Cedente</p>
+                        <p className="text-lg font-bold text-emerald-400">{formatBRL(tx.net_to_seller)}</p>
                       </div>
                     </div>
 
                     {/* Documents */}
                     <div>
-                      <h4 className="text-sm font-bold text-gray-700 mb-2">Documentos</h4>
+                      <h4 className="text-sm font-bold text-slate-300 mb-2">Documentos</h4>
                       <div className="flex gap-3">
                         <div className={`flex items-center gap-2 p-2 rounded-xl text-sm ${
-                          tx.contract_signed_at ? 'bg-emerald-50 text-emerald-700' : 'bg-gray-50 text-gray-400'
+                          tx.contract_signed_at ? 'bg-emerald-500/15 text-emerald-400' : 'bg-dark-600/50 text-slate-500'
                         }`}>
                           <FileText size={14} />
                           Contrato {tx.contract_signed_at ? '✓' : '(pendente)'}
                         </div>
                         <div className={`flex items-center gap-2 p-2 rounded-xl text-sm ${
-                          tx.nfe_key ? 'bg-emerald-50 text-emerald-700' : 'bg-gray-50 text-gray-400'
+                          tx.nfe_key ? 'bg-emerald-500/15 text-emerald-400' : 'bg-dark-600/50 text-slate-500'
                         }`}>
                           <FileText size={14} />
                           NF-e {tx.nfe_key ? '✓' : '(pendente)'}
                         </div>
                         <div className={`flex items-center gap-2 p-2 rounded-xl text-sm ${
-                          tx.payment_confirmed_at ? 'bg-emerald-50 text-emerald-700' : 'bg-gray-50 text-gray-400'
+                          tx.payment_confirmed_at ? 'bg-emerald-500/15 text-emerald-400' : 'bg-dark-600/50 text-slate-500'
                         }`}>
                           <DollarSign size={14} />
                           Pagamento {tx.payment_confirmed_at ? '✓' : '(pendente)'}
@@ -235,7 +235,7 @@ export default function TransacoesPage() {
                     {/* Credit usage for completed transactions */}
                     {tx.status === 'completed' && (
                       <div>
-                        <h4 className="text-sm font-bold text-gray-700 mb-2">Uso do Credito</h4>
+                        <h4 className="text-sm font-bold text-slate-300 mb-2">Uso do Crédito</h4>
                         <CreditGauge
                           total={tx.credit_amount}
                           used={Math.round(tx.credit_amount * 0.65)}
@@ -249,12 +249,12 @@ export default function TransacoesPage() {
 
                     {/* Payment details */}
                     {tx.payment_method && (
-                      <div className="text-sm text-gray-500">
-                        <span>Metodo: <strong className="text-gray-700">
+                      <div className="text-sm text-slate-500">
+                        <span>Metodo: <strong className="text-slate-300">
                           {tx.payment_method === 'pix' ? 'PIX' : tx.payment_method === 'ted' ? 'TED' : 'Boleto'}
                         </strong></span>
                         {tx.payment_reference && (
-                          <span className="ml-4">Ref: <code className="text-xs bg-gray-100 px-1.5 py-0.5 rounded">{tx.payment_reference}</code></span>
+                          <span className="ml-4">Ref: <code className="text-xs bg-dark-600 text-slate-400 px-1.5 py-0.5 rounded">{tx.payment_reference}</code></span>
                         )}
                       </div>
                     )}
@@ -266,9 +266,9 @@ export default function TransacoesPage() {
         </div>
       ) : (
         <Card className="p-12 text-center">
-          <ArrowLeftRight size={40} className="mx-auto text-gray-300 mb-3" />
-          <p className="text-lg font-medium text-gray-500">Nenhuma transacao encontrada</p>
-          <p className="text-sm text-gray-400 mt-1">As transacoes aparecem aqui apos a confirmacao de um match</p>
+          <ArrowLeftRight size={40} className="mx-auto text-slate-600 mb-3" />
+          <p className="text-lg font-medium text-slate-500">Nenhuma transação encontrada</p>
+          <p className="text-sm text-slate-500 mt-1">As transações aparecem aqui após a confirmação de um match</p>
         </Card>
       )}
     </div>
