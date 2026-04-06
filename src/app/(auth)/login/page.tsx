@@ -5,7 +5,8 @@ import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 import Link from 'next/link'
 
-/* ─── Ícones inline (evita import extra) ─────────────────────────── */
+/* Form is inline to prevent focus loss - fixed to address focus re-mount issues */
+
 const EyeIcon = () => (
   <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
     <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" /><circle cx="12" cy="12" r="3" />
@@ -28,7 +29,6 @@ const CheckIcon = () => (
   </svg>
 )
 
-/* ─── Dados ──────────────────────────────────────────────────────── */
 const stats = [
   { value: 'R$ 8,2B', label: 'em créditos gerenciados' },
   { value: '1.240+', label: 'empresas cadastradas' },
@@ -74,7 +74,6 @@ const differentials = [
   { icon: '💼', title: 'Suporte Jurídico', desc: 'Equipe especializada em direito tributário e ICMS.' },
 ]
 
-/* ─── Componente principal ────────────────────────────────────────── */
 export default function LoginPage() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -103,106 +102,14 @@ export default function LoginPage() {
     formRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
   }
 
-  /* ── Formulário de login (reutilizado em mobile e desktop) ─────── */
-  const LoginForm = () => (
-    <div className="w-full">
-      <div className="mb-5">
-        <h2 className="text-xl font-bold text-white">Acessar plataforma</h2>
-        <p className="text-slate-500 text-sm mt-0.5">Entre com seu e-mail e senha</p>
-      </div>
-
-      {error && (
-        <div className="mb-4 p-3 rounded-xl bg-red-500/15 border border-red-500/25 text-red-400 text-sm">
-          {error}
-        </div>
-      )}
-
-      <form onSubmit={handleLogin} className="space-y-3">
-        <div>
-          <label className="block text-sm font-medium text-slate-300 mb-1.5">E-mail</label>
-          <input
-            type="email"
-            autoComplete="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="fiscal@suaempresa.com.br"
-            required
-            className="w-full rounded-xl border border-dark-500/60 px-4 py-3.5 text-sm bg-dark-700 text-white placeholder:text-slate-600 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 transition-all outline-none"
-          />
-        </div>
-
-        <div>
-          <div className="flex items-center justify-between mb-1.5">
-            <label className="block text-sm font-medium text-slate-300">Senha</label>
-            <Link href="/forgot-password" className="text-xs text-brand-400 hover:text-brand-300 transition-colors">
-              Esqueceu a senha?
-            </Link>
-          </div>
-          <div className="relative">
-            <input
-              type={showPassword ? 'text' : 'password'}
-              autoComplete="current-password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="••••••••"
-              required
-              className="w-full rounded-xl border border-dark-500/60 px-4 py-3.5 pr-12 text-sm bg-dark-700 text-white placeholder:text-slate-600 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 transition-all outline-none"
-            />
-            <button
-              type="button"
-              onClick={() => setShowPassword(!showPassword)}
-              className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-300 transition-colors p-1"
-              tabIndex={-1}
-            >
-              {showPassword ? <EyeOffIcon /> : <EyeIcon />}
-            </button>
-          </div>
-        </div>
-
-        <button
-          type="submit"
-          disabled={loading}
-          className="w-full bg-brand-600 hover:bg-brand-500 active:scale-[0.98] text-white font-bold py-4 rounded-xl shadow-lg shadow-brand-500/20 transition-all disabled:opacity-50 text-sm mt-1"
-        >
-          {loading ? (
-            <span className="flex items-center justify-center gap-2">
-              <span className="animate-spin w-4 h-4 border-2 border-white/30 border-t-white rounded-full inline-block" />
-              Entrando...
-            </span>
-          ) : 'Entrar na plataforma'}
-        </button>
-      </form>
-
-      <p className="text-center text-sm text-slate-500 mt-4">
-        Ainda não tem conta?{' '}
-        <Link href="/register" className="text-brand-400 hover:text-brand-300 font-semibold">
-          Cadastre-se grátis
-        </Link>
-      </p>
-
-      <div className="mt-4 pt-4 border-t border-dark-500/30 flex items-center justify-center gap-4 text-xs text-slate-600">
-        <span>🔒 256-bit SSL</span>
-        <span>•</span>
-        <span>🔑 ICP-Brasil</span>
-        <span>•</span>
-        <span>🛡️ LGPD</span>
-      </div>
-    </div>
-  )
-
+  /* Form content inline to prevent focus loss */
   return (
     <>
-      {/* ═══════════════════════════════════════════════════════════
-          DESKTOP — split layout (esquerda: empresa | direita: form)
-      ═══════════════════════════════════════════════════════════ */}
       <div className="hidden lg:flex min-h-screen bg-dark-900">
-
-        {/* Painel esquerdo — empresa */}
         <div
           className="w-1/2 flex flex-col justify-between p-14 text-white overflow-y-auto"
           style={{ background: 'linear-gradient(160deg, #06070D 0%, #0F1120 55%, #151829 100%)' }}
         >
-          {/* Logo */}
           <div className="flex items-center gap-3">
             <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-brand-500 to-accent-600 flex items-center justify-center font-black text-xl shadow-lg shadow-brand-600/30">E</div>
             <div>
@@ -211,7 +118,6 @@ export default function LoginPage() {
             </div>
           </div>
 
-          {/* Hero */}
           <div className="my-12">
             <h1 className="text-5xl font-black leading-tight mb-4">
               O Maior Motor<br />de Créditos de<br />
@@ -221,7 +127,6 @@ export default function LoginPage() {
               Conectamos cedentes e cessionários com compliance SEFAZ-SP nativo — da originação ao último centavo utilizado.
             </p>
 
-            {/* Stats */}
             <div className="grid grid-cols-3 gap-4 mb-10">
               {stats.map((s) => (
                 <div key={s.label} className="bg-white/5 rounded-xl p-4 border border-white/10">
@@ -231,7 +136,6 @@ export default function LoginPage() {
               ))}
             </div>
 
-            {/* Como funciona */}
             <div className="space-y-4">
               {howItWorks.map((h) => (
                 <div key={h.step} className="flex gap-4">
@@ -245,7 +149,6 @@ export default function LoginPage() {
             </div>
           </div>
 
-          {/* Rodapé */}
           <div className="flex flex-wrap gap-4 text-xs text-white/30">
             {differentials.slice(0, 4).map(d => (
               <span key={d.title}>{d.icon} {d.title}</span>
@@ -253,20 +156,90 @@ export default function LoginPage() {
           </div>
         </div>
 
-        {/* Painel direito — formulário */}
         <div className="w-1/2 flex items-center justify-center p-10 bg-dark-900">
           <div className="w-full max-w-sm bg-dark-800 rounded-2xl p-8 shadow-2xl shadow-black/30 border border-dark-600/30">
-            <LoginForm />
+            <div className="w-full">
+              <div className="mb-5">
+                <h2 className="text-xl font-bold text-white">Acessar plataforma</h2>
+                <p className="text-slate-500 text-sm mt-0.5">Entre com seu e-mail e senha</p>
+              </div>
+              {error && (
+                <div className="mb-4 p-3 rounded-xl bg-red-500/15 border border-red-500/25 text-red-400 text-sm">
+                  {error}
+                </div>
+              )}
+              <form onSubmit={handleLogin} className="space-y-3">
+                <div>
+                  <label className="block text-sm font-medium text-slate-300 mb-1.5">E-mail</label>
+                  <input
+                    type="email"
+                    autoComplete="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="fiscal@suaempresa.com.br"
+                    required
+                    className="w-full rounded-xl border border-dark-500/60 px-4 py-3.5 text-sm bg-dark-700 text-white placeholder:text-slate-600 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 transition-all outline-none"
+                  />
+                </div>
+                <div>
+                  <div className="flex items-center justify-between mb-1.5">
+                    <label className="block text-sm font-medium text-slate-300">Senha</label>
+                    <Link href="/forgot-password" className="text-xs text-brand-400 hover:text-brand-300 transition-colors">
+                      Esqueceu a senha?
+                    </Link>
+                  </div>
+                  <div className="relative">
+                    <input
+                      type={showPassword ? 'text' : 'password'}
+                      autoComplete="current-password"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      placeholder="••••••••"
+                      required
+                      className="w-full rounded-xl border border-dark-500/60 px-4 py-3.5 pr-12 text-sm bg-dark-700 text-white placeholder:text-slate-600 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 transition-all outline-none"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowPassword(!showPassword)}
+                      className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-300 transition-colors p-1"
+                      tabIndex={-1}
+                    >
+                      {showPassword ? <EyeOffIcon /> : <EyeIcon />}
+                    </button>
+                  </div>
+                </div>
+                <button
+                  type="submit"
+                  disabled={loading}
+                  className="w-full bg-brand-600 hover:bg-brand-500 active:scale-[0.98] text-white font-bold py-4 rounded-xl shadow-lg shadow-brand-500/20 transition-all disabled:opacity-50 text-sm mt-1"
+                >
+                  {loading ? (
+                    <span className="flex items-center justify-center gap-2">
+                      <span className="animate-spin w-4 h-4 border-2 border-white/30 border-t-white rounded-full inline-block" />
+                      Entrando...
+                    </span>
+                  ) : 'Entrar na plataforma'}
+                </button>
+              </form>
+              <p className="text-center text-sm text-slate-500 mt-4">
+                Ainda não tem conta?{' '}
+                <Link href="/register" className="text-brand-400 hover:text-brand-300 font-semibold">
+                  Cadastre-se grátis
+                </Link>
+              </p>
+              <div className="mt-4 pt-4 border-t border-dark-500/30 flex items-center justify-center gap-4 text-xs text-slate-600">
+                <span>🔒 256-bit SSL</span>
+                <span>•</span>
+                <span>🔑 ICP-Brasil</span>
+                <span>•</span>
+                <span>🛡️ LGPD</span>
+              </div>
+            </div>
           </div>
         </div>
       </div>
 
-      {/* ═══════════════════════════════════════════════════════════
-          MOBILE — página completa scrollável com landing + login
-      ═══════════════════════════════════════════════════════════ */}
       <div className="lg:hidden min-h-screen bg-dark-900 text-white">
-
-        {/* ── Cabeçalho fixo mobile ───────────────────────────── */}
         <header className="sticky top-0 z-50 flex items-center justify-between px-5 py-3.5 bg-dark-900/95 backdrop-blur-sm border-b border-dark-700/50">
           <div className="flex items-center gap-2.5">
             <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-brand-500 to-accent-600 flex items-center justify-center font-black text-sm shadow-md">E</div>
@@ -280,7 +253,6 @@ export default function LoginPage() {
           </button>
         </header>
 
-        {/* ── Hero mobile ─────────────────────────────────────── */}
         <section
           className="px-5 pt-10 pb-8 text-center"
           style={{ background: 'linear-gradient(180deg, #06070D 0%, #0F1120 60%, #0d0f1e 100%)' }}
@@ -289,17 +261,13 @@ export default function LoginPage() {
             <span className="w-1.5 h-1.5 rounded-full bg-brand-400 animate-pulse" />
             Plataforma ativa · 1.240+ empresas
           </div>
-
           <h1 className="text-4xl font-black leading-tight mb-3">
             O Maior Motor<br />de Créditos de<br />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-400 to-accent-400">ICMS do Brasil.</span>
           </h1>
-
           <p className="text-sm text-white/60 leading-relaxed mb-7 max-w-xs mx-auto">
             Conectamos cedentes e cessionários de crédito de ICMS com compliance SEFAZ-SP nativo e inteligência artificial.
           </p>
-
-          {/* CTA mobile */}
           <div className="flex flex-col gap-2.5 max-w-xs mx-auto mb-8">
             <button
               onClick={scrollToForm}
@@ -314,8 +282,6 @@ export default function LoginPage() {
               Cadastrar minha empresa
             </Link>
           </div>
-
-          {/* Scroll hint */}
           <button
             onClick={() => document.getElementById('sobre')?.scrollIntoView({ behavior: 'smooth' })}
             className="flex flex-col items-center gap-1.5 text-white/30 hover:text-white/50 transition-colors mx-auto"
@@ -325,7 +291,6 @@ export default function LoginPage() {
           </button>
         </section>
 
-        {/* ── Stats ───────────────────────────────────────────── */}
         <section className="px-5 py-6" style={{ background: '#0d0f1e' }}>
           <div className="grid grid-cols-3 gap-3">
             {stats.map((s) => (
@@ -337,7 +302,6 @@ export default function LoginPage() {
           </div>
         </section>
 
-        {/* ── O que é crédito de ICMS? ─────────────────────────── */}
         <section id="sobre" className="px-5 py-8 border-t border-dark-700/40">
           <div className="bg-gradient-to-br from-brand-500/8 to-accent-500/5 border border-brand-500/15 rounded-2xl p-5">
             <span className="text-[11px] text-brand-400 font-semibold uppercase tracking-wider">O que é</span>
@@ -352,7 +316,6 @@ export default function LoginPage() {
           </div>
         </section>
 
-        {/* ── Para quem é? ─────────────────────────────────────── */}
         <section className="px-5 pb-8">
           <h2 className="text-lg font-bold text-white mb-4">Para quem é a plataforma?</h2>
           <div className="space-y-3">
@@ -379,53 +342,81 @@ export default function LoginPage() {
           </div>
         </section>
 
-        {/* ── Como funciona ────────────────────────────────────── */}
-        <section className="px-5 pb-8 border-t border-dark-700/40 pt-8">
-          <h2 className="text-lg font-bold text-white mb-5">Como funciona</h2>
-          <div className="space-y-5">
-            {howItWorks.map((h, i) => (
-              <div key={h.step} className="flex gap-4">
-                <div className="flex-shrink-0 w-10 h-10 rounded-xl bg-brand-500/15 border border-brand-500/25 flex items-center justify-center text-brand-400 font-black text-sm">
-                  {h.step}
-                </div>
-                <div className="flex-1 pt-1">
-                  <p className="text-sm font-semibold text-white">{h.title}</p>
-                  <p className="text-xs text-white/50 mt-1 leading-relaxed">{h.desc}</p>
-                </div>
-                {i < howItWorks.length - 1 && (
-                  <div className="absolute ml-5 mt-10 w-px h-5 bg-brand-500/20" />
-                )}
-              </div>
-            ))}
-          </div>
-        </section>
-
-        {/* ── Diferenciais ─────────────────────────────────────── */}
-        <section className="px-5 pb-8 border-t border-dark-700/40 pt-8">
-          <h2 className="text-lg font-bold text-white mb-4">Por que a E-CREDac?</h2>
-          <div className="grid grid-cols-2 gap-3">
-            {differentials.map((d) => (
-              <div key={d.title} className="bg-dark-800/60 border border-dark-600/30 rounded-xl p-3.5">
-                <span className="text-xl">{d.icon}</span>
-                <p className="text-xs font-semibold text-white mt-2">{d.title}</p>
-                <p className="text-[11px] text-white/45 mt-1 leading-relaxed">{d.desc}</p>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        {/* ── Formulário de login ──────────────────────────────── */}
-        <section
-          ref={formRef}
-          id="login"
-          className="px-5 pb-8 pt-8 border-t border-dark-700/40"
-        >
+        <section ref={formRef} id="login" className="px-5 pb-8 pt-8 border-t border-dark-700/40">
           <div className="bg-dark-800 border border-dark-600/40 rounded-2xl p-5 shadow-xl shadow-black/20">
-            <LoginForm />
+            <div className="w-full">
+              <div className="mb-5">
+                <h2 className="text-xl font-bold text-white">Acessar plataforma</h2>
+                <p className="text-slate-500 text-sm mt-0.5">Entre com seu e-mail e senha</p>
+              </div>
+              {error && (
+                <div className="mb-4 p-3 rounded-xl bg-red-500/15 border border-red-500/25 text-red-400 text-sm">
+                  {error}
+                </div>
+              )}
+              <form onSubmit={handleLogin} className="space-y-3">
+                <div>
+                  <label className="block text-sm font-medium text-slate-300 mb-1.5">E-mail</label>
+                  <input
+                    type="email"
+                    autoComplete="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="fiscal@suaempresa.com.br"
+                    required
+                    className="w-full rounded-xl border border-dark-500/60 px-4 py-3.5 text-sm bg-dark-700 text-white placeholder:text-slate-600 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 transition-all outline-none"
+                  />
+                </div>
+                <div>
+                  <div className="flex items-center justify-between mb-1.5">
+                    <label className="block text-sm font-medium text-slate-300">Senha</label>
+                    <Link href="/forgot-password" className="text-xs text-brand-400 hover:text-brand-300 transition-colors">
+                      Esqueceu a senha?
+                    </Link>
+                  </div>
+                  <div className="relative">
+                    <input
+                      type={showPassword ? 'text' : 'password'}
+                      autoComplete="current-password"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      placeholder="••••••••"
+                      required
+                      className="w-full rounded-xl border border-dark-500/60 px-4 py-3.5 pr-12 text-sm bg-dark-700 text-white placeholder:text-slate-600 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 transition-all outline-none"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowPassword(!showPassword)}
+                      className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-300 transition-colors p-1"
+                      tabIndex={-1}
+                    >
+                      {showPassword ? <EyeOffIcon /> : <EyeIcon />}
+                    </button>
+                  </div>
+                </div>
+                <button
+                  type="submit"
+                  disabled={loading}
+                  className="w-full bg-brand-600 hover:bg-brand-500 active:scale-[0.98] text-white font-bold py-4 rounded-xl shadow-lg shadow-brand-500/20 transition-all disabled:opacity-50 text-sm mt-1"
+                >
+                  {loading ? (
+                    <span className="flex items-center justify-center gap-2">
+                      <span className="animate-spin w-4 h-4 border-2 border-white/30 border-t-white rounded-full inline-block" />
+                      Entrando...
+                    </span>
+                  ) : 'Entrar na plataforma'}
+                </button>
+              </form>
+              <p className="text-center text-sm text-slate-500 mt-4">
+                Ainda não tem conta?{' '}
+                <Link href="/register" className="text-brand-400 hover:text-brand-300 font-semibold">
+                  Cadastre-se grátis
+                </Link>
+              </p>
+            </div>
           </div>
         </section>
 
-        {/* ── Rodapé mobile ───────────────────────────────────── */}
         <footer className="px-5 pb-10 pt-4 border-t border-dark-700/30">
           <div className="flex items-center justify-center gap-2 mb-4">
             <div className="w-6 h-6 rounded-md bg-gradient-to-br from-brand-500 to-accent-600 flex items-center justify-center font-black text-xs">E</div>
@@ -448,4 +439,4 @@ export default function LoginPage() {
       </div>
     </>
   )
-}
+              }
