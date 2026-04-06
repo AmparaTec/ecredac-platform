@@ -111,7 +111,7 @@ interface PercentInputProps {
 export function PercentInput({
   value,
   onChange,
-  placeholder = '0,0',
+  placeholder = '0,00',
   min = 0,
   max = 100,
   className,
@@ -120,7 +120,7 @@ export function PercentInput({
     if (!value || value === '0' || value === '') return ''
     const num = parseFloat(value)
     if (isNaN(num)) return ''
-    return num.toLocaleString('pt-BR', { minimumFractionDigits: 1, maximumFractionDigits: 1 })
+    return num.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
   })
 
   const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
@@ -131,9 +131,9 @@ export function PercentInput({
       onChange('', 0)
       return
     }
-    const num = parseInt(digits, 10) / 10
+    const num = parseInt(digits, 10) / 100
     const clamped = Math.min(Math.max(num, min), max)
-    const formatted = clamped.toLocaleString('pt-BR', { minimumFractionDigits: 1, maximumFractionDigits: 1 })
+    const formatted = clamped.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
     setDisplayValue(formatted)
     onChange(String(clamped), clamped)
   }, [min, max, onChange])

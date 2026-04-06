@@ -244,7 +244,6 @@ export default function DemandasPage() {
                   onChange={(raw) => setNewRequest({ ...newRequest, amount_needed: raw })}
                   placeholder="500.000,00"
                   required
-                  allowDecimals={false}
                 />
               </div>
 
@@ -255,7 +254,7 @@ export default function DemandasPage() {
                     value={newRequest.max_discount_accepted}
                     onChange={(raw) => setNewRequest({ ...newRequest, max_discount_accepted: raw })}
                     min={0} max={50}
-                    placeholder="15,0"
+                    placeholder="15,00"
                   />
                 </div>
                 <div>

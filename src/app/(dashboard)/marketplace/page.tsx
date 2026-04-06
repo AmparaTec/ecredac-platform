@@ -382,7 +382,6 @@ export default function MarketplacePage() {
                   onChange={(raw) => setNewListing({ ...newListing, amount: raw })}
                   placeholder="1.000.000,00"
                   required
-                  allowDecimals={false}
                 />
               </div>
 
@@ -429,7 +428,7 @@ export default function MarketplacePage() {
                     value={newListing.min_discount}
                     onChange={(raw) => setNewListing({ ...newListing, min_discount: raw })}
                     min={0} max={50}
-                    placeholder="5,0"
+                    placeholder="5,00"
                   />
                 </div>
                 <div>
@@ -438,7 +437,7 @@ export default function MarketplacePage() {
                     value={newListing.max_discount}
                     onChange={(raw) => setNewListing({ ...newListing, max_discount: raw })}
                     min={0} max={50}
-                    placeholder="20,0"
+                    placeholder="20,00"
                   />
                 </div>
               </div>

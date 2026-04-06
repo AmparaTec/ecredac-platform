@@ -53,32 +53,37 @@ export function FeedbackButton() {
 
   return (
     <>
-      {/* Botão flutuante discreto */}
+      {/* Botão flutuante discreto — responsivo mobile */}
       <button
         onClick={() => setOpen(!open)}
-        className="fixed bottom-4 right-4 z-50 w-10 h-10 rounded-full bg-dark-700 border border-dark-500/50 text-slate-500 hover:text-brand-400 hover:border-brand-500/30 shadow-lg transition-all duration-200 flex items-center justify-center group"
+        className="fixed bottom-4 right-4 z-50 w-10 h-10 sm:w-10 sm:h-10 rounded-full bg-dark-700 border border-dark-500/50 text-slate-500 hover:text-brand-400 hover:border-brand-500/30 shadow-lg transition-all duration-200 flex items-center justify-center group"
         title="Enviar feedback"
       >
         {open ? <X size={16} /> : <MessageSquarePlus size={16} />}
       </button>
 
-      {/* Painel de feedback */}
+      {/* Painel de feedback — fullscreen mobile, card desktop */}
       {open && (
-        <div className="fixed bottom-16 right-4 z-50 w-80 bg-dark-700 border border-dark-500/50 rounded-2xl shadow-2xl overflow-hidden animate-in slide-in-from-bottom-2">
+        <div className="fixed inset-0 sm:inset-auto sm:bottom-16 sm:right-4 z-50 sm:w-80 bg-dark-700 sm:border sm:border-dark-500/50 sm:rounded-2xl shadow-2xl overflow-hidden sm:animate-in sm:slide-in-from-bottom-2">
           {sent ? (
-            <div className="p-6 text-center">
+            <div className="p-6 text-center flex flex-col items-center justify-center h-full sm:h-auto">
               <CheckCircle size={32} className="mx-auto text-emerald-400 mb-2" />
               <p className="text-sm font-medium text-white">Obrigado pelo feedback!</p>
               <p className="text-xs text-slate-500 mt-1">Sua contribuição nos ajuda a melhorar.</p>
             </div>
           ) : (
-            <form onSubmit={handleSubmit}>
-              <div className="p-4 border-b border-dark-500/50">
-                <h3 className="text-sm font-bold text-white">Feedback</h3>
-                <p className="text-[11px] text-slate-500 mt-0.5">Ajude-nos a melhorar a plataforma</p>
+            <form onSubmit={handleSubmit} className="flex flex-col h-full sm:h-auto">
+              <div className="p-4 border-b border-dark-500/50 flex items-center justify-between">
+                <div>
+                  <h3 className="text-sm font-bold text-white">Feedback</h3>
+                  <p className="text-[11px] text-slate-500 mt-0.5">Ajude-nos a melhorar a plataforma</p>
+                </div>
+                <button type="button" onClick={() => setOpen(false)} className="sm:hidden p-2 rounded-lg hover:bg-dark-600/50 text-slate-400">
+                  <X size={18} />
+                </button>
               </div>
 
-              <div className="p-4 space-y-3">
+              <div className="p-4 space-y-3 flex-1 flex flex-col">
                 {/* Tipo */}
                 <div className="flex gap-1.5">
                   {feedbackTypes.map((ft) => (
@@ -105,7 +110,7 @@ export function FeedbackButton() {
                   placeholder="Descreva sua sugestão, bug ou comentário..."
                   rows={3}
                   required
-                  className="w-full rounded-xl border border-dark-500/50 bg-dark-600/50 text-white px-3 py-2 text-sm placeholder-slate-600 resize-none focus:border-brand-500/50 focus:ring-1 focus:ring-brand-500/20 transition-all"
+                  className="w-full flex-1 sm:flex-none rounded-xl border border-dark-500/50 bg-dark-600/50 text-white px-3 py-2 text-sm placeholder-slate-600 resize-none focus:border-brand-500/50 focus:ring-1 focus:ring-brand-500/20 transition-all"
                 />
 
                 {/* Enviar */}
