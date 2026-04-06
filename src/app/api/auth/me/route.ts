@@ -36,7 +36,24 @@ export async function GET() {
 /**
  * PATCH /api/auth/me
  * Atualiza perfil e/ou empresa do usuário autenticado
- * Body: { profile?: { full_name, phone }, company?: { nome_fantasia, email, phone, address_* } }
+ *
+ * Body:
+ * {
+ *   profile?: {
+ *     full_name?: string,
+ *     phone?: string,
+ *     metadata?: Record<string, unknown>  // deep-merged into existing metadata
+ *   },
+ *   company?: {
+ *     nome_fantasia?: string,
+ *     email?: string,
+ *     phone?: string,
+ *     address?: {                          // jsonb column
+ *       cep, logradouro, numero, complemento, bairro, cidade, uf
+ *     },
+ *     metadata?: Record<string, unknown>  // deep-merged into existing metadata
+ *   }
+ * }
  */
 export async function PATCH(request: NextRequest) {
   try {
@@ -48,12 +65,27 @@ export async function PATCH(request: NextRequest) {
 
     const body = await request.json()
 
-    // Update profile
+    // ── Update user profile ──────────────────────────────────────────
     if (body.profile) {
-      const { full_name, phone } = body.profile
+      const { full_name, phone, metadata: newMeta } = body.profile
       const updateData: Record<string, unknown> = {}
-      if (full_name !== undefined) updateData.full_name = full_name.trim()
-      if (phone !== undefined) updateData.phone = phone.trim()
+
+      if (full_name !== undefined) updateData.full_name = String(full_name).trim()
+      if (phone !== undefined) updateData.phone = String(phone).trim()
+
+      // Deep-merge metadata: fetch current → merge → save
+      if (newMeta && typeof newMeta === 'object') {
+        const { data: current } = await supabase
+          .from('user_profiles')
+          .select('metadata')
+          .eq('auth_user_id', user.id)
+          .single()
+
+        updateData.metadata = {
+          ...(current?.metadata || {}),
+          ...newMeta,
+        }
+      }
 
       if (Object.keys(updateData).length > 0) {
         const { error } = await supabase
@@ -68,20 +100,40 @@ export async function PATCH(request: NextRequest) {
       }
     }
 
-    // Update company
+    // ── Update company ───────────────────────────────────────────────
     if (body.company) {
-      const allowed = [
-        'nome_fantasia', 'email', 'phone',
-        'address_street', 'address_number', 'address_complement',
-        'address_city', 'address_state', 'address_zip',
-      ]
-
+      const { nome_fantasia, email, phone, address, metadata: newMeta } = body.company
       const updateData: Record<string, unknown> = {}
-      for (const key of allowed) {
-        if (body.company[key] !== undefined) {
-          updateData[key] = typeof body.company[key] === 'string'
-            ? body.company[key].trim()
-            : body.company[key]
+
+      if (nome_fantasia !== undefined) updateData.nome_fantasia = String(nome_fantasia).trim()
+      if (email !== undefined) updateData.email = String(email).trim()
+      if (phone !== undefined) updateData.phone = String(phone).trim()
+
+      // address is a jsonb column — fetch current, deep-merge
+      if (address && typeof address === 'object') {
+        const { data: current } = await supabase
+          .from('companies')
+          .select('address')
+          .eq('auth_user_id', user.id)
+          .single()
+
+        updateData.address = {
+          ...(current?.address || {}),
+          ...address,
+        }
+      }
+
+      // metadata deep-merge
+      if (newMeta && typeof newMeta === 'object') {
+        const { data: current } = await supabase
+          .from('companies')
+          .select('metadata')
+          .eq('auth_user_id', user.id)
+          .single()
+
+        updateData.metadata = {
+          ...(current?.metadata || {}),
+          ...newMeta,
         }
       }
 
@@ -98,7 +150,7 @@ export async function PATCH(request: NextRequest) {
       }
     }
 
-    // Log
+    // Audit log (best-effort)
     await supabase.from('audit_log').insert({
       entity_type: 'user_profile',
       entity_id: user.id,
