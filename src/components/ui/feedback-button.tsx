@@ -1,8 +1,8 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useRef, useCallback, useEffect } from 'react'
 import { createClient } from '@/lib/supabase/client'
-import { MessageSquarePlus, X, Send, CheckCircle } from 'lucide-react'
+import { MessageSquarePlus, X, Send, CheckCircle, GripVertical } from 'lucide-react'
 
 type FeedbackType = 'bug' | 'melhoria' | 'elogio' | 'outro'
 
@@ -19,6 +19,39 @@ export function FeedbackButton() {
   const [message, setMessage] = useState('')
   const [sending, setSending] = useState(false)
   const [sent, setSent] = useState(false)
+
+  // Drag state
+  const [bottomY, setBottomY] = useState(16) // px from bottom
+  const [isDragging, setIsDragging] = useState(false)
+  const dragStartY = useRef(0)
+  const dragStartBottom = useRef(0)
+  const didDrag = useRef(false)
+
+  const handlePointerDown = useCallback((e: React.PointerEvent) => {
+    setIsDragging(true)
+    didDrag.current = false
+    dragStartY.current = e.clientY
+    dragStartBottom.current = bottomY
+    ;(e.target as HTMLElement).setPointerCapture(e.pointerId)
+  }, [bottomY])
+
+  const handlePointerMove = useCallback((e: React.PointerEvent) => {
+    if (!isDragging) return
+    const delta = dragStartY.current - e.clientY
+    const newBottom = Math.max(16, Math.min(window.innerHeight - 56, dragStartBottom.current + delta))
+    setBottomY(newBottom)
+    if (Math.abs(delta) > 4) didDrag.current = true
+  }, [isDragging])
+
+  const handlePointerUp = useCallback(() => {
+    setIsDragging(false)
+  }, [])
+
+  const handleClick = useCallback(() => {
+    if (!didDrag.current) {
+      setOpen(prev => !prev)
+    }
+  }, [])
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
@@ -51,20 +84,39 @@ export function FeedbackButton() {
     }
   }
 
+  // Panel position: above the button
+  const panelBottom = bottomY + 48
+
   return (
     <>
-      {/* Botão flutuante discreto — responsivo mobile */}
-      <button
-        onClick={() => setOpen(!open)}
-        className="fixed bottom-4 right-4 z-50 w-10 h-10 sm:w-10 sm:h-10 rounded-full bg-dark-700 border border-dark-500/50 text-slate-500 hover:text-brand-400 hover:border-brand-500/30 shadow-lg transition-all duration-200 flex items-center justify-center group"
-        title="Enviar feedback"
+      {/* Botão flutuante arrastável */}
+      <div
+        className={`fixed right-4 z-50 flex items-center gap-0.5 select-none ${isDragging ? 'cursor-grabbing' : 'cursor-grab'}`}
+        style={{ bottom: `${bottomY}px` }}
+        onPointerDown={handlePointerDown}
+        onPointerMove={handlePointerMove}
+        onPointerUp={handlePointerUp}
       >
-        {open ? <X size={16} /> : <MessageSquarePlus size={16} />}
-      </button>
+        <div className="w-1.5 h-6 flex flex-col items-center justify-center gap-[2px] opacity-30 hover:opacity-60 transition-opacity">
+          <div className="w-1 h-1 rounded-full bg-slate-400" />
+          <div className="w-1 h-1 rounded-full bg-slate-400" />
+          <div className="w-1 h-1 rounded-full bg-slate-400" />
+        </div>
+        <button
+          onClick={handleClick}
+          className="w-10 h-10 rounded-full bg-dark-700 border border-dark-500/50 text-slate-500 hover:text-brand-400 hover:border-brand-500/30 shadow-lg transition-colors duration-200 flex items-center justify-center"
+          title="Enviar feedback"
+        >
+          {open ? <X size={16} /> : <MessageSquarePlus size={16} />}
+        </button>
+      </div>
 
-      {/* Painel de feedback — fullscreen mobile, card desktop */}
+      {/* Painel de feedback */}
       {open && (
-        <div className="fixed inset-0 sm:inset-auto sm:bottom-16 sm:right-4 z-50 sm:w-80 bg-dark-700 sm:border sm:border-dark-500/50 sm:rounded-2xl shadow-2xl overflow-hidden sm:animate-in sm:slide-in-from-bottom-2">
+        <div
+          className="fixed inset-0 sm:inset-auto sm:right-4 z-50 sm:w-80 bg-dark-700 sm:border sm:border-dark-500/50 sm:rounded-2xl shadow-2xl overflow-hidden"
+          style={{ bottom: typeof window !== 'undefined' && window.innerWidth >= 640 ? `${panelBottom}px` : undefined }}
+        >
           {sent ? (
             <div className="p-6 text-center flex flex-col items-center justify-center h-full sm:h-auto">
               <CheckCircle size={32} className="mx-auto text-emerald-400 mb-2" />

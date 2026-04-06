@@ -108,231 +108,158 @@ export default async function DashboardPage() {
   const roleLabel = role === 'representante' ? 'Representante' : 'Titular'
 
   return (
-    <div className="space-y-6">
-      {/* Header */}
-      <div className="flex items-center justify-between">
+    <div className="h-[calc(100vh-4rem)] flex flex-col gap-3 overflow-hidden">
+      {/* Header compacto */}
+      <div className="flex items-center justify-between flex-shrink-0">
         <div>
-          <h1 className="text-2xl font-bold text-white">Dashboard</h1>
-          <p className="text-slate-500 mt-1">Visão geral da sua operação de créditos de ICMS</p>
+          <h1 className="text-xl font-bold text-white">Dashboard</h1>
+          <p className="text-slate-500 text-xs">Visão geral — créditos de ICMS</p>
         </div>
-        {role === 'representante' && (
-          <span className="inline-flex items-center px-2.5 py-1 rounded-lg bg-blue-500/15 text-blue-400 text-xs font-bold uppercase tracking-wider border border-blue-500/25">
-            Representante
-          </span>
-        )}
+        <div className="flex items-center gap-2">
+          {role === 'representante' && (
+            <span className="inline-flex items-center px-2 py-0.5 rounded-lg bg-blue-500/15 text-blue-400 text-[10px] font-bold uppercase tracking-wider border border-blue-500/25">
+              Representante
+            </span>
+          )}
+          <Badge variant={company?.sefaz_status === 'regular' ? 'success' : 'warning'}>
+            SEFAZ: {company?.sefaz_status === 'regular' ? 'Regular' : company?.sefaz_status || 'Pendente'}
+          </Badge>
+          <Badge variant={company?.tier === 'premium' ? 'premium' : 'default'}>
+            {company?.tier === 'premium' ? 'Premium' : 'Free'}
+          </Badge>
+        </div>
       </div>
 
-      {/* Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        <StatCard
-          title="Créditos Ativos"
-          value={String(activeListings || 0)}
-          subtitle="ofertas publicadas"
-          trend="+12% este mes"
-          trendUp
-        />
-        <StatCard
-          title="Demandas Ativas"
-          value={String(activeRequests || 0)}
-          subtitle="buscas em andamento"
-        />
-        <StatCard
-          title="Matches Pendentes"
-          value={String(pendingMatches || 0)}
-          subtitle="aguardando aprovação"
-        />
-        <StatCard
-          title="Transações Concluidas"
-          value={String(completedTx || 0)}
-          subtitle="com sucesso"
-          trend="98% taxa de sucesso"
-          trendUp
-        />
+      {/* Stats — compactos */}
+      <div className="grid grid-cols-4 gap-3 flex-shrink-0">
+        <StatCard title="Créditos Ativos" value={String(activeListings || 0)} subtitle="ofertas" />
+        <StatCard title="Demandas" value={String(activeRequests || 0)} subtitle="em andamento" />
+        <StatCard title="Matches" value={String(pendingMatches || 0)} subtitle="pendentes" />
+        <StatCard title="Concluídas" value={String(completedTx || 0)} subtitle="transações" />
       </div>
 
-      {/* Recent Credits with Score */}
-      {recentListings && recentListings.length > 0 && (
-        <Card className="p-6">
-          <div className="flex items-center justify-between mb-4">
-            <h2 className="text-lg font-bold text-white">Seus Créditos</h2>
-            <Link href="/marketplace" className="text-sm text-brand-400 hover:text-brand-300 font-medium">
-              Ver todos →
-            </Link>
+      {/* Conteúdo principal — preenche o espaço restante */}
+      <div className="grid grid-cols-3 gap-3 flex-1 min-h-0">
+
+        {/* Coluna 1: Créditos */}
+        <Card className="p-4 flex flex-col overflow-hidden">
+          <div className="flex items-center justify-between mb-2 flex-shrink-0">
+            <h2 className="text-sm font-bold text-white">Seus Créditos</h2>
+            <Link href="/marketplace" className="text-xs text-brand-400 hover:text-brand-300 font-medium">Ver todos →</Link>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
-            {recentListings.map((listing: any) => {
-              const score = listing.credit_score
-              const gradeColors: Record<string, string> = {
-                A: 'bg-emerald-500/15 border-emerald-500/30 text-emerald-400',
-                B: 'bg-blue-500/15 border-blue-500/30 text-blue-400',
-                C: 'bg-amber-500/15 border-amber-500/30 text-amber-400',
-                D: 'bg-red-500/15 border-red-500/30 text-red-400',
-              }
-              return (
-                <div key={listing.id} className="flex items-center gap-3 p-3 rounded-xl bg-dark-600/50 hover:bg-dark-600 transition-all">
-                  {score && (
-                    <div className={`w-10 h-10 rounded-lg border-2 font-bold flex items-center justify-center text-sm ${gradeColors[score.grade] || 'bg-dark-600 border-dark-500 text-slate-400'}`}>
-                      {score.grade}
+          <div className="flex-1 overflow-y-auto space-y-2 scrollbar-thin">
+            {recentListings && recentListings.length > 0 ? (
+              recentListings.map((listing: any) => {
+                const score = listing.credit_score
+                const gradeColors: Record<string, string> = {
+                  A: 'bg-emerald-500/15 border-emerald-500/30 text-emerald-400',
+                  B: 'bg-blue-500/15 border-blue-500/30 text-blue-400',
+                  C: 'bg-amber-500/15 border-amber-500/30 text-amber-400',
+                  D: 'bg-red-500/15 border-red-500/30 text-red-400',
+                }
+                return (
+                  <div key={listing.id} className="flex items-center gap-2 p-2.5 rounded-xl bg-dark-600/50 hover:bg-dark-600 transition-all">
+                    {score && (
+                      <div className={`w-8 h-8 rounded-lg border-2 font-bold flex items-center justify-center text-xs ${gradeColors[score.grade] || 'bg-dark-600 border-dark-500 text-slate-400'}`}>
+                        {score.grade}
+                      </div>
+                    )}
+                    <div className="flex-1 min-w-0">
+                      <span className="font-mono text-[10px] font-bold text-brand-400">{listing.credit_id || '...'}</span>
+                      <p className="text-sm font-semibold text-white">{formatBRL(listing.amount)}</p>
                     </div>
-                  )}
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2">
-                      <span className="font-mono text-xs font-bold text-brand-400">
-                        {listing.credit_id || 'Gerando...'}
-                      </span>
-                    </div>
-                    <p className="text-sm font-semibold text-white">{formatBRL(listing.amount)}</p>
-                    <p className="text-xs text-slate-500">{listing.status === 'active' ? 'Ativo' : listing.status}</p>
+                    {score && <span className="text-[10px] text-slate-500">{score.score?.toFixed(0)}/100</span>}
                   </div>
-                  {score && (
-                    <div className="text-right">
-                      <p className="text-xs font-medium text-slate-400">{score.score?.toFixed(0)}/100</p>
-                    </div>
-                  )}
-                </div>
-              )
-            })}
+                )
+              })
+            ) : (
+              <div className="text-center py-6">
+                <DollarSign size={24} className="mx-auto text-slate-600 mb-1" />
+                <p className="text-xs text-slate-500">Nenhum crédito publicado</p>
+                <Link href="/marketplace" className="text-xs text-brand-400 mt-1 inline-block">Publicar →</Link>
+              </div>
+            )}
           </div>
         </Card>
-      )}
 
-      {/* Main content */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Recent Matches */}
-        <div className="lg:col-span-2">
-          <Card className="p-6">
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="text-lg font-bold text-white">Matches Recentes</h2>
-              <Link href="/matching" className="text-sm text-brand-400 hover:text-brand-300 font-medium">
-                Ver todos →
-              </Link>
-            </div>
-
+        {/* Coluna 2: Matches */}
+        <Card className="p-4 flex flex-col overflow-hidden">
+          <div className="flex items-center justify-between mb-2 flex-shrink-0">
+            <h2 className="text-sm font-bold text-white">Matches Recentes</h2>
+            <Link href="/matching" className="text-xs text-brand-400 hover:text-brand-300 font-medium">Ver todos →</Link>
+          </div>
+          <div className="flex-1 overflow-y-auto space-y-2 scrollbar-thin">
             {recentMatches && recentMatches.length > 0 ? (
-              <div className="space-y-3">
-                {recentMatches.map((match: any) => (
-                  <div key={match.id} className="flex items-center justify-between p-3 rounded-xl bg-dark-600/50 hover:bg-dark-600 transition-all">
-                    <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-xl bg-brand-500/15 text-brand-400 flex items-center justify-center">
-                        <GitMerge size={18} />
-                      </div>
-                      <div>
-                        <p className="text-sm font-medium text-white">
-                          {match.seller_company?.nome_fantasia || 'Cedente'} → {match.buyer_company?.nome_fantasia || 'Cessionário'}
-                        </p>
-                        <p className="text-xs text-slate-500">
-                          Score: {match.match_score || '—'}% · Desconto: {match.agreed_discount}%
-                        </p>
-                      </div>
+              recentMatches.map((match: any) => (
+                <div key={match.id} className="flex items-center justify-between p-2.5 rounded-xl bg-dark-600/50 hover:bg-dark-600 transition-all">
+                  <div className="flex items-center gap-2 min-w-0">
+                    <div className="w-8 h-8 rounded-lg bg-brand-500/15 text-brand-400 flex items-center justify-center flex-shrink-0">
+                      <GitMerge size={14} />
                     </div>
-                    <div className="text-right">
-                      <p className="text-sm font-bold text-white">{formatBRL(match.matched_amount)}</p>
-                      <Badge variant={
-                        match.status === 'confirmed' ? 'success' :
-                        match.status === 'proposed' ? 'warning' : 'info'
-                      }>
-                        {match.status === 'confirmed' ? 'Confirmado' :
-                         match.status === 'proposed' ? 'Proposto' : match.status}
-                      </Badge>
+                    <div className="min-w-0">
+                      <p className="text-xs font-medium text-white truncate">
+                        {match.seller_company?.nome_fantasia || 'Cedente'} → {match.buyer_company?.nome_fantasia || 'Cessionário'}
+                      </p>
+                      <p className="text-[10px] text-slate-500">{match.agreed_discount}% desc.</p>
                     </div>
                   </div>
-                ))}
-              </div>
+                  <div className="text-right flex-shrink-0 ml-2">
+                    <p className="text-xs font-bold text-white">{formatBRL(match.matched_amount)}</p>
+                    <Badge variant={match.status === 'confirmed' ? 'success' : match.status === 'proposed' ? 'warning' : 'info'}>
+                      {match.status === 'confirmed' ? 'OK' : match.status === 'proposed' ? 'Prop.' : match.status}
+                    </Badge>
+                  </div>
+                </div>
+              ))
             ) : (
-              <div className="text-center py-8">
-                <GitMerge size={32} className="mx-auto text-slate-600 mb-2" />
-                <p className="text-sm text-slate-400">Nenhum match encontrado ainda</p>
-                <p className="text-xs text-slate-500 mt-1">
-                  Publique créditos ou crie demandas para iniciar o matching automático
-                </p>
+              <div className="text-center py-6">
+                <GitMerge size={24} className="mx-auto text-slate-600 mb-1" />
+                <p className="text-xs text-slate-500">Nenhum match ainda</p>
+                <p className="text-[10px] text-slate-600 mt-1">Publique créditos para iniciar</p>
               </div>
             )}
-          </Card>
-        </div>
+          </div>
+        </Card>
 
-        {/* Notifications + Quick Actions */}
-        <div className="space-y-4">
-          {/* Notifications */}
-          <Card className="p-5">
-            <h3 className="text-sm font-bold text-white mb-3">Notificações</h3>
-            {notifications && notifications.length > 0 ? (
-              <div className="space-y-2">
-                {notifications.map((n: any) => (
+        {/* Coluna 3: Notificações + Ações */}
+        <div className="flex flex-col gap-3 min-h-0">
+          {/* Notificações */}
+          <Card className="p-4 flex flex-col flex-1 overflow-hidden">
+            <h3 className="text-sm font-bold text-white mb-2 flex-shrink-0">Notificações</h3>
+            <div className="flex-1 overflow-y-auto space-y-1.5 scrollbar-thin">
+              {notifications && notifications.length > 0 ? (
+                notifications.map((n: any) => (
                   <div key={n.id} className="flex items-start gap-2 p-2 rounded-lg bg-brand-500/10">
                     <span className="text-brand-400 mt-0.5">
-                      {n.type === 'match_found' ? <GitMerge size={14} /> :
-                       n.type === 'payment' ? <DollarSign size={14} /> :
-                       <AlertTriangle size={14} />}
+                      {n.type === 'match_found' ? <GitMerge size={12} /> :
+                       n.type === 'payment' ? <DollarSign size={12} /> :
+                       <AlertTriangle size={12} />}
                     </span>
-                    <div>
-                      <p className="text-xs font-medium text-white">{n.title}</p>
-                      <p className="text-xs text-slate-500">{n.body}</p>
+                    <div className="min-w-0">
+                      <p className="text-[11px] font-medium text-white truncate">{n.title}</p>
+                      <p className="text-[10px] text-slate-500 truncate">{n.body}</p>
                     </div>
                   </div>
-                ))}
-              </div>
-            ) : (
-              <p className="text-xs text-slate-500 text-center py-3">Nenhuma notificação nova</p>
-            )}
-          </Card>
-
-          {/* Quick Actions */}
-          <Card className="p-5">
-            <h3 className="text-sm font-bold text-white mb-3">Ações Rápidas</h3>
-            <div className="space-y-2">
-              <Link
-                href="/marketplace"
-                className="flex items-center gap-2 p-2.5 rounded-xl bg-brand-500/15 hover:bg-brand-500/25 text-brand-400 text-sm font-medium transition-all"
-              >
-                <DollarSign size={16} />
-                Publicar Crédito
-              </Link>
-              <Link
-                href="/demandas"
-                className="flex items-center gap-2 p-2.5 rounded-xl bg-emerald-500/15 hover:bg-emerald-500/25 text-emerald-400 text-sm font-medium transition-all"
-              >
-                <TrendingUp size={16} />
-                Criar Demanda
-              </Link>
-              <Link
-                href="/pipeline"
-                className="flex items-center gap-2 p-2.5 rounded-xl bg-amber-500/15 hover:bg-amber-500/25 text-amber-400 text-sm font-medium transition-all"
-              >
-                <Clock size={16} />
-                Ver Pipeline
-              </Link>
+                ))
+              ) : (
+                <p className="text-xs text-slate-500 text-center py-2">Nenhuma notificação</p>
+              )}
             </div>
           </Card>
 
-          {/* Company Status */}
-          <Card className="p-5">
-            <h3 className="text-sm font-bold text-white mb-3">Status da Empresa</h3>
-            <div className="space-y-2 text-sm">
-              <div className="flex justify-between">
-                <span className="text-slate-500">SEFAZ-SP</span>
-                <Badge variant={company?.sefaz_status === 'regular' ? 'success' : 'warning'}>
-                  {company?.sefaz_status === 'regular' ? 'Regular' : company?.sefaz_status || 'Pendente'}
-                </Badge>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-slate-500">Plano</span>
-                <Badge variant={company?.tier === 'premium' ? 'premium' : 'default'}>
-                  {company?.tier === 'premium' ? 'Premium' : 'Free'}
-                </Badge>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-slate-500">Tipo</span>
-                <span className="text-slate-300 font-medium">
-                  {company?.type === 'seller' ? 'Cedente' :
-                   company?.type === 'buyer' ? 'Cessionário' : 'Ambos'}
-                </span>
-              </div>
-              {role === 'representante' && (
-                <div className="flex justify-between">
-                  <span className="text-slate-500">Acesso</span>
-                  <span className="text-blue-400 font-medium">Representante</span>
-                </div>
-              )}
+          {/* Ações Rápidas */}
+          <Card className="p-4 flex-shrink-0">
+            <h3 className="text-sm font-bold text-white mb-2">Ações Rápidas</h3>
+            <div className="space-y-1.5">
+              <Link href="/marketplace" className="flex items-center gap-2 p-2 rounded-xl bg-brand-500/15 hover:bg-brand-500/25 text-brand-400 text-xs font-medium transition-all">
+                <DollarSign size={14} /> Publicar Crédito
+              </Link>
+              <Link href="/demandas" className="flex items-center gap-2 p-2 rounded-xl bg-emerald-500/15 hover:bg-emerald-500/25 text-emerald-400 text-xs font-medium transition-all">
+                <TrendingUp size={14} /> Criar Demanda
+              </Link>
+              <Link href="/pipeline" className="flex items-center gap-2 p-2 rounded-xl bg-amber-500/15 hover:bg-amber-500/25 text-amber-400 text-xs font-medium transition-all">
+                <Clock size={14} /> Ver Pipeline
+              </Link>
             </div>
           </Card>
         </div>
