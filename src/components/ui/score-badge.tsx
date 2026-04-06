@@ -11,8 +11,10 @@ interface ScoreBadgeProps {
   showLabel?: boolean
 }
 
+const fallbackConfig = { label: '?', badge: 'bg-slate-100 text-slate-800 border-slate-300', color: '#64748b', description: 'Não classificado' }
+
 export function ScoreBadge({ grade, score, size = 'md', showScore = false, showLabel = false }: ScoreBadgeProps) {
-  const config = creditScoreConfig[grade]
+  const config = creditScoreConfig[grade] || fallbackConfig
 
   const sizeClasses = {
     sm: 'w-6 h-6 text-xs',
@@ -20,13 +22,15 @@ export function ScoreBadge({ grade, score, size = 'md', showScore = false, showL
     lg: 'w-12 h-12 text-lg',
   }
 
+  if (!config) return null
+
   return (
     <div className="flex items-center gap-2">
       <div
         className={`${sizeClasses[size]} rounded-lg border-2 font-bold flex items-center justify-center ${config.badge}`}
         title={config.description}
       >
-        {grade}
+        {grade || '?'}
       </div>
       {showScore && score !== undefined && (
         <span className="text-xs text-slate-500 font-medium">{score.toFixed(0)}/100</span>
