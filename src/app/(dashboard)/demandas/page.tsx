@@ -7,6 +7,7 @@ import { Card } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { TrendingUp, Plus, X, Clock, AlertTriangle } from 'lucide-react'
+import { CurrencyInput, PercentInput } from '@/components/ui/currency-input'
 
 export default function DemandasPage() {
   const [requests, setRequests] = useState<any[]>([])
@@ -27,22 +28,27 @@ export default function DemandasPage() {
   }, [])
 
   async function loadRequests() {
-    const supabase = createClient()
-    const { data: { user } } = await supabase.auth.getUser()
-    if (!user) return
+    try {
+      const supabase = createClient()
+      const { data: { user } } = await supabase.auth.getUser()
+      if (!user) return
 
-    const { data: company } = await supabase
-      .from('companies').select('id').eq('auth_user_id', user.id).single()
-    if (!company) return
+      const { data: company } = await supabase
+        .from('companies').select('id').eq('auth_user_id', user.id).single()
+      if (!company) return
 
-    const { data } = await supabase
-      .from('credit_requests')
-      .select('*, company:companies(*)')
-      .eq('company_id', company.id)
-      .order('created_at', { ascending: false })
+      const { data } = await supabase
+        .from('credit_requests')
+        .select('*, company:companies(*)')
+        .eq('company_id', company.id)
+        .order('created_at', { ascending: false })
 
-    setRequests(data || [])
-    setLoading(false)
+      setRequests(data || [])
+    } catch (err) {
+      console.error('Erro ao carregar demandas:', err)
+    } finally {
+      setLoading(false)
+    }
   }
 
   async function handleCreate(e: React.FormEvent) {
@@ -232,27 +238,23 @@ export default function DemandasPage() {
             </div>
             <form onSubmit={handleCreate} className="p-6 space-y-4">
               <div>
-                <label className="block text-sm font-medium text-slate-300 mb-1">Valor Necessario (R$)</label>
-                <input
-                  type="number"
+                <label className="block text-sm font-medium text-slate-300 mb-1">Valor Necessário (R$)</label>
+                <CurrencyInput
                   value={newRequest.amount_needed}
-                  onChange={e => setNewRequest({ ...newRequest, amount_needed: e.target.value })}
-                  placeholder="Ex: 500000"
+                  onChange={(raw) => setNewRequest({ ...newRequest, amount_needed: raw })}
+                  placeholder="500.000,00"
                   required
-                  min={1000}
-                  className="w-full rounded-xl border border-dark-500/50 bg-dark-700 text-white px-4 py-2.5 text-sm"
                 />
               </div>
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-medium text-slate-300 mb-1">Desconto Máximo (%)</label>
-                  <input
-                    type="number"
+                  <PercentInput
                     value={newRequest.max_discount_accepted}
-                    onChange={e => setNewRequest({ ...newRequest, max_discount_accepted: e.target.value })}
-                    min={0} max={50} step={0.5}
-                    className="w-full rounded-xl border border-dark-500/50 bg-dark-700 text-white px-4 py-2.5 text-sm"
+                    onChange={(raw) => setNewRequest({ ...newRequest, max_discount_accepted: raw })}
+                    min={0} max={50}
+                    placeholder="15,00"
                   />
                 </div>
                 <div>

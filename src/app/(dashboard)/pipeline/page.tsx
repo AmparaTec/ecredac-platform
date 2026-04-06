@@ -59,65 +59,76 @@ export default function PipelinePage() {
   }, [])
 
   async function loadDeals() {
-    const supabase = createClient()
-    const { data: { user } } = await supabase.auth.getUser()
-    if (!user) return
-
-    const { data: company } = await supabase
-      .from('companies').select('id').eq('auth_user_id', user.id).single()
-    if (!company) return
-
-    // Get matches with transactions
-    const { data: matches } = await supabase
-      .from('matches')
-      .select(`
-        *,
-        seller_company:companies!seller_company_id(id, nome_fantasia, razao_social),
-        buyer_company:companies!buyer_company_id(id, nome_fantasia, razao_social),
-        listing:credit_listings(*, credit_score:credit_scores(*)),
-        request:credit_requests(*)
-      `)
-      .or(`seller_company_id.eq.${company.id},buyer_company_id.eq.${company.id}`)
-      .order('created_at', { ascending: false })
-
-    const { data: transactions } = await supabase
-      .from('transactions')
-      .select('*')
-      .or(`seller_company_id.eq.${company.id},buyer_company_id.eq.${company.id}`)
-
-    // Build deals from matches + transactions
-    const dealList: Deal[] = (matches || []).map((m: any) => {
-      const tx = transactions?.find(t => t.match_id === m.id)
-      const phase = computePhase(m, tx)
-
-      return {
-        id: m.id,
-        phase,
-        title: `${formatBRL(m.matched_amount)} — ${m.agreed_discount}% desc.`,
-        seller: m.seller_company?.nome_fantasia || m.seller_company?.razao_social || 'Cedente',
-        buyer: m.buyer_company?.nome_fantasia || m.buyer_company?.razao_social || 'Cessionário',
-        amount: m.matched_amount,
-        discount: m.agreed_discount,
-        status: m.status,
-        created_at: m.created_at,
-        credit_id: m.listing?.credit_id,
-        credit_score: m.listing?.credit_score,
-        match: m,
-        transaction: tx,
-        phases: buildPhaseHistory(m, tx),
-        credit_usage: phase >= 7 ? {
-          total: m.matched_amount,
-          used: Math.round(m.matched_amount * 0.4),
-          reserved: Math.round(m.matched_amount * 0.2),
-          available: Math.round(m.matched_amount * 0.4),
-          expires_at: new Date(Date.now() + 120 * 24 * 60 * 60 * 1000).toISOString(),
-          last_used: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000).toISOString(),
-        } : undefined,
+    try {
+      const supabase = createClient()
+      const { data: { user } } = await supabase.auth.getUser()
+      if (!user) {
+        setLoading(false)
+        return
       }
-    })
 
-    setDeals(dealList)
-    setLoading(false)
+      const { data: company } = await supabase
+        .from('companies').select('id').eq('auth_user_id', user.id).single()
+      if (!company) {
+        setLoading(false)
+        return
+      }
+
+      // Get matches with transactions
+      const { data: matches } = await supabase
+        .from('matches')
+        .select(`
+          *,
+          seller_company:companies!seller_company_id(id, nome_fantasia, razao_social),
+          buyer_company:companies!buyer_company_id(id, nome_fantasia, razao_social),
+          listing:credit_listings(*, credit_score:credit_scores(*)),
+          request:credit_requests(*)
+        `)
+        .or(`seller_company_id.eq.${company.id},buyer_company_id.eq.${company.id}`)
+        .order('created_at', { ascending: false })
+
+      const { data: transactions } = await supabase
+        .from('transactions')
+        .select('*')
+        .or(`seller_company_id.eq.${company.id},buyer_company_id.eq.${company.id}`)
+
+      // Build deals from matches + transactions
+      const dealList: Deal[] = (matches || []).map((m: any) => {
+        const tx = transactions?.find(t => t.match_id === m.id)
+        const phase = computePhase(m, tx)
+
+        return {
+          id: m.id,
+          phase,
+          title: `${formatBRL(m.matched_amount)} — ${m.agreed_discount}% desc.`,
+          seller: m.seller_company?.nome_fantasia || m.seller_company?.razao_social || 'Cedente',
+          buyer: m.buyer_company?.nome_fantasia || m.buyer_company?.razao_social || 'Cessionário',
+          amount: m.matched_amount,
+          discount: m.agreed_discount,
+          status: m.status,
+          created_at: m.created_at,
+          credit_id: m.listing?.credit_id,
+          credit_score: m.listing?.credit_score,
+          match: m,
+          transaction: tx,
+          phases: buildPhaseHistory(m, tx),
+          credit_usage: phase >= 7 ? {
+            total: m.matched_amount,
+            used: Math.round(m.matched_amount * 0.4),
+            reserved: Math.round(m.matched_amount * 0.2),
+            available: Math.round(m.matched_amount * 0.4),
+            expires_at: new Date(Date.now() + 120 * 24 * 60 * 60 * 1000).toISOString(),
+            last_used: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000).toISOString(),
+          } : undefined,
+        }
+      })
+
+      setDeals(dealList)
+    } catch (err) {
+      console.error('Erro ao carregar pipeline:', err)
+    } finally {
+      setLoading(false)
+    }
   }
 
   function computePhase(match: any, tx: any): number {

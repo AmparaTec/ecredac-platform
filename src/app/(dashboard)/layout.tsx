@@ -3,6 +3,7 @@ import { createServerSupabase } from '@/lib/supabase/server'
 import { Sidebar } from '@/components/sidebar'
 import { NotificationDropdown } from '@/components/ui/notification-dropdown'
 import { TermsChecker } from '@/components/compliance/terms-checker'
+import { FeedbackButton } from '@/components/ui/feedback-button'
 import { Search } from 'lucide-react'
 
 export default async function DashboardLayout({
@@ -15,7 +16,6 @@ export default async function DashboardLayout({
 
   if (!user) redirect('/login')
 
-  // Fetch user_profile and company in parallel
   const [{ data: userProfile }, { data: company }] = await Promise.all([
     supabase
       .from('user_profiles')
@@ -30,12 +30,13 @@ export default async function DashboardLayout({
   ])
 
   const userRole = (userProfile?.role as 'titular' | 'representante' | 'procurador') || 'titular'
-  const displayName = userProfile?.full_name || company?.nome_fantasia || company?.razao_social || 'Usuario'
+  const displayName = userProfile?.full_name || company?.nome_fantasia || company?.razao_social || 'Usuário'
   const companyName = company?.nome_fantasia || company?.razao_social || (userRole === 'procurador' ? 'Assessor' : 'Empresa')
   const companyTier = company?.tier || 'free'
 
   return (
     <div className="min-h-screen bg-dark-900 flex">
+      {/* Sidebar — desktop fixa + mobile drawer + bottom nav */}
       <Sidebar
         companyName={companyName}
         companyTier={companyTier}
@@ -43,26 +44,48 @@ export default async function DashboardLayout({
         displayName={displayName}
       />
 
-      <main className="flex-1 ml-60 min-w-0">
-        {/* Top bar */}
-        <header className="h-16 bg-dark-800/80 backdrop-blur-xl border-b border-dark-500/40 flex items-center justify-between px-6 sticky top-0 z-20">
-          <div className="relative">
-            <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500" />
-            <input
-              placeholder={userRole === 'procurador'
-                ? 'Buscar clientes, comissões, convites...'
-                : 'Buscar operações, empresas, créditos...'}
-              className="pl-10 pr-4 py-2 w-80 rounded-xl bg-dark-700 border border-dark-500/50 text-sm text-white placeholder-slate-500 focus:bg-dark-600 focus:border-brand-500/50 focus:ring-2 focus:ring-brand-500/20 transition-all"
-            />
+      {/*
+        Main content:
+        - Desktop: ml-60 (afasta da sidebar fixa)
+        - Mobile: sem ml, padding-bottom para bottom nav (pb-16)
+      */}
+      <main className="flex-1 lg:ml-60 min-w-0 flex flex-col pb-16 lg:pb-0">
+
+        {/* ── Top bar ─────────────────────────────────────────── */}
+        <header className="h-16 bg-dark-800/80 backdrop-blur-xl border-b border-dark-500/40 flex items-center justify-between sticky top-0 z-20">
+
+          {/* Mobile: espaço para hambúrguer (btn é renderizado pelo Sidebar) */}
+          {/* Desktop: busca */}
+          <div className="flex items-center flex-1 min-w-0">
+            {/* Espaçador para o botão hambúrguer no mobile */}
+            <div className="w-14 lg:hidden flex-shrink-0" />
+
+            {/* Logo mobile (centro) */}
+            <div className="lg:hidden flex-1 flex items-center justify-center">
+              <span className="text-sm font-bold text-white">E-CREDac</span>
+            </div>
+
+            {/* Busca desktop */}
+            <div className="hidden lg:flex relative pl-6">
+              <Search size={16} className="absolute left-9 top-1/2 -translate-y-1/2 text-slate-500" />
+              <input
+                placeholder={userRole === 'procurador'
+                  ? 'Buscar clientes, comissões...'
+                  : 'Buscar operações, créditos...'}
+                className="pl-10 pr-4 py-2 w-72 rounded-xl bg-dark-700 border border-dark-500/50 text-sm text-white placeholder-slate-500 focus:bg-dark-600 focus:border-brand-500/50 focus:ring-2 focus:ring-brand-500/20 transition-all outline-none"
+              />
+            </div>
           </div>
-          <div className="flex items-center gap-4">
+
+          {/* Notificações + usuário */}
+          <div className="flex items-center gap-2 lg:gap-4 pr-4">
             <NotificationDropdown />
-            <div className="flex items-center gap-3 pl-4 border-l border-dark-500/40">
-              <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-brand-500/20 to-accent-600/20 text-brand-400 flex items-center justify-center font-bold text-xs border border-brand-500/20">
+            <div className="hidden lg:flex items-center gap-3 pl-4 border-l border-dark-500/40">
+              <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-brand-500/20 to-accent-600/20 text-brand-400 flex items-center justify-center font-bold text-xs border border-brand-500/20 flex-shrink-0">
                 {displayName.charAt(0)}
               </div>
               <div>
-                <span className="text-sm font-medium text-white block">{displayName}</span>
+                <span className="text-sm font-medium text-white block truncate max-w-[140px]">{displayName}</span>
                 {userRole === 'procurador' && (
                   <span className="text-[10px] text-accent-400 font-semibold uppercase tracking-wide">Assessor</span>
                 )}
@@ -71,14 +94,35 @@ export default async function DashboardLayout({
           </div>
         </header>
 
-        {/* Page content */}
-        <div className="p-6 max-w-7xl">
+        {/* ── Conteúdo da página ───────────────────────────────── */}
+        {/*
+          Desktop: p-6 max-w-7xl
+          Mobile: p-3 (mais espaço para conteúdo)
+        */}
+        <div className="p-3 lg:p-6 lg:max-w-7xl flex-1">
           {children}
         </div>
+
+        {/* ── Rodapé — apenas desktop ──────────────────────────── */}
+        <footer className="hidden lg:flex border-t border-dark-500/30 px-6 py-3 mt-auto">
+          <div className="flex items-center justify-between w-full text-[11px] text-slate-600">
+            <span>E-CREDac by Rede Ampara Tec</span>
+            <div className="flex items-center gap-4">
+              <a href="/termos-de-uso" target="_blank" className="hover:text-slate-400 transition-colors">Termos de Uso</a>
+              <a href="/politica-de-privacidade" target="_blank" className="hover:text-slate-400 transition-colors">Política de Privacidade</a>
+              <a href="/institucional" className="hover:text-slate-400 transition-colors">Quem Somos</a>
+            </div>
+          </div>
+        </footer>
       </main>
 
-      {/* Modal de termos pendentes — verifica automaticamente */}
+      {/* Termos pendentes */}
       <TermsChecker />
+
+      {/* Botão de feedback — só no desktop (no mobile a bottom nav já tem "Mais") */}
+      <div className="hidden lg:block">
+        <FeedbackButton />
+      </div>
     </div>
   )
 }

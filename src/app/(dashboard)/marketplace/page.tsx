@@ -13,6 +13,7 @@ import { MarketBenchmarkCard } from '@/components/ui/market-benchmark'
 import { CreateAuctionForm } from '@/components/ui/silent-auction'
 import { DollarSign, Plus, Search, Filter, X, Shield, TrendingUp, Target, Gavel } from 'lucide-react'
 import { ScoreDisclaimer } from '@/components/compliance/score-disclaimer'
+import { CurrencyInput, PercentInput } from '@/components/ui/currency-input'
 
 export default function MarketplacePage() {
   const [listings, setListings] = useState<any[]>([])
@@ -376,14 +377,11 @@ export default function MarketplacePage() {
 
               <div>
                 <label className="block text-sm font-medium text-slate-300 mb-1">Valor do Crédito em Conta Corrente (R$)</label>
-                <input
-                  type="number"
+                <CurrencyInput
                   value={newListing.amount}
-                  onChange={e => setNewListing({ ...newListing, amount: e.target.value })}
-                  placeholder="Saldo disponível na conta corrente e-CredAc"
+                  onChange={(raw) => setNewListing({ ...newListing, amount: raw })}
+                  placeholder="1.000.000,00"
                   required
-                  min={1000}
-                  className="w-full rounded-xl border border-dark-500/50 bg-dark-700 text-white px-4 py-2.5 text-sm"
                 />
               </div>
 
@@ -426,22 +424,20 @@ export default function MarketplacePage() {
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-medium text-slate-300 mb-1">Deságio Mínimo (%)</label>
-                  <input
-                    type="number"
+                  <PercentInput
                     value={newListing.min_discount}
-                    onChange={e => setNewListing({ ...newListing, min_discount: e.target.value })}
-                    min={0} max={50} step={0.5}
-                    className="w-full rounded-xl border border-dark-500/50 bg-dark-700 text-white px-4 py-2.5 text-sm"
+                    onChange={(raw) => setNewListing({ ...newListing, min_discount: raw })}
+                    min={0} max={50}
+                    placeholder="5,00"
                   />
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-slate-300 mb-1">Deságio Máximo (%)</label>
-                  <input
-                    type="number"
+                  <PercentInput
                     value={newListing.max_discount}
-                    onChange={e => setNewListing({ ...newListing, max_discount: e.target.value })}
-                    min={0} max={50} step={0.5}
-                    className="w-full rounded-xl border border-dark-500/50 bg-dark-700 text-white px-4 py-2.5 text-sm"
+                    onChange={(raw) => setNewListing({ ...newListing, max_discount: raw })}
+                    min={0} max={50}
+                    placeholder="20,00"
                   />
                 </div>
               </div>
