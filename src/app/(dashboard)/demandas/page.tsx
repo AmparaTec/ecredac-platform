@@ -28,22 +28,27 @@ export default function DemandasPage() {
   }, [])
 
   async function loadRequests() {
-    const supabase = createClient()
-    const { data: { user } } = await supabase.auth.getUser()
-    if (!user) return
+    try {
+      const supabase = createClient()
+      const { data: { user } } = await supabase.auth.getUser()
+      if (!user) return
 
-    const { data: company } = await supabase
-      .from('companies').select('id').eq('auth_user_id', user.id).single()
-    if (!company) return
+      const { data: company } = await supabase
+        .from('companies').select('id').eq('auth_user_id', user.id).single()
+      if (!company) return
 
-    const { data } = await supabase
-      .from('credit_requests')
-      .select('*, company:companies(*)')
-      .eq('company_id', company.id)
-      .order('created_at', { ascending: false })
+      const { data } = await supabase
+        .from('credit_requests')
+        .select('*, company:companies(*)')
+        .eq('company_id', company.id)
+        .order('created_at', { ascending: false })
 
-    setRequests(data || [])
-    setLoading(false)
+      setRequests(data || [])
+    } catch (err) {
+      console.error('Erro ao carregar demandas:', err)
+    } finally {
+      setLoading(false)
+    }
   }
 
   async function handleCreate(e: React.FormEvent) {
