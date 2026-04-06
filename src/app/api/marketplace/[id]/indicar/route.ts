@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { createServerSupabaseClient } from '@/lib/supabase/server'
+import { createServerSupabase } from '@/lib/supabase/server'
 
 /**
  * POST /api/marketplace/[id]/indicar
@@ -25,7 +25,7 @@ export async function POST(
   request: NextRequest,
   { params }: { params: { id: string } }
 ) {
-  const supabase = await createServerSupabaseClient()
+  const supabase = await createServerSupabase()
   const {
     data: { user },
   } = await supabase.auth.getUser()

@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { createServerSupabaseClient } from '@/lib/supabase/server'
+import { createServerSupabase } from '@/lib/supabase/server'
 import { sendEmailResend, emailTemplates } from '@/lib/email/resend'
 
 /**
@@ -52,7 +52,7 @@ import { sendEmailResend, emailTemplates } from '@/lib/email/resend'
 type TemplateType = 'creditoIndicado' | 'creditoAtivado' | 'notificacaoComprador'
 
 export async function POST(request: NextRequest) {
-  const supabase = await createServerSupabaseClient()
+  const supabase = await createServerSupabase()
   const {
     data: { user },
   } = await supabase.auth.getUser()

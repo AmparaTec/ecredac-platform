@@ -87,8 +87,8 @@ export async function sendEmailResend(
 
     // Log na tabela email_log
     try {
-      const { createServerSupabaseClient } = await import('@/lib/supabase/server')
-      const supabase = await createServerSupabaseClient()
+      const { createServerSupabase } = await import('@/lib/supabase/server')
+      const supabase = await createServerSupabase()
       await supabase.from('email_log').insert({
         resend_id: result.id,
         template: options.subject,
