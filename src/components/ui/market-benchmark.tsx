@@ -5,12 +5,10 @@ import { Card } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import {
   formatBRL, formatDiscount, creditTypeLabels, creditOriginLabels,
-  creditScoreConfig
+  creditScoreConfig, fallbackScoreConfig
 } from '@/lib/utils'
 import type { MarketBenchmark, CreditScoreGrade } from '@/types/database'
 import { BarChart3, TrendingUp, TrendingDown, Minus, Droplets, Clock } from 'lucide-react'
-
-const fallbackGradeConfig = { label: '?', badge: 'bg-slate-100 text-slate-800 border-slate-300', color: '#64748b', description: 'Não classificado' }
 
 interface MarketBenchmarkCardProps {
   benchmarks: MarketBenchmark[]
@@ -93,7 +91,7 @@ export function MarketBenchmarkCard({
           </div>
           {generalBenchmark && (
             <span className="text-xs text-slate-500">
-              {generalBenchmark.transaction_count} transações · {generalBenchmark.sample_size} amostras
+              {generalBenchmark.transaction_count} transacoes · {generalBenchmark.sample_size} amostras
             </span>
           )}
         </div>
@@ -109,7 +107,7 @@ export function MarketBenchmarkCard({
             Todos
           </button>
           {(['A', 'B', 'C', 'D'] as CreditScoreGrade[]).map(grade => {
-            const cfg = creditScoreConfig[grade] || fallbackGradeConfig
+            const cfg = creditScoreConfig[grade] || fallbackScoreConfig
             const hasBenchmark = gradeBenchmarks.some(b => b.credit_grade === grade)
             return (
               <button
@@ -124,7 +122,7 @@ export function MarketBenchmarkCard({
                     : 'bg-dark-600/50 text-slate-600 cursor-not-allowed'
                 }`}
               >
-                Grade {grade}
+                Score Relius {grade}
               </button>
             )
           })}
@@ -134,7 +132,7 @@ export function MarketBenchmarkCard({
         <div className="space-y-2">
           {(selectedGrade ? gradeBenchmarks.filter(b => b.credit_grade === selectedGrade) : gradeBenchmarks.length > 0 ? gradeBenchmarks : [generalBenchmark]).filter(Boolean).map((bm) => {
             if (!bm) return null
-            const gradeConfig = bm.credit_grade ? (creditScoreConfig[bm.credit_grade] || fallbackGradeConfig) : null
+            const gradeConfig = bm.credit_grade ? (creditScoreConfig[bm.credit_grade] || fallbackScoreConfig) : null
             return (
               <div key={bm.id} className="p-3 rounded-xl bg-dark-600/50 border border-dark-500/40">
                 <div className="flex items-center justify-between mb-2">
@@ -146,7 +144,7 @@ export function MarketBenchmarkCard({
                     ) : (
                       <span className="text-xs font-bold text-slate-500">Geral</span>
                     )}
-                    <span className="text-xs text-slate-500">{bm.transaction_count} transações</span>
+                    <span className="text-xs text-slate-500">{bm.transaction_count} transacoes</span>
                   </div>
                   <div className="flex items-center gap-2">
                     {bm.discount_trend !== 0 && (
@@ -154,7 +152,7 @@ export function MarketBenchmarkCard({
                         bm.discount_trend < 0 ? 'text-emerald-400' : 'text-red-400'
                       }`}>
                         {bm.discount_trend < 0 ? <TrendingDown size={10} /> : <TrendingUp size={10} />}
-                        {Math.abs(bm.discount_trend).toFixed(1)}% tendência
+                        {Math.abs(bm.discount_trend).toFixed(1)}% tendencia
                       </span>
                     )}
                   </div>
@@ -198,4 +196,3 @@ export function MarketBenchmarkCard({
     </Card>
   )
 }
-

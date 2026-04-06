@@ -99,7 +99,13 @@ export default function MarketplacePage() {
       const res = await fetch(`/api/pricing?listing_id=${listingId}`)
       if (res.ok) {
         const data = await res.json()
-        setPriceRec(data.recommendation)
+        // Validar que recommendation é um objeto com campos esperados
+        const r = data.recommendation
+        if (r && typeof r === 'object' && typeof r.recommended_discount === 'number') {
+          setPriceRec(r)
+        } else {
+          setPriceRec(null)
+        }
       }
     } catch (err) {
       console.error('Failed to load price recommendation:', err)
@@ -215,11 +221,11 @@ export default function MarketplacePage() {
             onChange={e => setFilter({ ...filter, grade: e.target.value })}
             className="rounded-xl border border-dark-500/50 bg-dark-700 text-white px-3 py-1.5 text-sm"
           >
-            <option value="">Todos os scores</option>
-            <option value="A">Score A — Excelente</option>
-            <option value="B">Score B — Bom</option>
-            <option value="C">Score C — Regular</option>
-            <option value="D">Score D — Alto risco</option>
+            <option value="">Todos os Score Relius</option>
+            <option value="A">Score Relius A — Excelente</option>
+            <option value="B">Score Relius B — Bom</option>
+            <option value="C">Score Relius C — Regular</option>
+            <option value="D">Score Relius D — Alto risco</option>
           </select>
         </div>
       </Card>
@@ -479,4 +485,4 @@ export default function MarketplacePage() {
       )}
     </div>
   )
-}
+      }

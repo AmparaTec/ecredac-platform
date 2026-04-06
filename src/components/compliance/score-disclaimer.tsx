@@ -12,9 +12,9 @@ interface ScoreDisclaimerProps {
   className?: string
 }
 
-const DISCLAIMER_SHORT = 'O Score de Liquidez é uma estimativa baseada em dados públicos e declarados. Não constitui garantia de homologação pela SEFAZ nem recomendação de investimento.'
+const DISCLAIMER_SHORT = 'O Score Relius™ é uma estimativa baseada em dados públicos e declarados. Não constitui garantia de homologação pela SEFAZ nem recomendação de investimento.'
 
-const DISCLAIMER_FULL = `O Score de Liquidez (Credit Liquidity Score) exibido nesta plataforma é uma estimativa calculada com base em dados públicos disponíveis e informações declaradas pelos participantes. Este indicador:
+const DISCLAIMER_FULL = `O Score Relius™ (Credit Liquidity Score) exibido nesta plataforma é uma estimativa calculada com base em dados públicos disponíveis e informações declaradas pelos participantes. Este indicador:
 
 • NÃO constitui garantia de homologação do crédito pela SEFAZ;
 • NÃO representa uma avaliação oficial de qualquer órgão governamental;

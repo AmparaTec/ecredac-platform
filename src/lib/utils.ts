@@ -189,13 +189,16 @@ export const matchStatusConfig: Record<string, { label: string; badge: string }>
   expired: { label: 'Expirado', badge: 'bg-gray-100 text-gray-800' },
 }
 
-// Credit Score config
+// Score Relius™ config
 export const creditScoreConfig: Record<string, { label: string; badge: string; color: string; description: string }> = {
   A: { label: 'A', badge: 'bg-emerald-100 text-emerald-800 border-emerald-300', color: '#059669', description: 'Excelente — baixo risco, alta liquidez' },
   B: { label: 'B', badge: 'bg-blue-100 text-blue-800 border-blue-300', color: '#2563eb', description: 'Bom — risco moderado, boa liquidez' },
   C: { label: 'C', badge: 'bg-amber-100 text-amber-800 border-amber-300', color: '#d97706', description: 'Regular — requer atenção, liquidez limitada' },
   D: { label: 'D', badge: 'bg-red-100 text-red-800 border-red-300', color: '#dc2626', description: 'Alto risco — liquidez muito baixa' },
 }
+
+// Fallback para quando não há score calculado
+export const fallbackScoreConfig = { label: '—', badge: 'bg-slate-100 text-slate-600 border-slate-300', color: '#64748b', description: 'Score Relius pendente de avaliação' }
 
 // Score component labels
 export const scoreComponentLabels: Record<string, string> = {
@@ -366,4 +369,4 @@ export const transactionStatusConfig: Record<string, { label: string; badge: str
   completed: { label: 'Concluído', badge: 'bg-emerald-100 text-emerald-800' },
   disputed: { label: 'Em disputa', badge: 'bg-red-100 text-red-800' },
   cancelled: { label: 'Cancelado', badge: 'bg-gray-100 text-gray-800' },
-}
+    }
