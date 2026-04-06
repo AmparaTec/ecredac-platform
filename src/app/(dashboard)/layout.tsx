@@ -37,6 +37,7 @@ export default async function DashboardLayout({
 
   return (
     <div className="min-h-screen bg-dark-900 flex">
+      {/* Sidebar — desktop fixa + mobile drawer + bottom nav */}
       <Sidebar
         companyName={companyName}
         companyTier={companyTier}
@@ -44,13 +45,28 @@ export default async function DashboardLayout({
         displayName={displayName}
       />
 
+      {/*
+        Main content:
+        - Desktop: ml-60 (afasta da sidebar fixa)
+        - Mobile: sem ml, padding-bottom para bottom nav (pb-16)
+      */}
       <main className="flex-1 lg:ml-60 min-w-0 flex flex-col pb-16 lg:pb-0">
+
+        {/* ── Top bar ───────────────────────────────────────────── */}
         <header className="h-16 bg-dark-800/80 backdrop-blur-xl border-b border-dark-500/40 flex items-center sticky top-0 z-20">
+
+          {/* Mobile: espaço para hambúrguer + logo (centro) */}
+          {/* Desktop: busca à esquerda */}
           <div className="flex items-center flex-1 min-w-0">
+            {/* Espaçador para o botão hambúrguer no mobile */}
             <div className="w-14 lg:hidden flex-shrink-0" />
+
+            {/* Logo mobile (centro) */}
             <div className="lg:hidden flex-1 flex items-center justify-center">
               <span className="text-sm font-bold text-white">E-CREDac</span>
             </div>
+
+            {/* Busca desktop */}
             <div className="hidden lg:flex relative pl-6">
               <Search size={16} className="absolute left-9 top-1/2 -translate-y-1/2 text-slate-500" />
               <input
@@ -62,6 +78,7 @@ export default async function DashboardLayout({
             </div>
           </div>
 
+          {/* Center: nome do usuário + Quem Somos (desktop) */}
           <div className="hidden lg:flex items-center gap-4 flex-1 justify-center px-6">
             <span className="text-sm text-slate-300 font-medium">{displayName}</span>
             <div className="w-px h-5 bg-dark-500/30" />
@@ -75,6 +92,7 @@ export default async function DashboardLayout({
             </Link>
           </div>
 
+          {/* Notificações + Configurações (desktop) */}
           <div className="flex items-center gap-1 lg:gap-2 pr-4">
             <NotificationDropdown />
             <Link
@@ -87,10 +105,12 @@ export default async function DashboardLayout({
           </div>
         </header>
 
+        {/* ── Conteúdo da página ───────────────────────────────────── */}
         <div className="p-3 lg:p-6 lg:max-w-7xl flex-1">
           {children}
         </div>
 
+        {/* ── Rodapé — apenas desktop ────────────────────────────── */}
         <footer className="hidden lg:flex border-t border-dark-500/30 px-6 py-3 mt-auto">
           <div className="flex items-center justify-between w-full text-[11px] text-slate-600">
             <span>E-CREDac by Rede Ampara Tec</span>
@@ -103,9 +123,11 @@ export default async function DashboardLayout({
         </footer>
       </main>
 
+      {/* Termos pendentes */}
       <TermsChecker />
 
-      <div className="hidden lg:flex fixed bottom-8 left-1/2 -translate-x-1/2 z-40">
+      {/* Botão de feedback — lateral direita, centralizado verticalmente */}
+      <div className="hidden lg:flex fixed right-8 top-1/2 -translate-y-1/2 z-40">
         <FeedbackButton />
       </div>
     </div>
