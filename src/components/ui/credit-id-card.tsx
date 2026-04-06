@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { ScoreBadge, ScoreBar } from './score-badge'
-import { formatBRL, creditTypeLabels, creditOriginLabels, creditScoreConfig, scoreComponentLabels, homologationConfig } from '@/lib/utils'
+import { formatBRL, creditTypeLabels, creditOriginLabels, creditScoreConfig, fallbackScoreConfig, scoreComponentLabels, homologationConfig } from '@/lib/utils'
 import type { CreditListing, CreditScore, RiskFactor } from '@/types/database'
 
 interface CreditIdCardProps {
@@ -15,7 +15,7 @@ interface CreditIdCardProps {
 export function CreditIdCard({ listing, score, compact = false, onClick }: CreditIdCardProps) {
   const [expanded, setExpanded] = useState(false)
 
-  const gradeConfig = score ? creditScoreConfig[score.grade] : null
+  const gradeConfig = score ? (creditScoreConfig[score.grade] || fallbackScoreConfig) : null
   const homologConfig = homologationConfig[listing.homologation_status] || homologationConfig.pendente
 
   if (compact) {
@@ -65,12 +65,20 @@ export function CreditIdCard({ listing, score, compact = false, onClick }: Credi
             </p>
           </div>
 
-          {/* Score Badge Grande */}
-          {score && (
-            <div className="flex flex-col items-center">
-              <ScoreBadge grade={score.grade} score={score.score} size="lg" showScore />
-            </div>
-          )}
+          {/* Score Relius™ Badge */}
+          <div className="flex flex-col items-center">
+            {score ? (
+              <>
+                <span className="text-[9px] uppercase tracking-wider text-slate-500 font-semibold mb-0.5">Score Relius</span>
+                <ScoreBadge grade={score.grade} score={score.score} size="lg" showScore />
+              </>
+            ) : (
+              <>
+                <span className="text-[9px] uppercase tracking-wider text-slate-500 font-semibold mb-0.5">Score Relius</span>
+                <ScoreBadge grade={null} score={null} size="lg" showScore />
+              </>
+            )}
+          </div>
         </div>
       </div>
 
@@ -96,7 +104,7 @@ export function CreditIdCard({ listing, score, compact = false, onClick }: Credi
         {score && (
           <div className="pt-2 border-t border-dark-500/40">
             <div className="flex items-center justify-between mb-2">
-              <span className="text-xs font-medium text-slate-300">Qualidade do Crédito</span>
+              <span className="text-xs font-medium text-slate-300">Score Relius&trade;</span>
               <button
                 className="text-xs text-brand-400 hover:text-brand-300 font-medium"
                 onClick={(e) => { e.stopPropagation(); setExpanded(!expanded) }}
@@ -169,5 +177,4 @@ export function CreditIdCard({ listing, score, compact = false, onClick }: Credi
       )}
     </div>
   )
-}
-
+                      }
