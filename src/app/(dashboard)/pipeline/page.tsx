@@ -546,7 +546,7 @@ export default function PipelinePage() {
               )}
 
               {/* Tab: Execution Checklist */}
-              {detailTab === 'execution' && (
+              {detailTab === 'execution' && executionPlan && (
                 <ExecutionChecklist
                   plan={executionPlan}
                   tasks={executionTasks}
@@ -561,7 +561,7 @@ export default function PipelinePage() {
               )}
 
               {/* Tab: SLA */}
-              {detailTab === 'sla' && (
+              {detailTab === 'sla' && executionPlan && (
                 <SLATracker
                   plan={executionPlan}
                   tasks={executionTasks}
