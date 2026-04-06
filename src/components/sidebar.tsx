@@ -33,7 +33,6 @@ const companyNav: NavItem[] = [
   { href: '/admin',            label: 'Admin',           icon: Settings },
   { href: '/feedbacks',        label: 'Feedbacks',       icon: MessageSquarePlus },
   { href: '/institucional',    label: 'Quem Somos',      icon: Info },
-  { href: '/perfil',           label: 'Configurações',   icon: SlidersHorizontal },
 ]
 
 const representanteNav: NavItem[] = [
@@ -46,7 +45,6 @@ const representanteNav: NavItem[] = [
   { href: '/operacao',       label: 'Operações',       icon: Shield },
   { href: '/compliance/kyc', label: 'Verificação KYC', icon: FileCheck },
   { href: '/institucional',  label: 'Quem Somos',      icon: Info },
-  { href: '/perfil',         label: 'Configurações',   icon: SlidersHorizontal },
 ]
 
 const procuradorNav: NavItem[] = [
@@ -59,7 +57,6 @@ const procuradorNav: NavItem[] = [
   { href: '/assessor/convites', label: 'Convites',      icon: Send },
   { href: '/assessor/ranking',  label: 'Ranking & Tier',icon: Award },
   { href: '/institucional',     label: 'Quem Somos',    icon: Info },
-  { href: '/perfil',            label: 'Configurações', icon: SlidersHorizontal },
 ]
 
 function getNavItems(role: UserRole): NavItem[] {
