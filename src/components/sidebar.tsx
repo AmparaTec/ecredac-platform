@@ -6,7 +6,7 @@ import { cn } from '@/lib/utils'
 import {
   LayoutDashboard, DollarSign, TrendingUp, GitMerge,
   ArrowLeftRight, Building2, Settings, LogOut,
-  Users, Wallet, Send, Award, BarChart3, Briefcase, Shield, FileCheck, Gavel, Info
+  Users, Wallet, Send, Award, BarChart3, Briefcase, Shield, FileCheck, Gavel, Info, MessageSquarePlus
 } from 'lucide-react'
 
 type UserRole = 'titular' | 'representante' | 'procurador'
@@ -29,6 +29,7 @@ const companyNav: NavItem[] = [
   { href: '/empresas', label: 'Empresas', icon: Building2 },
   { href: '/admin/compliance', label: 'Compliance', icon: Gavel },
   { href: '/admin', label: 'Admin', icon: Settings },
+  { href: '/feedbacks', label: 'Feedbacks', icon: MessageSquarePlus },
   { href: '/institucional', label: 'Quem Somos', icon: Info },
 ]
 
