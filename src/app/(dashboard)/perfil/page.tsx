@@ -599,8 +599,8 @@ export default function PerfilPage() {
                     <Field label="CNPJ" hint="Não editável após o cadastro.">
                       <Input value={profile.cnpj} disabled />
                     </Field>
-                    <Field label="Inscrição Estadual">
-                      <Input value={profile.inscricao_estadual} disabled hint="Não editável — altere via suporte." />
+                    <Field label="Inscrição Estadual" hint="Não editável — altere via suporte.">
+                      <Input value={profile.inscricao_estadual} disabled />
                     </Field>
                     <Field label="Telefone Empresarial">
                       <Input value={profile.company_phone} placeholder="(11) 3000-0000" onChange={e => upd('company_phone', maskPhone(e.target.value))} />

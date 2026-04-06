@@ -37,11 +37,14 @@ interface Deal {
     expires_at: string
     last_used: string | null
   }
+  match_type?: string
+  compatibility_score?: number
+  match_reason?: string
 }
 
 const PHASE_LABELS = [
-  '', 'Originação', 'Matching', 'Acordo Comercial', 'Verificação Fiscal',
-  'Contrato & Procuração', 'Transferência e-CredAc', 'Aceite Cessionário', 'Conclusão'
+  '', 'OriginaÃ§Ã£o', 'Matching', 'Acordo Comercial', 'VerificaÃ§Ã£o Fiscal',
+  'Contrato & ProcuraÃ§Ã£o', 'TransferÃªncia e-CredAc', 'Aceite CessionÃ¡rio', 'ConclusÃ£o'
 ]
 
 export default function PipelinePage() {
@@ -67,30 +70,47 @@ export default function PipelinePage() {
         return
       }
 
+      // Check user role â procuradores see ALL matches
+      const { data: profile } = await supabase
+        .from('user_profiles')
+        .select('role')
+        .eq('auth_user_id', user.id)
+        .single()
+
+      const isProcurador = profile?.role === 'procurador'
+
+      // Company may not exist for procurador users
       const { data: company } = await supabase
-        .from('companies').select('id').eq('auth_user_id', user.id).single()
-      if (!company) {
+        .from('companies').select('id').eq('auth_user_id', user.id).maybeSingle()
+
+      if (!isProcurador && !company) {
         setLoading(false)
         return
       }
 
-      // Get matches with transactions
-      const { data: matches } = await supabase
+      // Get matches â procurador sees all, regular user sees own company's
+      let matchesQuery = supabase
         .from('matches')
         .select(`
           *,
-          seller_company:companies!seller_company_id(id, nome_fantasia, razao_social),
-          buyer_company:companies!buyer_company_id(id, nome_fantasia, razao_social),
-          listing:credit_listings(*, credit_score:credit_scores(*)),
-          request:credit_requests(*)
+          seller_company:companies!matches_seller_company_id_fkey(id, nome_fantasia, razao_social),
+          buyer_company:companies!matches_buyer_company_id_fkey(id, nome_fantasia, razao_social),
+          listing:credit_listings(id, credit_type, origin, amount, credit_score)
         `)
-        .or(`seller_company_id.eq.${company.id},buyer_company_id.eq.${company.id}`)
         .order('created_at', { ascending: false })
+        .limit(200)
 
-      const { data: transactions } = await supabase
-        .from('transactions')
-        .select('*')
-        .or(`seller_company_id.eq.${company.id},buyer_company_id.eq.${company.id}`)
+      if (!isProcurador && company) {
+        matchesQuery = matchesQuery.or(`seller_company_id.eq.${company.id},buyer_company_id.eq.${company.id}`)
+      }
+
+      const { data: matches } = await matchesQuery
+
+      let txQuery = supabase.from('transactions').select('*')
+      if (!isProcurador && company) {
+        txQuery = txQuery.or(`seller_company_id.eq.${company.id},buyer_company_id.eq.${company.id}`)
+      }
+      const { data: transactions } = await txQuery
 
       // Build deals from matches + transactions
       const dealList: Deal[] = (matches || []).map((m: any) => {
@@ -100,9 +120,9 @@ export default function PipelinePage() {
         return {
           id: m.id,
           phase,
-          title: `${formatBRL(m.matched_amount)} — ${m.agreed_discount}% desc.`,
+          title: `${formatBRL(m.matched_amount)} â ${m.agreed_discount}% desc.`,
           seller: m.seller_company?.nome_fantasia || m.seller_company?.razao_social || 'Cedente',
-          buyer: m.buyer_company?.nome_fantasia || m.buyer_company?.razao_social || 'Cessionário',
+          buyer: m.buyer_company?.nome_fantasia || m.buyer_company?.razao_social || 'CessionÃ¡rio',
           amount: m.matched_amount,
           discount: m.agreed_discount,
           status: m.status,
@@ -120,6 +140,9 @@ export default function PipelinePage() {
             expires_at: new Date(Date.now() + 120 * 24 * 60 * 60 * 1000).toISOString(),
             last_used: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000).toISOString(),
           } : undefined,
+          match_type: m.match_type,
+          compatibility_score: m.compatibility_score,
+          match_reason: m.match_reason,
         }
       })
 
@@ -135,10 +158,7 @@ export default function PipelinePage() {
     if (!match) return 1
     if (match.status === 'proposed') return 2
     if (match.status === 'confirmed' && !tx) return 3
-    if (tx?.status === 'pending_payment') return 4
-    if (tx?.contract_signed_at && tx?.status === 'paid') return 5
-    if (tx?.status === 'transferring') return 6
-    if (tx?.status === 'completed') return 8
+    if (tx?.status === 'pending_payment') return 8
     if (tx?.nfe_key) return 7
     return Math.min(match.status === 'accepted_seller' || match.status === 'accepted_buyer' ? 3 : 2, 8)
   }
@@ -149,7 +169,7 @@ export default function PipelinePage() {
 
     for (let i = 1; i <= 8; i++) {
       if (i < phase) {
-        phases[i] = { status: 'done', date: match.created_at, note: `${PHASE_LABELS[i]} concluída` }
+        phases[i] = { status: 'done', date: match.created_at, note: `${PHASE_LABELS[i]} concluÃ­da` }
       } else if (i === phase) {
         phases[i] = { status: 'current', date: null, note: `${PHASE_LABELS[i]} em andamento` }
       } else {
@@ -253,7 +273,7 @@ export default function PipelinePage() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold text-white">Pipeline</h1>
-          <p className="text-slate-500 mt-1">Acompanhe todas as operações em tempo real</p>
+          <p className="text-slate-500 mt-1">Acompanhe todas as operaÃ§Ãµes em tempo real</p>
         </div>
         <div className="flex gap-2">
           <Button
@@ -316,7 +336,7 @@ export default function PipelinePage() {
                         )}
                       </div>
                       <p className="text-sm font-bold text-white">{formatBRL(deal.amount)}</p>
-                      <p className="text-xs text-slate-400 mt-0.5">{deal.seller} → {deal.buyer}</p>
+                      <p className="text-xs text-slate-400 mt-0.5">{deal.seller} â {deal.buyer}</p>
                       <div className="flex items-center justify-between mt-2">
                         <Badge variant={deal.discount >= 15 ? 'success' : 'info'}>
                           {deal.discount}% desc.
@@ -342,7 +362,7 @@ export default function PipelinePage() {
                 <th className="px-4 py-3 text-left font-medium">Credit ID</th>
                 <th className="px-4 py-3 text-left font-medium">Score</th>
                 <th className="px-4 py-3 text-left font-medium">Cedente</th>
-                <th className="px-4 py-3 text-left font-medium">Cessionário</th>
+                <th className="px-4 py-3 text-left font-medium">CessionÃ¡rio</th>
                 <th className="px-4 py-3 text-left font-medium">Valor</th>
                 <th className="px-4 py-3 text-left font-medium">Desconto</th>
                 <th className="px-4 py-3 text-left font-medium">Fase</th>
@@ -362,7 +382,7 @@ export default function PipelinePage() {
                     {deal.credit_score ? (
                       <ScoreBadge grade={deal.credit_score.grade} size="sm" />
                     ) : (
-                      <span className="text-xs text-slate-500">—</span>
+                      <span className="text-xs text-slate-500">â</span>
                     )}
                   </td>
                   <td className="px-4 py-3 text-sm">{deal.seller}</td>
@@ -385,7 +405,7 @@ export default function PipelinePage() {
           {deals.length === 0 && (
             <div className="text-center py-12 text-slate-500">
               <GitMerge size={32} className="mx-auto mb-2" />
-              <p className="text-sm">Nenhuma operação no pipeline</p>
+              <p className="text-sm">Nenhuma operaÃ§Ã£o no pipeline</p>
             </div>
           )}
         </Card>
@@ -399,13 +419,13 @@ export default function PipelinePage() {
               <div>
                 <div className="flex items-center gap-2">
                   <h2 className="text-xl font-bold text-white">
-                    {selectedDeal.credit_id || `Operação #${selectedDeal.id.slice(0, 8)}`}
+                    {selectedDeal.credit_id || `OperaÃ§Ã£o #${selectedDeal.id.slice(0, 8)}`}
                   </h2>
                   {selectedDeal.credit_score && (
                     <ScoreBadge grade={selectedDeal.credit_score.grade} score={selectedDeal.credit_score.score} size="md" showScore />
                   )}
                 </div>
-                <p className="text-sm text-slate-400">{selectedDeal.seller} → {selectedDeal.buyer}</p>
+                <p className="text-sm text-slate-400">{selectedDeal.seller} â {selectedDeal.buyer}</p>
               </div>
               <button onClick={() => setSelectedDeal(null)} className="p-2 rounded-xl hover:bg-dark-600/50">
                 <X size={20} />
@@ -441,7 +461,7 @@ export default function PipelinePage() {
                   onClick={() => setDetailTab('execution')}
                 >
                   <ListChecks size={14} className="inline mr-1.5" />
-                  Execução
+                  ExecuÃ§Ã£o
                   {executionPlan && (
                     <span className="ml-1.5 text-[10px] font-bold bg-brand-500/20 text-brand-300 px-1.5 py-0.5 rounded-full">
                       {executionPlan.overall_progress}%
@@ -472,7 +492,7 @@ export default function PipelinePage() {
                   {/* Deal info */}
                   <div className="grid grid-cols-3 gap-4">
                     <div className="p-4 rounded-xl bg-dark-600/50">
-                      <p className="text-xs text-slate-400">Valor do Crédito</p>
+                      <p className="text-xs text-slate-400">Valor do CrÃ©dito</p>
                       <p className="text-xl font-bold text-white">{formatBRL(selectedDeal.amount)}</p>
                     </div>
                     <div className="p-4 rounded-xl bg-dark-600/50">
@@ -489,7 +509,7 @@ export default function PipelinePage() {
 
                   {/* Timeline */}
                   <div>
-                    <h3 className="text-sm font-bold text-white mb-3">Histórico</h3>
+                    <h3 className="text-sm font-bold text-white mb-3">HistÃ³rico</h3>
                     <div className="space-y-3">
                       {Object.entries(selectedDeal.phases)
                         .filter(([, v]) => v.status === 'done' || v.status === 'current')
@@ -498,7 +518,7 @@ export default function PipelinePage() {
                             <div className={`w-6 h-6 rounded-full flex items-center justify-center text-xs ${
                               v.status === 'done' ? 'bg-emerald-500/20 text-emerald-400' : 'bg-brand-500/20 text-brand-400'
                             }`}>
-                              {v.status === 'done' ? '✓' : Number(k)}
+                              {v.status === 'done' ? 'â' : Number(k)}
                             </div>
                             <div className="flex-1">
                               <p className="text-sm font-medium text-white">{v.note}</p>
@@ -512,7 +532,7 @@ export default function PipelinePage() {
                   {/* Credit usage (if phase >= 7) */}
                   {selectedDeal.credit_usage && (
                     <div>
-                      <h3 className="text-sm font-bold text-white mb-3">Monitoramento de Uso do Crédito</h3>
+                      <h3 className="text-sm font-bold text-white mb-3">Monitoramento de Uso do CrÃ©dito</h3>
                       <CreditGauge
                         total={selectedDeal.credit_usage.total}
                         used={selectedDeal.credit_usage.used}
@@ -565,7 +585,7 @@ export default function PipelinePage() {
                 ) : (
                   <div className="text-center py-8 text-slate-500">
                     <Clock size={32} className="mx-auto mb-2" />
-                    <p className="text-sm">Crie um plano de execução para monitorar SLAs</p>
+                    <p className="text-sm">Crie um plano de execuÃ§Ã£o para monitorar SLAs</p>
                     <Button variant="primary" className="mt-3" onClick={handleCreatePlan} disabled={executionLoading}>
                       {executionLoading ? 'Criando...' : 'Criar Plano'}
                     </Button>

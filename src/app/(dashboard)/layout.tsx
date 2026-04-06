@@ -5,7 +5,7 @@ import { Sidebar } from '@/components/sidebar'
 import { NotificationDropdown } from '@/components/ui/notification-dropdown'
 import { TermsChecker } from '@/components/compliance/terms-checker'
 import { FeedbackButton } from '@/components/ui/feedback-button'
-import { Search, Settings } from 'lucide-react'
+import { Search, Settings, Info } from 'lucide-react'
 
 export default async function DashboardLayout({
   children,
@@ -27,7 +27,7 @@ export default async function DashboardLayout({
       .from('companies')
       .select('*')
       .eq('auth_user_id', user.id)
-      .single(),
+      .maybeSingle(),
   ])
 
   const userRole = (userProfile?.role as 'titular' | 'representante' | 'procurador') || 'titular'
@@ -37,27 +37,62 @@ export default async function DashboardLayout({
 
   return (
     <div className="min-h-screen bg-dark-900 flex">
+      {/* Sidebar — desktop fixa + mobile drawer + bottom nav */}
       <Sidebar
         companyName={companyName}
         companyTier={companyTier}
         userRole={userRole}
         displayName={displayName}
       />
+
+      {/*
+        Main content:
+        - Desktop: ml-60 (afasta da sidebar fixa)
+        - Mobile: sem ml, padding-bottom para bottom nav (pb-16)
+      */}
       <main className="flex-1 lg:ml-60 min-w-0 flex flex-col pb-16 lg:pb-0">
-        <header className="h-16 bg-dark-800/80 backdrop-blur-xl border-b border-dark-500/40 flex items-center justify-between sticky top-0 z-20">
+
+        {/* ── Top bar ───────────────────────────────────────────── */}
+        <header className="h-16 bg-dark-800/80 backdrop-blur-xl border-b border-dark-500/40 flex items-center sticky top-0 z-20">
+
+          {/* Mobile: espaço para hambúrguer + logo (centro) */}
+          {/* Desktop: busca à esquerda */}
           <div className="flex items-center flex-1 min-w-0">
+            {/* Espaçador para o botão hambúrguer no mobile */}
             <div className="w-14 lg:hidden flex-shrink-0" />
+
+            {/* Logo mobile (centro) */}
             <div className="lg:hidden flex-1 flex items-center justify-center">
               <span className="text-sm font-bold text-white">E-CREDac</span>
             </div>
+
+            {/* Busca desktop */}
             <div className="hidden lg:flex relative pl-6">
               <Search size={16} className="absolute left-9 top-1/2 -translate-y-1/2 text-slate-500" />
               <input
-                placeholder={userRole === 'procurador' ? 'Buscar clientes, comissões...' : 'Buscar operações, créditos...'}
+                placeholder={userRole === 'procurador'
+                  ? 'Buscar clientes, comissões...'
+                  : 'Buscar operações, créditos...'}
                 className="pl-10 pr-4 py-2 w-72 rounded-xl bg-dark-700 border border-dark-500/50 text-sm text-white placeholder-slate-500 focus:bg-dark-600 focus:border-brand-500/50 focus:ring-2 focus:ring-brand-500/20 transition-all outline-none"
               />
             </div>
           </div>
+
+          {/* Center: nome do usuário + Quem Somos (desktop) */}
+          <div className="hidden lg:flex items-center gap-4 flex-1 justify-center px-6">
+            <span className="text-sm text-slate-300 font-medium">{displayName}</span>
+            <div className="w-px h-5 bg-dark-500/30" />
+            <Link
+              href="/institucional"
+              className="flex items-center gap-1.5 text-xs text-slate-400 hover:text-brand-400 transition-colors"
+              title="Quem Somos"
+            >
+              <Info size={14} />
+              <span>Institucional</span>
+            </Link>
+          </div>
+
+          {/* Notificações + Configurações (desktop) */}
           <div className="flex items-center gap-1 lg:gap-2 pr-4">
             <NotificationDropdown />
             <Link
@@ -69,9 +104,13 @@ export default async function DashboardLayout({
             </Link>
           </div>
         </header>
+
+        {/* ── Conteúdo da página ───────────────────────────────────── */}
         <div className="p-3 lg:p-6 lg:max-w-7xl flex-1">
           {children}
         </div>
+
+        {/* ── Rodapé — apenas desktop ────────────────────────────── */}
         <footer className="hidden lg:flex border-t border-dark-500/30 px-6 py-3 mt-auto">
           <div className="flex items-center justify-between w-full text-[11px] text-slate-600">
             <span>E-CREDac by Rede Ampara Tec</span>
@@ -83,10 +122,15 @@ export default async function DashboardLayout({
           </div>
         </footer>
       </main>
+
+      {/* Termos pendentes */}
       <TermsChecker />
-      <div className="hidden lg:block">
+
+      {/* Botão de feedback — lateral direita, centralizado verticalmente */}
+      <div className="hidden lg:flex fixed right-8 top-1/2 -translate-y-1/2 z-40">
         <FeedbackButton />
       </div>
     </div>
   )
 }
+

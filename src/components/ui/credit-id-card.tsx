@@ -16,7 +16,7 @@ export function CreditIdCard({ listing, score, compact = false, onClick }: Credi
   const [expanded, setExpanded] = useState(false)
 
   const gradeConfig = score ? creditScoreConfig[score.grade] : null
-  const homologConfig = homologationConfig[listing.homologation_status]
+  const homologConfig = homologationConfig[listing.homologation_status] || homologationConfig.pendente
 
   if (compact) {
     return (
@@ -170,3 +170,4 @@ export function CreditIdCard({ listing, score, compact = false, onClick }: Credi
     </div>
   )
 }
+
