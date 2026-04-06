@@ -1,20 +1,19 @@
 'use client'
 
-import { creditScoreConfig } from '@/lib/utils'
+import { creditScoreConfig, fallbackScoreConfig } from '@/lib/utils'
 import type { CreditScoreGrade } from '@/types/database'
 
 interface ScoreBadgeProps {
-  grade: CreditScoreGrade
-  score?: number
+  grade?: CreditScoreGrade | null
+  score?: number | null
   size?: 'sm' | 'md' | 'lg'
   showScore?: boolean
   showLabel?: boolean
 }
 
-const fallbackConfig = { label: '?', badge: 'bg-slate-100 text-slate-800 border-slate-300', color: '#64748b', description: 'Não classificado' }
-
 export function ScoreBadge({ grade, score, size = 'md', showScore = false, showLabel = false }: ScoreBadgeProps) {
-  const config = creditScoreConfig[grade] || fallbackConfig
+  const config = grade ? (creditScoreConfig[grade] || fallbackScoreConfig) : fallbackScoreConfig
+  const displayGrade = grade || '—'
 
   const sizeClasses = {
     sm: 'w-6 h-6 text-xs',
@@ -22,18 +21,19 @@ export function ScoreBadge({ grade, score, size = 'md', showScore = false, showL
     lg: 'w-12 h-12 text-lg',
   }
 
-  if (!config) return null
-
   return (
     <div className="flex items-center gap-2">
       <div
         className={`${sizeClasses[size]} rounded-lg border-2 font-bold flex items-center justify-center ${config.badge}`}
-        title={config.description}
+        title={`Score Relius\u2122: ${config.description}`}
       >
-        {grade || '?'}
+        {displayGrade}
       </div>
-      {showScore && score !== undefined && (
+      {showScore && score != null && (
         <span className="text-xs text-slate-500 font-medium">{score.toFixed(0)}/100</span>
+      )}
+      {showScore && score == null && grade == null && (
+        <span className="text-xs text-slate-500 font-medium">Pendente</span>
       )}
       {showLabel && (
         <span className="text-xs text-slate-500">{config.description}</span>
@@ -68,3 +68,4 @@ export function ScoreBar({ label, value, maxValue = 100, color }: ScoreBarProps)
     </div>
   )
 }
+
