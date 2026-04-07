@@ -141,7 +141,7 @@ export default function SimularPage() {
           <h1 className="text-3xl font-bold mb-3 leading-tight">
             Quanto vale o seu<br />crédito PIS/COFINS?
           </h1>
-          <p className="text-white/50 text-base">
+          <p className="text-white/75 text-base">
             Estimativa gratuita. Sem upload de arquivo. Sem compromisso.
           </p>
         </div>
@@ -161,14 +161,14 @@ export default function SimularPage() {
                         ? 'bg-[#c9a227] border-[#c9a227] text-[#0a1f12]'
                         : active
                         ? 'border-[#c9a227] text-[#c9a227] bg-[#c9a227]/10'
-                        : 'border-white/20 text-white/30'
+                        : 'border-white/20 text-white/50'
                     }`}
                   >
                     {done ? '✓' : n}
                   </div>
                   <span
                     className={`text-xs hidden sm:block ${
-                      active ? 'text-[#c9a227]' : done ? 'text-white/50' : 'text-white/20'
+                      active ? 'text-[#c9a227]' : done ? 'text-white/75' : 'text-white/40'
                     }`}
                   >
                     {label}
@@ -190,7 +190,7 @@ export default function SimularPage() {
         {step === 1 && (
           <div className="bg-white/[0.04] border border-white/10 rounded-2xl p-7">
             <h2 className="text-lg font-semibold mb-1">Qual é o CNPJ da empresa?</h2>
-            <p className="text-white/40 text-sm mb-6">
+            <p className="text-white/60 text-sm mb-6">
               Buscamos os dados automaticamente na Receita Federal.
             </p>
 
@@ -229,8 +229,8 @@ export default function SimularPage() {
                     <div className="font-semibold text-[#c9a227] text-sm truncate">
                       {company.razao_social}
                     </div>
-                    <div className="text-white/40 text-xs truncate">{company.cnae_descricao}</div>
-                    <div className="text-white/30 text-xs mt-0.5">
+                    <div className="text-white/60 text-xs truncate">{company.cnae_descricao}</div>
+                    <div className="text-white/50 text-xs mt-0.5">
                       {company.municipio}/{company.uf} · {company.porte}
                     </div>
                   </div>
@@ -246,7 +246,7 @@ export default function SimularPage() {
               Continuar →
             </button>
 
-            <p className="text-center text-white/20 text-xs mt-4">
+            <p className="text-center text-white/40 text-xs mt-4">
               Não temos acesso aos seus sistemas fiscais.
             </p>
           </div>
@@ -256,7 +256,7 @@ export default function SimularPage() {
         {step === 2 && (
           <div className="bg-white/[0.04] border border-white/10 rounded-2xl p-7">
             <h2 className="text-lg font-semibold mb-1">Perfil tributário</h2>
-            <p className="text-white/40 text-sm mb-6">
+            <p className="text-white/60 text-sm mb-6">
               Ajuste os parâmetros para uma estimativa mais precisa.
             </p>
 
@@ -280,7 +280,7 @@ export default function SimularPage() {
                     }`}
                   >
                     <div className="font-semibold text-sm">{opt.label}</div>
-                    <div className="text-white/35 text-xs mt-0.5">{opt.sub}</div>
+                    <div className="text-white/55 text-xs mt-0.5">{opt.sub}</div>
                   </button>
                 ))}
               </div>
@@ -301,7 +301,7 @@ export default function SimularPage() {
                 onChange={(e) => setPercentualIsento(Number(e.target.value))}
                 className="w-full accent-[#c9a227] cursor-pointer"
               />
-              <div className="flex justify-between text-xs text-white/25 mt-1">
+              <div className="flex justify-between text-xs text-white/65 mt-1">
                 <span>10% — misto</span>
                 <span>100% — exportador puro</span>
               </div>
@@ -322,7 +322,7 @@ export default function SimularPage() {
                 onChange={(e) => setMeses(Number(e.target.value))}
                 className="w-full accent-[#c9a227] cursor-pointer"
               />
-              <div className="flex justify-between text-xs text-white/25 mt-1">
+              <div className="flex justify-between text-xs text-white/65 mt-1">
                 <span>3 meses</span>
                 <span>36 meses</span>
               </div>
@@ -332,10 +332,10 @@ export default function SimularPage() {
             <div className="mb-6">
               <label className="block text-sm font-medium text-white/60 mb-2">
                 Faturamento mensal médio{' '}
-                <span className="text-white/25 font-normal">(opcional — melhora precisão)</span>
+                <span className="text-white/65 font-normal">(opcional — melhora precisão)</span>
               </label>
               <div className="relative">
-                <span className="absolute left-4 top-1/2 -translate-y-1/2 text-white/40 text-sm">
+                <span className="absolute left-4 top-1/2 -translate-y-1/2 text-white/60 text-sm">
                   R$
                 </span>
                 <input
@@ -355,7 +355,7 @@ export default function SimularPage() {
             <div className="flex gap-3">
               <button
                 onClick={() => setStep(1)}
-                className="flex-1 border border-white/15 text-white/50 font-semibold py-3 rounded-xl hover:border-white/30 hover:text-white/70 transition-colors text-sm"
+                className="flex-1 border border-white/15 text-white/75 font-semibold py-3 rounded-xl hover:border-white/30 hover:text-white/70 transition-colors text-sm"
               >
                 ← Voltar
               </button>
@@ -387,14 +387,14 @@ export default function SimularPage() {
                   <div className="w-7 h-7 bg-[#c9a227]/20 rounded-md flex items-center justify-center text-[#c9a227] font-bold text-xs flex-shrink-0">
                     {company.razao_social.charAt(0)}
                   </div>
-                  <span className="text-white/50 text-sm truncate">{company.razao_social}</span>
+                  <span className="text-white/75 text-sm truncate">{company.razao_social}</span>
                   <span
                     className={`ml-auto text-xs px-2 py-0.5 rounded-full flex-shrink-0 ${
                       result.confiabilidade === 'alta'
                         ? 'bg-green-500/20 text-green-400'
                         : result.confiabilidade === 'media'
                         ? 'bg-yellow-500/20 text-yellow-400'
-                        : 'bg-white/10 text-white/40'
+                        : 'bg-white/10 text-white/60'
                     }`}
                   >
                     Estimativa {result.confiabilidade === 'alta' ? 'boa' : result.confiabilidade === 'media' ? 'média' : 'indicativa'}
@@ -404,37 +404,37 @@ export default function SimularPage() {
 
               {/* Valor principal */}
               <div className="text-center mb-6">
-                <div className="text-white/50 text-sm mb-1">Crédito acumulado estimado</div>
+                <div className="text-white/75 text-sm mb-1">Crédito acumulado estimado</div>
                 <div className="text-4xl sm:text-5xl font-bold text-[#c9a227] leading-tight mb-1">
                   {formatBRL(result.credito_face.min)}
                   <span className="text-2xl text-[#c9a227]/60 mx-2">–</span>
                   {formatBRL(result.credito_face.max)}
                 </div>
-                <div className="text-white/30 text-xs">valor de face · base {result.metodologia}</div>
+                <div className="text-white/50 text-xs">valor de face · base {result.metodologia}</div>
               </div>
 
               {/* Grid secundário */}
               <div className="grid grid-cols-2 gap-3 mb-6">
                 <div className="bg-[#0a1f12] border border-white/10 rounded-xl p-4 text-center">
-                  <div className="text-white/40 text-xs mb-1.5">Você recebe (estimado)</div>
+                  <div className="text-white/60 text-xs mb-1.5">Você recebe (estimado)</div>
                   <div className="text-xl font-bold text-emerald-400">
                     {formatBRL(result.valor_liquido.min)}
                     <span className="text-sm text-emerald-400/60 mx-1">–</span>
                     {formatBRL(result.valor_liquido.max)}
                   </div>
-                  <div className="text-white/25 text-xs mt-1">após desconto + comissão</div>
+                  <div className="text-white/65 text-xs mt-1">após desconto + comissão</div>
                 </div>
                 <div className="bg-[#0a1f12] border border-white/10 rounded-xl p-4 text-center">
-                  <div className="text-white/40 text-xs mb-1.5">Prazo para receber</div>
+                  <div className="text-white/60 text-xs mb-1.5">Prazo para receber</div>
                   <div className="text-xl font-bold">{result.prazo_estimado}</div>
-                  <div className="text-white/25 text-xs mt-1">após assinatura</div>
+                  <div className="text-white/65 text-xs mt-1">após assinatura</div>
                 </div>
               </div>
 
               {/* Aviso */}
               <div className="bg-[#c9a227]/5 border border-[#c9a227]/15 rounded-xl p-3.5 mb-6 flex gap-3">
                 <span className="text-[#c9a227] flex-shrink-0 mt-0.5">⚡</span>
-                <p className="text-white/50 text-xs leading-relaxed">
+                <p className="text-white/75 text-xs leading-relaxed">
                   Esta é uma <strong className="text-white/80">estimativa preliminar</strong> baseada nos parâmetros informados.
                   Para precisão real, faça upload da EFD-Contribuições na plataforma.{' '}
                   <strong className="text-white/80">Não acessamos seus sistemas fiscais.</strong>
@@ -450,13 +450,13 @@ export default function SimularPage() {
               </a>
               <a
                 href="/"
-                className="block w-full text-center border border-white/15 text-white/50 py-2.5 rounded-xl text-sm hover:border-white/30 hover:text-white/70 transition-colors"
+                className="block w-full text-center border border-white/15 text-white/75 py-2.5 rounded-xl text-sm hover:border-white/30 hover:text-white/70 transition-colors"
               >
                 Saber mais sobre a Relius
               </a>
             </div>
 
-            <p className="text-center text-white/20 text-xs px-4">
+            <p className="text-center text-white/40 text-xs px-4">
               Estimativa baseada em alíquotas vigentes (RFB) e parâmetros informados. Não constitui assessoria fiscal ou jurídica. Relius não executa PER/DCOMP em seu nome.
             </p>
           </div>
