@@ -126,7 +126,7 @@ export async function POST(request: NextRequest) {
     const parseResult = parseEfdContribuicoes(content)
 
     // Salvar resultado do parse
-    await salvarParseResult(supabase, upload.id, parseResult)
+    await salvarParseResult(supabase as any, upload.id, parseResult)
 
     // Calcular score de verificacao (sem cruzamento NF-e por enquanto)
     const score = calcularScoreVerificacao(parseResult, 0, parseResult.resumo.qtd_nfe_entrada)
