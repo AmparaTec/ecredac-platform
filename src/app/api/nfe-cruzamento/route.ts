@@ -5,8 +5,7 @@
  * GET  - Retrieve cruzamento results for a company
  */
 
-import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs'
-import { cookies } from 'next/headers'
+import { createServerSupabase } from '@/lib/supabase/server'
 import { NextRequest, NextResponse } from 'next/server'
 import { parseNfeXml, validateNfeForIcms } from '@/lib/nfe/nfe-parser'
 import { consultarSefaz, validarChaveNfe, getUfFromChave } from '@/lib/nfe/sefaz-provider'
@@ -14,7 +13,7 @@ import { consultarSefaz, validarChaveNfe, getUfFromChave } from '@/lib/nfe/sefaz
 // ─── GET: list cruzamentos for company ─────────────────────────────────────────
 export async function GET(request: NextRequest) {
   try {
-    const supabase = createRouteHandlerClient({ cookies })
+    const supabase = createServerSupabase()
     const { data: { user }, error: authError } = await supabase.auth.getUser()
     if (authError || !user) {
       return NextResponse.json({ error: 'Não autenticado' }, { status: 401 })
@@ -71,7 +70,7 @@ export async function GET(request: NextRequest) {
 // ─── POST: upload + parse + validate + cross ────────────────────────────────────
 export async function POST(request: NextRequest) {
   try {
-    const supabase = createRouteHandlerClient({ cookies })
+    const supabase = createServerSupabase()
     const { data: { user }, error: authError } = await supabase.auth.getUser()
     if (authError || !user) {
       return NextResponse.json({ error: 'Não autenticado' }, { status: 401 })
