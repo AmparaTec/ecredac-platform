@@ -10,6 +10,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { parseNfeXml, validateNfeForIcms } from '@/lib/nfe/nfe-parser'
 import { consultarSefaz, validarChaveNfe, getUfFromChave } from '@/lib/nfe/sefaz-provider'
 import { createServerSupabase } from '@/lib/supabase/server'
+import { createServerSupabase } from '@/lib/supabase/server'
 
 // ─── GET: list cruzamentos for company ─────────────────────────────────────────
 export async function GET(request: NextRequest) {
