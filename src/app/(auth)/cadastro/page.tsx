@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, Suspense } from 'react'
 import { useSearchParams, useRouter } from 'next/navigation'
 import { createBrowserClient } from '@supabase/ssr'
 
@@ -56,7 +56,7 @@ const PERFIS = [
   },
 ]
 
-export default function CadastroPage() {
+function CadastroContent() {
   const searchParams = useSearchParams()
   const router = useRouter()
 
@@ -466,5 +466,17 @@ export default function CadastroPage() {
         )}
       </div>
     </div>
+  )
+}
+
+export default function CadastroPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-[#0a1f12] flex items-center justify-center">
+        <div className="w-8 h-8 border-2 border-[#c9a227] border-t-transparent rounded-full animate-spin" />
+      </div>
+    }>
+      <CadastroContent />
+    </Suspense>
   )
 }
