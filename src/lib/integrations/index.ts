@@ -40,11 +40,7 @@ export {
 export type { CreateDocumentInput, DocumentResult } from './clicksign'
 
 // Consultas Públicas — Due Diligence (CNPJ, Certidões, PEP)
-export { ConsultaPublicaProvider } from './consultas-publicas'
-
 // E-CredAc — SEFAZ-SP (Trilho B: ICMS estadual)
-export { ECredAcProvider } from './ecredac-provider'
-
 // EFD-Contribuições — Parser SPED (Trilho A: PIS/COFINS federal)
 export {
   parseEfdContribuicoes,
