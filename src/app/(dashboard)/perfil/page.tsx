@@ -392,7 +392,7 @@ export default function PerfilPage() {
     { id: 'pessoal',      label: 'Dados Pessoais', icon: FileText },
     { id: 'endereco',     label: 'Endereço',       icon: MapPin },
     { id: 'empresa',      label: 'Empresa',        icon: Building2 },
-    { id: 'trilho',   label: 'Trilho',   component: TrilhoTab },
+    { id: 'trilho',       label: 'Trilho',         icon: Train },
     { id: 'seguranca',    label: 'Segurança',      icon: Shield },
     { id: 'notificacoes', label: 'Notificações',   icon: Bell },
   ]
@@ -716,6 +716,8 @@ export default function PerfilPage() {
                 <SaveBar saving={saving} saved={saved} onSave={saveTab} />
               </>
             )}
+
+          {activeTab === 'trilho' && <TrilhoTab />}
 
           </div>
         </div>
