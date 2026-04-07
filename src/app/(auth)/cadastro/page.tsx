@@ -109,6 +109,9 @@ function CadastroContent() {
     if (!nome.trim()) return 'Informe seu nome completo.'
     if (!email.includes('@')) return 'Email inválido.'
     if (senha.length < 8) return 'Senha deve ter ao menos 8 caracteres.'
+    if (!/[a-z]/.test(senha)) return 'Senha precisa ter ao menos uma letra minúscula.'
+    if (!/[A-Z]/.test(senha)) return 'Senha precisa ter ao menos uma letra maiúscula.'
+    if (!/[0-9]/.test(senha)) return 'Senha precisa ter ao menos um número.'
     if (senha !== confirmar) return 'As senhas não coincidem.'
     return ''
   }
@@ -153,6 +156,15 @@ function CadastroContent() {
       const msg = err instanceof Error ? err.message : 'Erro ao criar conta.'
       if (msg.includes('already registered') || msg.includes('already exists')) {
         setErroStep3('Este email já está cadastrado. Faça login.')
+      } else if (
+        msg.toLowerCase().includes('password') ||
+        msg.toLowerCase().includes('senha')
+      ) {
+        // Erro de senha → volta pro step 2 e mostra lá
+        setSenha('')
+        setConfirmar('')
+        setErroStep2('Senha fraca ou inválida. Use ao menos 8 caracteres com letras maiúsculas, minúsculas e números.')
+        setStep(2)
       } else {
         setErroStep3(msg)
       }
@@ -309,17 +321,30 @@ function CadastroContent() {
                     {showSenha ? '🙈' : '👁'}
                   </button>
                 </div>
-                {senha.length > 0 && (
-                  <div className="flex gap-1 mt-1.5">
-                    {[4, 6, 8, 10].map(n => (
-                      <div key={n} className={`flex-1 h-1 rounded-full transition-all ${
-                        senha.length >= n
-                          ? senha.length >= 10 ? 'bg-emerald-400' : senha.length >= 8 ? 'bg-[#c9a227]' : 'bg-orange-400'
-                          : 'bg-white/10'
-                      }`} />
-                    ))}
-                  </div>
-                )}
+                {senha.length > 0 && (() => {
+                  const checks = [
+                    senha.length >= 8,
+                    /[a-z]/.test(senha),
+                    /[A-Z]/.test(senha),
+                    /[0-9]/.test(senha),
+                  ]
+                  const score = checks.filter(Boolean).length
+                  return (
+                    <>
+                      <div className="flex gap-1 mt-1.5">
+                        {checks.map((ok, i) => (
+                          <div key={i} className={`flex-1 h-1 rounded-full transition-all ${
+                            ok ? score === 4 ? 'bg-emerald-400' : score >= 2 ? 'bg-[#c9a227]' : 'bg-orange-400'
+                               : 'bg-white/10'
+                          }`} />
+                        ))}
+                      </div>
+                      <p className="text-white/35 text-xs mt-1">
+                        Mínimo: 8 caracteres · maiúscula · minúscula · número
+                      </p>
+                    </>
+                  )
+                })()}
               </div>
 
               <div>
