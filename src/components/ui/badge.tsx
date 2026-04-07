@@ -15,7 +15,7 @@ export function Badge({ children, variant = 'default', className }: BadgeProps) 
     warning: 'bg-warning-500/15 text-warning-400 border border-warning-500/25',
     danger: 'bg-danger-500/15 text-danger-400 border border-danger-500/25',
     info: 'bg-brand-500/15 text-brand-400 border border-brand-500/25',
-    premium: 'bg-gradient-to-r from-brand-600 to-accent-600 text-white border-0',
+    premium: 'bg-gradient-to-r from-brand-600 to-accent-600 text-slate-900 border-0',
   }
 
   return (

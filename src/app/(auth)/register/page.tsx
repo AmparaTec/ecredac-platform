@@ -213,7 +213,7 @@ function RegisterForm() {
                     {config.icon}
                   </div>
                   <div className="flex-1">
-                    <p className={`font-semibold ${selected ? 'text-brand-300' : 'text-white'}`}>
+                    <p className={`font-semibold ${selected ? 'text-brand-300' : 'text-slate-900'}`}>
                       {config.title}
                     </p>
                     <p className="text-sm text-slate-500">{config.subtitle}</p>
@@ -264,7 +264,7 @@ function RegisterForm() {
           <button
             type="button"
             onClick={() => setStep('role')}
-            className="text-slate-500 hover:text-slate-300 transition-colors"
+            className="text-slate-500 hover:text-slate-600 transition-colors"
           >
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <polyline points="15 18 9 12 15 6" />
@@ -284,7 +284,7 @@ function RegisterForm() {
         <h2 className="text-2xl font-bold text-white">
           {role === 'procurador' ? 'Cadastro de Assessor' : 'Criar conta'}
         </h2>
-        <p className="text-slate-400 mt-1 mb-6">
+        <p className="text-slate-500 mt-1 mb-6">
           {role === 'procurador'
             ? 'Cadastre seu escritório e comece a intermediar créditos'
             : 'Cadastre sua empresa em menos de 2 minutos'}
@@ -297,7 +297,7 @@ function RegisterForm() {
         <form onSubmit={handleRegister} className="space-y-4">
           {/* Nome completo — todos os perfis */}
           <div>
-            <label className="block text-sm font-medium text-slate-300 mb-1">Nome completo</label>
+            <label className="block text-sm font-medium text-slate-600 mb-1">Nome completo</label>
             <input
               id="fullName"
               name="fullName"
@@ -306,7 +306,7 @@ function RegisterForm() {
               onChange={(e) => setForm({ ...form, fullName: e.target.value })}
               placeholder="Seu nome completo"
               required
-              className="w-full rounded-xl border border-dark-500/50 bg-dark-700 text-white placeholder:text-slate-500 px-4 py-2.5 text-sm focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20"
+              className="w-full rounded-xl border border-dark-500/50 bg-dark-700 text-slate-900 placeholder:text-slate-500 px-4 py-2.5 text-sm focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20"
             />
           </div>
 
@@ -314,7 +314,7 @@ function RegisterForm() {
           {role !== 'procurador' && (
             <>
               <div>
-                <label className="block text-sm font-medium text-slate-300 mb-1">CNPJ da empresa</label>
+                <label className="block text-sm font-medium text-slate-600 mb-1">CNPJ da empresa</label>
                 <div className="relative">
                   <input
                     value={form.cnpj}
@@ -322,7 +322,7 @@ function RegisterForm() {
                     placeholder="00.000.000/0001-00"
                     required
                     maxLength={18}
-                    className={`w-full rounded-xl border px-4 py-2.5 pr-10 text-sm focus:ring-2 transition-colors bg-dark-700 text-white placeholder:text-slate-500 ${
+                    className={`w-full rounded-xl border px-4 py-2.5 pr-10 text-sm focus:ring-2 transition-colors bg-dark-700 text-slate-900 placeholder:text-slate-500 ${
                       cnpjData
                         ? 'border-emerald-500/30 focus:border-emerald-500 focus:ring-emerald-500/20'
                         : cnpjError
@@ -360,22 +360,22 @@ function RegisterForm() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-slate-300 mb-1">Razão Social</label>
+                <label className="block text-sm font-medium text-slate-600 mb-1">Razão Social</label>
                 <input
                   value={form.razaoSocial}
                   onChange={(e) => setForm({ ...form, razaoSocial: e.target.value })}
                   placeholder="Nome da empresa"
                   required
-                  className="w-full rounded-xl border border-dark-500/50 bg-dark-700 text-white placeholder:text-slate-500 px-4 py-2.5 text-sm focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20"
+                  className="w-full rounded-xl border border-dark-500/50 bg-dark-700 text-slate-900 placeholder:text-slate-500 px-4 py-2.5 text-sm focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-slate-300 mb-1">Tipo de operação</label>
+                <label className="block text-sm font-medium text-slate-600 mb-1">Tipo de operação</label>
                 <select
                   value={form.tipo}
                   onChange={(e) => setForm({ ...form, tipo: e.target.value as any })}
-                  className="w-full rounded-xl border border-dark-500/50 bg-dark-700 text-white px-4 py-2.5 text-sm focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20"
+                  className="w-full rounded-xl border border-dark-500/50 bg-dark-700 text-slate-900 px-4 py-2.5 text-sm focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20"
                 >
                   <option value="seller">Cedente (tenho créditos para vender)</option>
                   <option value="buyer">Cessionário (preciso de créditos)</option>
@@ -389,33 +389,33 @@ function RegisterForm() {
           {role === 'procurador' && (
             <>
               <div>
-                <label className="block text-sm font-medium text-slate-300 mb-1">Nome do escritório</label>
+                <label className="block text-sm font-medium text-slate-600 mb-1">Nome do escritório</label>
                 <input
                   value={form.officeName}
                   onChange={(e) => setForm({ ...form, officeName: e.target.value })}
                   placeholder="Ex: Silva & Associados Contabilidade"
                   required
-                  className="w-full rounded-xl border border-dark-500/50 bg-dark-700 text-white placeholder:text-slate-500 px-4 py-2.5 text-sm focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20"
+                  className="w-full rounded-xl border border-dark-500/50 bg-dark-700 text-slate-900 placeholder:text-slate-500 px-4 py-2.5 text-sm focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-slate-300 mb-1">CNPJ do escritório <span className="text-slate-500 font-normal">(opcional)</span></label>
+                <label className="block text-sm font-medium text-slate-600 mb-1">CNPJ do escritório <span className="text-slate-500 font-normal">(opcional)</span></label>
                 <input
                   value={form.officeCnpj}
                   onChange={(e) => setForm({ ...form, officeCnpj: cnpjMask(e.target.value) })}
                   placeholder="00.000.000/0001-00"
                   maxLength={18}
-                  className="w-full rounded-xl border border-dark-500/50 bg-dark-700 text-white placeholder:text-slate-500 px-4 py-2.5 text-sm focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20"
+                  className="w-full rounded-xl border border-dark-500/50 bg-dark-700 text-slate-900 placeholder:text-slate-500 px-4 py-2.5 text-sm focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-slate-300 mb-1">Especialidade</label>
+                <label className="block text-sm font-medium text-slate-600 mb-1">Especialidade</label>
                 <select
                   value={form.specialty}
                   onChange={(e) => setForm({ ...form, specialty: e.target.value })}
-                  className="w-full rounded-xl border border-dark-500/50 bg-dark-700 text-white px-4 py-2.5 text-sm focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20"
+                  className="w-full rounded-xl border border-dark-500/50 bg-dark-700 text-slate-900 px-4 py-2.5 text-sm focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20"
                 >
                   <option value="">Selecione...</option>
                   <option value="contabilidade">Contabilidade</option>
@@ -428,21 +428,21 @@ function RegisterForm() {
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-sm font-medium text-slate-300 mb-1">CRC <span className="text-slate-500 font-normal">(se contador)</span></label>
+                  <label className="block text-sm font-medium text-slate-600 mb-1">CRC <span className="text-slate-500 font-normal">(se contador)</span></label>
                   <input
                     value={form.officeCrc}
                     onChange={(e) => setForm({ ...form, officeCrc: e.target.value })}
                     placeholder="CRC-XX 000000"
-                    className="w-full rounded-xl border border-dark-500/50 bg-dark-700 text-white placeholder:text-slate-500 px-4 py-2.5 text-sm focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20"
+                    className="w-full rounded-xl border border-dark-500/50 bg-dark-700 text-slate-900 placeholder:text-slate-500 px-4 py-2.5 text-sm focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-slate-300 mb-1">OAB <span className="text-slate-500 font-normal">(se advogado)</span></label>
+                  <label className="block text-sm font-medium text-slate-600 mb-1">OAB <span className="text-slate-500 font-normal">(se advogado)</span></label>
                   <input
                     value={form.officeOab}
                     onChange={(e) => setForm({ ...form, officeOab: e.target.value })}
                     placeholder="OAB-XX 000000"
-                    className="w-full rounded-xl border border-dark-500/50 bg-dark-700 text-white placeholder:text-slate-500 px-4 py-2.5 text-sm focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20"
+                    className="w-full rounded-xl border border-dark-500/50 bg-dark-700 text-slate-900 placeholder:text-slate-500 px-4 py-2.5 text-sm focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20"
                   />
                 </div>
               </div>
@@ -451,7 +451,7 @@ function RegisterForm() {
 
           {/* ─── Common fields ─── */}
           <div>
-            <label className="block text-sm font-medium text-slate-300 mb-1">Email</label>
+            <label className="block text-sm font-medium text-slate-600 mb-1">Email</label>
             <input
               type="email"
               id="email"
@@ -461,12 +461,12 @@ function RegisterForm() {
               onChange={(e) => setForm({ ...form, email: e.target.value })}
               placeholder={role === 'procurador' ? 'contato@escritório.com.br' : 'fiscal@suaempresa.com.br'}
               required
-              className="w-full rounded-xl border border-dark-500/50 bg-dark-700 text-white placeholder:text-slate-500 px-4 py-2.5 text-sm focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20"
+              className="w-full rounded-xl border border-dark-500/50 bg-dark-700 text-slate-900 placeholder:text-slate-500 px-4 py-2.5 text-sm focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20"
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-slate-300 mb-1">Senha</label>
+            <label className="block text-sm font-medium text-slate-600 mb-1">Senha</label>
             <div className="relative">
               <input
                 type={showPassword ? 'text' : 'password'}
@@ -478,12 +478,12 @@ function RegisterForm() {
                 placeholder="Mínimo 8 caracteres"
                 required
                 minLength={8}
-                className="w-full rounded-xl border border-dark-500/50 bg-dark-700 text-white placeholder:text-slate-500 px-4 py-2.5 pr-12 text-sm focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20"
+                className="w-full rounded-xl border border-dark-500/50 bg-dark-700 text-slate-900 placeholder:text-slate-500 px-4 py-2.5 pr-12 text-sm focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20"
               />
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-300 transition-colors"
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-600 transition-colors"
                 tabIndex={-1}
               >
                 {showPassword ? (
@@ -504,7 +504,7 @@ function RegisterForm() {
           {/* Referral code (visible when arriving via link or for titular/representante) */}
           {role !== 'procurador' && (
             <div>
-              <label className="block text-sm font-medium text-slate-300 mb-1">
+              <label className="block text-sm font-medium text-slate-600 mb-1">
                 Código do assessor <span className="text-slate-500 font-normal">(opcional)</span>
               </label>
               <input
@@ -512,7 +512,7 @@ function RegisterForm() {
                 onChange={(e) => setForm({ ...form, referralCode: e.target.value.toUpperCase() })}
                 placeholder="Ex: ABC12345"
                 maxLength={20}
-                className="w-full rounded-xl border border-dark-500/50 bg-dark-700 text-white placeholder:text-slate-500 px-4 py-2.5 text-sm focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20"
+                className="w-full rounded-xl border border-dark-500/50 bg-dark-700 text-slate-900 placeholder:text-slate-500 px-4 py-2.5 text-sm focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20"
               />
               {form.referralCode && (
                 <p className="mt-1 text-xs text-brand-400">Você será vinculado ao assessor que indicou este código</p>
@@ -520,7 +520,7 @@ function RegisterForm() {
             </div>
           )}
 
-          <div className="flex items-start gap-2 text-sm text-slate-400">
+          <div className="flex items-start gap-2 text-sm text-slate-500">
             <input type="checkbox" required className="mt-1 rounded bg-dark-700 border-dark-500" />
             <span>Aceito os <Link href="/termos-de-uso" target="_blank" className="text-brand-400 hover:text-brand-300">Termos de Uso</Link> e a <Link href="/politica-de-privacidade" target="_blank" className="text-brand-400 hover:text-brand-300">Política de Privacidade</Link> (LGPD)</span>
           </div>

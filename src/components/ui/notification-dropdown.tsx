@@ -152,12 +152,12 @@ export function NotificationDropdown() {
       {/* Bell button */}
       <button
         onClick={() => setOpen(!open)}
-        className="relative p-2.5 rounded-xl bg-dark-700 hover:bg-dark-600 text-slate-400 hover:text-white transition-all border border-dark-500/50"
+        className="relative p-2.5 rounded-xl bg-dark-700 hover:bg-dark-600 text-slate-500 hover:text-slate-900 transition-all border border-dark-500/50"
       >
         <Bell size={16} />
         {unreadCount > 0 && (
           <span className="absolute -top-0.5 -right-0.5 min-w-[18px] h-[18px] px-1 bg-danger-500 rounded-full ring-2 ring-dark-800 flex items-center justify-center">
-            <span className="text-[10px] font-bold text-white leading-none">
+            <span className="text-[10px] font-bold text-slate-900 leading-none">
               {unreadCount > 99 ? '99+' : unreadCount}
             </span>
           </span>
@@ -181,7 +181,7 @@ export function NotificationDropdown() {
               )}
               <button
                 onClick={() => setOpen(false)}
-                className="p-1 rounded-lg hover:bg-dark-700 text-slate-500 hover:text-white transition-colors"
+                className="p-1 rounded-lg hover:bg-dark-700 text-slate-500 hover:text-slate-900 transition-colors"
               >
                 <X size={14} />
               </button>
@@ -212,14 +212,14 @@ export function NotificationDropdown() {
                   )}
                 >
                   {/* Icon */}
-                  <span className={cn('mt-0.5 shrink-0', COLOR_MAP[n.type] || 'text-slate-400')}>
+                  <span className={cn('mt-0.5 shrink-0', COLOR_MAP[n.type] || 'text-slate-500')}>
                     {ICON_MAP[n.type] || <Bell size={14} />}
                   </span>
 
                   {/* Content */}
                   <div className="flex-1 min-w-0">
                     <div className="flex items-start justify-between gap-2">
-                      <p className={cn('text-xs font-medium truncate', n.read ? 'text-slate-300' : 'text-white')}>
+                      <p className={cn('text-xs font-medium truncate', n.read ? 'text-slate-600' : 'text-slate-900')}>
                         {n.title}
                       </p>
                       <span className="text-[10px] text-slate-500 shrink-0">{timeAgo(n.created_at)}</span>

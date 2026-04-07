@@ -26,7 +26,7 @@ interface ProcuradorDashboardProps {
 
 const tierConfig: Record<string, { color: string; bg: string; border: string; icon: string }> = {
   bronze:   { color: 'text-amber-400', bg: 'bg-amber-500/10', border: 'border-amber-500/30', icon: '🥉' },
-  silver:   { color: 'text-slate-400', bg: 'bg-slate-500/10', border: 'border-slate-500/30', icon: '🥈' },
+  silver:   { color: 'text-slate-500', bg: 'bg-slate-500/10', border: 'border-slate-500/30', icon: '🥈' },
   gold:     { color: 'text-yellow-400', bg: 'bg-yellow-500/10', border: 'border-yellow-500/30', icon: '🥇' },
   platinum: { color: 'text-blue-400', bg: 'bg-blue-500/10', border: 'border-blue-500/30', icon: '💎' },
   diamond:  { color: 'text-purple-400', bg: 'bg-purple-500/10', border: 'border-purple-500/30', icon: '👑' },
@@ -88,10 +88,10 @@ function OnboardingView({ referralCode, profile }: { referralCode: string; profi
         <div className="relative flex items-start justify-between">
           <div>
             <p className="text-brand-400 text-sm font-medium mb-1">Bem-vindo ao E-CREDac</p>
-            <h1 className="text-3xl font-black text-white mb-2">
+            <h1 className="text-3xl font-black text-slate-900 mb-2">
               Olá, {profile?.full_name?.split(' ')[0] || 'Assessor'}!
             </h1>
-            <p className="text-slate-400 text-sm max-w-md leading-relaxed">
+            <p className="text-slate-500 text-sm max-w-md leading-relaxed">
               Você é um assessor de créditos de ICMS. Aqui você pode cadastrar créditos dos seus clientes,
               acompanhar transações e receber comissões automaticamente.
             </p>
@@ -110,14 +110,14 @@ function OnboardingView({ referralCode, profile }: { referralCode: string; profi
 
       {/* Steps */}
       <div>
-        <h2 className="text-lg font-bold text-white mb-4">Como começar</h2>
+        <h2 className="text-lg font-bold text-slate-900 mb-4">Como começar</h2>
         <div className="space-y-4">
           {steps.map((step) => {
             const Icon = step.icon
             return (
               <Card key={step.number} className="p-0 overflow-hidden">
                 <div className="flex items-stretch">
-                  <div className={`bg-gradient-to-b ${step.color} w-16 flex flex-col items-center justify-center text-white flex-shrink-0`}>
+                  <div className={`bg-gradient-to-b ${step.color} w-16 flex flex-col items-center justify-center text-slate-900 flex-shrink-0`}>
                     <span className="text-2xl font-black">{step.number}</span>
                   </div>
                   <div className="flex-1 p-5">
@@ -134,7 +134,7 @@ function OnboardingView({ referralCode, profile }: { referralCode: string; profi
                               className={`inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-sm font-medium transition-all ${
                                 action.primary
                                   ? 'bg-brand-600 text-white hover:bg-brand-500 shadow-lg shadow-brand-600/20'
-                                  : 'bg-dark-500 text-slate-300 hover:bg-dark-400 border border-dark-400/50'
+                                  : 'bg-dark-500 text-slate-600 hover:bg-dark-400 border border-dark-400/50'
                               }`}
                             >
                               {action.label}
@@ -225,7 +225,7 @@ function ActiveDashboard({
           </div>
           <div>
             <p className="font-bold">Operação de Créditos</p>
-            <p className="text-sm text-slate-400">Publique, acompanhe e gerencie créditos de ICMS dos seus clientes</p>
+            <p className="text-sm text-slate-500">Publique, acompanhe e gerencie créditos de ICMS dos seus clientes</p>
           </div>
         </div>
         <div className="flex items-center gap-2">
@@ -238,7 +238,7 @@ function ActiveDashboard({
           </Link>
           <Link
             href="/demandas"
-            className="flex items-center gap-1.5 px-4 py-2.5 bg-dark-500 text-slate-300 rounded-xl text-sm font-medium hover:bg-dark-400 transition-all border border-dark-400/50"
+            className="flex items-center gap-1.5 px-4 py-2.5 bg-dark-500 text-slate-600 rounded-xl text-sm font-medium hover:bg-dark-400 transition-all border border-dark-400/50"
           >
             <Search size={14} />
             Buscar Demandas
@@ -336,7 +336,7 @@ function ActiveDashboard({
         <div className="space-y-4">
           {/* Quick Actions */}
           <Card className="p-5">
-            <h3 className="text-sm font-bold text-white mb-3">Ações Rápidas</h3>
+            <h3 className="text-sm font-bold text-slate-900 mb-3">Ações Rápidas</h3>
             <div className="space-y-2">
               <Link href="/marketplace" className="flex items-center gap-2 p-3 rounded-xl bg-brand-500/10 hover:bg-brand-500/20 text-brand-400 text-sm font-bold transition-all border border-brand-500/20">
                 <DollarSign size={18} />
@@ -375,13 +375,13 @@ function ActiveDashboard({
 
           {/* Referral Code + Envio */}
           <Card className="p-5">
-            <h3 className="text-sm font-bold text-white mb-3">Enviar Convite</h3>
+            <h3 className="text-sm font-bold text-slate-900 mb-3">Enviar Convite</h3>
             <ShareInvite referralCode={referralCode || ''} />
           </Card>
 
           {/* Tier Progress */}
           <Card className="p-5">
-            <h3 className="text-sm font-bold text-white mb-3">Tier Atual</h3>
+            <h3 className="text-sm font-bold text-slate-900 mb-3">Tier Atual</h3>
             <div className={`flex items-center gap-2 p-2.5 rounded-xl ${tc.bg} ${tc.border} border`}>
               <span className="text-lg">{tc.icon}</span>
               <div className="flex-1">

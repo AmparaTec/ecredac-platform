@@ -9,7 +9,7 @@ export default function InstitucionalPage() {
       {/* Header */}
       <div>
         <h1 className="text-2xl font-bold text-white">Quem Somos</h1>
-        <p className="text-slate-400 mt-1">Conheça a plataforma que está transformando o mercado de créditos de ICMS</p>
+        <p className="text-slate-500 mt-1">Conheça a plataforma que está transformando o mercado de créditos de ICMS</p>
       </div>
 
       {/* Sobre */}
@@ -20,13 +20,13 @@ export default function InstitucionalPage() {
           </div>
           <h2 className="text-lg font-bold text-white">E-CREDac — Motor de Intermediação de Créditos ICMS</h2>
         </div>
-        <p className="text-sm text-slate-300 leading-relaxed">
+        <p className="text-sm text-slate-600 leading-relaxed">
           O E-CREDac é a maior plataforma de intermediação de créditos acumulados de ICMS do Brasil.
           Desenvolvida pela Rede Ampara Tec, conectamos cedentes (empresas com créditos acumulados na conta corrente do e-CredAc)
           a cessionários (empresas que precisam compensar ICMS), com total conformidade com a legislação paulista
           (RICMS/SP Art. 71-84, Portaria SRE 65/2023).
         </p>
-        <p className="text-sm text-slate-300 leading-relaxed">
+        <p className="text-sm text-slate-600 leading-relaxed">
           Nossa plataforma automatiza todo o fluxo — da originação à liquidação — com scoring inteligente,
           matching por IA, verificação fiscal integrada e acompanhamento completo de SLA.
         </p>
@@ -39,7 +39,7 @@ export default function InstitucionalPage() {
             <Target size={18} className="text-emerald-400" />
           </div>
           <h3 className="text-sm font-bold text-white">Missão</h3>
-          <p className="text-xs text-slate-400 leading-relaxed">
+          <p className="text-xs text-slate-500 leading-relaxed">
             Democratizar o acesso ao mercado de créditos de ICMS, eliminando assimetrias de informação e
             oferecendo segurança jurídica a todas as partes envolvidas.
           </p>
@@ -50,7 +50,7 @@ export default function InstitucionalPage() {
             <Globe size={18} className="text-blue-400" />
           </div>
           <h3 className="text-sm font-bold text-white">Visão</h3>
-          <p className="text-xs text-slate-400 leading-relaxed">
+          <p className="text-xs text-slate-500 leading-relaxed">
             Ser o principal motor de intermediação de créditos tributários do mercado brasileiro,
             expandindo para todos os estados e tributos.
           </p>
@@ -61,7 +61,7 @@ export default function InstitucionalPage() {
             <Scale size={18} className="text-purple-400" />
           </div>
           <h3 className="text-sm font-bold text-white">Valores</h3>
-          <p className="text-xs text-slate-400 leading-relaxed">
+          <p className="text-xs text-slate-500 leading-relaxed">
             Transparência total, compliance regulatório, segurança da informação,
             inovação contínua e compromisso com o cliente.
           </p>
@@ -104,7 +104,7 @@ export default function InstitucionalPage() {
               </div>
               <div>
                 <p className="text-sm font-medium text-white">{item.title}</p>
-                <p className="text-xs text-slate-400 mt-1 leading-relaxed">{item.desc}</p>
+                <p className="text-xs text-slate-500 mt-1 leading-relaxed">{item.desc}</p>
               </div>
             </div>
           ))}
@@ -113,25 +113,25 @@ export default function InstitucionalPage() {
 
       {/* Contato */}
       <Card className="p-6">
-        <h2 className="text-lg font-bold text-white mb-3">Contato</h2>
+        <h2 className="text-lg font-bold text-slate-900 mb-3">Contato</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
           <div className="space-y-2">
-            <p className="text-slate-400">
-              <span className="text-slate-300 font-medium">Empresa:</span> Rede Ampara Tec
+            <p className="text-slate-500">
+              <span className="text-slate-600 font-medium">Empresa:</span> Rede Ampara Tec
             </p>
-            <p className="text-slate-400">
-              <span className="text-slate-300 font-medium">Plataforma:</span> E-CREDac / RELIUS
+            <p className="text-slate-500">
+              <span className="text-slate-600 font-medium">Plataforma:</span> E-CREDac / RELIUS
             </p>
-            <p className="text-slate-400">
-              <span className="text-slate-300 font-medium">Email:</span> contato@redeampara.com.br
+            <p className="text-slate-500">
+              <span className="text-slate-600 font-medium">Email:</span> contato@redeampara.com.br
             </p>
           </div>
           <div className="space-y-2">
-            <p className="text-slate-400">
-              <span className="text-slate-300 font-medium">Site:</span> relius.com.br
+            <p className="text-slate-500">
+              <span className="text-slate-600 font-medium">Site:</span> relius.com.br
             </p>
-            <p className="text-slate-400">
-              <span className="text-slate-300 font-medium">Jurisdição:</span> SEFAZ-SP (Art. 71-84 RICMS/SP)
+            <p className="text-slate-500">
+              <span className="text-slate-600 font-medium">Jurisdição:</span> SEFAZ-SP (Art. 71-84 RICMS/SP)
             </p>
           </div>
         </div>

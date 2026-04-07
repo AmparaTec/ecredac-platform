@@ -97,7 +97,7 @@ export default async function ClientesPage() {
         ) : (
           <div className="text-center py-12">
             <Users size={40} className="mx-auto text-slate-600 mb-3" />
-            <p className="text-slate-400 font-medium">Nenhum cliente na carteira ainda</p>
+            <p className="text-slate-500 font-medium">Nenhum cliente na carteira ainda</p>
             <p className="text-sm text-slate-500 mt-1">
               Compartilhe seu código de indicação para empresas se cadastrarem como seus clientes
             </p>

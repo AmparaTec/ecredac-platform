@@ -166,7 +166,7 @@ export default function MarketplacePage() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold text-white">Marketplace de Créditos</h1>
-          <p className="text-slate-400 mt-1">Créditos acumulados de ICMS homologados e disponíveis para transferência via e-CredAc</p>
+          <p className="text-slate-500 mt-1">Créditos acumulados de ICMS homologados e disponíveis para transferência via e-CredAc</p>
           <ScoreDisclaimer variant="inline" className="mt-2 max-w-xl" />
         </div>
         <Button onClick={() => setShowNewForm(true)}>
@@ -180,12 +180,12 @@ export default function MarketplacePage() {
         <div className="flex items-center gap-4 flex-wrap">
           <div className="flex items-center gap-2">
             <Filter size={16} className="text-slate-500" />
-            <span className="text-sm font-medium text-slate-400">Filtros:</span>
+            <span className="text-sm font-medium text-slate-500">Filtros:</span>
           </div>
           <select
             value={filter.type}
             onChange={e => setFilter({ ...filter, type: e.target.value })}
-            className="rounded-xl border border-dark-500/50 bg-dark-700 text-white px-3 py-1.5 text-sm"
+            className="rounded-xl border border-dark-500/50 bg-dark-700 text-slate-900 px-3 py-1.5 text-sm"
           >
             <option value="">Todos os tipos</option>
             <option value="acumulado">Crédito Acumulado</option>
@@ -196,7 +196,7 @@ export default function MarketplacePage() {
           <select
             value={filter.origin}
             onChange={e => setFilter({ ...filter, origin: e.target.value })}
-            className="rounded-xl border border-dark-500/50 bg-dark-700 text-white px-3 py-1.5 text-sm"
+            className="rounded-xl border border-dark-500/50 bg-dark-700 text-slate-900 px-3 py-1.5 text-sm"
           >
             <option value="">Todas as origens</option>
             <option value="exportacao">Exportação (Art. 7º, V)</option>
@@ -209,7 +209,7 @@ export default function MarketplacePage() {
           <select
             value={filter.status}
             onChange={e => setFilter({ ...filter, status: e.target.value })}
-            className="rounded-xl border border-dark-500/50 bg-dark-700 text-white px-3 py-1.5 text-sm"
+            className="rounded-xl border border-dark-500/50 bg-dark-700 text-slate-900 px-3 py-1.5 text-sm"
           >
             <option value="active">Ativos</option>
             <option value="">Todos</option>
@@ -219,7 +219,7 @@ export default function MarketplacePage() {
           <select
             value={filter.grade}
             onChange={e => setFilter({ ...filter, grade: e.target.value })}
-            className="rounded-xl border border-dark-500/50 bg-dark-700 text-white px-3 py-1.5 text-sm"
+            className="rounded-xl border border-dark-500/50 bg-dark-700 text-slate-900 px-3 py-1.5 text-sm"
           >
             <option value="">Todos os Score Relius</option>
             <option value="A">Score Relius A — Excelente</option>
@@ -281,7 +281,7 @@ export default function MarketplacePage() {
       ) : (
         <Card className="p-12 text-center">
           <DollarSign size={40} className="mx-auto text-slate-600 mb-3" />
-          <p className="text-lg font-medium text-slate-400">Nenhum crédito encontrado</p>
+          <p className="text-lg font-medium text-slate-500">Nenhum crédito encontrado</p>
           <p className="text-sm text-slate-500 mt-1">Ajuste os filtros ou publique o primeiro crédito</p>
           <Button className="mt-4" onClick={() => setShowNewForm(true)}>
             <Plus size={16} />
@@ -301,7 +301,7 @@ export default function MarketplacePage() {
                   <h2 className="text-lg font-bold text-white">
                     {selectedListing.credit_id || 'Crédito'}
                   </h2>
-                  <p className="text-xs text-slate-400">
+                  <p className="text-xs text-slate-500">
                     {creditTypeLabels[selectedListing.credit_type]} · {creditOriginLabels[selectedListing.origin]} · {formatBRL(selectedListing.amount)}
                   </p>
                 </div>
@@ -352,11 +352,11 @@ export default function MarketplacePage() {
             <form onSubmit={handleCreate} className="p-6 space-y-4">
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-slate-300 mb-1">Tipo de Crédito</label>
+                  <label className="block text-sm font-medium text-slate-600 mb-1">Tipo de Crédito</label>
                   <select
                     value={newListing.credit_type}
                     onChange={e => setNewListing({ ...newListing, credit_type: e.target.value })}
-                    className="w-full rounded-xl border border-dark-500/50 bg-dark-700 text-white px-4 py-2.5 text-sm"
+                    className="w-full rounded-xl border border-dark-500/50 bg-dark-700 text-slate-900 px-4 py-2.5 text-sm"
                   >
                     <option value="acumulado">Crédito Acumulado</option>
                     <option value="st">Subst. Tributária</option>
@@ -365,11 +365,11 @@ export default function MarketplacePage() {
                   </select>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-slate-300 mb-1">Hipótese de Geração</label>
+                  <label className="block text-sm font-medium text-slate-600 mb-1">Hipótese de Geração</label>
                   <select
                     value={newListing.origin}
                     onChange={e => setNewListing({ ...newListing, origin: e.target.value })}
-                    className="w-full rounded-xl border border-dark-500/50 bg-dark-700 text-white px-4 py-2.5 text-sm"
+                    className="w-full rounded-xl border border-dark-500/50 bg-dark-700 text-slate-900 px-4 py-2.5 text-sm"
                   >
                     <option value="exportacao">Exportação (Art. 7º, V RICMS)</option>
                     <option value="diferimento">Diferimento</option>
@@ -382,7 +382,7 @@ export default function MarketplacePage() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-slate-300 mb-1">Valor do Crédito em Conta Corrente (R$)</label>
+                <label className="block text-sm font-medium text-slate-600 mb-1">Valor do Crédito em Conta Corrente (R$)</label>
                 <CurrencyInput
                   value={newListing.amount}
                   onChange={(raw) => setNewListing({ ...newListing, amount: raw })}
@@ -394,22 +394,22 @@ export default function MarketplacePage() {
               {/* Campos SEFAZ e-CredAc */}
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-slate-300 mb-1">Modalidade de Apropriação</label>
+                  <label className="block text-sm font-medium text-slate-600 mb-1">Modalidade de Apropriação</label>
                   <select
                     value={newListing.modalidade_apropriacao}
                     onChange={e => setNewListing({ ...newListing, modalidade_apropriacao: e.target.value })}
-                    className="w-full rounded-xl border border-dark-500/50 bg-dark-700 text-white px-4 py-2.5 text-sm"
+                    className="w-full rounded-xl border border-dark-500/50 bg-dark-700 text-slate-900 px-4 py-2.5 text-sm"
                   >
                     <option value="simplificado">Apuração Simplificada (até 10.000 UFESPs)</option>
                     <option value="custeio">Sistemática de Custeio (sem limite)</option>
                   </select>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-slate-300 mb-1">Status da Homologação</label>
+                  <label className="block text-sm font-medium text-slate-600 mb-1">Status da Homologação</label>
                   <select
                     value={newListing.status_homologacao}
                     onChange={e => setNewListing({ ...newListing, status_homologacao: e.target.value })}
-                    className="w-full rounded-xl border border-dark-500/50 bg-dark-700 text-white px-4 py-2.5 text-sm"
+                    className="w-full rounded-xl border border-dark-500/50 bg-dark-700 text-slate-900 px-4 py-2.5 text-sm"
                   >
                     <option value="homologado">Homologado (pronto para transferir)</option>
                     <option value="deferido">Deferido (em conta corrente)</option>
@@ -429,7 +429,7 @@ export default function MarketplacePage() {
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-slate-300 mb-1">Deságio Mínimo (%)</label>
+                  <label className="block text-sm font-medium text-slate-600 mb-1">Deságio Mínimo (%)</label>
                   <PercentInput
                     value={newListing.min_discount}
                     onChange={(raw) => setNewListing({ ...newListing, min_discount: raw })}
@@ -438,7 +438,7 @@ export default function MarketplacePage() {
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-slate-300 mb-1">Deságio Máximo (%)</label>
+                  <label className="block text-sm font-medium text-slate-600 mb-1">Deságio Máximo (%)</label>
                   <PercentInput
                     value={newListing.max_discount}
                     onChange={(raw) => setNewListing({ ...newListing, max_discount: raw })}
@@ -449,25 +449,25 @@ export default function MarketplacePage() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-slate-300 mb-1">Protocolo e-CredAc / Visto Eletrônico</label>
+                <label className="block text-sm font-medium text-slate-600 mb-1">Protocolo e-CredAc / Visto Eletrônico</label>
                 <input
                   type="text"
                   value={newListing.e_credac_protocol}
                   onChange={e => setNewListing({ ...newListing, e_credac_protocol: e.target.value })}
                   placeholder="Nº do protocolo de apropriação ou visto eletrônico (12 dígitos)"
-                  className="w-full rounded-xl border border-dark-500/50 bg-dark-700 text-white px-4 py-2.5 text-sm"
+                  className="w-full rounded-xl border border-dark-500/50 bg-dark-700 text-slate-900 px-4 py-2.5 text-sm"
                 />
                 <p className="text-xs text-slate-500 mt-1">Obtido no sistema e-CredAc da SEFAZ-SP após deferimento</p>
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-slate-300 mb-1">Observações (opcional)</label>
+                <label className="block text-sm font-medium text-slate-600 mb-1">Observações (opcional)</label>
                 <textarea
                   value={newListing.description}
                   onChange={e => setNewListing({ ...newListing, description: e.target.value })}
                   rows={3}
                   placeholder="Detalhes adicionais sobre o crédito..."
-                  className="w-full rounded-xl border border-dark-500/50 bg-dark-700 text-white px-4 py-2.5 text-sm"
+                  className="w-full rounded-xl border border-dark-500/50 bg-dark-700 text-slate-900 px-4 py-2.5 text-sm"
                 />
               </div>
 

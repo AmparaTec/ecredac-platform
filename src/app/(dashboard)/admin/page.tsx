@@ -170,33 +170,33 @@ export default function AdminPage() {
 
           <div className="space-y-4">
             <div>
-              <label className="block text-sm font-medium text-slate-300 mb-1">Taxa da Plataforma (%)</label>
+              <label className="block text-sm font-medium text-slate-600 mb-1">Taxa da Plataforma (%)</label>
               <input
                 type="number"
                 value={settings.platform_fee_pct}
                 onChange={e => setSettings({ ...settings, platform_fee_pct: Number(e.target.value) })}
                 min={0} max={10} step={0.1}
-                className="w-full rounded-xl border border-dark-500/50 bg-dark-700 text-white px-4 py-2.5 text-sm"
+                className="w-full rounded-xl border border-dark-500/50 bg-dark-700 text-slate-900 px-4 py-2.5 text-sm"
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-slate-300 mb-1">Desconto Máximo Permitido (%)</label>
+              <label className="block text-sm font-medium text-slate-600 mb-1">Desconto Máximo Permitido (%)</label>
               <input
                 type="number"
                 value={settings.max_discount_pct}
                 onChange={e => setSettings({ ...settings, max_discount_pct: Number(e.target.value) })}
                 min={0} max={50} step={1}
-                className="w-full rounded-xl border border-dark-500/50 bg-dark-700 text-white px-4 py-2.5 text-sm"
+                className="w-full rounded-xl border border-dark-500/50 bg-dark-700 text-slate-900 px-4 py-2.5 text-sm"
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-slate-300 mb-1">Intervalo do Matching</label>
+              <label className="block text-sm font-medium text-slate-600 mb-1">Intervalo do Matching</label>
               <select
                 value={settings.matching_interval}
                 onChange={e => setSettings({ ...settings, matching_interval: e.target.value })}
-                className="w-full rounded-xl border border-dark-500/50 bg-dark-700 text-white px-4 py-2.5 text-sm"
+                className="w-full rounded-xl border border-dark-500/50 bg-dark-700 text-slate-900 px-4 py-2.5 text-sm"
               >
                 <option value="realtime">Tempo Real</option>
                 <option value="hourly">A cada hora</option>
@@ -206,7 +206,7 @@ export default function AdminPage() {
 
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-slate-300">Auto-Matching</p>
+                <p className="text-sm font-medium text-slate-600">Auto-Matching</p>
                 <p className="text-xs text-slate-500">Executar matching automaticamente</p>
               </div>
               <button
@@ -250,7 +250,7 @@ export default function AdminPage() {
                     } />
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p className="text-xs font-medium text-slate-300">{log.action}</p>
+                    <p className="text-xs font-medium text-slate-600">{log.action}</p>
                     <p className="text-[10px] text-slate-500">{log.entity_type} · {log.entity_id?.slice(0, 8)}</p>
                   </div>
                   <span className="text-[10px] text-slate-500 flex-shrink-0">

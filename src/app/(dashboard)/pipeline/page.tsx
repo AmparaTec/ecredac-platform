@@ -310,7 +310,7 @@ export default function PipelinePage() {
             <div key={phase} className="flex-shrink-0 w-64">
               <div className="bg-dark-600 rounded-xl p-3">
                 <div className="flex items-center justify-between mb-3">
-                  <h3 className="text-xs font-bold text-slate-300 uppercase tracking-wider">
+                  <h3 className="text-xs font-bold text-slate-600 uppercase tracking-wider">
                     {PHASE_LABELS[phase]}
                   </h3>
                   <span className="text-xs font-bold text-brand-400 bg-brand-500/15 px-2 py-0.5 rounded-full">
@@ -336,7 +336,7 @@ export default function PipelinePage() {
                         )}
                       </div>
                       <p className="text-sm font-bold text-white">{formatBRL(deal.amount)}</p>
-                      <p className="text-xs text-slate-400 mt-0.5">{deal.seller} â {deal.buyer}</p>
+                      <p className="text-xs text-slate-500 mt-0.5">{deal.seller} â {deal.buyer}</p>
                       <div className="flex items-center justify-between mt-2">
                         <Badge variant={deal.discount >= 15 ? 'success' : 'info'}>
                           {deal.discount}% desc.
@@ -358,7 +358,7 @@ export default function PipelinePage() {
         <Card className="overflow-hidden">
           <table className="w-full">
             <thead>
-              <tr className="bg-dark-600/50 text-xs text-slate-400 uppercase tracking-wider">
+              <tr className="bg-dark-600/50 text-xs text-slate-500 uppercase tracking-wider">
                 <th className="px-4 py-3 text-left font-medium">Credit ID</th>
                 <th className="px-4 py-3 text-left font-medium">Score</th>
                 <th className="px-4 py-3 text-left font-medium">Cedente</th>
@@ -396,7 +396,7 @@ export default function PipelinePage() {
                       {PHASE_LABELS[deal.phase]}
                     </Badge>
                   </td>
-                  <td className="px-4 py-3 text-sm text-slate-400">{formatDate(deal.created_at)}</td>
+                  <td className="px-4 py-3 text-sm text-slate-500">{formatDate(deal.created_at)}</td>
                   <td className="px-4 py-3"><ChevronRight size={16} className="text-slate-500" /></td>
                 </tr>
               ))}
@@ -425,7 +425,7 @@ export default function PipelinePage() {
                     <ScoreBadge grade={selectedDeal.credit_score.grade} score={selectedDeal.credit_score.score} size="md" showScore />
                   )}
                 </div>
-                <p className="text-sm text-slate-400">{selectedDeal.seller} â {selectedDeal.buyer}</p>
+                <p className="text-sm text-slate-500">{selectedDeal.seller} â {selectedDeal.buyer}</p>
               </div>
               <button onClick={() => setSelectedDeal(null)} className="p-2 rounded-xl hover:bg-dark-600/50">
                 <X size={20} />
@@ -445,7 +445,7 @@ export default function PipelinePage() {
                   className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors ${
                     detailTab === 'info'
                       ? 'border-brand-400 text-brand-400'
-                      : 'border-transparent text-slate-400 hover:text-slate-300'
+                      : 'border-transparent text-slate-500 hover:text-slate-600'
                   }`}
                   onClick={() => setDetailTab('info')}
                 >
@@ -456,7 +456,7 @@ export default function PipelinePage() {
                   className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors ${
                     detailTab === 'execution'
                       ? 'border-brand-400 text-brand-400'
-                      : 'border-transparent text-slate-400 hover:text-slate-300'
+                      : 'border-transparent text-slate-500 hover:text-slate-600'
                   }`}
                   onClick={() => setDetailTab('execution')}
                 >
@@ -472,7 +472,7 @@ export default function PipelinePage() {
                   className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors ${
                     detailTab === 'sla'
                       ? 'border-brand-400 text-brand-400'
-                      : 'border-transparent text-slate-400 hover:text-slate-300'
+                      : 'border-transparent text-slate-500 hover:text-slate-600'
                   }`}
                   onClick={() => setDetailTab('sla')}
                 >
@@ -492,15 +492,15 @@ export default function PipelinePage() {
                   {/* Deal info */}
                   <div className="grid grid-cols-3 gap-4">
                     <div className="p-4 rounded-xl bg-dark-600/50">
-                      <p className="text-xs text-slate-400">Valor do CrÃ©dito</p>
+                      <p className="text-xs text-slate-500">Valor do CrÃ©dito</p>
                       <p className="text-xl font-bold text-white">{formatBRL(selectedDeal.amount)}</p>
                     </div>
                     <div className="p-4 rounded-xl bg-dark-600/50">
-                      <p className="text-xs text-slate-400">Desconto Acordado</p>
+                      <p className="text-xs text-slate-500">Desconto Acordado</p>
                       <p className="text-xl font-bold text-white">{selectedDeal.discount}%</p>
                     </div>
                     <div className="p-4 rounded-xl bg-dark-600/50">
-                      <p className="text-xs text-slate-400">Valor Liquido</p>
+                      <p className="text-xs text-slate-500">Valor Liquido</p>
                       <p className="text-xl font-bold text-emerald-400">
                         {formatBRL(selectedDeal.amount * (1 - selectedDeal.discount / 100))}
                       </p>
@@ -509,7 +509,7 @@ export default function PipelinePage() {
 
                   {/* Timeline */}
                   <div>
-                    <h3 className="text-sm font-bold text-white mb-3">HistÃ³rico</h3>
+                    <h3 className="text-sm font-bold text-slate-900 mb-3">HistÃ³rico</h3>
                     <div className="space-y-3">
                       {Object.entries(selectedDeal.phases)
                         .filter(([, v]) => v.status === 'done' || v.status === 'current')
@@ -532,7 +532,7 @@ export default function PipelinePage() {
                   {/* Credit usage (if phase >= 7) */}
                   {selectedDeal.credit_usage && (
                     <div>
-                      <h3 className="text-sm font-bold text-white mb-3">Monitoramento de Uso do CrÃ©dito</h3>
+                      <h3 className="text-sm font-bold text-slate-900 mb-3">Monitoramento de Uso do CrÃ©dito</h3>
                       <CreditGauge
                         total={selectedDeal.credit_usage.total}
                         used={selectedDeal.credit_usage.used}

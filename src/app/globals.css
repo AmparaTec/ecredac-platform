@@ -3,85 +3,85 @@
 @tailwind utilities;
 
 :root {
-  --brand: #1a6ff5;
-  --brand-dark: #1359e1;
-  --accent: #8b5cf6;
+  --brand: #000000;
+  --brand-dark: #333333;
+  --accent: #4ade80;
   --neon-cyan: #06d6a0;
   --neon-pink: #ec4899;
-  --dark-bg: #0A0C15;
-  --dark-card: #151829;
-  --dark-border: #252A42;
+  
+  /* RAMBUS LIGHT THEME MAPPING */
+  /* We keep the var names to avoid breaking dashboards, but values are light */
+  --dark-bg: #FFFFFF;
+  --dark-card: #F8FAFC;
+  --dark-border: #E2E8F0;
 
-  /* Dark palette as CSS vars — fallback for when Tailwind JIT
-     doesn't generate bg-dark-* due to "dark" variant name conflict */
-  --color-dark-950: #06070D;
-  --color-dark-900: #0A0C15;
-  --color-dark-800: #0F1120;
-  --color-dark-700: #151829;
-  --color-dark-600: #1C2035;
-  --color-dark-500: #252A42;
-  --color-dark-400: #323854;
-  --color-dark-300: #444B6B;
+  --color-dark-950: #FFFFFF;
+  --color-dark-900: #F8FAFC;
+  --color-dark-800: #F1F5F9;
+  --color-dark-700: #E2E8F0;
+  --color-dark-600: #CBD5E1;
+  --color-dark-500: #94A3B8;
+  --color-dark-400: #64748B;
+  --color-dark-300: #475569;
 }
 
-/* ─── FALLBACK DARK UTILITY CLASSES ───
-   Hard-coded so dark-* colors render even if Tailwind JIT skips them */
-.bg-dark-950 { background-color: #06070D !important; }
-.bg-dark-900 { background-color: #0A0C15 !important; }
-.bg-dark-800 { background-color: #0F1120 !important; }
-.bg-dark-700 { background-color: #151829 !important; }
-.bg-dark-600 { background-color: #1C2035 !important; }
-.bg-dark-500 { background-color: #252A42 !important; }
-.bg-dark-400 { background-color: #323854 !important; }
-.bg-dark-300 { background-color: #444B6B !important; }
+/* ─── HARDCODED FALLBACK UTILITIES ─── */
+.bg-dark-950 { background-color: #FFFFFF !important; }
+.bg-dark-900 { background-color: #F8FAFC !important; }
+.bg-dark-800 { background-color: #F1F5F9 !important; }
+.bg-dark-700 { background-color: #E2E8F0 !important; }
+.bg-dark-600 { background-color: #CBD5E1 !important; }
+.bg-dark-500 { background-color: #94A3B8 !important; }
+.bg-dark-400 { background-color: #64748B !important; }
+.bg-dark-300 { background-color: #475569 !important; }
 
-.text-dark-950 { color: #06070D !important; }
-.text-dark-900 { color: #0A0C15 !important; }
-.text-dark-800 { color: #0F1120 !important; }
-.text-dark-700 { color: #151829 !important; }
-.text-dark-600 { color: #1C2035 !important; }
-.text-dark-500 { color: #252A42 !important; }
-.text-dark-400 { color: #323854 !important; }
-.text-dark-300 { color: #444B6B !important; }
+/* In a light theme, text that was supposed to be 'white' on dark bg should now be dark */
+/* BUT, we don't want to affect actual white buttons. 
+   Therefore we should run a codebase replace rather than raw CSS overrides if possible.
+   For variables though: */
+.text-dark-950 { color: #000000 !important; }
+.text-dark-900 { color: #0f172a !important; }
+.text-dark-800 { color: #1e293b !important; }
+.text-dark-700 { color: #334155 !important; }
+.text-dark-600 { color: #475569 !important; }
+.text-dark-500 { color: #64748B !important; }
+.text-dark-400 { color: #94A3B8 !important; }
+.text-dark-300 { color: #CBD5E1 !important; }
 
-.border-dark-950 { border-color: #06070D !important; }
-.border-dark-900 { border-color: #0A0C15 !important; }
-.border-dark-800 { border-color: #0F1120 !important; }
-.border-dark-700 { border-color: #151829 !important; }
-.border-dark-600 { border-color: #1C2035 !important; }
-.border-dark-500 { border-color: #252A42 !important; }
-.border-dark-400 { border-color: #323854 !important; }
-.border-dark-300 { border-color: #444B6B !important; }
+.border-dark-950 { border-color: #F8FAFC !important; }
+.border-dark-900 { border-color: #F1F5F9 !important; }
+.border-dark-800 { border-color: #E2E8F0 !important; }
+.border-dark-700 { border-color: #CBD5E1 !important; }
+.border-dark-600 { border-color: #94A3B8 !important; }
 
-.hover\:bg-dark-700:hover { background-color: #151829 !important; }
-.hover\:bg-dark-600:hover { background-color: #1C2035 !important; }
-.hover\:border-dark-400\/50:hover { border-color: rgba(50,56,84,0.5) !important; }
+.hover\:bg-dark-700:hover { background-color: #F1F5F9 !important; }
+.hover\:bg-dark-600:hover { background-color: #E2E8F0 !important; }
+.hover\:border-dark-400\/50:hover { border-color: rgba(226,232,240,0.5) !important; }
 
 /* ─── BASE ─── */
 body {
-  font-family: 'Inter', system-ui, -apple-system, sans-serif;
   background-color: var(--dark-bg);
-  color: #e2e8f0;
+  color: #0f172a;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* ─── GLASSMORPHISM ─── */
+/* ─── RAMBUS EFFECTS ─── */
 .glass {
-  background: rgba(21, 24, 41, 0.6);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255,255,255,0.06);
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(0,0,0,0.05);
+  box-shadow: 0 10px 40px -10px rgba(0,0,0,0.04);
 }
 
 .glass-light {
-  background: rgba(37, 42, 66, 0.4);
+  background: rgba(248, 250, 252, 0.6);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255,255,255,0.08);
+  border: 1px solid rgba(0,0,0,0.03);
 }
 
-/* ─── GRADIENT BORDERS ─── */
 .border-gradient {
   position: relative;
 }
@@ -91,80 +91,60 @@ body {
   inset: 0;
   padding: 1px;
   border-radius: inherit;
-  background: linear-gradient(135deg, rgba(139,92,246,0.5), rgba(6,214,160,0.3), rgba(26,111,245,0.4));
+  background: linear-gradient(135deg, rgba(74,222,128,0.3), rgba(254,215,170,0.3), rgba(0,0,0,0.05));
   -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
   mask-composite: exclude;
   pointer-events: none;
 }
 
-/* ─── NEON GLOW EFFECTS ─── */
 .glow-brand {
-  box-shadow: 0 0 20px rgba(26,111,245,0.15), 0 0 60px rgba(26,111,245,0.05);
+  box-shadow: 0 0 20px rgba(0,0,0,0.1), 0 0 60px rgba(0,0,0,0.05);
 }
 .glow-accent {
-  box-shadow: 0 0 20px rgba(139,92,246,0.15), 0 0 60px rgba(139,92,246,0.05);
-}
-.glow-success {
-  box-shadow: 0 0 20px rgba(16,185,129,0.2), 0 0 60px rgba(16,185,129,0.05);
-}
-.glow-danger {
-  box-shadow: 0 0 20px rgba(239,68,68,0.2), 0 0 60px rgba(239,68,68,0.05);
+  box-shadow: 0 0 20px rgba(74,222,128,0.2), 0 0 60px rgba(74,222,128,0.1);
 }
 
 /* ─── CARDS ─── */
 .card-dark {
-  background-color: #151829;
-  border-radius: 16px;
-  border: 1px solid rgba(37,42,66,0.5);
+  background-color: #FFFFFF;
+  border-radius: 24px;
+  border: 1px solid #E2E8F0;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 20px -5px rgba(0,0,0,0.03);
 }
 .card-dark:hover {
-  background-color: #1C2035;
-  border-color: rgba(50,56,84,0.5);
-  box-shadow: 0 8px 40px rgba(0,0,0,0.3);
+  background-color: #F8FAFC;
+  border-color: #CBD5E1;
+  box-shadow: 0 12px 40px -10px rgba(0,0,0,0.08);
 }
 
 .card-elevated {
-  background-color: #1C2035;
-  border-radius: 16px;
-  border: 1px solid rgba(37,42,66,0.6);
-  box-shadow: 0 4px 24px rgba(0,0,0,0.2);
+  background-color: #FFFFFF;
+  border-radius: 24px;
+  border: 1px solid #E2E8F0;
+  box-shadow: 0 10px 40px -10px rgba(0,0,0,0.08);
 }
 
 /* ─── STAT NUMBERS ─── */
 .stat-value {
   font-size: 1.875rem;
-  font-weight: 900;
-  letter-spacing: -0.025em;
-  color: white;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: #000000;
   line-height: 1.1;
 }
 .stat-label {
   font-size: 0.75rem;
-  font-weight: 500;
-  color: #444B6B;
+  font-weight: 600;
+  color: #64748B;
   text-transform: uppercase;
   letter-spacing: 0.05em;
 }
 
-/* ─── PIPELINE STEPS ─── */
-.pipeline-step {
-  flex: 1;
-  text-align: center;
-  padding: 0.75rem 0.5rem;
-  font-size: 0.75rem;
-  font-weight: 600;
-  transition: all 0.2s;
-  position: relative;
-}
-.pipeline-step.done { background-color: #10b981; color: white; }
-.pipeline-step.current { background-color: #f59e0b; color: white; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); }
-.pipeline-step.pending { background-color: #1C2035; color: #444B6B; }
-
 /* ─── GAUGE ─── */
-.gauge-track { width: 100%; height: 0.625rem; background-color: #252A42; border-radius: 9999px; overflow: hidden; }
-.gauge-fill { height: 100%; border-radius: 9999px; transition: all 500ms; }
+.gauge-track { width: 100%; height: 0.625rem; background-color: #F1F5F9; border-radius: 9999px; overflow: hidden; }
+.gauge-fill { height: 100%; border-radius: 9999px; transition: all 500ms; background-color: #4ADE80; }
 
 /* ─── TIMELINE ─── */
 .timeline { position: relative; padding-left: 1.75rem; }
@@ -174,7 +154,7 @@ body {
   left: 0.625rem;
   top: 0; bottom: 0;
   width: 2px;
-  background-color: #252A42;
+  background-color: #E2E8F0;
 }
 .timeline-dot {
   position: absolute;
@@ -183,42 +163,36 @@ body {
   width: 0.75rem;
   height: 0.75rem;
   border-radius: 9999px;
-  border: 2px solid #151829;
-  box-shadow: 0 0 0 2px #252A42;
+  border: 2px solid #FFFFFF;
+  box-shadow: 0 0 0 2px #E2E8F0;
+  background-color: #FFFFFF;
 }
-.timeline-dot.done  { background-color: #10b981; box-shadow: 0 0 0 2px #10b981; }
-.timeline-dot.current { background-color: #f59e0b; animation: pulse 2s cubic-bezier(0.4,0,0.6,1) infinite; box-shadow: 0 0 0 2px #f59e0b; }
-.timeline-dot.alert { background-color: #ef4444; animation: pulse 2s cubic-bezier(0.4,0,0.6,1) infinite; box-shadow: 0 0 0 2px #ef4444; }
+.timeline-dot.done  { background-color: #4ADE80; box-shadow: 0 0 0 2px #4ADE80; }
+.timeline-dot.current { background-color: #000000; animation: pulse 2s cubic-bezier(0.4,0,0.6,1) infinite; box-shadow: 0 0 0 2px #000000; }
 
 /* ─── SCROLLBAR ─── */
-.scrollbar-thin::-webkit-scrollbar { width: 4px; }
-.scrollbar-thin::-webkit-scrollbar-track { background: transparent; }
-.scrollbar-thin::-webkit-scrollbar-thumb { background-color: #323854; border-radius: 9999px; }
-
 ::-webkit-scrollbar { width: 6px; height: 6px; }
-::-webkit-scrollbar-track { background: #0A0C15; }
-::-webkit-scrollbar-thumb { background: #252A42; border-radius: 3px; }
-::-webkit-scrollbar-thumb:hover { background: #323854; }
+::-webkit-scrollbar-track { background: #F8FAFC; }
+::-webkit-scrollbar-thumb { background: #CBD5E1; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #94A3B8; }
 
-/* ─── INPUT DARK ─── */
-/* Hardcoded fallback — dark inputs visible even if bg-dark-* Tailwind classes
-   are not generated. Individual components can override via Tailwind classes. */
+/* ─── INPUT LIGHT ─── */
 input, select, textarea {
-  background-color: #1C2035;
-  border-color: #252A42;
-  color: white;
+  background-color: #F8FAFC;
+  border-color: #E2E8F0;
+  color: #0f172a;
 }
 input::placeholder, textarea::placeholder {
-  color: #444B6B;
+  color: #94A3B8;
 }
 input:focus, select:focus, textarea:focus {
-  border-color: #338dff;
-  box-shadow: 0 0 0 2px rgba(51,141,255,0.2);
+  border-color: #000000;
+  box-shadow: 0 0 0 2px rgba(0,0,0,0.1);
   outline: none;
 }
 
 /* ─── SELECTION ─── */
 ::selection {
-  background: rgba(139,92,246,0.3);
-  color: #fff;
+  background: rgba(74,222,128,0.3);
+  color: #000;
 }

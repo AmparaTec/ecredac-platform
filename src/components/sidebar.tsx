@@ -114,7 +114,7 @@ export function Sidebar({ companyName, companyTier, userRole = 'titular', displa
       {/* Logo */}
       <div className="h-16 flex items-center justify-between px-5 border-b border-dark-500/40 flex-shrink-0">
         <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-brand-500 to-accent-600 flex items-center justify-center text-white font-black text-sm shadow-lg shadow-brand-600/30">
+          <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-brand-500 to-accent-600 flex items-center justify-center text-slate-900 font-black text-sm shadow-lg shadow-brand-600/30">
             E
           </div>
           <span className="text-lg font-bold tracking-tight text-white">E-CREDac</span>
@@ -122,7 +122,7 @@ export function Sidebar({ companyName, companyTier, userRole = 'titular', displa
         {/* Fechar no mobile */}
         <button
           onClick={() => setMobileOpen(false)}
-          className="lg:hidden p-2 rounded-lg text-slate-500 hover:text-white hover:bg-dark-600 transition-colors"
+          className="lg:hidden p-2 rounded-lg text-slate-500 hover:text-slate-900 hover:bg-dark-600 transition-colors"
           aria-label="Fechar menu"
         >
           <X size={18} />
@@ -152,7 +152,7 @@ export function Sidebar({ companyName, companyTier, userRole = 'titular', displa
                 'flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-150',
                 isActive
                   ? 'bg-brand-600/15 text-brand-400 border border-brand-500/20 shadow-sm shadow-brand-500/10'
-                  : 'text-slate-400 hover:bg-dark-600 hover:text-white border border-transparent'
+                  : 'text-slate-500 hover:bg-dark-600 hover:text-slate-900 border border-transparent'
               )}
             >
               <Icon size={18} className={isActive ? 'text-brand-400' : ''} />
@@ -177,7 +177,7 @@ export function Sidebar({ companyName, companyTier, userRole = 'titular', displa
             {(displayName || companyName).charAt(0)}
           </div>
           <div className="flex-1 min-w-0">
-            <p className="text-sm font-medium text-white truncate group-hover:text-brand-400 transition-colors">
+            <p className="text-sm font-medium text-slate-900 truncate group-hover:text-brand-400 transition-colors">
               {displayName || companyName}
             </p>
             <p className="text-xs text-slate-500">
@@ -188,7 +188,7 @@ export function Sidebar({ companyName, companyTier, userRole = 'titular', displa
         <form action="/api/auth/logout" method="POST">
           <button
             type="submit"
-            className="w-full flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-dark-600 text-slate-500 hover:text-slate-300 transition-colors text-sm"
+            className="w-full flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-dark-600 text-slate-500 hover:text-slate-600 transition-colors text-sm"
           >
             <LogOut size={14} />
             Sair da conta
@@ -228,7 +228,7 @@ export function Sidebar({ companyName, companyTier, userRole = 'titular', displa
       {/* ── MOBILE: botão hambúrguer fixo no header ──────────── */}
       <button
         onClick={() => setMobileOpen(true)}
-        className="lg:hidden fixed top-0 left-0 z-30 h-16 px-4 flex items-center text-slate-400 hover:text-white transition-colors"
+        className="lg:hidden fixed top-0 left-0 z-30 h-16 px-4 flex items-center text-slate-500 hover:text-slate-900 transition-colors"
         aria-label="Abrir menu"
         id="mobile-menu-btn"
       >
@@ -246,7 +246,7 @@ export function Sidebar({ companyName, companyTier, userRole = 'titular', displa
               href={item.href}
               className={cn(
                 'flex-1 flex flex-col items-center justify-center py-2.5 gap-1 transition-colors text-[10px] font-medium',
-                isActive ? 'text-brand-400' : 'text-slate-500 hover:text-slate-300'
+                isActive ? 'text-brand-400' : 'text-slate-500 hover:text-slate-600'
               )}
             >
               <Icon size={20} className={isActive ? 'text-brand-400' : ''} />
@@ -260,7 +260,7 @@ export function Sidebar({ companyName, companyTier, userRole = 'titular', displa
         {/* Botão "Mais" abre o drawer completo */}
         <button
           onClick={() => setMobileOpen(true)}
-          className="flex-1 flex flex-col items-center justify-center py-2.5 gap-1 transition-colors text-[10px] font-medium text-slate-500 hover:text-slate-300"
+          className="flex-1 flex flex-col items-center justify-center py-2.5 gap-1 transition-colors text-[10px] font-medium text-slate-500 hover:text-slate-600"
         >
           <Menu size={20} />
           <span>Mais</span>

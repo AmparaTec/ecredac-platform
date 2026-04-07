@@ -47,7 +47,7 @@ export function AuctionCard({ auction, myBid, isSeller, onClick }: AuctionCardPr
   const listing = auction.listing
   const statusConfig: Record<string, { label: string; badge: string }> = {
     open: { label: 'Aberto', badge: 'bg-emerald-500/15 text-emerald-400' },
-    closed: { label: 'Encerrado', badge: 'bg-dark-600 text-white' },
+    closed: { label: 'Encerrado', badge: 'bg-dark-600 text-slate-900' },
     cancelled: { label: 'Cancelado', badge: 'bg-red-500/150/15 text-red-400' },
     no_bids: { label: 'Sem lances', badge: 'bg-amber-500/15 text-amber-400' },
   }
@@ -87,12 +87,12 @@ export function AuctionCard({ auction, myBid, isSeller, onClick }: AuctionCardPr
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3 text-xs">
           {auction.visible_time_remaining && (
-            <span className="flex items-center gap-1 text-slate-400">
+            <span className="flex items-center gap-1 text-slate-500">
               <Clock size={12} /> {timeLeft}
             </span>
           )}
           {auction.visible_bid_count && (
-            <span className="flex items-center gap-1 text-slate-400">
+            <span className="flex items-center gap-1 text-slate-500">
               <Users size={12} /> {auction.unique_bidders} participantes
             </span>
           )}
@@ -172,7 +172,7 @@ export function BidForm({ auction, listingAmount, currentBid, onPlaceBid, loadin
 
       <div className="space-y-3">
         <div>
-          <label className="block text-xs font-medium text-slate-400 mb-1">
+          <label className="block text-xs font-medium text-slate-500 mb-1">
             Seu desconto oferecido (%)
           </label>
           <input
@@ -199,7 +199,7 @@ export function BidForm({ auction, listingAmount, currentBid, onPlaceBid, loadin
             <span className="font-medium text-purple-400">{isValid ? formatDiscount(discountNum) : '—'}</span>
           </div>
           <div className="flex justify-between text-sm mt-1.5 pt-1.5 border-t border-dark-500/50">
-            <span className="font-medium text-slate-300">Você pagaria</span>
+            <span className="font-medium text-slate-600">Você pagaria</span>
             <span className="font-bold text-emerald-400">{isValid ? formatBRL(netValue) : '—'}</span>
           </div>
         </div>
@@ -269,7 +269,7 @@ export function CreateAuctionForm({ listingId, onSubmit, onCancel, loading }: Cr
       <form onSubmit={handleSubmit} className="space-y-3">
         <div className="grid grid-cols-2 gap-3">
           <div>
-            <label className="block text-xs font-medium text-slate-400 mb-1">Desconto Mínimo (%)</label>
+            <label className="block text-xs font-medium text-slate-500 mb-1">Desconto Mínimo (%)</label>
             <input
               type="number"
               value={form.min_discount}
@@ -279,7 +279,7 @@ export function CreateAuctionForm({ listingId, onSubmit, onCancel, loading }: Cr
             />
           </div>
           <div>
-            <label className="block text-xs font-medium text-slate-400 mb-1">Desconto Reserva (%)</label>
+            <label className="block text-xs font-medium text-slate-500 mb-1">Desconto Reserva (%)</label>
             <input
               type="number"
               value={form.reserve_discount}
@@ -293,7 +293,7 @@ export function CreateAuctionForm({ listingId, onSubmit, onCancel, loading }: Cr
         </div>
 
         <div>
-          <label className="block text-xs font-medium text-slate-400 mb-1">Duracao</label>
+          <label className="block text-xs font-medium text-slate-500 mb-1">Duracao</label>
           <select
             value={form.duration_hours}
             onChange={e => setForm({ ...form, duration_hours: e.target.value })}

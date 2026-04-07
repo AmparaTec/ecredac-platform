@@ -108,9 +108,9 @@ export function SLATracker({ plan, tasks }: SLATrackerProps) {
           <p className="text-[10px] text-red-400 uppercase tracking-wider">Violados</p>
         </div>
         <div className="p-3 rounded-xl bg-dark-600/50 border border-dark-500/40 text-center">
-          <BarChart3 size={16} className="mx-auto text-slate-400 mb-1" />
-          <p className="text-lg font-bold text-slate-300">{plan.overall_progress}%</p>
-          <p className="text-[10px] text-slate-400 uppercase tracking-wider">Progresso</p>
+          <BarChart3 size={16} className="mx-auto text-slate-500 mb-1" />
+          <p className="text-lg font-bold text-slate-600">{plan.overall_progress}%</p>
+          <p className="text-[10px] text-slate-500 uppercase tracking-wider">Progresso</p>
         </div>
       </div>
 
@@ -220,7 +220,7 @@ export function SLATracker({ plan, tasks }: SLATrackerProps) {
                         <AlertTriangle size={10} className={
                           task.sla_status === 'breached' ? 'text-red-500' : 'text-amber-500'
                         } />
-                        <span className="font-medium text-slate-300">{task.task_name}</span>
+                        <span className="font-medium text-slate-600">{task.task_name}</span>
                         <span className={cn(
                           'px-1 py-0.5 rounded font-semibold',
                           task.sla_status === 'breached' ? 'bg-red-500/15 text-red-400' : 'bg-amber-500/15 text-amber-400'

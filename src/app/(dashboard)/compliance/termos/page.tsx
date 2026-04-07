@@ -54,11 +54,11 @@ export default function TermosPage() {
   return (
     <div className="space-y-6 max-w-3xl">
       <div>
-        <h1 className="text-2xl font-black text-white flex items-center gap-3">
+        <h1 className="text-2xl font-black text-slate-900 flex items-center gap-3">
           <Shield size={28} className="text-brand-400" />
           Termos e Políticas
         </h1>
-        <p className="text-sm text-slate-400 mt-1">
+        <p className="text-sm text-slate-500 mt-1">
           Confira os documentos jurídicos vigentes e o status do seu aceite.
         </p>
       </div>
@@ -102,13 +102,13 @@ export default function TermosPage() {
                     Pendente
                   </span>
                 )}
-                {expanded === termo.id ? <ChevronUp size={16} className="text-slate-400" /> : <ChevronDown size={16} className="text-slate-400" />}
+                {expanded === termo.id ? <ChevronUp size={16} className="text-slate-500" /> : <ChevronDown size={16} className="text-slate-500" />}
               </div>
             </button>
 
             {expanded === termo.id && (
               <div className="px-4 pb-4 border-t border-dark-500/20">
-                <div className="mt-3 max-h-96 overflow-y-auto text-xs text-slate-300 leading-relaxed whitespace-pre-wrap font-mono bg-dark-800/50 rounded-xl p-4">
+                <div className="mt-3 max-h-96 overflow-y-auto text-xs text-slate-600 leading-relaxed whitespace-pre-wrap font-mono bg-dark-800/50 rounded-xl p-4">
                   {termo.conteudo}
                 </div>
               </div>

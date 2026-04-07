@@ -49,8 +49,8 @@ export default function ForgotPasswordPage() {
                 <polyline points="22,6 12,13 2,6" />
               </svg>
             </div>
-            <h2 className="text-2xl font-bold text-white mb-2">Email enviado!</h2>
-            <p className="text-slate-400 mb-2">
+            <h2 className="text-2xl font-bold text-slate-900 mb-2">Email enviado!</h2>
+            <p className="text-slate-500 mb-2">
               Enviamos um link de redefinição para
             </p>
             <p className="text-brand-400 font-semibold mb-6">{email}</p>
@@ -80,7 +80,7 @@ export default function ForgotPasswordPage() {
 
             <form onSubmit={handleSubmit} className="space-y-5">
               <div>
-                <label className="block text-sm font-medium text-slate-300 mb-1">Email</label>
+                <label className="block text-sm font-medium text-slate-600 mb-1">Email</label>
                 <input
                   type="email"
                   id="email"
@@ -90,7 +90,7 @@ export default function ForgotPasswordPage() {
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="fiscal@suaempresa.com.br"
                   required
-                  className="w-full rounded-xl border border-dark-500/50 px-4 py-2.5 text-sm bg-dark-700 text-white placeholder:text-slate-500 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 transition-all"
+                  className="w-full rounded-xl border border-dark-500/50 px-4 py-2.5 text-sm bg-dark-700 text-slate-900 placeholder:text-slate-500 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 transition-all"
                 />
               </div>
 

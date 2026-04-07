@@ -78,7 +78,7 @@ export default async function ComissoesPage() {
         </Card>
         <Card className="p-5">
           <div className="flex items-center gap-2 mb-1">
-            <TrendingUp size={16} className="text-slate-400" />
+            <TrendingUp size={16} className="text-slate-500" />
             <p className="text-sm text-slate-500">Taxa Atual</p>
           </div>
           <p className="text-2xl font-bold text-white">{procurador.custom_commission_pct || '0.50'}%</p>
@@ -87,7 +87,7 @@ export default async function ComissoesPage() {
 
       {/* Commissions Table */}
       <Card className="p-6">
-        <h2 className="text-lg font-bold text-white mb-4">Histórico de Comissões</h2>
+        <h2 className="text-lg font-bold text-slate-900 mb-4">Histórico de Comissões</h2>
         {allComm.length > 0 ? (
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
@@ -106,12 +106,12 @@ export default async function ComissoesPage() {
                   const cs = commStatusConfig[comm.status] || commStatusConfig.pending
                   return (
                     <tr key={comm.id} className="border-b border-dark-500/40 hover:bg-dark-600/50">
-                      <td className="py-3 px-2 text-slate-400">{formatDate(comm.created_at)}</td>
+                      <td className="py-3 px-2 text-slate-500">{formatDate(comm.created_at)}</td>
                       <td className="py-3 px-2 font-medium text-white">
                         {comm.company?.nome_fantasia || comm.company?.razao_social || '—'}
                       </td>
-                      <td className="py-3 px-2 text-right text-slate-400">{formatBRL(comm.transaction_value)}</td>
-                      <td className="py-3 px-2 text-right text-slate-400">{comm.commission_pct}%</td>
+                      <td className="py-3 px-2 text-right text-slate-500">{formatBRL(comm.transaction_value)}</td>
+                      <td className="py-3 px-2 text-right text-slate-500">{comm.commission_pct}%</td>
                       <td className="py-3 px-2 text-right font-bold text-white">{formatBRL(comm.commission_value)}</td>
                       <td className="py-3 px-2 text-center">
                         <Badge variant={cs.variant}>{cs.label}</Badge>
@@ -125,7 +125,7 @@ export default async function ComissoesPage() {
         ) : (
           <div className="text-center py-12">
             <Wallet size={40} className="mx-auto text-slate-600 mb-3" />
-            <p className="text-slate-400 font-medium">Nenhuma comissão registrada</p>
+            <p className="text-slate-500 font-medium">Nenhuma comissão registrada</p>
             <p className="text-sm text-slate-500 mt-1">
               Comissões são geradas automaticamente quando transações de seus clientes são concluídas
             </p>

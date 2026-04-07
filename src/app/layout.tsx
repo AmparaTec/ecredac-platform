@@ -1,12 +1,12 @@
 import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
+import { Plus_Jakarta_Sans } from 'next/font/google'
 import './globals.css'
 
-const inter = Inter({ subsets: ['latin'] })
+const jakarta = Plus_Jakarta_Sans({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'E-CREDac | Plataforma de Intermediacao de Créditos de ICMS',
-  description: 'O maior broker de créditos de ICMS do Brasil. Da originacao ao ultimo centavo utilizado.',
+  title: 'RELIUS | Plataforma de Intermediacao',
+  description: 'Infraestrutura de inteligência e bolsa balcão que conecta empresas.',
 }
 
 export default function RootLayout({
@@ -16,7 +16,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="pt-BR">
-      <body className={inter.className}>{children}</body>
+      <body className={jakarta.className}>{children}</body>
     </html>
   )
 }

@@ -107,7 +107,7 @@ export default function LoginPage() {
     <>
       <div className="hidden lg:flex min-h-screen bg-dark-900">
         <div
-          className="w-1/2 flex flex-col justify-between p-14 text-white overflow-y-auto"
+          className="w-1/2 flex flex-col justify-between p-14 text-slate-900 overflow-y-auto"
           style={{ background: 'linear-gradient(160deg, #06070D 0%, #0F1120 55%, #151829 100%)' }}
         >
           <div className="flex items-center gap-3">
@@ -123,7 +123,7 @@ export default function LoginPage() {
               O Maior Motor<br />de Créditos de<br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-400 to-accent-400">ICMS do Brasil.</span>
             </h1>
-            <p className="text-lg text-white/65 max-w-md leading-relaxed mb-10">
+            <p className="text-lg text-slate-900/65 max-w-md leading-relaxed mb-10">
               Conectamos cedentes e cessionários com compliance SEFAZ-SP nativo — da originação ao último centavo utilizado.
             </p>
 
@@ -131,7 +131,7 @@ export default function LoginPage() {
               {stats.map((s) => (
                 <div key={s.label} className="bg-white/5 rounded-xl p-4 border border-white/10">
                   <p className="text-3xl font-bold text-brand-300">{s.value}</p>
-                  <p className="text-xs text-white/50 mt-1">{s.label}</p>
+                  <p className="text-xs text-slate-900/50 mt-1">{s.label}</p>
                 </div>
               ))}
             </div>
@@ -142,14 +142,14 @@ export default function LoginPage() {
                   <span className="text-brand-500 font-black text-lg w-8 flex-shrink-0">{h.step}</span>
                   <div>
                     <p className="text-sm font-semibold text-white">{h.title}</p>
-                    <p className="text-xs text-white/50 mt-0.5">{h.desc}</p>
+                    <p className="text-xs text-slate-900/50 mt-0.5">{h.desc}</p>
                   </div>
                 </div>
               ))}
             </div>
           </div>
 
-          <div className="flex flex-wrap gap-4 text-xs text-white/30">
+          <div className="flex flex-wrap gap-4 text-xs text-slate-900/30">
             {differentials.slice(0, 4).map(d => (
               <span key={d.title}>{d.icon} {d.title}</span>
             ))}
@@ -170,7 +170,7 @@ export default function LoginPage() {
               )}
               <form onSubmit={handleLogin} className="space-y-3">
                 <div>
-                  <label className="block text-sm font-medium text-slate-300 mb-1.5">E-mail</label>
+                  <label className="block text-sm font-medium text-slate-600 mb-1.5">E-mail</label>
                   <input
                     type="email"
                     autoComplete="email"
@@ -178,12 +178,12 @@ export default function LoginPage() {
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="fiscal@suaempresa.com.br"
                     required
-                    className="w-full rounded-xl border border-dark-500/60 px-4 py-3.5 text-sm bg-dark-700 text-white placeholder:text-slate-600 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 transition-all outline-none"
+                    className="w-full rounded-xl border border-dark-500/60 px-4 py-3.5 text-sm bg-dark-700 text-slate-900 placeholder:text-slate-600 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 transition-all outline-none"
                   />
                 </div>
                 <div>
                   <div className="flex items-center justify-between mb-1.5">
-                    <label className="block text-sm font-medium text-slate-300">Senha</label>
+                    <label className="block text-sm font-medium text-slate-600">Senha</label>
                     <Link href="/forgot-password" className="text-xs text-brand-400 hover:text-brand-300 transition-colors">
                       Esqueceu a senha?
                     </Link>
@@ -196,12 +196,12 @@ export default function LoginPage() {
                       onChange={(e) => setPassword(e.target.value)}
                       placeholder="••••••••"
                       required
-                      className="w-full rounded-xl border border-dark-500/60 px-4 py-3.5 pr-12 text-sm bg-dark-700 text-white placeholder:text-slate-600 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 transition-all outline-none"
+                      className="w-full rounded-xl border border-dark-500/60 px-4 py-3.5 pr-12 text-sm bg-dark-700 text-slate-900 placeholder:text-slate-600 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 transition-all outline-none"
                     />
                     <button
                       type="button"
                       onClick={() => setShowPassword(!showPassword)}
-                      className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-300 transition-colors p-1"
+                      className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-600 transition-colors p-1"
                       tabIndex={-1}
                     >
                       {showPassword ? <EyeOffIcon /> : <EyeIcon />}
@@ -265,7 +265,7 @@ export default function LoginPage() {
             O Maior Motor<br />de Créditos de<br />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-400 to-accent-400">ICMS do Brasil.</span>
           </h1>
-          <p className="text-sm text-white/60 leading-relaxed mb-7 max-w-xs mx-auto">
+          <p className="text-sm text-slate-900/60 leading-relaxed mb-7 max-w-xs mx-auto">
             Conectamos cedentes e cessionários de crédito de ICMS com compliance SEFAZ-SP nativo e inteligência artificial.
           </p>
           <div className="flex flex-col gap-2.5 max-w-xs mx-auto mb-8">
@@ -277,14 +277,14 @@ export default function LoginPage() {
             </button>
             <Link
               href="/register"
-              className="w-full bg-white/5 hover:bg-white/10 border border-white/15 text-white font-semibold py-3.5 rounded-xl transition-all text-sm text-center"
+              className="w-full bg-white/5 hover:bg-white/10 border border-white/15 text-slate-900 font-semibold py-3.5 rounded-xl transition-all text-sm text-center"
             >
               Cadastrar minha empresa
             </Link>
           </div>
           <button
             onClick={() => document.getElementById('sobre')?.scrollIntoView({ behavior: 'smooth' })}
-            className="flex flex-col items-center gap-1.5 text-white/30 hover:text-white/50 transition-colors mx-auto"
+            className="flex flex-col items-center gap-1.5 text-slate-900/30 hover:text-slate-900/50 transition-colors mx-auto"
           >
             <span className="text-[10px] uppercase tracking-wider">Saiba mais</span>
             <ArrowDown />
@@ -296,7 +296,7 @@ export default function LoginPage() {
             {stats.map((s) => (
               <div key={s.label} className="bg-white/5 rounded-xl p-3.5 border border-white/10 text-center">
                 <p className="text-2xl font-bold text-brand-300 leading-tight">{s.value}</p>
-                <p className="text-[10px] text-white/40 mt-1 leading-tight">{s.label}</p>
+                <p className="text-[10px] text-slate-900/40 mt-1 leading-tight">{s.label}</p>
               </div>
             ))}
           </div>
@@ -305,9 +305,9 @@ export default function LoginPage() {
         <section id="sobre" className="px-5 py-8 border-t border-dark-700/40">
           <div className="bg-gradient-to-br from-brand-500/8 to-accent-500/5 border border-brand-500/15 rounded-2xl p-5">
             <span className="text-[11px] text-brand-400 font-semibold uppercase tracking-wider">O que é</span>
-            <h2 className="text-lg font-bold text-white mt-1 mb-3">Crédito de ICMS</h2>
-            <p className="text-sm text-white/60 leading-relaxed">
-              Empresas que geram mais ICMS do que devem pagar acumulam saldo credor junto à SEFAZ. Esse saldo pode ser negociado — <strong className="text-white/90">cedido para empresas que têm débito de ICMS</strong> a pagar, com benefício mútuo: o cedente monetiza o crédito parado, o cessionário reduz sua carga tributária.
+            <h2 className="text-lg font-bold text-slate-900 mt-1 mb-3">Crédito de ICMS</h2>
+            <p className="text-sm text-slate-900/60 leading-relaxed">
+              Empresas que geram mais ICMS do que devem pagar acumulam saldo credor junto à SEFAZ. Esse saldo pode ser negociado — <strong className="text-slate-900/90">cedido para empresas que têm débito de ICMS</strong> a pagar, com benefício mútuo: o cedente monetiza o crédito parado, o cessionário reduz sua carga tributária.
             </p>
             <div className="mt-4 flex items-center gap-2 text-xs text-brand-300">
               <CheckIcon />
@@ -317,7 +317,7 @@ export default function LoginPage() {
         </section>
 
         <section className="px-5 pb-8">
-          <h2 className="text-lg font-bold text-white mb-4">Para quem é a plataforma?</h2>
+          <h2 className="text-lg font-bold text-slate-900 mb-4">Para quem é a plataforma?</h2>
           <div className="space-y-3">
             {audiences.map((a) => (
               <div key={a.title} className="bg-dark-800/60 border border-dark-600/40 rounded-2xl p-4">
@@ -328,7 +328,7 @@ export default function LoginPage() {
                       <span className="font-bold text-white">{a.title}</span>
                       <span className="text-[11px] text-slate-500">{a.subtitle}</span>
                     </div>
-                    <p className="text-xs text-white/55 mt-1.5 leading-relaxed">{a.desc}</p>
+                    <p className="text-xs text-slate-900/55 mt-1.5 leading-relaxed">{a.desc}</p>
                     <Link
                       href="/register"
                       className="inline-flex items-center gap-1 mt-2.5 text-xs text-brand-400 hover:text-brand-300 font-medium transition-colors"
@@ -356,7 +356,7 @@ export default function LoginPage() {
               )}
               <form onSubmit={handleLogin} className="space-y-3">
                 <div>
-                  <label className="block text-sm font-medium text-slate-300 mb-1.5">E-mail</label>
+                  <label className="block text-sm font-medium text-slate-600 mb-1.5">E-mail</label>
                   <input
                     type="email"
                     autoComplete="email"
@@ -364,12 +364,12 @@ export default function LoginPage() {
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="fiscal@suaempresa.com.br"
                     required
-                    className="w-full rounded-xl border border-dark-500/60 px-4 py-3.5 text-sm bg-dark-700 text-white placeholder:text-slate-600 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 transition-all outline-none"
+                    className="w-full rounded-xl border border-dark-500/60 px-4 py-3.5 text-sm bg-dark-700 text-slate-900 placeholder:text-slate-600 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 transition-all outline-none"
                   />
                 </div>
                 <div>
                   <div className="flex items-center justify-between mb-1.5">
-                    <label className="block text-sm font-medium text-slate-300">Senha</label>
+                    <label className="block text-sm font-medium text-slate-600">Senha</label>
                     <Link href="/forgot-password" className="text-xs text-brand-400 hover:text-brand-300 transition-colors">
                       Esqueceu a senha?
                     </Link>
@@ -382,12 +382,12 @@ export default function LoginPage() {
                       onChange={(e) => setPassword(e.target.value)}
                       placeholder="••••••••"
                       required
-                      className="w-full rounded-xl border border-dark-500/60 px-4 py-3.5 pr-12 text-sm bg-dark-700 text-white placeholder:text-slate-600 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 transition-all outline-none"
+                      className="w-full rounded-xl border border-dark-500/60 px-4 py-3.5 pr-12 text-sm bg-dark-700 text-slate-900 placeholder:text-slate-600 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 transition-all outline-none"
                     />
                     <button
                       type="button"
                       onClick={() => setShowPassword(!showPassword)}
-                      className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-300 transition-colors p-1"
+                      className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-600 transition-colors p-1"
                       tabIndex={-1}
                     >
                       {showPassword ? <EyeOffIcon /> : <EyeIcon />}
@@ -424,13 +424,13 @@ export default function LoginPage() {
             <span className="text-xs text-slate-600">by Rede Ampara Tec</span>
           </div>
           <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2 text-xs text-slate-600">
-            <Link href="/institucional" className="hover:text-slate-400 transition-colors">Quem Somos</Link>
+            <Link href="/institucional" className="hover:text-slate-500 transition-colors">Quem Somos</Link>
             <span>·</span>
-            <Link href="/termos" className="hover:text-slate-400 transition-colors">Termos de Uso</Link>
+            <Link href="/termos" className="hover:text-slate-500 transition-colors">Termos de Uso</Link>
             <span>·</span>
-            <Link href="/privacidade" className="hover:text-slate-400 transition-colors">Privacidade</Link>
+            <Link href="/privacidade" className="hover:text-slate-500 transition-colors">Privacidade</Link>
             <span>·</span>
-            <a href="mailto:contato@relius.com.br" className="hover:text-slate-400 transition-colors">Contato</a>
+            <a href="mailto:contato@relius.com.br" className="hover:text-slate-500 transition-colors">Contato</a>
           </div>
           <p className="text-center text-[10px] text-slate-700 mt-3">
             © {new Date().getFullYear()} Rede Ampara Tec · CNPJ 00.000.000/0001-00 · Todos os direitos reservados

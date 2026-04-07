@@ -125,7 +125,7 @@ export default function TransacoesPage() {
             className={`px-4 py-1.5 rounded-xl text-sm font-medium transition-all ${
               filterStatus === f.value
                 ? 'bg-brand-600 text-white'
-                : 'bg-dark-600 text-slate-400 hover:bg-dark-600/80'
+                : 'bg-dark-600 text-slate-500 hover:bg-dark-600/80'
             }`}
           >
             {f.label}
@@ -209,7 +209,7 @@ export default function TransacoesPage() {
 
                     {/* Documents */}
                     <div>
-                      <h4 className="text-sm font-bold text-slate-300 mb-2">Documentos</h4>
+                      <h4 className="text-sm font-bold text-slate-600 mb-2">Documentos</h4>
                       <div className="flex gap-3">
                         <div className={`flex items-center gap-2 p-2 rounded-xl text-sm ${
                           tx.contract_signed_at ? 'bg-emerald-500/15 text-emerald-400' : 'bg-dark-600/50 text-slate-500'
@@ -235,7 +235,7 @@ export default function TransacoesPage() {
                     {/* Credit usage for completed transactions */}
                     {tx.status === 'completed' && (
                       <div>
-                        <h4 className="text-sm font-bold text-slate-300 mb-2">Uso do Crédito</h4>
+                        <h4 className="text-sm font-bold text-slate-600 mb-2">Uso do Crédito</h4>
                         <CreditGauge
                           total={tx.credit_amount}
                           used={Math.round(tx.credit_amount * 0.65)}
@@ -250,11 +250,11 @@ export default function TransacoesPage() {
                     {/* Payment details */}
                     {tx.payment_method && (
                       <div className="text-sm text-slate-500">
-                        <span>Metodo: <strong className="text-slate-300">
+                        <span>Metodo: <strong className="text-slate-600">
                           {tx.payment_method === 'pix' ? 'PIX' : tx.payment_method === 'ted' ? 'TED' : 'Boleto'}
                         </strong></span>
                         {tx.payment_reference && (
-                          <span className="ml-4">Ref: <code className="text-xs bg-dark-600 text-slate-400 px-1.5 py-0.5 rounded">{tx.payment_reference}</code></span>
+                          <span className="ml-4">Ref: <code className="text-xs bg-dark-600 text-slate-500 px-1.5 py-0.5 rounded">{tx.payment_reference}</code></span>
                         )}
                       </div>
                     )}

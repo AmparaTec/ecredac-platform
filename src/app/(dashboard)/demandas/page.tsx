@@ -238,7 +238,7 @@ export default function DemandasPage() {
             </div>
             <form onSubmit={handleCreate} className="p-6 space-y-4">
               <div>
-                <label className="block text-sm font-medium text-slate-300 mb-1">Valor Necessário (R$)</label>
+                <label className="block text-sm font-medium text-slate-600 mb-1">Valor Necessário (R$)</label>
                 <CurrencyInput
                   value={newRequest.amount_needed}
                   onChange={(raw) => setNewRequest({ ...newRequest, amount_needed: raw })}
@@ -249,7 +249,7 @@ export default function DemandasPage() {
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-slate-300 mb-1">Desconto Máximo (%)</label>
+                  <label className="block text-sm font-medium text-slate-600 mb-1">Desconto Máximo (%)</label>
                   <PercentInput
                     value={newRequest.max_discount_accepted}
                     onChange={(raw) => setNewRequest({ ...newRequest, max_discount_accepted: raw })}
@@ -258,11 +258,11 @@ export default function DemandasPage() {
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-slate-300 mb-1">Urgencia</label>
+                  <label className="block text-sm font-medium text-slate-600 mb-1">Urgencia</label>
                   <select
                     value={newRequest.urgency}
                     onChange={e => setNewRequest({ ...newRequest, urgency: e.target.value })}
-                    className="w-full rounded-xl border border-dark-500/50 bg-dark-700 text-white px-4 py-2.5 text-sm"
+                    className="w-full rounded-xl border border-dark-500/50 bg-dark-700 text-slate-900 px-4 py-2.5 text-sm"
                   >
                     <option value="low">Baixa</option>
                     <option value="medium">Média</option>
@@ -272,17 +272,17 @@ export default function DemandasPage() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-slate-300 mb-1">Data de Vencimento do ICMS</label>
+                <label className="block text-sm font-medium text-slate-600 mb-1">Data de Vencimento do ICMS</label>
                 <input
                   type="date"
                   value={newRequest.icms_due_date}
                   onChange={e => setNewRequest({ ...newRequest, icms_due_date: e.target.value })}
-                  className="w-full rounded-xl border border-dark-500/50 bg-dark-700 text-white px-4 py-2.5 text-sm"
+                  className="w-full rounded-xl border border-dark-500/50 bg-dark-700 text-slate-900 px-4 py-2.5 text-sm"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-slate-300 mb-2">Tipos de Crédito Preferidos</label>
+                <label className="block text-sm font-medium text-slate-600 mb-2">Tipos de Crédito Preferidos</label>
                 <div className="flex gap-2">
                   {['acumulado', 'st', 'rural'].map(t => (
                     <button
@@ -292,7 +292,7 @@ export default function DemandasPage() {
                       className={`px-3 py-1.5 rounded-xl text-sm font-medium border transition-all ${
                         newRequest.preferred_credit_types.includes(t)
                           ? 'bg-brand-500/20 border-brand-500/50 text-brand-300'
-                          : 'bg-dark-600/50 border-dark-500/50 text-slate-400 hover:bg-dark-600'
+                          : 'bg-dark-600/50 border-dark-500/50 text-slate-500 hover:bg-dark-600'
                       }`}
                     >
                       {creditTypeLabels[t]}
@@ -302,13 +302,13 @@ export default function DemandasPage() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-slate-300 mb-1">Descrição (opcional)</label>
+                <label className="block text-sm font-medium text-slate-600 mb-1">Descrição (opcional)</label>
                 <textarea
                   value={newRequest.description}
                   onChange={e => setNewRequest({ ...newRequest, description: e.target.value })}
                   rows={3}
                   placeholder="Detalhes sobre a necessidade..."
-                  className="w-full rounded-xl border border-dark-500/50 bg-dark-700 text-white px-4 py-2.5 text-sm"
+                  className="w-full rounded-xl border border-dark-500/50 bg-dark-700 text-slate-900 px-4 py-2.5 text-sm"
                 />
               </div>
 

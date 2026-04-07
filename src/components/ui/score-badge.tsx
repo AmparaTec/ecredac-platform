@@ -56,7 +56,7 @@ export function ScoreBar({ label, value, maxValue = 100, color }: ScoreBarProps)
   return (
     <div className="space-y-1">
       <div className="flex justify-between text-xs">
-        <span className="text-slate-400">{label}</span>
+        <span className="text-slate-500">{label}</span>
         <span className="font-medium text-white">{value.toFixed(0)}</span>
       </div>
       <div className="h-2 bg-dark-600 rounded-full overflow-hidden">

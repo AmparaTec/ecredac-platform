@@ -103,7 +103,7 @@ export function TermsAcceptanceModal({ autoCheck = true, onAccepted }: TermsAcce
             </div>
             <div>
               <h2 className="text-xl font-bold text-white">Termos e Condições</h2>
-              <p className="text-sm text-slate-400">
+              <p className="text-sm text-slate-500">
                 Para continuar usando a plataforma, é necessário aceitar os termos abaixo.
               </p>
             </div>
@@ -138,7 +138,7 @@ export function TermsAcceptanceModal({ autoCheck = true, onAccepted }: TermsAcce
 
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2">
-                    <FileText size={14} className="text-slate-400" />
+                    <FileText size={14} className="text-slate-500" />
                     <span className="text-sm font-semibold text-white">{termo.titulo}</span>
                     <span className="text-xs text-slate-500">v{termo.versao}</span>
                   </div>
@@ -146,7 +146,7 @@ export function TermsAcceptanceModal({ autoCheck = true, onAccepted }: TermsAcce
 
                 <button
                   onClick={() => setExpanded(expanded === termo.id ? null : termo.id)}
-                  className="p-1.5 rounded-lg hover:bg-dark-600 text-slate-400 transition-colors"
+                  className="p-1.5 rounded-lg hover:bg-dark-600 text-slate-500 transition-colors"
                 >
                   {expanded === termo.id ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
                 </button>
@@ -155,7 +155,7 @@ export function TermsAcceptanceModal({ autoCheck = true, onAccepted }: TermsAcce
               {/* Conteúdo expandido */}
               {expanded === termo.id && (
                 <div className="px-4 pb-4 border-t border-dark-500/30">
-                  <div className="mt-3 max-h-60 overflow-y-auto text-xs text-slate-300 leading-relaxed prose prose-invert prose-sm prose-headings:text-white prose-headings:text-sm whitespace-pre-wrap">
+                  <div className="mt-3 max-h-60 overflow-y-auto text-xs text-slate-600 leading-relaxed prose prose-invert prose-sm prose-headings:text-slate-900 prose-headings:text-sm whitespace-pre-wrap">
                     {termo.conteudo}
                   </div>
                 </div>

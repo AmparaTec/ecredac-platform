@@ -17,8 +17,8 @@ export function StatCard({ title, value, subtitle, trend, trendUp, icon, glow = 
     <Card className="p-5 group" hover glow={glow}>
       <div className="flex items-start justify-between">
         <div className="flex-1">
-          <p className="text-xs font-medium text-slate-400 uppercase tracking-wider">{title}</p>
-          <p className="mt-2 text-2xl font-black text-white tracking-tight">{value}</p>
+          <p className="text-xs font-medium text-slate-500 uppercase tracking-wider">{title}</p>
+          <p className="mt-2 text-2xl font-black text-slate-900 tracking-tight">{value}</p>
           {subtitle && <p className="mt-1 text-sm text-slate-500">{subtitle}</p>}
           {trend && (
             <p className={`mt-2 text-xs font-semibold flex items-center gap-1 ${trendUp ? 'text-success-400' : 'text-danger-400'}`}>
@@ -28,7 +28,7 @@ export function StatCard({ title, value, subtitle, trend, trendUp, icon, glow = 
           )}
         </div>
         {icon && (
-          <div className="w-10 h-10 rounded-xl bg-dark-500/50 flex items-center justify-center text-slate-400 group-hover:text-brand-400 transition-colors">
+          <div className="w-10 h-10 rounded-xl bg-dark-500/50 flex items-center justify-center text-slate-500 group-hover:text-brand-400 transition-colors">
             {icon}
           </div>
         )}

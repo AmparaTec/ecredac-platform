@@ -109,7 +109,7 @@ export function ShareInvite({ referralCode, className, compact = false }: ShareI
       <div className={cn('bg-emerald-500/10 border border-emerald-500/20 rounded-xl p-4 text-center', className)}>
         <Check size={24} className="text-emerald-400 mx-auto mb-2" />
         <p className="text-sm font-medium text-emerald-400">Convite enviado!</p>
-        <button onClick={reset} className="text-xs text-slate-400 hover:text-white mt-2 transition-colors">
+        <button onClick={reset} className="text-xs text-slate-500 hover:text-slate-900 mt-2 transition-colors">
           Enviar outro
         </button>
       </div>
@@ -121,7 +121,7 @@ export function ShareInvite({ referralCode, className, compact = false }: ShareI
     return (
       <div className={cn('bg-dark-700/50 border border-dark-500/50 rounded-xl p-4 space-y-3', className)}>
         <div className="flex items-center justify-between">
-          <p className="text-xs font-bold text-white uppercase tracking-wider">
+          <p className="text-xs font-bold text-slate-900 uppercase tracking-wider">
             {mode === 'whatsapp' ? 'Enviar via WhatsApp' : 'Enviar via E-mail'}
           </p>
           <button onClick={reset} className="p-1 rounded-lg hover:bg-dark-600 text-slate-500">
@@ -133,7 +133,7 @@ export function ShareInvite({ referralCode, className, compact = false }: ShareI
           value={nome}
           onChange={e => setNome(e.target.value)}
           placeholder="Nome do contato (opcional)"
-          className="w-full px-3 py-2 rounded-lg bg-dark-600 border border-dark-500/50 text-white text-sm placeholder-slate-500 focus:border-brand-500/50 transition-all"
+          className="w-full px-3 py-2 rounded-lg bg-dark-600 border border-dark-500/50 text-slate-900 text-sm placeholder-slate-500 focus:border-brand-500/50 transition-all"
         />
 
         {mode === 'whatsapp' ? (
@@ -142,7 +142,7 @@ export function ShareInvite({ referralCode, className, compact = false }: ShareI
             onChange={e => setPhone(e.target.value)}
             placeholder="(11) 99999-9999"
             type="tel"
-            className="w-full px-3 py-2 rounded-lg bg-dark-600 border border-dark-500/50 text-white text-sm placeholder-slate-500 focus:border-brand-500/50 transition-all"
+            className="w-full px-3 py-2 rounded-lg bg-dark-600 border border-dark-500/50 text-slate-900 text-sm placeholder-slate-500 focus:border-brand-500/50 transition-all"
             autoFocus
           />
         ) : (
@@ -151,7 +151,7 @@ export function ShareInvite({ referralCode, className, compact = false }: ShareI
             onChange={e => setEmail(e.target.value)}
             placeholder="email@empresa.com.br"
             type="email"
-            className="w-full px-3 py-2 rounded-lg bg-dark-600 border border-dark-500/50 text-white text-sm placeholder-slate-500 focus:border-brand-500/50 transition-all"
+            className="w-full px-3 py-2 rounded-lg bg-dark-600 border border-dark-500/50 text-slate-900 text-sm placeholder-slate-500 focus:border-brand-500/50 transition-all"
             autoFocus
           />
         )}
@@ -185,7 +185,7 @@ export function ShareInvite({ referralCode, className, compact = false }: ShareI
           </span>
           <button
             onClick={handleCopy}
-            className="p-2 rounded-lg bg-dark-500 text-slate-300 hover:bg-dark-400 transition-all"
+            className="p-2 rounded-lg bg-dark-500 text-slate-600 hover:bg-dark-400 transition-all"
             title="Copiar link de indicação"
           >
             {copied ? <Check size={14} /> : <Copy size={14} />}
@@ -211,7 +211,7 @@ export function ShareInvite({ referralCode, className, compact = false }: ShareI
         {compact && (
           <button
             onClick={handleCopy}
-            className="flex items-center justify-center gap-2 px-4 py-2.5 bg-dark-500 text-slate-300 hover:bg-dark-400 rounded-xl text-sm font-medium transition-all border border-dark-400/50"
+            className="flex items-center justify-center gap-2 px-4 py-2.5 bg-dark-500 text-slate-600 hover:bg-dark-400 rounded-xl text-sm font-medium transition-all border border-dark-400/50"
           >
             {copied ? <Check size={14} /> : <Copy size={14} />}
             {copied ? 'Copiado!' : 'Link'}

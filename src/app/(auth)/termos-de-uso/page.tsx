@@ -2,18 +2,18 @@ import Link from 'next/link'
 
 export default function TermosDeUsoPage() {
   return (
-    <div className="min-h-screen bg-dark-900 text-slate-300 px-4 py-12">
+    <div className="min-h-screen bg-dark-900 text-slate-600 px-4 py-12">
       <div className="max-w-3xl mx-auto">
         <Link href="/register" className="text-brand-400 hover:text-brand-300 text-sm mb-8 inline-block">
           ← Voltar ao cadastro
         </Link>
 
-        <h1 className="text-3xl font-bold text-white mb-2">Termos de Uso</h1>
+        <h1 className="text-3xl font-bold text-slate-900 mb-2">Termos de Uso</h1>
         <p className="text-sm text-slate-500 mb-8">Última atualização: 05 de abril de 2026</p>
 
         <div className="space-y-6 text-sm leading-relaxed">
           <section>
-            <h2 className="text-lg font-semibold text-white mb-3">1. Aceitação dos Termos</h2>
+            <h2 className="text-lg font-semibold text-slate-900 mb-3">1. Aceitação dos Termos</h2>
             <p>
               Ao acessar e utilizar a plataforma E-CREDac ICMS (&quot;Plataforma&quot;), operada pela AmparaTec Tecnologia Ltda.
               (&quot;AmparaTec&quot;), inscrita no CNPJ sob o nº [CNPJ da AmparaTec], você (&quot;Usuário&quot;) declara que leu,
@@ -23,13 +23,13 @@ export default function TermosDeUsoPage() {
           </section>
 
           <section>
-            <h2 className="text-lg font-semibold text-white mb-3">2. Descrição do Serviço</h2>
+            <h2 className="text-lg font-semibold text-slate-900 mb-3">2. Descrição do Serviço</h2>
             <p>
               A E-CREDac ICMS é uma plataforma digital de intermediação de créditos acumulados de ICMS, conectando
               empresas cedentes (detentoras de créditos) a empresas cessionárias (adquirentes de créditos), com
               funcionalidades de:
             </p>
-            <ul className="list-disc list-inside mt-2 space-y-1 text-slate-400">
+            <ul className="list-disc list-inside mt-2 space-y-1 text-slate-500">
               <li>Cadastro e verificação de empresas via CNPJ</li>
               <li>Publicação e busca de ofertas de créditos de ICMS</li>
               <li>Matching inteligente entre cedentes e cessionários</li>
@@ -40,7 +40,7 @@ export default function TermosDeUsoPage() {
           </section>
 
           <section>
-            <h2 className="text-lg font-semibold text-white mb-3">3. Cadastro e Conta do Usuário</h2>
+            <h2 className="text-lg font-semibold text-slate-900 mb-3">3. Cadastro e Conta do Usuário</h2>
             <p>
               3.1. Para utilizar a Plataforma, o Usuário deve criar uma conta fornecendo informações verdadeiras,
               completas e atualizadas, incluindo CNPJ válido e ativo junto à Receita Federal.
@@ -56,9 +56,9 @@ export default function TermosDeUsoPage() {
           </section>
 
           <section>
-            <h2 className="text-lg font-semibold text-white mb-3">4. Obrigações do Usuário</h2>
+            <h2 className="text-lg font-semibold text-slate-900 mb-3">4. Obrigações do Usuário</h2>
             <p>O Usuário compromete-se a:</p>
-            <ul className="list-disc list-inside mt-2 space-y-1 text-slate-400">
+            <ul className="list-disc list-inside mt-2 space-y-1 text-slate-500">
               <li>Fornecer informações verídicas e manter seus dados atualizados</li>
               <li>Utilizar a Plataforma exclusivamente para fins lícitos relacionados à intermediação de créditos de ICMS</li>
               <li>Não tentar burlar mecanismos de segurança ou acessar dados de outros usuários</li>
@@ -68,7 +68,7 @@ export default function TermosDeUsoPage() {
           </section>
 
           <section>
-            <h2 className="text-lg font-semibold text-white mb-3">5. Intermediação de Créditos</h2>
+            <h2 className="text-lg font-semibold text-slate-900 mb-3">5. Intermediação de Créditos</h2>
             <p>
               5.1. A AmparaTec atua exclusivamente como intermediadora tecnológica, facilitando o encontro entre
               cedentes e cessionários. A responsabilidade pela veracidade dos créditos, documentação fiscal e
@@ -85,7 +85,7 @@ export default function TermosDeUsoPage() {
           </section>
 
           <section>
-            <h2 className="text-lg font-semibold text-white mb-3">6. Taxas e Remuneração</h2>
+            <h2 className="text-lg font-semibold text-slate-900 mb-3">6. Taxas e Remuneração</h2>
             <p>
               6.1. A AmparaTec cobrará taxas de intermediação sobre as transações realizadas na Plataforma,
               conforme tabela vigente disponível no painel do Usuário.
@@ -99,7 +99,7 @@ export default function TermosDeUsoPage() {
           </section>
 
           <section>
-            <h2 className="text-lg font-semibold text-white mb-3">7. Propriedade Intelectual</h2>
+            <h2 className="text-lg font-semibold text-slate-900 mb-3">7. Propriedade Intelectual</h2>
             <p>
               Todo o conteúdo da Plataforma, incluindo marca, logotipo, layout, código-fonte, algoritmos de
               matching e scoring, é de propriedade exclusiva da AmparaTec, protegido pela legislação brasileira
@@ -108,7 +108,7 @@ export default function TermosDeUsoPage() {
           </section>
 
           <section>
-            <h2 className="text-lg font-semibold text-white mb-3">8. Limitação de Responsabilidade</h2>
+            <h2 className="text-lg font-semibold text-slate-900 mb-3">8. Limitação de Responsabilidade</h2>
             <p>
               8.1. A AmparaTec não se responsabiliza por perdas ou danos decorrentes de: (i) informações incorretas
               fornecidas pelos Usuários; (ii) indisponibilidade temporária da Plataforma; (iii) decisões fiscais
@@ -121,7 +121,7 @@ export default function TermosDeUsoPage() {
           </section>
 
           <section>
-            <h2 className="text-lg font-semibold text-white mb-3">9. Rescisão</h2>
+            <h2 className="text-lg font-semibold text-slate-900 mb-3">9. Rescisão</h2>
             <p>
               O Usuário pode encerrar sua conta a qualquer momento. A AmparaTec pode suspender ou encerrar
               o acesso em caso de violação destes Termos, sem prejuízo de eventuais medidas judiciais cabíveis.
@@ -130,7 +130,7 @@ export default function TermosDeUsoPage() {
           </section>
 
           <section>
-            <h2 className="text-lg font-semibold text-white mb-3">10. Disposições Gerais</h2>
+            <h2 className="text-lg font-semibold text-slate-900 mb-3">10. Disposições Gerais</h2>
             <p>
               10.1. Estes Termos são regidos pela legislação da República Federativa do Brasil.
             </p>

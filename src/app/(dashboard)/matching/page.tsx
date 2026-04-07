@@ -186,7 +186,7 @@ export default function MatchingPage() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold text-white">Active Matching</h1>
-          <p className="text-slate-400 mt-1">Matches, alertas, auto-bidding e leilões</p>
+          <p className="text-slate-500 mt-1">Matches, alertas, auto-bidding e leilões</p>
           <ScoreDisclaimer variant="inline" className="mt-2 max-w-xl" />
         </div>
         <Button onClick={runMatchingEngine} disabled={running}>
@@ -211,14 +211,14 @@ export default function MatchingPage() {
             onClick={() => setActiveTab(tab.key as any)}
             className={`flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-medium transition-all flex-1 justify-center ${
               activeTab === tab.key
-                ? 'bg-dark-700 shadow text-white'
-                : 'text-slate-400 hover:text-slate-300'
+                ? 'bg-dark-700 shadow text-slate-900'
+                : 'text-slate-500 hover:text-slate-600'
             }`}
           >
             {tab.icon} {tab.label}
             {tab.count > 0 && (
               <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded-full ${
-                activeTab === tab.key ? 'bg-brand-500/20 text-brand-300' : 'bg-dark-500/50 text-slate-400'
+                activeTab === tab.key ? 'bg-brand-500/20 text-brand-300' : 'bg-dark-500/50 text-slate-500'
               }`}>{tab.count}</span>
             )}
           </button>
@@ -262,12 +262,12 @@ export default function MatchingPage() {
         <div className="space-y-4">
           <div className="flex items-center justify-between">
             <h2 className="text-lg font-bold text-white">Leilões Abertos</h2>
-            <span className="text-sm text-slate-400">{auctions.length} leiloes</span>
+            <span className="text-sm text-slate-500">{auctions.length} leiloes</span>
           </div>
           {auctions.length === 0 ? (
             <Card className="p-8 text-center">
               <Gavel size={28} className="mx-auto text-slate-600 mb-2" />
-              <p className="text-sm text-slate-400">Nenhum leilão aberto no momento</p>
+              <p className="text-sm text-slate-500">Nenhum leilão aberto no momento</p>
               <p className="text-xs text-slate-500 mt-1">Leilões silenciosos aparecerao aqui quando criados</p>
             </Card>
           ) : (
@@ -284,7 +284,7 @@ export default function MatchingPage() {
       {activeTab === 'matches' && (<>
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
         <Card className="p-4 text-center">
-          <p className="text-sm text-slate-400">Total Matches</p>
+          <p className="text-sm text-slate-500">Total Matches</p>
           <p className="text-3xl font-bold mt-1">{matches.length}</p>
         </Card>
         <Card className="p-4 text-center">
@@ -312,7 +312,7 @@ export default function MatchingPage() {
           {/* Pending Matches - Action Required */}
           {pendingMatches.length > 0 && (
             <div>
-              <h2 className="text-lg font-bold text-white mb-3">Aguardando Resposta</h2>
+              <h2 className="text-lg font-bold text-slate-900 mb-3">Aguardando Resposta</h2>
               <div className="space-y-3">
                 {pendingMatches.map(match => {
                   const isSeller = match.seller_company_id === companyId
@@ -344,7 +344,7 @@ export default function MatchingPage() {
                                 <ScoreBadge grade={match.listing.credit_score.grade} size="sm" />
                               )}
                               {match.match_score && (
-                                <span className="text-xs font-medium text-slate-400">
+                                <span className="text-xs font-medium text-slate-500">
                                   Match: {match.match_score}%
                                 </span>
                               )}
@@ -359,7 +359,7 @@ export default function MatchingPage() {
                               <span className="font-medium">{match.buyer_company?.nome_fantasia || 'Cessionário'}</span>
                             </div>
 
-                            <div className="flex gap-6 mt-2 text-sm text-slate-400">
+                            <div className="flex gap-6 mt-2 text-sm text-slate-500">
                               <span>Valor: <strong className="text-white">{formatBRL(match.matched_amount)}</strong></span>
                               <span>Desconto: <strong className="text-white">{match.agreed_discount}%</strong></span>
                               <span>Taxa: <strong className="text-white">{formatBRL(match.platform_fee)}</strong></span>
@@ -397,7 +397,7 @@ export default function MatchingPage() {
           {/* Confirmed Matches */}
           {confirmedMatches.length > 0 && (
             <div>
-              <h2 className="text-lg font-bold text-white mb-3">Matches Confirmados</h2>
+              <h2 className="text-lg font-bold text-slate-900 mb-3">Matches Confirmados</h2>
               <div className="space-y-3">
                 {confirmedMatches.map(match => (
                   <Card key={match.id} className="p-5">
@@ -420,14 +420,14 @@ export default function MatchingPage() {
                               <ScoreBadge grade={match.listing.credit_score.grade} size="sm" />
                             )}
                           </div>
-                          <p className="text-xs text-slate-400 mt-0.5">
+                          <p className="text-xs text-slate-500 mt-0.5">
                             Confirmado em {match.confirmed_at ? formatDate(match.confirmed_at) : '—'}
                           </p>
                         </div>
                       </div>
                       <div className="text-right">
                         <p className="text-lg font-bold">{formatBRL(match.matched_amount)}</p>
-                        <p className="text-xs text-slate-400">{match.agreed_discount}% desconto</p>
+                        <p className="text-xs text-slate-500">{match.agreed_discount}% desconto</p>
                       </div>
                     </div>
                   </Card>
@@ -440,7 +440,7 @@ export default function MatchingPage() {
           {matches.length === 0 && (
             <Card className="p-12 text-center">
               <GitMerge size={40} className="mx-auto text-slate-600 mb-3" />
-              <p className="text-lg font-medium text-slate-400">Nenhum match encontrado</p>
+              <p className="text-lg font-medium text-slate-500">Nenhum match encontrado</p>
               <p className="text-sm text-slate-500 mt-1">
                 Execute o matching engine para encontrar pares automaticamente
               </p>

@@ -23,7 +23,7 @@ interface OperacaoResumo {
 }
 
 const statusLabels: Record<string, { label: string; color: string }> = {
-  pending: { label: 'Pendente', color: 'text-slate-400' },
+  pending: { label: 'Pendente', color: 'text-slate-500' },
   confirmed: { label: 'Confirmada', color: 'text-brand-400' },
   paying: { label: 'Pagamento', color: 'text-yellow-400' },
   transferring: { label: 'Transferindo', color: 'text-blue-400' },
@@ -68,7 +68,7 @@ export default function OperacoesPage() {
           <Shield size={20} className="text-brand-400" />
           <h1 className="text-xl font-bold text-white">Operações</h1>
         </div>
-        <p className="text-sm text-slate-400">
+        <p className="text-sm text-slate-500">
           Acompanhe suas operações de cessão de créditos ICMS com total transparência
         </p>
       </div>
@@ -76,15 +76,15 @@ export default function OperacoesPage() {
       {transactions.length === 0 ? (
         <Card className="p-12 text-center">
           <Shield size={40} className="text-slate-600 mx-auto mb-4" />
-          <p className="text-white font-medium mb-2">Nenhuma operação encontrada</p>
-          <p className="text-sm text-slate-400">
+          <p className="text-slate-900 font-medium mb-2">Nenhuma operação encontrada</p>
+          <p className="text-sm text-slate-500">
             Suas operações de cessão aparecerão aqui quando forem criadas a partir de um match confirmado
           </p>
         </Card>
       ) : (
         <div className="space-y-3">
           {transactions.map(tx => {
-            const st = statusLabels[tx.status] || { label: tx.status, color: 'text-slate-400' }
+            const st = statusLabels[tx.status] || { label: tx.status, color: 'text-slate-500' }
             return (
               <Link key={tx.id} href={`/operacao/${tx.id}`}>
                 <Card className="p-4 hover:border-brand-500/30 transition-all cursor-pointer group">
@@ -98,7 +98,7 @@ export default function OperacoesPage() {
                     )}>
                       {tx.status === 'completed' ? <CheckCircle size={18} className="text-emerald-400" /> :
                        tx.status === 'cancelled' ? <AlertTriangle size={18} className="text-danger-400" /> :
-                       tx.status === 'pending' ? <Circle size={18} className="text-slate-400" /> :
+                       tx.status === 'pending' ? <Circle size={18} className="text-slate-500" /> :
                        <Clock size={18} className="text-brand-400" />}
                     </div>
 

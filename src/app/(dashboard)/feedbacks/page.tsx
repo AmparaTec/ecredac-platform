@@ -24,7 +24,7 @@ const typeConfig: Record<FeedbackType, { label: string; icon: React.ReactNode; c
   bug:      { label: 'Bug',      icon: <Bug size={13} />,          color: 'text-red-400 bg-red-500/10 border-red-500/20' },
   melhoria: { label: 'Melhoria', icon: <Lightbulb size={13} />,    color: 'text-amber-400 bg-amber-500/10 border-amber-500/20' },
   elogio:   { label: 'Elogio',   icon: <ThumbsUp size={13} />,     color: 'text-emerald-400 bg-emerald-500/10 border-emerald-500/20' },
-  outro:    { label: 'Outro',    icon: <MessageCircle size={13} />, color: 'text-slate-400 bg-slate-500/10 border-slate-500/20' },
+  outro:    { label: 'Outro',    icon: <MessageCircle size={13} />, color: 'text-slate-500 bg-slate-500/10 border-slate-500/20' },
 }
 
 const statusConfig: Record<FeedbackStatus, { label: string; color: string }> = {
@@ -110,7 +110,7 @@ export default function FeedbacksPage() {
       {/* Header */}
       <div className="flex items-center justify-between flex-shrink-0">
         <div>
-          <h1 className="text-lg font-bold text-white flex items-center gap-2">
+          <h1 className="text-lg font-bold text-slate-900 flex items-center gap-2">
             <MessageSquarePlus size={20} className="text-brand-400" />
             Gestão de Feedback
           </h1>
@@ -121,7 +121,7 @@ export default function FeedbacksPage() {
         <button
           onClick={load}
           disabled={loading}
-          className="p-2 rounded-lg border border-dark-500/50 bg-dark-700 text-slate-400 hover:text-white transition-colors disabled:opacity-50"
+          className="p-2 rounded-lg border border-dark-500/50 bg-dark-700 text-slate-500 hover:text-slate-900 transition-colors disabled:opacity-50"
           title="Recarregar"
         >
           <RefreshCw size={15} className={loading ? 'animate-spin' : ''} />
@@ -162,7 +162,7 @@ export default function FeedbacksPage() {
             className={`px-2.5 py-1 rounded-lg text-[11px] font-medium transition-all ${
               filterType === t
                 ? 'bg-brand-500/15 text-brand-400 border border-brand-500/30'
-                : 'bg-dark-700/60 text-slate-500 border border-dark-500/30 hover:text-slate-300'
+                : 'bg-dark-700/60 text-slate-500 border border-dark-500/30 hover:text-slate-600'
             }`}
           >
             {t === 'all' ? 'Todos' : typeConfig[t as FeedbackType]?.label ?? t}
@@ -214,7 +214,7 @@ export default function FeedbacksPage() {
 
                 {/* Conteúdo */}
                 <div className="flex-1 min-w-0">
-                  <p className="text-sm text-white leading-snug">{fb.message}</p>
+                  <p className="text-sm text-slate-900 leading-snug">{fb.message}</p>
                   <div className="flex items-center gap-3 mt-1.5 flex-wrap">
                     <span className="text-[10px] text-slate-600">{formatDate(fb.created_at)}</span>
                     {fb.page && (

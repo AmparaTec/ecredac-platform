@@ -80,7 +80,7 @@ export function MarketBenchmarkCard({
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-2">
             <div className="w-8 h-8 rounded-lg bg-dark-600 flex items-center justify-center">
-              <BarChart3 size={18} className="text-slate-400" />
+              <BarChart3 size={18} className="text-slate-500" />
             </div>
             <div>
               <h3 className="text-sm font-bold text-white">Benchmark de Mercado</h3>
@@ -101,7 +101,7 @@ export function MarketBenchmarkCard({
           <button
             onClick={() => setSelectedGrade(null)}
             className={`px-2.5 py-1 rounded-lg text-xs font-medium transition-all ${
-              !selectedGrade ? 'bg-dark-800 text-white' : 'bg-dark-600 text-slate-400 hover:bg-dark-500'
+              !selectedGrade ? 'bg-dark-800 text-slate-900' : 'bg-dark-600 text-slate-500 hover:bg-dark-500'
             }`}
           >
             Todos
@@ -118,7 +118,7 @@ export function MarketBenchmarkCard({
                   selectedGrade === grade
                     ? `${cfg.badge} border`
                     : hasBenchmark
-                    ? 'bg-dark-600 text-slate-400 hover:bg-dark-500'
+                    ? 'bg-dark-600 text-slate-500 hover:bg-dark-500'
                     : 'bg-dark-600/50 text-slate-600 cursor-not-allowed'
                 }`}
               >

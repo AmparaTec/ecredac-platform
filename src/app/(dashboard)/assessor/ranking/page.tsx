@@ -6,7 +6,7 @@ import { Award, ArrowUp, CheckCircle2 } from 'lucide-react'
 
 const tierVisuals: Record<string, { icon: string; color: string; bg: string; border: string }> = {
   bronze:   { icon: '🥉', color: 'text-amber-400', bg: 'bg-amber-500/10', border: 'border-amber-500/50' },
-  silver:   { icon: '🥈', color: 'text-slate-400', bg: 'bg-slate-500/10', border: 'border-slate-500/50' },
+  silver:   { icon: '🥈', color: 'text-slate-500', bg: 'bg-slate-500/10', border: 'border-slate-500/50' },
   gold:     { icon: '🥇', color: 'text-yellow-400', bg: 'bg-yellow-500/10', border: 'border-yellow-500/50' },
   platinum: { icon: '💎', color: 'text-blue-400', bg: 'bg-blue-500/10', border: 'border-blue-500/50' },
   diamond:  { icon: '👑', color: 'text-purple-400', bg: 'bg-purple-500/10', border: 'border-purple-500/50' },
@@ -63,10 +63,10 @@ export default async function RankingPage() {
                 <p className={`text-2xl font-black ${tv.color}`}>
                   {currentTier.charAt(0).toUpperCase() + currentTier.slice(1)}
                 </p>
-                <p className="text-sm text-slate-400 mt-1">
+                <p className="text-sm text-slate-500 mt-1">
                   Volume mensal: {formatBRL(procurador.current_month_volume || 0)}
                 </p>
-                <p className="text-sm text-slate-400">
+                <p className="text-sm text-slate-500">
                   Volume total acumulado: {formatBRL(procurador.total_volume_intermediated || 0)}
                 </p>
               </div>
@@ -77,7 +77,7 @@ export default async function RankingPage() {
 
       {/* Tier Ladder */}
       <Card className="p-6">
-        <h2 className="text-lg font-bold text-white mb-6">Escada de Tiers</h2>
+        <h2 className="text-lg font-bold text-slate-900 mb-6">Escada de Tiers</h2>
         <div className="space-y-4">
           {allTiers.map((tier: any, idx: number) => {
             const tv = tierVisuals[tier.tier] || tierVisuals.bronze
@@ -101,7 +101,7 @@ export default async function RankingPage() {
                     <span className="text-3xl">{tv.icon}</span>
                     <div>
                       <div className="flex items-center gap-2">
-                        <p className={`text-lg font-bold ${isCurrent ? tv.color : 'text-white'}`}>
+                        <p className={`text-lg font-bold ${isCurrent ? tv.color : 'text-slate-900'}`}>
                           {tier.tier.charAt(0).toUpperCase() + tier.tier.slice(1)}
                         </p>
                         {isCurrent && (
@@ -113,7 +113,7 @@ export default async function RankingPage() {
                           <CheckCircle2 size={16} className="text-emerald-400" />
                         )}
                       </div>
-                      <p className="text-sm text-slate-400">
+                      <p className="text-sm text-slate-500">
                         Volume: {formatBRL(tier.min_monthly_volume)}
                         {tier.max_monthly_volume ? ` — ${formatBRL(tier.max_monthly_volume)}` : '+'}
                         /mes

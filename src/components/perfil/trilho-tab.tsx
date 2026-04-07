@@ -23,9 +23,9 @@ const TRACKS = [
     id: 'estadual' as TrackPreference,
     label: 'ICMS Estadual',
     badge: 'Trilho B',
-    badgeColor: 'bg-slate-600/20 text-slate-400 border-slate-500/30',
+    badgeColor: 'bg-slate-600/20 text-slate-500 border-slate-500/30',
     icon: Building2,
-    iconColor: 'text-slate-400',
+    iconColor: 'text-slate-500',
     description: 'Créditos de ICMS acumulados — transferência entre empresas via e-CredAc (SEFAZ-SP) ou similar. Processo assistido com acompanhamento de dossiê.',
     features: ['Dossiê e-CredAc SEFAZ-SP', 'Acompanhamento de protocolo', 'Gestão de procuração eletrônica', 'Pipeline de 8 fases'],
     tag: 'Manual assistido',
@@ -101,8 +101,8 @@ export function TrilhoTab() {
   return (
     <div className="space-y-6">
       <div>
-        <h2 className="text-lg font-semibold text-white mb-1">Trilho de Créditos</h2>
-        <p className="text-sm text-slate-400">
+        <h2 className="text-lg font-semibold text-slate-900 mb-1">Trilho de Créditos</h2>
+        <p className="text-sm text-slate-500">
           Escolha o tipo de crédito tributário que sua empresa deseja negociar na plataforma.
           Esta configuração define quais ferramentas e fluxos estarão disponíveis no seu dashboard.
         </p>
@@ -145,14 +145,14 @@ export function TrilhoTab() {
                 <div className={cn('p-2 rounded-xl bg-dark-600', isSelected && 'bg-dark-500')}>
                   <Icon className={cn('w-5 h-5', t.iconColor)} />
                 </div>
-                <span className="font-semibold text-white text-sm">{t.label}</span>
+                <span className="font-semibold text-slate-900 text-sm">{t.label}</span>
               </div>
 
-              <p className="text-xs text-slate-400 leading-relaxed mb-4">{t.description}</p>
+              <p className="text-xs text-slate-500 leading-relaxed mb-4">{t.description}</p>
 
               <ul className="space-y-1.5">
                 {t.features.map((f) => (
-                  <li key={f} className="flex items-center gap-2 text-xs text-slate-300">
+                  <li key={f} className="flex items-center gap-2 text-xs text-slate-600">
                     <CheckCircle className={cn('w-3.5 h-3.5 shrink-0', isSelected ? 'text-brand-400' : 'text-slate-500')} />
                     {f}
                   </li>

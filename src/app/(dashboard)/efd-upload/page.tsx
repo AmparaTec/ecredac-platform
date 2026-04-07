@@ -146,7 +146,7 @@ export default function EfdUploadPage() {
         {/* Header */}
         <div className="mb-8">
           <h1 className="text-3xl font-bold mb-2">Upload EFD-Contribuições</h1>
-          <p className="text-slate-400">Trilho A — Motor de Verificação de Créditos Tributários</p>
+          <p className="text-slate-500">Trilho A — Motor de Verificação de Créditos Tributários</p>
         </div>
 
         {/* Upload Box */}
@@ -163,7 +163,7 @@ export default function EfdUploadPage() {
         >
           <Upload size={40} className="mx-auto mb-3 text-orange-500" />
           <p className="text-lg font-semibold mb-2">Arraste seu arquivo aqui</p>
-          <p className="text-slate-400 mb-4">ou clique para selecionar</p>
+          <p className="text-slate-500 mb-4">ou clique para selecionar</p>
           <button
             onClick={() => fileInputRef.current?.click()}
             disabled={uploading}
@@ -186,14 +186,14 @@ export default function EfdUploadPage() {
           <h2 className="text-2xl font-bold mb-4 flex items-center gap-2">
             <span>Uploads Anteriores</span>
             {uploads.length > 0 && (
-              <span className="text-sm font-normal text-slate-400">({uploads.length})</span>
+              <span className="text-sm font-normal text-slate-500">({uploads.length})</span>
             )}
           </h2>
 
           {loading ? (
-            <div className="text-center py-8 text-slate-400">Carregando...</div>
+            <div className="text-center py-8 text-slate-500">Carregando...</div>
           ) : uploads.length === 0 ? (
-            <div className="text-center py-8 text-slate-400">Nenhum upload realizado ainda</div>
+            <div className="text-center py-8 text-slate-500">Nenhum upload realizado ainda</div>
           ) : (
             <div className="space-y-3">
               {uploads.map((upload) => (
@@ -214,7 +214,7 @@ export default function EfdUploadPage() {
                       </div>
                       <div className="flex-1">
                         <p className="font-semibold">{upload.file_name}</p>
-                        <p className="text-xs text-slate-400">
+                        <p className="text-xs text-slate-500">
                           {new Date(upload.created_at).toLocaleDateString('pt-BR')}
                         </p>
                       </div>
@@ -239,11 +239,11 @@ export default function EfdUploadPage() {
                         <>
                           <div className="grid grid-cols-2 gap-4">
                             <div>
-                              <p className="text-xs text-slate-400 uppercase">Período</p>
+                              <p className="text-xs text-slate-500 uppercase">Período</p>
                               <p className="text-lg font-semibold">{upload.resumo.periodo}</p>
                             </div>
                             <div>
-                              <p className="text-xs text-slate-400 uppercase">Saldo Credor</p>
+                              <p className="text-xs text-slate-500 uppercase">Saldo Credor</p>
                               <p className="text-lg font-semibold text-green-400">
                                 R$ {upload.resumo.saldo_credor_total.toLocaleString('pt-BR', {
                                   minimumFractionDigits: 2,
@@ -254,30 +254,30 @@ export default function EfdUploadPage() {
 
                           <div className="grid grid-cols-4 gap-2">
                             <div className="bg-slate-800/50 rounded p-2">
-                              <p className="text-xs text-slate-400">PIS</p>
+                              <p className="text-xs text-slate-500">PIS</p>
                               <p className="font-semibold">
                                 R${upload.resumo.total_creditos_pis.toFixed(0)}
                               </p>
                             </div>
                             <div className="bg-slate-800/50 rounded p-2">
-                              <p className="text-xs text-slate-400">COFINS</p>
+                              <p className="text-xs text-slate-500">COFINS</p>
                               <p className="font-semibold">
                                 R${upload.resumo.total_creditos_cofins.toFixed(0)}
                               </p>
                             </div>
                             <div className="bg-slate-800/50 rounded p-2">
-                              <p className="text-xs text-slate-400">NF-e In</p>
+                              <p className="text-xs text-slate-500">NF-e In</p>
                               <p className="font-semibold">{upload.resumo.qtd_nfe_entrada}</p>
                             </div>
                             <div className="bg-slate-800/50 rounded p-2">
-                              <p className="text-xs text-slate-400">NF-e Out</p>
+                              <p className="text-xs text-slate-500">NF-e Out</p>
                               <p className="font-semibold">{upload.resumo.qtd_nfe_saida}</p>
                             </div>
                           </div>
 
                           {upload.score_verificacao && (
                             <div className="bg-slate-800/50 rounded p-3">
-                              <p className="text-xs text-slate-400 uppercase mb-2">
+                              <p className="text-xs text-slate-500 uppercase mb-2">
                                 Score de Verificação
                               </p>
                               {getScoreBadge(upload.score_verificacao.score)}
@@ -285,7 +285,7 @@ export default function EfdUploadPage() {
                           )}
                         </>
                       ) : (
-                        <p className="text-slate-400 text-sm">Processando...</p>
+                        <p className="text-slate-500 text-sm">Processando...</p>
                       )}
                     </div>
                   )}

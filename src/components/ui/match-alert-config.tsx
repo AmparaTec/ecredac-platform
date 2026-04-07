@@ -128,12 +128,12 @@ export function MatchAlertForm({ onSubmit, onCancel, initial }: AlertFormProps) 
 
   return (
     <Card className="p-5">
-      <h3 className="text-sm font-bold text-white mb-4">
+      <h3 className="text-sm font-bold text-slate-900 mb-4">
         {initial ? 'Editar Alerta' : 'Novo Alerta'}
       </h3>
       <form onSubmit={handleSubmit} className="space-y-3">
         <div>
-          <label className="block text-xs font-medium text-slate-400 mb-1">Nome do Alerta</label>
+          <label className="block text-xs font-medium text-slate-500 mb-1">Nome do Alerta</label>
           <input
             type="text"
             value={form.name}
@@ -146,7 +146,7 @@ export function MatchAlertForm({ onSubmit, onCancel, initial }: AlertFormProps) 
 
         <div className="grid grid-cols-2 gap-3">
           <div>
-            <label className="block text-xs font-medium text-slate-400 mb-1">Tipo de Alerta</label>
+            <label className="block text-xs font-medium text-slate-500 mb-1">Tipo de Alerta</label>
             <select
               value={form.alert_type}
               onChange={e => setForm({ ...form, alert_type: e.target.value as 'credit' | 'demand' })}
@@ -157,7 +157,7 @@ export function MatchAlertForm({ onSubmit, onCancel, initial }: AlertFormProps) 
             </select>
           </div>
           <div>
-            <label className="block text-xs font-medium text-slate-400 mb-1">Grade Minima</label>
+            <label className="block text-xs font-medium text-slate-500 mb-1">Grade Minima</label>
             <select
               value={form.min_grade}
               onChange={e => setForm({ ...form, min_grade: e.target.value })}
@@ -174,7 +174,7 @@ export function MatchAlertForm({ onSubmit, onCancel, initial }: AlertFormProps) 
 
         <div className="grid grid-cols-2 gap-3">
           <div>
-            <label className="block text-xs font-medium text-slate-400 mb-1">Valor Mínimo (R$)</label>
+            <label className="block text-xs font-medium text-slate-500 mb-1">Valor Mínimo (R$)</label>
             <input
               type="number"
               value={form.min_amount}
@@ -184,7 +184,7 @@ export function MatchAlertForm({ onSubmit, onCancel, initial }: AlertFormProps) 
             />
           </div>
           <div>
-            <label className="block text-xs font-medium text-slate-400 mb-1">Desconto Máximo (%)</label>
+            <label className="block text-xs font-medium text-slate-500 mb-1">Desconto Máximo (%)</label>
             <input
               type="number"
               value={form.max_discount}

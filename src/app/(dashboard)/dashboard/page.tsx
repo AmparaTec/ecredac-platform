@@ -160,7 +160,7 @@ export default async function DashboardPage() {
                 return (
                   <div key={listing.id} className="flex items-center gap-2 p-2.5 rounded-xl bg-dark-600/50 hover:bg-dark-600 transition-all">
                     {score && (
-                      <div className={`w-8 h-8 rounded-lg border-2 font-bold flex items-center justify-center text-xs ${gradeColors[score.grade] || 'bg-dark-600 border-dark-500 text-slate-400'}`}>
+                      <div className={`w-8 h-8 rounded-lg border-2 font-bold flex items-center justify-center text-xs ${gradeColors[score.grade] || 'bg-dark-600 border-dark-500 text-slate-500'}`}>
                         {score.grade}
                       </div>
                     )}
@@ -197,7 +197,7 @@ export default async function DashboardPage() {
                       <GitMerge size={14} />
                     </div>
                     <div className="min-w-0">
-                      <p className="text-xs font-medium text-white truncate">
+                      <p className="text-xs font-medium text-slate-900 truncate">
                         {match.seller_company?.nome_fantasia || 'Cedente'} → {match.buyer_company?.nome_fantasia || 'Cessionário'}
                       </p>
                       <p className="text-[10px] text-slate-500">{match.agreed_discount}% desc.</p>
@@ -225,7 +225,7 @@ export default async function DashboardPage() {
         <div className="flex flex-col gap-3 min-h-0">
           {/* Notificações */}
           <Card className="p-4 flex flex-col flex-1 overflow-hidden">
-            <h3 className="text-sm font-bold text-white mb-2 flex-shrink-0">Notificações</h3>
+            <h3 className="text-sm font-bold text-slate-900 mb-2 flex-shrink-0">Notificações</h3>
             <div className="flex-1 overflow-y-auto space-y-1.5 scrollbar-thin">
               {notifications && notifications.length > 0 ? (
                 notifications.map((n: any) => (
@@ -236,7 +236,7 @@ export default async function DashboardPage() {
                        <AlertTriangle size={12} />}
                     </span>
                     <div className="min-w-0">
-                      <p className="text-[11px] font-medium text-white truncate">{n.title}</p>
+                      <p className="text-[11px] font-medium text-slate-900 truncate">{n.title}</p>
                       <p className="text-[10px] text-slate-500 truncate">{n.body}</p>
                     </div>
                   </div>
@@ -249,7 +249,7 @@ export default async function DashboardPage() {
 
           {/* Ações Rápidas */}
           <Card className="p-4 flex-shrink-0">
-            <h3 className="text-sm font-bold text-white mb-2">Ações Rápidas</h3>
+            <h3 className="text-sm font-bold text-slate-900 mb-2">Ações Rápidas</h3>
             <div className="space-y-1.5">
               <Link href="/marketplace" className="flex items-center gap-2 p-2 rounded-xl bg-brand-500/15 hover:bg-brand-500/25 text-brand-400 text-xs font-medium transition-all">
                 <DollarSign size={14} /> Publicar Crédito

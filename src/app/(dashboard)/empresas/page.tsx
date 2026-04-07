@@ -82,13 +82,13 @@ export default function EmpresasPage() {
               value={search}
               onChange={e => setSearch(e.target.value)}
               placeholder="Buscar por nome, CNPJ..."
-              className="w-full pl-10 pr-4 py-2 rounded-xl border border-dark-500/50 bg-dark-700 text-white text-sm"
+              className="w-full pl-10 pr-4 py-2 rounded-xl border border-dark-500/50 bg-dark-700 text-slate-900 text-sm"
             />
           </div>
           <select
             value={filterType}
             onChange={e => setFilterType(e.target.value)}
-            className="rounded-xl border border-dark-500/50 bg-dark-700 text-white px-4 py-2 text-sm"
+            className="rounded-xl border border-dark-500/50 bg-dark-700 text-slate-900 px-4 py-2 text-sm"
           >
             <option value="">Todos os tipos</option>
             <option value="seller">Cedentes</option>
@@ -145,7 +145,7 @@ export default function EmpresasPage() {
                 </div>
                 <div className="flex justify-between text-sm">
                   <span className="text-slate-500">Desde</span>
-                  <span className="text-slate-300">{formatDate(company.created_at)}</span>
+                  <span className="text-slate-600">{formatDate(company.created_at)}</span>
                 </div>
               </div>
             </Card>

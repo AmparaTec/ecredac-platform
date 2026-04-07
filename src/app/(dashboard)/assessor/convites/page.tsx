@@ -82,7 +82,7 @@ export default async function ConvitesPage() {
 
       {/* Invites List */}
       <Card className="p-6">
-        <h2 className="text-lg font-bold text-white mb-4">Histórico de Convites</h2>
+        <h2 className="text-lg font-bold text-slate-900 mb-4">Histórico de Convites</h2>
         {allInvites.length > 0 ? (
           <div className="space-y-3">
             {allInvites.map((invite: any) => {
@@ -125,7 +125,7 @@ export default async function ConvitesPage() {
         ) : (
           <div className="text-center py-12">
             <Send size={40} className="mx-auto text-slate-600 mb-3" />
-            <p className="text-slate-400 font-medium">Nenhum convite enviado ainda</p>
+            <p className="text-slate-500 font-medium">Nenhum convite enviado ainda</p>
             <p className="text-sm text-slate-500 mt-1">
               Compartilhe seu código de indicação para empresas se cadastrarem
             </p>

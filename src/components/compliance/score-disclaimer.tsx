@@ -36,7 +36,7 @@ export function ScoreDisclaimer({ variant = 'inline', expanded: defaultExpanded 
     return (
       <span className={cn('inline-flex items-center gap-1 cursor-help group relative', className)}>
         <Info size={12} className="text-amber-400/60" />
-        <span className="hidden group-hover:block absolute bottom-full left-0 mb-2 w-72 p-3 bg-dark-800 border border-dark-500/50 rounded-xl text-xs text-slate-300 leading-relaxed shadow-xl z-50">
+        <span className="hidden group-hover:block absolute bottom-full left-0 mb-2 w-72 p-3 bg-dark-800 border border-dark-500/50 rounded-xl text-xs text-slate-600 leading-relaxed shadow-xl z-50">
           {DISCLAIMER_SHORT}
         </span>
       </span>
@@ -52,7 +52,7 @@ export function ScoreDisclaimer({ variant = 'inline', expanded: defaultExpanded 
             <p className="text-xs font-semibold text-amber-400 uppercase tracking-wider mb-1">
               Aviso Importante
             </p>
-            <p className="text-xs text-slate-300 leading-relaxed">
+            <p className="text-xs text-slate-600 leading-relaxed">
               {DISCLAIMER_SHORT}
             </p>
             <button
@@ -63,7 +63,7 @@ export function ScoreDisclaimer({ variant = 'inline', expanded: defaultExpanded 
               {expanded ? <ChevronUp size={12} /> : <ChevronDown size={12} />}
             </button>
             {expanded && (
-              <p className="mt-2 text-xs text-slate-400 leading-relaxed whitespace-pre-line">
+              <p className="mt-2 text-xs text-slate-500 leading-relaxed whitespace-pre-line">
                 {DISCLAIMER_FULL}
               </p>
             )}

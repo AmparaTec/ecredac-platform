@@ -86,7 +86,7 @@ const statusConfig = {
 }
 
 const escrowStatusConfig = {
-  aguardando: { color: 'text-slate-400', bg: 'bg-slate-500/10', label: 'Aguardando marco' },
+  aguardando: { color: 'text-slate-500', bg: 'bg-slate-500/10', label: 'Aguardando marco' },
   liberavel: { color: 'text-yellow-400', bg: 'bg-yellow-500/10', label: 'Liberável' },
   processando: { color: 'text-blue-400', bg: 'bg-blue-500/10', label: 'Processando' },
   pago: { color: 'text-emerald-400', bg: 'bg-emerald-500/10', label: 'Pago' },
@@ -172,7 +172,7 @@ export default function OperacaoPage() {
       <div className="flex items-center justify-center min-h-[60vh]">
         <div className="text-center">
           <div className="w-8 h-8 border-2 border-brand-500/30 border-t-brand-500 rounded-full animate-spin mx-auto" />
-          <p className="text-sm text-slate-400 mt-3">Carregando operação...</p>
+          <p className="text-sm text-slate-500 mt-3">Carregando operação...</p>
         </div>
       </div>
     )
@@ -182,8 +182,8 @@ export default function OperacaoPage() {
     return (
       <div className="text-center py-20">
         <AlertTriangle size={32} className="text-danger-400 mx-auto mb-3" />
-        <p className="text-white font-medium">Erro ao carregar operação</p>
-        <p className="text-sm text-slate-400 mt-1">{error}</p>
+        <p className="text-slate-900 font-medium">Erro ao carregar operação</p>
+        <p className="text-sm text-slate-500 mt-1">{error}</p>
       </div>
     )
   }
@@ -209,7 +209,7 @@ export default function OperacaoPage() {
             Visão {roleLabels[user_role]}
           </span>
         </div>
-        <p className="text-sm text-slate-400">
+        <p className="text-sm text-slate-500">
           <Eye size={14} className="inline mr-1" />
           Visibilidade total. Acesso zero.
         </p>
@@ -271,8 +271,8 @@ export default function OperacaoPage() {
       {marcos.length === 0 ? (
         <Card className="p-8 text-center">
           <Shield size={32} className="text-slate-600 mx-auto mb-3" />
-          <p className="text-white font-medium mb-2">Marcos ainda não iniciados</p>
-          <p className="text-sm text-slate-400 mb-4">Crie os marcos da jornada de confiança para acompanhar esta operação</p>
+          <p className="text-slate-900 font-medium mb-2">Marcos ainda não iniciados</p>
+          <p className="text-sm text-slate-500 mb-4">Crie os marcos da jornada de confiança para acompanhar esta operação</p>
           {(user_role === 'intermediario' || user_role === 'vendedor') && (
             <button
               onClick={initMarcos}
@@ -285,7 +285,7 @@ export default function OperacaoPage() {
         </Card>
       ) : (
         <div className="space-y-2">
-          <h2 className="text-sm font-bold text-white flex items-center gap-2">
+          <h2 className="text-sm font-bold text-slate-900 flex items-center gap-2">
             <Shield size={14} className="text-brand-400" />
             Jornada de Confiança — Marcos da Operação
           </h2>
@@ -330,7 +330,7 @@ export default function OperacaoPage() {
                         </span>
                       )}
                     </div>
-                    <p className="text-sm font-medium text-white mt-0.5">{marco.titulo}</p>
+                    <p className="text-sm font-medium text-slate-900 mt-0.5">{marco.titulo}</p>
                     {marco.data_conclusao && (
                       <p className="text-[11px] text-slate-500 mt-0.5">
                         Concluído em {new Date(marco.data_conclusao).toLocaleDateString('pt-BR')}
@@ -340,7 +340,7 @@ export default function OperacaoPage() {
 
                   {/* Evidence count */}
                   {marco.evidencias.length > 0 && (
-                    <span className="flex items-center gap-1 text-xs text-slate-400">
+                    <span className="flex items-center gap-1 text-xs text-slate-500">
                       <FileText size={12} />
                       {marco.evidencias.length}
                     </span>
@@ -360,7 +360,7 @@ export default function OperacaoPage() {
                 {/* Expanded content */}
                 {isExpanded && (
                   <div className="px-4 pb-4 border-t border-dark-500/30 pt-3 ml-12">
-                    <p className="text-xs text-slate-400 mb-3">{marco.descricao}</p>
+                    <p className="text-xs text-slate-500 mb-3">{marco.descricao}</p>
 
                     {/* Evidências */}
                     {marco.evidencias.length > 0 && (
@@ -370,7 +370,7 @@ export default function OperacaoPage() {
                           {marco.evidencias.map(ev => (
                             <div key={ev.id} className="flex items-center gap-2 p-2 rounded-lg bg-dark-700/50 text-xs">
                               <FileText size={14} className="text-brand-400 shrink-0" />
-                              <span className="text-white font-medium truncate">{ev.nome_arquivo}</span>
+                              <span className="text-slate-900 font-medium truncate">{ev.nome_arquivo}</span>
                               <span className="text-slate-500">por {roleLabels[ev.role_uploader]}</span>
                               <span className="text-slate-600 ml-auto">
                                 {new Date(ev.created_at).toLocaleDateString('pt-BR')}
@@ -414,7 +414,7 @@ export default function OperacaoPage() {
       {/* ── Escrow / Pagamentos ────────────────── */}
       {escrow.length > 0 && (
         <div>
-          <h2 className="text-sm font-bold text-white flex items-center gap-2 mb-3">
+          <h2 className="text-sm font-bold text-slate-900 flex items-center gap-2 mb-3">
             <DollarSign size={14} className="text-yellow-400" />
             Escrow — Parcelas de Pagamento
           </h2>
@@ -424,7 +424,7 @@ export default function OperacaoPage() {
               return (
                 <Card key={p.id} className="p-4">
                   <div className="flex items-center justify-between mb-2">
-                    <span className="text-xs font-bold text-slate-400">Parcela {p.numero_parcela}</span>
+                    <span className="text-xs font-bold text-slate-500">Parcela {p.numero_parcela}</span>
                     <span className={cn('text-[10px] font-medium px-2 py-0.5 rounded-full', cfg.bg, cfg.color)}>
                       {cfg.label}
                     </span>
@@ -452,9 +452,9 @@ export default function OperacaoPage() {
         <div>
           <button
             onClick={() => setShowAudit(!showAudit)}
-            className="flex items-center gap-2 text-sm font-bold text-white mb-3 hover:text-brand-400 transition-colors"
+            className="flex items-center gap-2 text-sm font-bold text-slate-900 mb-3 hover:text-brand-400 transition-colors"
           >
-            <Calendar size={14} className="text-slate-400" />
+            <Calendar size={14} className="text-slate-500" />
             Trilha de Auditoria ({audit_log.length})
             {showAudit ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
           </button>
@@ -473,12 +473,12 @@ export default function OperacaoPage() {
                       'text-[10px] font-medium px-1.5 py-0.5 rounded shrink-0',
                       entry.user_role === 'vendedor' ? 'bg-blue-500/10 text-blue-400' :
                       entry.user_role === 'comprador' ? 'bg-purple-500/10 text-purple-400' :
-                      entry.user_role === 'sistema' ? 'bg-slate-500/10 text-slate-400' :
+                      entry.user_role === 'sistema' ? 'bg-slate-500/10 text-slate-500' :
                       'bg-amber-500/10 text-amber-400'
                     )}>
                       {roleLabels[entry.user_role]}
                     </span>
-                    <span className="text-slate-300">{entry.descricao}</span>
+                    <span className="text-slate-600">{entry.descricao}</span>
                   </div>
                 ))}
               </div>

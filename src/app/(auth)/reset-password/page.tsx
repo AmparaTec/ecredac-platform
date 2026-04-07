@@ -115,8 +115,8 @@ function ResetPasswordForm() {
             <polyline points="22 4 12 14.01 9 11.01" />
           </svg>
         </div>
-        <h2 className="text-2xl font-bold text-white mb-2">Senha redefinida!</h2>
-        <p className="text-slate-400 mb-6">Sua senha foi atualizada com sucesso.</p>
+        <h2 className="text-2xl font-bold text-slate-900 mb-2">Senha redefinida!</h2>
+        <p className="text-slate-500 mb-6">Sua senha foi atualizada com sucesso.</p>
         <p className="text-slate-500 text-sm">Redirecionando para o dashboard...</p>
         <div className="mt-4 flex justify-center">
           <div className="animate-spin h-5 w-5 border-2 border-brand-500 border-t-transparent rounded-full" />
@@ -141,7 +141,7 @@ function ResetPasswordForm() {
       <form onSubmit={handleSubmit} className="space-y-5">
         {/* Nova senha */}
         <div>
-          <label className="block text-sm font-medium text-slate-300 mb-1">Nova senha</label>
+          <label className="block text-sm font-medium text-slate-600 mb-1">Nova senha</label>
           <div className="relative">
             <input
               type={showPassword ? 'text' : 'password'}
@@ -153,12 +153,12 @@ function ResetPasswordForm() {
               placeholder="Mínimo 8 caracteres"
               required
               minLength={8}
-              className="w-full rounded-xl border border-dark-500/50 px-4 py-2.5 pr-12 text-sm bg-dark-700 text-white placeholder:text-slate-500 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 transition-all"
+              className="w-full rounded-xl border border-dark-500/50 px-4 py-2.5 pr-12 text-sm bg-dark-700 text-slate-900 placeholder:text-slate-500 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 transition-all"
             />
             <button
               type="button"
               onClick={() => setShowPassword(!showPassword)}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-300 transition-colors"
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-600 transition-colors"
               tabIndex={-1}
             >
               {showPassword ? (
@@ -208,7 +208,7 @@ function ResetPasswordForm() {
 
         {/* Confirmar senha */}
         <div>
-          <label className="block text-sm font-medium text-slate-300 mb-1">Confirmar nova senha</label>
+          <label className="block text-sm font-medium text-slate-600 mb-1">Confirmar nova senha</label>
           <div className="relative">
             <input
               type={showConfirm ? 'text' : 'password'}
@@ -219,7 +219,7 @@ function ResetPasswordForm() {
               onChange={(e) => setConfirm(e.target.value)}
               placeholder="Repita a nova senha"
               required
-              className={`w-full rounded-xl border px-4 py-2.5 pr-12 text-sm bg-dark-700 text-white placeholder:text-slate-500 focus:ring-2 transition-all ${
+              className={`w-full rounded-xl border px-4 py-2.5 pr-12 text-sm bg-dark-700 text-slate-900 placeholder:text-slate-500 focus:ring-2 transition-all ${
                 confirm.length > 0
                   ? password === confirm
                     ? 'border-emerald-500/50 focus:border-emerald-500 focus:ring-emerald-500/20'
@@ -230,7 +230,7 @@ function ResetPasswordForm() {
             <button
               type="button"
               onClick={() => setShowConfirm(!showConfirm)}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-300 transition-colors"
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-600 transition-colors"
               tabIndex={-1}
             >
               {showConfirm ? (

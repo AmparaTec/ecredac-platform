@@ -86,7 +86,7 @@ export function CurrencyInput({
         placeholder={placeholder}
         required={required}
         className={cn(
-          'w-full rounded-xl border border-dark-500/50 bg-dark-700 text-white py-2.5 text-sm text-right',
+          'w-full rounded-xl border border-dark-500/50 bg-dark-700 text-slate-900 py-2.5 text-sm text-right',
           prefix ? 'pl-10 pr-4' : 'px-4',
           className
         )}
@@ -147,7 +147,7 @@ export function PercentInput({
         onChange={handleChange}
         placeholder={placeholder}
         className={cn(
-          'w-full rounded-xl border border-dark-500/50 bg-dark-700 text-white px-4 py-2.5 text-sm text-right pr-8',
+          'w-full rounded-xl border border-dark-500/50 bg-dark-700 text-slate-900 px-4 py-2.5 text-sm text-right pr-8',
           className
         )}
       />

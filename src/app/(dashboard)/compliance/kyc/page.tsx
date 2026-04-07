@@ -64,7 +64,7 @@ const STATUS_CONFIG: Record<KycStatus, { label: string; color: string; icon: typ
   em_analise: { label: 'Em Análise', color: 'text-blue-400 bg-blue-500/10 border-blue-500/20', icon: Clock },
   aprovado: { label: 'Aprovado', color: 'text-emerald-400 bg-emerald-500/10 border-emerald-500/20', icon: Check },
   reprovado: { label: 'Reprovado', color: 'text-red-400 bg-red-500/10 border-red-500/20', icon: X },
-  expirado: { label: 'Expirado', color: 'text-slate-400 bg-slate-500/10 border-slate-500/20', icon: AlertTriangle },
+  expirado: { label: 'Expirado', color: 'text-slate-500 bg-slate-500/10 border-slate-500/20', icon: AlertTriangle },
 }
 
 export default function KYCPage() {
@@ -268,11 +268,11 @@ export default function KYCPage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-black text-white flex items-center gap-3">
+          <h1 className="text-2xl font-black text-slate-900 flex items-center gap-3">
             <Shield size={28} className="text-brand-400" />
             Verificação KYC
           </h1>
-          <p className="text-sm text-slate-400 mt-1">
+          <p className="text-sm text-slate-500 mt-1">
             Know Your Customer — Preencha os dados e envie a documentação para verificação.
           </p>
         </div>
@@ -293,7 +293,7 @@ export default function KYCPage() {
           <AlertTriangle size={18} className="text-red-400 mt-0.5" />
           <div>
             <p className="text-sm font-bold text-red-400">KYC Reprovado</p>
-            <p className="text-sm text-slate-300 mt-1">{kyc.rejection_reason}</p>
+            <p className="text-sm text-slate-600 mt-1">{kyc.rejection_reason}</p>
             <p className="text-xs text-slate-500 mt-2">Corrija os dados e documentos, depois reenvie para análise.</p>
           </div>
         </div>
@@ -321,55 +321,55 @@ export default function KYCPage() {
             <span className="text-sm font-bold text-white">Dados Cadastrais da Empresa</span>
             {kyc && <span className="text-xs text-slate-500">({kyc.razao_social || 'Incompleto'})</span>}
           </div>
-          {showForm ? <ChevronUp size={16} className="text-slate-400" /> : <ChevronDown size={16} className="text-slate-400" />}
+          {showForm ? <ChevronUp size={16} className="text-slate-500" /> : <ChevronDown size={16} className="text-slate-500" />}
         </button>
 
         {showForm && (
           <div className="p-5 pt-0 space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="text-xs font-bold text-slate-400 uppercase tracking-wider">Razão Social *</label>
+                <label className="text-xs font-bold text-slate-500 uppercase tracking-wider">Razão Social *</label>
                 <input value={form.razao_social} onChange={e => setForm({ ...form, razao_social: e.target.value })}
-                  className="mt-1 w-full px-3 py-2.5 rounded-xl bg-dark-600 border border-dark-500/50 text-white text-sm focus:border-brand-500/50 transition-all" />
+                  className="mt-1 w-full px-3 py-2.5 rounded-xl bg-dark-600 border border-dark-500/50 text-slate-900 text-sm focus:border-brand-500/50 transition-all" />
               </div>
               <div>
-                <label className="text-xs font-bold text-slate-400 uppercase tracking-wider">CNPJ *</label>
+                <label className="text-xs font-bold text-slate-500 uppercase tracking-wider">CNPJ *</label>
                 <input value={form.cnpj} onChange={e => setForm({ ...form, cnpj: e.target.value })}
-                  className="mt-1 w-full px-3 py-2.5 rounded-xl bg-dark-600 border border-dark-500/50 text-white text-sm focus:border-brand-500/50 transition-all" />
+                  className="mt-1 w-full px-3 py-2.5 rounded-xl bg-dark-600 border border-dark-500/50 text-slate-900 text-sm focus:border-brand-500/50 transition-all" />
               </div>
               <div>
-                <label className="text-xs font-bold text-slate-400 uppercase tracking-wider">Inscrição Estadual</label>
+                <label className="text-xs font-bold text-slate-500 uppercase tracking-wider">Inscrição Estadual</label>
                 <input value={form.inscricao_estadual} onChange={e => setForm({ ...form, inscricao_estadual: e.target.value })}
-                  className="mt-1 w-full px-3 py-2.5 rounded-xl bg-dark-600 border border-dark-500/50 text-white text-sm focus:border-brand-500/50 transition-all" />
+                  className="mt-1 w-full px-3 py-2.5 rounded-xl bg-dark-600 border border-dark-500/50 text-slate-900 text-sm focus:border-brand-500/50 transition-all" />
               </div>
               <div>
-                <label className="text-xs font-bold text-slate-400 uppercase tracking-wider">CNAE Principal</label>
+                <label className="text-xs font-bold text-slate-500 uppercase tracking-wider">CNAE Principal</label>
                 <input value={form.cnae_principal} onChange={e => setForm({ ...form, cnae_principal: e.target.value })}
-                  className="mt-1 w-full px-3 py-2.5 rounded-xl bg-dark-600 border border-dark-500/50 text-white text-sm focus:border-brand-500/50 transition-all" />
+                  className="mt-1 w-full px-3 py-2.5 rounded-xl bg-dark-600 border border-dark-500/50 text-slate-900 text-sm focus:border-brand-500/50 transition-all" />
               </div>
             </div>
 
             <div>
-              <label className="text-xs font-bold text-slate-400 uppercase tracking-wider">Endereço Completo *</label>
+              <label className="text-xs font-bold text-slate-500 uppercase tracking-wider">Endereço Completo *</label>
               <input value={form.endereco_completo} onChange={e => setForm({ ...form, endereco_completo: e.target.value })}
-                className="mt-1 w-full px-3 py-2.5 rounded-xl bg-dark-600 border border-dark-500/50 text-white text-sm focus:border-brand-500/50 transition-all" />
+                className="mt-1 w-full px-3 py-2.5 rounded-xl bg-dark-600 border border-dark-500/50 text-slate-900 text-sm focus:border-brand-500/50 transition-all" />
             </div>
 
             <div className="grid grid-cols-3 gap-4">
               <div>
-                <label className="text-xs font-bold text-slate-400 uppercase tracking-wider">CEP</label>
+                <label className="text-xs font-bold text-slate-500 uppercase tracking-wider">CEP</label>
                 <input value={form.cep} onChange={e => setForm({ ...form, cep: e.target.value })}
-                  className="mt-1 w-full px-3 py-2.5 rounded-xl bg-dark-600 border border-dark-500/50 text-white text-sm focus:border-brand-500/50 transition-all" />
+                  className="mt-1 w-full px-3 py-2.5 rounded-xl bg-dark-600 border border-dark-500/50 text-slate-900 text-sm focus:border-brand-500/50 transition-all" />
               </div>
               <div>
-                <label className="text-xs font-bold text-slate-400 uppercase tracking-wider">Cidade</label>
+                <label className="text-xs font-bold text-slate-500 uppercase tracking-wider">Cidade</label>
                 <input value={form.cidade} onChange={e => setForm({ ...form, cidade: e.target.value })}
-                  className="mt-1 w-full px-3 py-2.5 rounded-xl bg-dark-600 border border-dark-500/50 text-white text-sm focus:border-brand-500/50 transition-all" />
+                  className="mt-1 w-full px-3 py-2.5 rounded-xl bg-dark-600 border border-dark-500/50 text-slate-900 text-sm focus:border-brand-500/50 transition-all" />
               </div>
               <div>
-                <label className="text-xs font-bold text-slate-400 uppercase tracking-wider">UF</label>
+                <label className="text-xs font-bold text-slate-500 uppercase tracking-wider">UF</label>
                 <input value={form.uf} onChange={e => setForm({ ...form, uf: e.target.value })} maxLength={2}
-                  className="mt-1 w-full px-3 py-2.5 rounded-xl bg-dark-600 border border-dark-500/50 text-white text-sm focus:border-brand-500/50 transition-all uppercase" />
+                  className="mt-1 w-full px-3 py-2.5 rounded-xl bg-dark-600 border border-dark-500/50 text-slate-900 text-sm focus:border-brand-500/50 transition-all uppercase" />
               </div>
             </div>
 
@@ -377,23 +377,23 @@ export default function KYCPage() {
             <div className="pt-3 border-t border-dark-500/30">
               <div className="flex items-center gap-2 mb-3">
                 <User size={14} className="text-brand-400" />
-                <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">Representante Legal</span>
+                <span className="text-xs font-bold text-slate-500 uppercase tracking-wider">Representante Legal</span>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div>
                   <label className="text-xs text-slate-500">Nome Completo *</label>
                   <input value={form.nome_representante} onChange={e => setForm({ ...form, nome_representante: e.target.value })}
-                    className="mt-1 w-full px-3 py-2.5 rounded-xl bg-dark-600 border border-dark-500/50 text-white text-sm focus:border-brand-500/50 transition-all" />
+                    className="mt-1 w-full px-3 py-2.5 rounded-xl bg-dark-600 border border-dark-500/50 text-slate-900 text-sm focus:border-brand-500/50 transition-all" />
                 </div>
                 <div>
                   <label className="text-xs text-slate-500">CPF *</label>
                   <input value={form.cpf_representante} onChange={e => setForm({ ...form, cpf_representante: e.target.value })}
-                    className="mt-1 w-full px-3 py-2.5 rounded-xl bg-dark-600 border border-dark-500/50 text-white text-sm focus:border-brand-500/50 transition-all" />
+                    className="mt-1 w-full px-3 py-2.5 rounded-xl bg-dark-600 border border-dark-500/50 text-slate-900 text-sm focus:border-brand-500/50 transition-all" />
                 </div>
                 <div>
                   <label className="text-xs text-slate-500">Cargo</label>
                   <input value={form.cargo_representante} onChange={e => setForm({ ...form, cargo_representante: e.target.value })}
-                    className="mt-1 w-full px-3 py-2.5 rounded-xl bg-dark-600 border border-dark-500/50 text-white text-sm focus:border-brand-500/50 transition-all" />
+                    className="mt-1 w-full px-3 py-2.5 rounded-xl bg-dark-600 border border-dark-500/50 text-slate-900 text-sm focus:border-brand-500/50 transition-all" />
                 </div>
               </div>
             </div>
@@ -408,23 +408,23 @@ export default function KYCPage() {
               {form.pep && (
                 <input value={form.pep_descricao} onChange={e => setForm({ ...form, pep_descricao: e.target.value })}
                   placeholder="Descreva o vínculo político..."
-                  className="mt-2 w-full px-3 py-2.5 rounded-xl bg-dark-600 border border-dark-500/50 text-white text-sm focus:border-brand-500/50 transition-all" />
+                  className="mt-2 w-full px-3 py-2.5 rounded-xl bg-dark-600 border border-dark-500/50 text-slate-900 text-sm focus:border-brand-500/50 transition-all" />
               )}
             </div>
 
             {/* Faturamento */}
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="text-xs font-bold text-slate-400 uppercase tracking-wider">Setor de Atividade</label>
+                <label className="text-xs font-bold text-slate-500 uppercase tracking-wider">Setor de Atividade</label>
                 <input value={form.setor_atividade} onChange={e => setForm({ ...form, setor_atividade: e.target.value })}
                   placeholder="Ex: Indústria, Comércio, Serviços..."
-                  className="mt-1 w-full px-3 py-2.5 rounded-xl bg-dark-600 border border-dark-500/50 text-white text-sm focus:border-brand-500/50 transition-all" />
+                  className="mt-1 w-full px-3 py-2.5 rounded-xl bg-dark-600 border border-dark-500/50 text-slate-900 text-sm focus:border-brand-500/50 transition-all" />
               </div>
               <div>
-                <label className="text-xs font-bold text-slate-400 uppercase tracking-wider">Faturamento Anual (R$)</label>
+                <label className="text-xs font-bold text-slate-500 uppercase tracking-wider">Faturamento Anual (R$)</label>
                 <input value={form.faturamento_anual_declarado} onChange={e => setForm({ ...form, faturamento_anual_declarado: e.target.value })}
                   type="number" placeholder="0.00"
-                  className="mt-1 w-full px-3 py-2.5 rounded-xl bg-dark-600 border border-dark-500/50 text-white text-sm focus:border-brand-500/50 transition-all" />
+                  className="mt-1 w-full px-3 py-2.5 rounded-xl bg-dark-600 border border-dark-500/50 text-slate-900 text-sm focus:border-brand-500/50 transition-all" />
               </div>
             </div>
 
@@ -456,7 +456,7 @@ export default function KYCPage() {
             <p className="text-xs font-bold text-amber-400 mb-2">Documentos obrigatórios pendentes:</p>
             <div className="space-y-1">
               {missingRequired.map(d => (
-                <div key={d.value} className="flex items-center gap-2 text-xs text-slate-400">
+                <div key={d.value} className="flex items-center gap-2 text-xs text-slate-500">
                   <X size={10} className="text-red-400" />
                   {d.label}
                 </div>
@@ -469,7 +469,7 @@ export default function KYCPage() {
         {kyc && ['pendente', 'reprovado'].includes(kyc.status) && (
           <div className="flex items-center gap-3">
             <select value={selectedDocType} onChange={e => setSelectedDocType(e.target.value)}
-              className="flex-1 px-3 py-2.5 rounded-xl bg-dark-600 border border-dark-500/50 text-white text-sm focus:border-brand-500/50 transition-all">
+              className="flex-1 px-3 py-2.5 rounded-xl bg-dark-600 border border-dark-500/50 text-slate-900 text-sm focus:border-brand-500/50 transition-all">
               {DOC_TYPES.map(d => (
                 <option key={d.value} value={d.value}>
                   {d.label} {d.required ? '*' : ''}
@@ -494,9 +494,9 @@ export default function KYCPage() {
               const docLabel = DOC_TYPES.find(d => d.value === doc.doc_type)?.label || doc.doc_type
               return (
                 <div key={doc.id} className="flex items-center gap-3 p-3 bg-dark-700/30 rounded-xl border border-dark-500/20">
-                  <FileText size={16} className="text-slate-400 flex-shrink-0" />
+                  <FileText size={16} className="text-slate-500 flex-shrink-0" />
                   <div className="flex-1 min-w-0">
-                    <p className="text-sm text-white truncate">{docLabel}</p>
+                    <p className="text-sm text-slate-900 truncate">{docLabel}</p>
                     <p className="text-xs text-slate-500">{doc.file_name} · {(doc.file_size / 1024).toFixed(0)} KB</p>
                     {doc.rejection_reason && (
                       <p className="text-xs text-red-400 mt-1">Motivo: {doc.rejection_reason}</p>
@@ -506,7 +506,7 @@ export default function KYCPage() {
                     'text-xs font-bold px-2 py-1 rounded-lg',
                     doc.status === 'aprovado' ? 'text-emerald-400 bg-emerald-500/10' :
                     doc.status === 'reprovado' ? 'text-red-400 bg-red-500/10' :
-                    doc.status === 'expirado' ? 'text-slate-400 bg-slate-500/10' :
+                    doc.status === 'expirado' ? 'text-slate-500 bg-slate-500/10' :
                     'text-blue-400 bg-blue-500/10'
                   )}>
                     {doc.status === 'enviado' ? 'Pendente' : doc.status.charAt(0).toUpperCase() + doc.status.slice(1)}
@@ -528,7 +528,7 @@ export default function KYCPage() {
         <div className="flex items-center justify-between p-5 bg-dark-800/50 border border-dark-500/30 rounded-2xl">
           <div>
             <p className="text-sm font-bold text-white">Pronto para enviar?</p>
-            <p className="text-xs text-slate-400 mt-1">
+            <p className="text-xs text-slate-500 mt-1">
               {canSubmit
                 ? 'Todos os documentos obrigatórios foram enviados. Clique para submeter à análise.'
                 : `Faltam ${missingRequired.length} documento(s) obrigatório(s).`}
@@ -549,7 +549,7 @@ export default function KYCPage() {
         <div className="bg-blue-500/10 border border-blue-500/20 rounded-2xl p-5 text-center">
           <Clock size={24} className="text-blue-400 mx-auto mb-2" />
           <p className="text-sm font-bold text-blue-400">KYC em Análise</p>
-          <p className="text-xs text-slate-400 mt-1">
+          <p className="text-xs text-slate-500 mt-1">
             Seus dados e documentos estão sendo analisados pela equipe de compliance. Você será notificado quando o processo for concluído.
           </p>
         </div>
@@ -559,7 +559,7 @@ export default function KYCPage() {
         <div className="bg-emerald-500/10 border border-emerald-500/20 rounded-2xl p-5 text-center">
           <Check size={24} className="text-emerald-400 mx-auto mb-2" />
           <p className="text-sm font-bold text-emerald-400">KYC Aprovado</p>
-          <p className="text-xs text-slate-400 mt-1">
+          <p className="text-xs text-slate-500 mt-1">
             Sua empresa está verificada e habilitada para operar na plataforma.
             {kyc.expires_at && ` Validade: ${new Date(kyc.expires_at).toLocaleDateString('pt-BR')}`}
           </p>

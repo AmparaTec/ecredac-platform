@@ -136,7 +136,7 @@ export function FeedbackButton() {
             <div className="p-8 text-center flex flex-col items-center justify-center flex-1">
               <CheckCircle size={36} className="text-emerald-400 mb-3" />
               <p className="text-sm font-bold text-white">Obrigado pelo feedback!</p>
-              <p className="text-xs text-slate-400 mt-1.5">Sua contribuição nos ajuda a melhorar a plataforma.</p>
+              <p className="text-xs text-slate-500 mt-1.5">Sua contribuição nos ajuda a melhorar a plataforma.</p>
             </div>
           ) : (
             <form onSubmit={handleSubmit} className="flex flex-col flex-1">
@@ -149,7 +149,7 @@ export function FeedbackButton() {
                 <button
                   type="button"
                   onClick={() => setOpen(false)}
-                  className="sm:hidden p-2 rounded-lg hover:bg-dark-600/50 text-slate-400 hover:text-white transition-colors"
+                  className="sm:hidden p-2 rounded-lg hover:bg-dark-600/50 text-slate-500 hover:text-slate-900 transition-colors"
                   aria-label="Fechar"
                 >
                   <X size={18} />
@@ -167,7 +167,7 @@ export function FeedbackButton() {
                       className={`flex-1 text-center py-1.5 px-1 rounded-lg text-[11px] font-medium transition-all ${
                         type === ft.value
                           ? 'bg-brand-500/15 text-brand-400 border border-brand-500/30'
-                          : 'bg-dark-600/50 text-slate-500 border border-transparent hover:text-slate-300'
+                          : 'bg-dark-600/50 text-slate-500 border border-transparent hover:text-slate-600'
                       }`}
                     >
                       <span className="block text-base mb-0.5">{ft.emoji}</span>
@@ -184,7 +184,7 @@ export function FeedbackButton() {
                   rows={4}
                   required
                   maxLength={2000}
-                  className="w-full flex-1 sm:flex-none rounded-xl border border-dark-500/50 bg-dark-600/50 text-white px-3 py-2.5 text-sm placeholder-slate-600 resize-none focus:border-brand-500/50 focus:ring-1 focus:ring-brand-500/20 transition-all"
+                  className="w-full flex-1 sm:flex-none rounded-xl border border-dark-500/50 bg-dark-600/50 text-slate-900 px-3 py-2.5 text-sm placeholder-slate-600 resize-none focus:border-brand-500/50 focus:ring-1 focus:ring-brand-500/20 transition-all"
                 />
 
                 {/* Contador de caracteres */}

@@ -153,7 +153,7 @@ export function AutoBidForm({ onSubmit, onCancel }: AutoBidFormProps) {
 
       <form onSubmit={handleSubmit} className="space-y-3">
         <div>
-          <label className="block text-xs font-medium text-slate-400 mb-1">Nome da Regra</label>
+          <label className="block text-xs font-medium text-slate-500 mb-1">Nome da Regra</label>
           <input
             type="text"
             value={form.name}
@@ -166,7 +166,7 @@ export function AutoBidForm({ onSubmit, onCancel }: AutoBidFormProps) {
 
         <div className="grid grid-cols-2 gap-3">
           <div>
-            <label className="block text-xs font-medium text-slate-400 mb-1">Estrategia</label>
+            <label className="block text-xs font-medium text-slate-500 mb-1">Estrategia</label>
             <select
               value={form.bid_strategy}
               onChange={e => setForm({ ...form, bid_strategy: e.target.value })}
@@ -178,7 +178,7 @@ export function AutoBidForm({ onSubmit, onCancel }: AutoBidFormProps) {
             </select>
           </div>
           <div>
-            <label className="block text-xs font-medium text-slate-400 mb-1">Grade Minima</label>
+            <label className="block text-xs font-medium text-slate-500 mb-1">Grade Minima</label>
             <select
               value={form.min_grade}
               onChange={e => setForm({ ...form, min_grade: e.target.value })}
@@ -194,7 +194,7 @@ export function AutoBidForm({ onSubmit, onCancel }: AutoBidFormProps) {
 
         {form.bid_strategy === 'fixed' && (
           <div>
-            <label className="block text-xs font-medium text-slate-400 mb-1">Desconto Fixo (%)</label>
+            <label className="block text-xs font-medium text-slate-500 mb-1">Desconto Fixo (%)</label>
             <input
               type="number"
               value={form.fixed_discount}
@@ -207,7 +207,7 @@ export function AutoBidForm({ onSubmit, onCancel }: AutoBidFormProps) {
 
         {form.bid_strategy === 'market' && (
           <div>
-            <label className="block text-xs font-medium text-slate-400 mb-1">Offset sobre media (%)</label>
+            <label className="block text-xs font-medium text-slate-500 mb-1">Offset sobre media (%)</label>
             <input
               type="number"
               value={form.market_offset}
@@ -221,7 +221,7 @@ export function AutoBidForm({ onSubmit, onCancel }: AutoBidFormProps) {
 
         <div className="grid grid-cols-2 gap-3">
           <div>
-            <label className="block text-xs font-medium text-slate-400 mb-1">Desconto Máximo (%)</label>
+            <label className="block text-xs font-medium text-slate-500 mb-1">Desconto Máximo (%)</label>
             <input
               type="number"
               value={form.max_bid_discount}
@@ -231,7 +231,7 @@ export function AutoBidForm({ onSubmit, onCancel }: AutoBidFormProps) {
             />
           </div>
           <div>
-            <label className="block text-xs font-medium text-slate-400 mb-1">Exposicao Maxima (R$)</label>
+            <label className="block text-xs font-medium text-slate-500 mb-1">Exposicao Maxima (R$)</label>
             <input
               type="number"
               value={form.max_total_exposure}
@@ -244,7 +244,7 @@ export function AutoBidForm({ onSubmit, onCancel }: AutoBidFormProps) {
 
         <div className="grid grid-cols-2 gap-3">
           <div>
-            <label className="block text-xs font-medium text-slate-400 mb-1">Max bids/dia</label>
+            <label className="block text-xs font-medium text-slate-500 mb-1">Max bids/dia</label>
             <input
               type="number"
               value={form.max_bids_per_day}

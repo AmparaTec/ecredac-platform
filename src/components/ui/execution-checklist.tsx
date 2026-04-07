@@ -61,7 +61,7 @@ export function ExecutionChecklist({
         <div className="mx-auto w-12 h-12 rounded-full bg-brand-500/15 flex items-center justify-center mb-3">
           <FileText size={24} className="text-brand-600" />
         </div>
-        <h3 className="text-sm font-bold text-white mb-1">Plano de Execução</h3>
+        <h3 className="text-sm font-bold text-slate-900 mb-1">Plano de Execução</h3>
         <p className="text-xs text-slate-500 mb-4">
           Nenhum plano de execução foi criado para esta operação.
         </p>
@@ -108,7 +108,7 @@ export function ExecutionChecklist({
       {/* Plan summary bar */}
       <div className="flex items-center justify-between px-1">
         <div className="flex items-center gap-3">
-          <span className="text-xs font-bold text-slate-300 uppercase tracking-wider">Execução</span>
+          <span className="text-xs font-bold text-slate-600 uppercase tracking-wider">Execução</span>
           <Badge variant={plan.overall_sla_status === 'on_track' ? 'success' : plan.overall_sla_status === 'breached' ? 'danger' : 'warning'}>
             {plan.completed_tasks}/{plan.total_tasks} tarefas
           </Badge>
@@ -312,14 +312,14 @@ export function ExecutionChecklist({
                           {/* Comments */}
                           {task.comments && task.comments.length > 0 && (
                             <div className="space-y-2">
-                              <p className="text-xs font-bold text-slate-400">Comentarios</p>
+                              <p className="text-xs font-bold text-slate-500">Comentarios</p>
                               {task.comments.map((c: ExecutionComment) => (
                                 <div key={c.id} className="p-2 rounded-lg bg-dark-600/50 text-xs">
                                   <div className="flex items-center justify-between mb-1">
-                                    <span className="font-semibold text-slate-300">{c.author_name || 'Anonimo'}</span>
+                                    <span className="font-semibold text-slate-600">{c.author_name || 'Anonimo'}</span>
                                     <span className="text-slate-500">{formatDate(c.created_at)}</span>
                                   </div>
-                                  <p className="text-slate-400">{c.content}</p>
+                                  <p className="text-slate-500">{c.content}</p>
                                 </div>
                               ))}
                             </div>

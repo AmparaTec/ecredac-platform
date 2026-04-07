@@ -95,7 +95,7 @@ function maskCEP(v: string) {
 function Field({ label, children, hint }: { label: string; children: React.ReactNode; hint?: string }) {
   return (
     <div className="flex flex-col gap-1.5">
-      <label className="text-xs font-medium text-slate-400 uppercase tracking-wider">{label}</label>
+      <label className="text-xs font-medium text-slate-500 uppercase tracking-wider">{label}</label>
       {children}
       {hint && <p className="text-[11px] text-slate-600">{hint}</p>}
     </div>
@@ -106,7 +106,7 @@ function Input({ className, ...props }: React.InputHTMLAttributes<HTMLInputEleme
   return (
     <input
       className={cn(
-        'w-full px-3 py-2.5 rounded-xl bg-dark-700 border border-dark-500/50 text-sm text-white',
+        'w-full px-3 py-2.5 rounded-xl bg-dark-700 border border-dark-500/50 text-sm text-slate-900',
         'placeholder-slate-600 focus:border-brand-500/60 focus:ring-2 focus:ring-brand-500/20 outline-none transition-all',
         'disabled:opacity-50 disabled:cursor-not-allowed',
         className
@@ -410,7 +410,7 @@ export default function PerfilPage() {
     <div className="max-w-5xl mx-auto">
       {/* Header */}
       <div className="mb-6">
-        <h1 className="text-2xl font-bold text-white flex items-center gap-2">
+        <h1 className="text-2xl font-bold text-slate-900 flex items-center gap-2">
           <SlidersHorizontal size={22} className="text-brand-400" />
           Configurações
         </h1>
@@ -431,7 +431,7 @@ export default function PerfilPage() {
                     'w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all text-left',
                     activeTab === t.id
                       ? 'bg-brand-600/15 text-brand-400 border border-brand-500/20'
-                      : 'text-slate-400 hover:bg-dark-700 hover:text-white border border-transparent'
+                      : 'text-slate-500 hover:bg-dark-700 hover:text-slate-900 border border-transparent'
                   )}
                 >
                   <Icon size={16} />
@@ -456,7 +456,7 @@ export default function PerfilPage() {
                     'flex-shrink-0 flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-medium transition-all',
                     activeTab === t.id
                       ? 'bg-brand-600/20 text-brand-400 border border-brand-500/30'
-                      : 'text-slate-400 bg-dark-700 border border-dark-500/30'
+                      : 'text-slate-500 bg-dark-700 border border-dark-500/30'
                   )}
                 >
                   <Icon size={13} />
@@ -483,7 +483,7 @@ export default function PerfilPage() {
             {activeTab === 'conta' && (
               <>
                 <div>
-                  <h2 className="text-base font-semibold text-white mb-4">Informações da Conta</h2>
+                  <h2 className="text-base font-semibold text-slate-900 mb-4">Informações da Conta</h2>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <Field label="Nome completo">
                       <Input value={profile.full_name} placeholder="Seu nome" onChange={e => upd('full_name', e.target.value)} />
@@ -515,7 +515,7 @@ export default function PerfilPage() {
             {activeTab === 'pessoal' && (
               <>
                 <div>
-                  <h2 className="text-base font-semibold text-white mb-1">Dados Pessoais</h2>
+                  <h2 className="text-base font-semibold text-slate-900 mb-1">Dados Pessoais</h2>
                   <p className="text-xs text-slate-500 mb-4">Informações exigidas para verificação KYC e assinatura de contratos.</p>
                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                     <Field label="Data de Nascimento">
@@ -528,7 +528,7 @@ export default function PerfilPage() {
                       <select
                         value={profile.estado_civil}
                         onChange={e => upd('estado_civil', e.target.value)}
-                        className="w-full px-3 py-2.5 rounded-xl bg-dark-700 border border-dark-500/50 text-sm text-white focus:border-brand-500/60 focus:ring-2 focus:ring-brand-500/20 outline-none transition-all"
+                        className="w-full px-3 py-2.5 rounded-xl bg-dark-700 border border-dark-500/50 text-sm text-slate-900 focus:border-brand-500/60 focus:ring-2 focus:ring-brand-500/20 outline-none transition-all"
                       >
                         <option value="">Selecione...</option>
                         <option value="solteiro">Solteiro(a)</option>
@@ -576,7 +576,7 @@ export default function PerfilPage() {
             {activeTab === 'endereco' && (
               <>
                 <div>
-                  <h2 className="text-base font-semibold text-white mb-1">Endereço Pessoal</h2>
+                  <h2 className="text-base font-semibold text-slate-900 mb-1">Endereço Pessoal</h2>
                   <p className="text-xs text-slate-500 mb-4">Preencha o CEP para auto-completar os demais campos.</p>
                   <AddressBlock
                     values={profile.address}
@@ -591,7 +591,7 @@ export default function PerfilPage() {
             {activeTab === 'empresa' && (
               <>
                 <div>
-                  <h2 className="text-base font-semibold text-white mb-4">Dados da Empresa</h2>
+                  <h2 className="text-base font-semibold text-slate-900 mb-4">Dados da Empresa</h2>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-5">
                     <Field label="Razão Social" hint="Não editável — altere via suporte.">
                       <Input value={profile.razao_social} disabled />
@@ -613,7 +613,7 @@ export default function PerfilPage() {
                     </Field>
                   </div>
 
-                  <h3 className="text-sm font-semibold text-slate-300 mb-3">Endereço da Empresa</h3>
+                  <h3 className="text-sm font-semibold text-slate-600 mb-3">Endereço da Empresa</h3>
                   <AddressBlock
                     values={profile.company_address}
                     onChange={v => upd('company_address', { ...profile.company_address, ...v })}
@@ -647,7 +647,7 @@ export default function PerfilPage() {
                         <button
                           onClick={sendResetEmail}
                           disabled={resetLoading}
-                          className="mt-3 flex items-center gap-2 px-4 py-2 rounded-xl bg-dark-600 hover:bg-dark-500 border border-dark-400/40 text-sm text-white transition-all disabled:opacity-60"
+                          className="mt-3 flex items-center gap-2 px-4 py-2 rounded-xl bg-dark-600 hover:bg-dark-500 border border-dark-400/40 text-sm text-slate-900 transition-all disabled:opacity-60"
                         >
                           {resetLoading ? <Loader2 size={14} className="animate-spin" /> : <Mail size={14} />}
                           Enviar link de redefinição
@@ -678,7 +678,7 @@ export default function PerfilPage() {
             {activeTab === 'notificacoes' && (
               <>
                 <div className="space-y-3">
-                  <h2 className="text-base font-semibold text-white mb-4">Preferências de Notificação</h2>
+                  <h2 className="text-base font-semibold text-slate-900 mb-4">Preferências de Notificação</h2>
 
                   <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider">Por E-mail</p>
                   <Toggle

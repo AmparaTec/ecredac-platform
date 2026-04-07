@@ -165,13 +165,13 @@ export default function CreditosFederaisPage() {
             <span className="text-xs text-slate-500">PIS/COFINS Federal</span>
           </div>
           <h1 className="text-2xl font-bold text-white">Créditos Federais</h1>
-          <p className="text-sm text-slate-400 mt-0.5">
+          <p className="text-sm text-slate-500 mt-0.5">
             Envie sua EFD-Contribuições e identifique créditos de PIS/COFINS para compensação via PER/DCOMP.
           </p>
         </div>
         <button
           onClick={loadUploads}
-          className="p-2 rounded-xl bg-dark-700 border border-dark-500/30 text-slate-400 hover:text-white transition-colors"
+          className="p-2 rounded-xl bg-dark-700 border border-dark-500/30 text-slate-500 hover:text-slate-900 transition-colors"
         >
           <RefreshCw className="w-4 h-4" />
         </button>
@@ -183,15 +183,15 @@ export default function CreditosFederaisPage() {
           <div className="p-4 rounded-2xl bg-dark-700/50 border border-dark-500/30">
             <div className="flex items-center gap-2 mb-2">
               <DollarSign className="w-4 h-4 text-brand-400" />
-              <span className="text-xs text-slate-400">Saldo Credor Total</span>
+              <span className="text-xs text-slate-500">Saldo Credor Total</span>
             </div>
             <p className="text-xl font-bold text-white">{formatBRL(totalSaldo)}</p>
             <p className="text-xs text-slate-500 mt-0.5">PIS + COFINS identificados</p>
           </div>
           <div className="p-4 rounded-2xl bg-dark-700/50 border border-dark-500/30">
             <div className="flex items-center gap-2 mb-2">
-              <FileText className="w-4 h-4 text-slate-400" />
-              <span className="text-xs text-slate-400">EFDs enviadas</span>
+              <FileText className="w-4 h-4 text-slate-500" />
+              <span className="text-xs text-slate-500">EFDs enviadas</span>
             </div>
             <p className="text-xl font-bold text-white">{uploads.length}</p>
             <p className="text-xs text-slate-500 mt-0.5">{uploads.filter(u => u.status === 'parsed').length} processadas</p>
@@ -199,7 +199,7 @@ export default function CreditosFederaisPage() {
           <div className="p-4 rounded-2xl bg-dark-700/50 border border-dark-500/30 col-span-2 sm:col-span-1">
             <div className="flex items-center gap-2 mb-2">
               <TrendingUp className="w-4 h-4 text-emerald-400" />
-              <span className="text-xs text-slate-400">Status do Trilho</span>
+              <span className="text-xs text-slate-500">Status do Trilho</span>
             </div>
             <p className="text-sm font-semibold text-emerald-400">Ativo</p>
             <p className="text-xs text-slate-500 mt-0.5">Janela 2025–2026</p>
@@ -231,7 +231,7 @@ export default function CreditosFederaisPage() {
         {uploading ? (
           <div className="flex flex-col items-center gap-3">
             <Loader2 className="w-10 h-10 text-brand-400 animate-spin" />
-            <p className="text-sm text-slate-300 font-medium">Processando EFD-Contribuições...</p>
+            <p className="text-sm text-slate-600 font-medium">Processando EFD-Contribuições...</p>
             <p className="text-xs text-slate-500">Analisando registros C100, M200 e M600</p>
           </div>
         ) : (
@@ -278,13 +278,13 @@ export default function CreditosFederaisPage() {
                 <CheckCircle className="w-5 h-5 text-emerald-400" />
                 <span className="font-semibold text-white">EFD Processada</span>
               </div>
-              <p className="text-xs text-slate-400">{result.mensagem}</p>
+              <p className="text-xs text-slate-500">{result.mensagem}</p>
             </div>
             <div className="text-right">
               <p className={cn('text-2xl font-bold', scoreColor(result.score_verificacao.nivel))}>
                 {result.score_verificacao.score}/100
               </p>
-              <p className="text-xs text-slate-400 capitalize">Score {result.score_verificacao.nivel}</p>
+              <p className="text-xs text-slate-500 capitalize">Score {result.score_verificacao.nivel}</p>
             </div>
           </div>
 
@@ -306,13 +306,13 @@ export default function CreditosFederaisPage() {
 
           {/* Fatores de score */}
           <div className="space-y-2">
-            <p className="text-xs font-medium text-slate-400 uppercase tracking-wide">Fatores de Verificação</p>
+            <p className="text-xs font-medium text-slate-500 uppercase tracking-wide">Fatores de Verificação</p>
             {result.score_verificacao.fatores.map((f) => (
               <div key={f.nome} className="flex items-center gap-3">
                 <div className="flex-1">
                   <div className="flex items-center justify-between mb-1">
-                    <span className="text-xs text-slate-300">{f.nome}</span>
-                    <span className="text-xs text-slate-400">{f.valor}/{f.peso}</span>
+                    <span className="text-xs text-slate-600">{f.nome}</span>
+                    <span className="text-xs text-slate-500">{f.valor}/{f.peso}</span>
                   </div>
                   <div className="h-1.5 rounded-full bg-dark-600">
                     <div
@@ -341,7 +341,7 @@ export default function CreditosFederaisPage() {
 
       {/* Uploads list */}
       <div>
-        <h2 className="text-sm font-semibold text-slate-300 mb-3">
+        <h2 className="text-sm font-semibold text-slate-600 mb-3">
           EFDs Enviadas {uploads.length > 0 && <span className="text-slate-500">({uploads.length})</span>}
         </h2>
 
@@ -355,7 +355,7 @@ export default function CreditosFederaisPage() {
               <BarChart3 className="w-6 h-6 text-slate-500" />
             </div>
             <div>
-              <p className="text-sm font-medium text-slate-400">Nenhuma EFD enviada ainda</p>
+              <p className="text-sm font-medium text-slate-500">Nenhuma EFD enviada ainda</p>
               <p className="text-xs text-slate-600 mt-0.5">
                 Envie sua primeira EFD-Contribuições para identificar créditos de PIS/COFINS
               </p>
@@ -381,7 +381,7 @@ export default function CreditosFederaisPage() {
                   </div>
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 flex-wrap">
-                      <p className="text-sm font-medium text-white truncate">{u.file_name}</p>
+                      <p className="text-sm font-medium text-slate-900 truncate">{u.file_name}</p>
                       {statusBadge(u.status)}
                     </div>
                     <p className="text-xs text-slate-500 mt-0.5">
@@ -396,7 +396,7 @@ export default function CreditosFederaisPage() {
                       </>
                     )}
                   </div>
-                  <ChevronRight className="w-4 h-4 text-slate-600 group-hover:text-slate-400 transition-colors shrink-0" />
+                  <ChevronRight className="w-4 h-4 text-slate-600 group-hover:text-slate-500 transition-colors shrink-0" />
                 </div>
               )
             })}

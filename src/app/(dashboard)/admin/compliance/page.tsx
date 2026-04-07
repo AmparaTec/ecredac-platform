@@ -56,7 +56,7 @@ const STATUS_COLORS: Record<string, string> = {
   aberto: 'text-red-400',
   em_analise: 'text-amber-400',
   resolvido: 'text-emerald-400',
-  falso_positivo: 'text-slate-400',
+  falso_positivo: 'text-slate-500',
   escalado: 'text-purple-400',
 }
 
@@ -65,7 +65,7 @@ const KYC_STATUS_COLORS: Record<string, string> = {
   em_analise: 'text-blue-400 bg-blue-500/10',
   aprovado: 'text-emerald-400 bg-emerald-500/10',
   reprovado: 'text-red-400 bg-red-500/10',
-  expirado: 'text-slate-400 bg-slate-500/10',
+  expirado: 'text-slate-500 bg-slate-500/10',
 }
 
 function formatCurrency(value: number) {
@@ -81,11 +81,11 @@ export default function AdminCompliancePage() {
     <div className="space-y-6">
       {/* Header */}
       <div>
-        <h1 className="text-2xl font-black text-white flex items-center gap-3">
+        <h1 className="text-2xl font-black text-slate-900 flex items-center gap-3">
           <Shield size={28} className="text-brand-400" />
           Painel de Compliance
         </h1>
-        <p className="text-sm text-slate-400 mt-1">
+        <p className="text-sm text-slate-500 mt-1">
           Gerenciamento de KYC, alertas PLD/AML e trilha de auditoria.
         </p>
       </div>
@@ -104,7 +104,7 @@ export default function AdminCompliancePage() {
               'flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-bold transition-all',
               tab === t.id
                 ? 'bg-brand-500 text-white'
-                : 'text-slate-400 hover:text-white hover:bg-dark-600'
+                : 'text-slate-500 hover:text-slate-900 hover:bg-dark-600'
             )}
           >
             <t.icon size={14} />
@@ -176,14 +176,14 @@ function KycTab() {
     <div className="space-y-4">
       {/* Filter bar */}
       <div className="flex items-center gap-3">
-        <Filter size={14} className="text-slate-400" />
+        <Filter size={14} className="text-slate-500" />
         {['em_analise', 'pendente', 'aprovado', 'reprovado', 'expirado'].map(s => (
           <button
             key={s}
             onClick={() => setFilter(s)}
             className={cn(
               'px-3 py-1.5 rounded-lg text-xs font-bold transition-all',
-              filter === s ? 'bg-brand-500 text-white' : 'bg-dark-700 text-slate-400 hover:text-white'
+              filter === s ? 'bg-brand-500 text-white' : 'bg-dark-700 text-slate-500 hover:text-white'
             )}
           >
             {s === 'em_analise' ? 'Em Análise' : s.charAt(0).toUpperCase() + s.slice(1)}
@@ -204,7 +204,7 @@ function KycTab() {
           {entries.map(entry => (
             <div key={entry.id} className="bg-dark-800/50 border border-dark-500/30 rounded-xl">
               <div className="flex items-center gap-4 p-4">
-                <Building2 size={18} className="text-slate-400" />
+                <Building2 size={18} className="text-slate-500" />
                 <div className="flex-1 min-w-0">
                   <p className="text-sm font-bold text-white">{entry.razao_social || 'Sem razão social'}</p>
                   <p className="text-xs text-slate-500">CNPJ: {entry.cnpj || '—'} · Score: {entry.risk_score}</p>
@@ -221,7 +221,7 @@ function KycTab() {
                   </span>
                   <button
                     onClick={() => setSelectedKyc(selectedKyc === entry.id ? null : entry.id)}
-                    className="p-1.5 rounded-lg hover:bg-dark-600 text-slate-400"
+                    className="p-1.5 rounded-lg hover:bg-dark-600 text-slate-500"
                   >
                     {selectedKyc === entry.id ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
                   </button>
@@ -232,7 +232,7 @@ function KycTab() {
                 <div className="border-t border-dark-500/20 p-4 space-y-4">
                   {/* Detalhes */}
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-3 text-xs">
-                    <div><span className="text-slate-500">Docs Enviados:</span> <span className="text-white font-bold">{entry.total_docs}</span></div>
+                    <div><span className="text-slate-500">Docs Enviados:</span> <span className="text-slate-900 font-bold">{entry.total_docs}</span></div>
                     <div><span className="text-slate-500">Aprovados:</span> <span className="text-emerald-400 font-bold">{entry.docs_aprovados}</span></div>
                     <div><span className="text-slate-500">Reprovados:</span> <span className="text-red-400 font-bold">{entry.docs_reprovados}</span></div>
                     <div><span className="text-slate-500">Pendentes:</span> <span className="text-amber-400 font-bold">{entry.docs_pendentes}</span></div>
@@ -253,7 +253,7 @@ function KycTab() {
                           value={rejectionReason}
                           onChange={e => setRejectionReason(e.target.value)}
                           placeholder="Motivo da reprovação..."
-                          className="flex-1 px-3 py-2 rounded-xl bg-dark-600 border border-dark-500/50 text-white text-sm"
+                          className="flex-1 px-3 py-2 rounded-xl bg-dark-600 border border-dark-500/50 text-slate-900 text-sm"
                         />
                         <button
                           onClick={() => handleAction(entry.id, 'reject')}
@@ -327,7 +327,7 @@ function PldTab() {
       {/* Summary cards */}
       <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
         {[
-          { label: 'Total', value: summary.total, color: 'text-white' },
+          { label: 'Total', value: summary.total, color: 'text-slate-900' },
           { label: 'Abertos', value: summary.abertos, color: 'text-red-400' },
           { label: 'Em Análise', value: summary.em_analise, color: 'text-amber-400' },
           { label: 'Críticos', value: summary.criticos, color: 'text-red-500' },
@@ -342,7 +342,7 @@ function PldTab() {
 
       {/* Filter */}
       <div className="flex items-center gap-3">
-        <Filter size={14} className="text-slate-400" />
+        <Filter size={14} className="text-slate-500" />
         {[
           { value: '', label: 'Todos' },
           { value: 'aberto', label: 'Abertos' },
@@ -355,13 +355,13 @@ function PldTab() {
             onClick={() => setFilter(f.value)}
             className={cn(
               'px-3 py-1.5 rounded-lg text-xs font-bold transition-all',
-              filter === f.value ? 'bg-brand-500 text-white' : 'bg-dark-700 text-slate-400 hover:text-white'
+              filter === f.value ? 'bg-brand-500 text-white' : 'bg-dark-700 text-slate-500 hover:text-white'
             )}
           >
             {f.label}
           </button>
         ))}
-        <button onClick={fetchAlerts} className="ml-auto p-1.5 rounded-lg hover:bg-dark-600 text-slate-400">
+        <button onClick={fetchAlerts} className="ml-auto p-1.5 rounded-lg hover:bg-dark-600 text-slate-500">
           <RefreshCw size={14} />
         </button>
       </div>
@@ -408,19 +408,19 @@ function PldTab() {
 
               {selectedAlert === alert.id && (
                 <div className="border-t border-dark-500/20 p-4 space-y-3">
-                  <p className="text-sm text-slate-300">{alert.description}</p>
+                  <p className="text-sm text-slate-600">{alert.description}</p>
 
                   {alert.trigger_data && Object.keys(alert.trigger_data).length > 0 && (
                     <div className="bg-dark-800/50 rounded-xl p-3">
-                      <p className="text-xs font-bold text-slate-400 mb-1">Dados do Gatilho:</p>
-                      <pre className="text-xs text-slate-300 overflow-x-auto">
+                      <p className="text-xs font-bold text-slate-500 mb-1">Dados do Gatilho:</p>
+                      <pre className="text-xs text-slate-600 overflow-x-auto">
                         {JSON.stringify(alert.trigger_data, null, 2)}
                       </pre>
                     </div>
                   )}
 
                   {alert.resolution_notes && (
-                    <p className="text-xs text-slate-400">
+                    <p className="text-xs text-slate-500">
                       Resolução: {alert.resolution_notes}
                       {alert.resolved_at && ` (${new Date(alert.resolved_at).toLocaleDateString('pt-BR')})`}
                     </p>
@@ -432,13 +432,13 @@ function PldTab() {
                         value={notes}
                         onChange={e => setNotes(e.target.value)}
                         placeholder="Observações..."
-                        className="flex-1 px-3 py-2 rounded-xl bg-dark-600 border border-dark-500/50 text-white text-sm"
+                        className="flex-1 px-3 py-2 rounded-xl bg-dark-600 border border-dark-500/50 text-slate-900 text-sm"
                       />
                       {alert.status === 'aberto' && (
                         <button
                           onClick={() => handleAction(alert.id, 'analisar')}
                           disabled={actionLoading}
-                          className="px-3 py-2 bg-amber-600 hover:bg-amber-500 text-white rounded-xl text-xs font-bold transition-all disabled:opacity-50"
+                          className="px-3 py-2 bg-amber-600 hover:bg-amber-500 text-slate-900 rounded-xl text-xs font-bold transition-all disabled:opacity-50"
                         >
                           Analisar
                         </button>
@@ -453,7 +453,7 @@ function PldTab() {
                       <button
                         onClick={() => handleAction(alert.id, 'falso_positivo')}
                         disabled={actionLoading}
-                        className="px-3 py-2 bg-slate-600 hover:bg-slate-500 text-white rounded-xl text-xs font-bold transition-all disabled:opacity-50"
+                        className="px-3 py-2 bg-slate-600 hover:bg-slate-500 text-slate-900 rounded-xl text-xs font-bold transition-all disabled:opacity-50"
                       >
                         Falso +
                       </button>
@@ -510,10 +510,10 @@ function AuditTab() {
             value={search}
             onChange={e => setSearch(e.target.value)}
             placeholder="Buscar por ação, entidade, usuário..."
-            className="w-full pl-9 pr-3 py-2.5 rounded-xl bg-dark-700 border border-dark-500/50 text-white text-sm focus:border-brand-500/50 transition-all"
+            className="w-full pl-9 pr-3 py-2.5 rounded-xl bg-dark-700 border border-dark-500/50 text-slate-900 text-sm focus:border-brand-500/50 transition-all"
           />
         </div>
-        <button onClick={fetchLogs} className="p-2 rounded-xl bg-dark-700 border border-dark-500/50 text-slate-400 hover:text-white transition-all">
+        <button onClick={fetchLogs} className="p-2 rounded-xl bg-dark-700 border border-dark-500/50 text-slate-500 hover:text-slate-900 transition-all">
           <RefreshCw size={14} />
         </button>
       </div>
@@ -542,7 +542,7 @@ function AuditTab() {
                 )}>
                   {(log.action as string) || '—'}
                 </span>
-                <span className="text-slate-300 flex-1 truncate">{(log.description as string) || '—'}</span>
+                <span className="text-slate-600 flex-1 truncate">{(log.description as string) || '—'}</span>
                 <span className="text-slate-600 font-mono">{((log.entity_type as string) || '—').substring(0, 20)}</span>
               </div>
             ))}
@@ -552,7 +552,7 @@ function AuditTab() {
             <button
               onClick={() => setPage(p => Math.max(1, p - 1))}
               disabled={page === 1}
-              className="px-3 py-1.5 rounded-lg bg-dark-700 text-slate-400 text-xs disabled:opacity-30"
+              className="px-3 py-1.5 rounded-lg bg-dark-700 text-slate-500 text-xs disabled:opacity-30"
             >
               Anterior
             </button>
@@ -560,7 +560,7 @@ function AuditTab() {
             <button
               onClick={() => setPage(p => p + 1)}
               disabled={logs.length < 50}
-              className="px-3 py-1.5 rounded-lg bg-dark-700 text-slate-400 text-xs disabled:opacity-30"
+              className="px-3 py-1.5 rounded-lg bg-dark-700 text-slate-500 text-xs disabled:opacity-30"
             >
               Próxima
             </button>

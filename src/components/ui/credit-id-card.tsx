@@ -33,7 +33,7 @@ export function CreditIdCard({ listing, score, compact = false, onClick }: Credi
         </span>
 
         {/* Type + Origin */}
-        <span className="text-sm text-slate-300">
+        <span className="text-sm text-slate-600">
           {creditTypeLabels[listing.credit_type]} / {creditOriginLabels[listing.origin]}
         </span>
 
@@ -60,7 +60,7 @@ export function CreditIdCard({ listing, score, compact = false, onClick }: Credi
             </div>
 
             {/* Type + Origin */}
-            <p className="text-sm text-slate-400 mt-1">
+            <p className="text-sm text-slate-500 mt-1">
               {creditTypeLabels[listing.credit_type]} — {creditOriginLabels[listing.origin]}
             </p>
           </div>
@@ -104,7 +104,7 @@ export function CreditIdCard({ listing, score, compact = false, onClick }: Credi
         {score && (
           <div className="pt-2 border-t border-dark-500/40">
             <div className="flex items-center justify-between mb-2">
-              <span className="text-xs font-medium text-slate-300">Score Relius&trade;</span>
+              <span className="text-xs font-medium text-slate-600">Score Relius&trade;</span>
               <button
                 className="text-xs text-brand-400 hover:text-brand-300 font-medium"
                 onClick={(e) => { e.stopPropagation(); setExpanded(!expanded) }}
@@ -148,12 +148,12 @@ export function CreditIdCard({ listing, score, compact = false, onClick }: Credi
             {/* Risk Factors */}
             {score.risk_factors && score.risk_factors.length > 0 && (
               <div className="mt-3 pt-2 border-t border-dark-500/40">
-                <p className="text-xs font-medium text-slate-300 mb-1.5">Fatores de Risco</p>
+                <p className="text-xs font-medium text-slate-600 mb-1.5">Fatores de Risco</p>
                 <div className="space-y-1">
                   {score.risk_factors.map((risk: RiskFactor, i: number) => (
                     <div key={i} className="flex items-center gap-2 text-xs">
                       <span className="text-red-400 font-mono">{risk.impact > 0 ? '+' : ''}{risk.impact}</span>
-                      <span className="text-slate-400">{risk.description}</span>
+                      <span className="text-slate-500">{risk.description}</span>
                     </div>
                   ))}
                 </div>

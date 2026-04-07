@@ -39,12 +39,12 @@ export function PriceRecommendationCard({
     return (
       <Card className="p-5 text-center">
         <Target size={24} className="mx-auto text-slate-600 mb-2" />
-        <p className="text-sm text-slate-400">Precificação não disponível</p>
+        <p className="text-sm text-slate-500">Precificação não disponível</p>
         <p className="text-xs text-slate-500 mt-1">Dados de mercado insuficientes para gerar recomendação</p>
         {onRecalculate && (
           <button
             onClick={onRecalculate}
-            className="mt-3 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-dark-600 hover:bg-dark-500 text-xs font-medium text-slate-300 transition-all"
+            className="mt-3 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-dark-600 hover:bg-dark-500 text-xs font-medium text-slate-600 transition-all"
           >
             <RefreshCw size={12} /> Tentar calcular
           </button>
@@ -124,7 +124,7 @@ export function PriceRecommendationCard({
             {onRecalculate && (
               <button
                 onClick={onRecalculate}
-                className="p-1.5 rounded-lg hover:bg-dark-600 text-slate-500 hover:text-slate-400 transition-all"
+                className="p-1.5 rounded-lg hover:bg-dark-600 text-slate-500 hover:text-slate-500 transition-all"
                 title="Recalcular"
               >
                 <RefreshCw size={14} />
@@ -152,7 +152,7 @@ export function PriceRecommendationCard({
           </div>
 
           <div className="p-3 rounded-xl bg-dark-700 border border-dark-500/40">
-            <p className="text-[10px] uppercase tracking-wider text-slate-400 font-semibold mb-1">Preço por R$1</p>
+            <p className="text-[10px] uppercase tracking-wider text-slate-500 font-semibold mb-1">Preço por R$1</p>
             <p className="text-2xl font-bold text-white">{formatPricePerReal(recPricePerReal)}</p>
             <p className="text-xs text-slate-500">por real de crédito</p>
           </div>
@@ -172,7 +172,7 @@ export function PriceRecommendationCard({
           {recDaysToSell != null && (
             <div className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-dark-600/50">
               <Clock size={12} className="text-slate-500" />
-              <span className="text-xs font-medium text-slate-400">
+              <span className="text-xs font-medium text-slate-500">
                 ~{recDaysToSell} dias para vender
               </span>
             </div>
@@ -199,10 +199,10 @@ export function PriceRecommendationCard({
               </span>
             </div>
             <div className="mt-1.5 flex gap-4 text-xs flex-wrap">
-              <span className="text-slate-400">
+              <span className="text-slate-500">
                 Seu desconto: <strong>{formatDiscount(safeNum(currentDiscount.min))} — {formatDiscount(safeNum(currentDiscount.max))}</strong>
               </span>
-              <span className="text-slate-400">
+              <span className="text-slate-500">
                 Recomendado: <strong className="text-blue-700">{formatDiscount(recDiscount)}</strong>
               </span>
               {recDiscount < safeNum(currentDiscount.min) ? (
@@ -242,7 +242,7 @@ export function PriceRecommendationCard({
                       ? 'bg-emerald-100 text-emerald-400'
                       : factorImpact > 0
                       ? 'bg-red-100 text-red-400'
-                      : 'bg-dark-600 text-slate-300'
+                      : 'bg-dark-600 text-slate-600'
                   }`}>
                     {factorImpact > 0 ? '+' : ''}{factorImpact.toFixed(1)}
                   </div>
@@ -263,7 +263,7 @@ export function PriceRecommendationCard({
 
             {/* Sell probability breakdown */}
             <div className="mt-2 p-3 rounded-lg bg-dark-600/50">
-              <p className="text-xs font-bold text-slate-300 mb-2">Probabilidade de Venda</p>
+              <p className="text-xs font-bold text-slate-600 mb-2">Probabilidade de Venda</p>
               <div className="flex gap-4">
                 <div className="flex-1">
                   <div className="flex items-center justify-between text-xs mb-1">
