@@ -3,7 +3,7 @@
  * Envia notificações via: in-app (banco), e-mail (Resend), WhatsApp (Meta API).
  *
  * Uso:
- *   await notify(supabase as any, {
+ *   await notify(supabase, {
  *     companyId: '...',
  *     type: 'match_encontrado',
  *     title: 'Novo match!',
