@@ -1,268 +1,231 @@
-import { createServerSupabase } from '@/lib/supabase/server'
-import { formatBRL, formatNumber } from '@/lib/utils'
-import { Card } from '@/components/ui/card'
-import { StatCard } from '@/components/ui/stat-card'
-import { Badge } from '@/components/ui/badge'
-import { ProcuradorDashboard } from './procurador-dashboard'
-import Link from 'next/link'
-import {
-  DollarSign, TrendingUp, ArrowLeftRight, Clock,
-  AlertTriangle, CheckCircle2, GitMerge, Shield
-} from 'lucide-react'
+'use client'
 
-export default async function DashboardPage() {
-  const supabase = createServerSupabase()
-  const { data: { user } } = await supabase.auth.getUser()
+import { useEffect, useState } from 'react'
+import { useRouter } from 'next/navigation'
+import { createBrowserClient } from '@supabase/ssr'
+import type { User } from '@supabase/supabase-js'
 
-  // Get user profile (role)
-  const { data: userProfile } = await supabase
-    .from('user_profiles')
-    .select('id, full_name, role, referral_code')
-    .eq('auth_user_id', user!.id)
-    .single()
+const supabase = createBrowserClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+)
 
-  const role = userProfile?.role || 'titular'
+const STEPS = [
+  { id: 1, label: 'Cadastro',       icon: '✓', desc: 'Conta criada com sucesso' },
+  { id: 2, label: 'Documentação',   icon: '2', desc: 'EFD-Contribuições (últimos 5 anos)' },
+  { id: 3, label: 'Análise',        icon: '3', desc: 'Apuração do crédito real' },
+  { id: 4, label: 'Oferta',         icon: '4', desc: 'Propostas de compradores' },
+  { id: 5, label: 'Liquidação',     icon: '5', desc: 'Transferência em 30-90 dias' },
+]
 
-  // ─── PROCURADOR DASHBOARD ───
-  if (role === 'procurador' && userProfile) {
-    const { data: procurador } = await supabase
-      .from('procurador_profiles')
-      .select('*')
-      .eq('user_profile_id', userProfile.id)
-      .single()
+function fmt(v: number) {
+  return v.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL', maximumFractionDigits: 0 })
+}
 
-    // Get current tier info
-    const { data: tier } = procurador ? await supabase
-      .from('commission_tiers')
-      .select('*')
-      .eq('tier', procurador.tier || 'bronze')
-      .single() : { data: null }
+export default function DashboardCedentePage() {
+  const router = useRouter()
+  const [user, setUser] = useState<User | null>(null)
+  const [loading, setLoading] = useState(true)
 
-    // Get clients (companies linked to this procurador via company_members)
-    const { data: clients } = await supabase
-      .from('company_members')
-      .select('*, company:companies(*)')
-      .eq('user_profile_id', userProfile.id)
-      .eq('role', 'procurador')
-      .eq('active', true)
+  useEffect(() => {
+    supabase.auth.getUser().then(({ data }) => {
+      if (!data.user) { router.replace('/login'); return }
+      setUser(data.user)
+      setLoading(false)
+    })
+  }, [router])
 
-    // Get recent commissions
-    const { data: commissions } = procurador ? await supabase
-      .from('commissions')
-      .select('*')
-      .eq('procurador_id', procurador.id)
-      .order('created_at', { ascending: false })
-      .limit(10) : { data: [] }
+  if (loading) return (
+    <div className="min-h-screen bg-[#0a1f12] flex items-center justify-center">
+      <div className="w-8 h-8 border-2 border-[#c9a227] border-t-transparent rounded-full animate-spin" />
+    </div>
+  )
 
-    // Count pending invites
-    const { count: pendingInvites } = procurador ? await supabase
-      .from('referral_invites')
-      .select('*', { count: 'exact', head: true })
-      .eq('procurador_id', procurador.id)
-      .eq('status', 'pending') : { count: 0 }
+  const meta   = user?.user_metadata ?? {}
+  const nome   = (meta.full_name as string) || 'Cedente'
+  const razao  = (meta.razao_social as string) || ''
+  const cnpj   = (meta.cnpj as string) || ''
+  const step   = 2 // sempre step 2 no cadastro novo
 
-    return (
-      <ProcuradorDashboard
-        profile={userProfile}
-        procurador={procurador}
-        tier={tier}
-        clients={clients || []}
-        commissions={commissions || []}
-        pendingInvites={pendingInvites || 0}
-        referralCode={userProfile.referral_code || ''}
-      />
-    )
-  }
-
-  // ─── EMPRESA DASHBOARD (titular / representante) ───
-  // Get company
-  const { data: company } = await supabase
-    .from('companies')
-    .select('*')
-    .eq('auth_user_id', user!.id)
-    .single()
-
-  // Fetch stats in parallel
-  const [
-    { count: activeListings },
-    { count: activeRequests },
-    { count: pendingMatches },
-    { count: completedTx },
-    { data: recentMatches },
-    { data: recentListings },
-    { data: notifications },
-  ] = await Promise.all([
-    supabase.from('credit_listings').select('*', { count: 'exact', head: true }).eq('company_id', company?.id).eq('status', 'active'),
-    supabase.from('credit_requests').select('*', { count: 'exact', head: true }).eq('company_id', company?.id).eq('status', 'active'),
-    supabase.from('matches').select('*', { count: 'exact', head: true }).or(`seller_company_id.eq.${company?.id},buyer_company_id.eq.${company?.id}`).in('status', ['proposed', 'accepted_seller', 'accepted_buyer']),
-    supabase.from('transactions').select('*', { count: 'exact', head: true }).or(`seller_company_id.eq.${company?.id},buyer_company_id.eq.${company?.id}`).eq('status', 'completed'),
-    supabase.from('matches').select('*, seller_company:companies!seller_company_id(*), buyer_company:companies!buyer_company_id(*)').or(`seller_company_id.eq.${company?.id},buyer_company_id.eq.${company?.id}`).order('created_at', { ascending: false }).limit(5),
-    supabase.from('credit_listings').select('*, credit_score:credit_scores(*)').eq('company_id', company?.id).order('created_at', { ascending: false }).limit(5),
-    supabase.from('notifications').select('*').eq('company_id', company?.id).eq('read', false).order('created_at', { ascending: false }).limit(5),
-  ])
-
-  // Calculate volume from recent listings
-  const totalVolume = recentListings?.reduce((acc, l) => acc + (l.amount || 0), 0) || 0
-
-  // Role label for header
-  const roleLabel = role === 'representante' ? 'Representante' : 'Titular'
+  // Estimativa mock baseada no perfil (sem EFD ainda)
+  const estimMin = 180_000
+  const estimMax = 420_000
 
   return (
-    <div className="h-[calc(100vh-4rem)] flex flex-col gap-3 overflow-hidden">
-      {/* Header compacto */}
-      <div className="flex items-center justify-between flex-shrink-0">
-        <div>
-          <h1 className="text-xl font-bold text-white">Dashboard</h1>
-          <p className="text-slate-500 text-xs">Visão geral — créditos de ICMS</p>
-        </div>
-        <div className="flex items-center gap-2">
-          {role === 'representante' && (
-            <span className="inline-flex items-center px-2 py-0.5 rounded-lg bg-blue-500/15 text-blue-400 text-[10px] font-bold uppercase tracking-wider border border-blue-500/25">
-              Representante
-            </span>
-          )}
-          <Badge variant={company?.sefaz_status === 'regular' ? 'success' : 'warning'}>
-            SEFAZ: {company?.sefaz_status === 'regular' ? 'Regular' : company?.sefaz_status || 'Pendente'}
-          </Badge>
-          <Badge variant={company?.tier === 'premium' ? 'premium' : 'default'}>
-            {company?.tier === 'premium' ? 'Premium' : 'Free'}
-          </Badge>
-        </div>
-      </div>
-
-      {/* Stats — compactos */}
-      <div className="grid grid-cols-4 gap-3 flex-shrink-0">
-        <StatCard title="Créditos Ativos" value={String(activeListings || 0)} subtitle="ofertas" />
-        <StatCard title="Demandas" value={String(activeRequests || 0)} subtitle="em andamento" />
-        <StatCard title="Matches" value={String(pendingMatches || 0)} subtitle="pendentes" />
-        <StatCard title="Concluídas" value={String(completedTx || 0)} subtitle="transações" />
-      </div>
-
-      {/* Conteúdo principal — preenche o espaço restante */}
-      <div className="grid grid-cols-3 gap-3 flex-1 min-h-0">
-
-        {/* Coluna 1: Créditos */}
-        <Card className="p-4 flex flex-col overflow-hidden">
-          <div className="flex items-center justify-between mb-2 flex-shrink-0">
-            <h2 className="text-sm font-bold text-white">Seus Créditos</h2>
-            <Link href="/marketplace" className="text-xs text-brand-400 hover:text-brand-300 font-medium">Ver todos →</Link>
+    <div className="min-h-screen bg-[#0a1f12] text-white">
+      {/* ── NAVBAR ─────────────────────────────────────────────── */}
+      <nav className="border-b border-white/10 px-6 py-4">
+        <div className="max-w-5xl mx-auto flex items-center justify-between">
+          <span className="text-[#c9a227] font-bold text-xl tracking-tight">Relius</span>
+          <div className="flex items-center gap-4">
+            <span className="text-white/50 text-sm hidden sm:block">{razao || nome}</span>
+            <button
+              onClick={async () => { await supabase.auth.signOut(); router.push('/') }}
+              className="text-white/40 hover:text-white/70 text-sm transition-colors"
+            >
+              Sair
+            </button>
           </div>
-          <div className="flex-1 overflow-y-auto space-y-2 scrollbar-thin">
-            {recentListings && recentListings.length > 0 ? (
-              recentListings.map((listing: any) => {
-                const score = listing.credit_score
-                const gradeColors: Record<string, string> = {
-                  A: 'bg-emerald-500/15 border-emerald-500/30 text-emerald-400',
-                  B: 'bg-blue-500/15 border-blue-500/30 text-blue-400',
-                  C: 'bg-amber-500/15 border-amber-500/30 text-amber-400',
-                  D: 'bg-red-500/15 border-red-500/30 text-red-400',
-                }
+        </div>
+      </nav>
+
+      <div className="max-w-5xl mx-auto px-6 py-8 space-y-6">
+
+        {/* ── WELCOME ──────────────────────────────────────────── */}
+        <div className="flex items-start justify-between flex-wrap gap-4">
+          <div>
+            <h1 className="text-2xl font-bold">
+              Olá, {nome.split(' ')[0]} 👋
+            </h1>
+            {razao && (
+              <p className="text-white/50 text-sm mt-1">
+                {razao}
+                {cnpj && <span className="ml-2 font-mono">{cnpj.replace(/(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/, '$1.$2.$3/$4-$5')}</span>}
+              </p>
+            )}
+          </div>
+          <span className="inline-flex items-center gap-1.5 bg-amber-500/10 border border-amber-500/30 text-amber-400 text-xs font-semibold px-3 py-1.5 rounded-full">
+            <span className="w-1.5 h-1.5 bg-amber-400 rounded-full animate-pulse" />
+            Aguardando documentação
+          </span>
+        </div>
+
+        {/* ── PROGRESSO DA OPERAÇÃO ────────────────────────────── */}
+        <div className="bg-white/[0.04] border border-white/10 rounded-2xl p-6">
+          <h2 className="text-sm font-semibold text-white/60 uppercase tracking-wider mb-5">
+            Progresso da operação
+          </h2>
+          <div className="relative">
+            {/* linha de fundo */}
+            <div className="absolute top-5 left-5 right-5 h-0.5 bg-white/10 hidden sm:block" />
+            <div
+              className="absolute top-5 left-5 h-0.5 bg-[#c9a227] hidden sm:block transition-all"
+              style={{ width: `${((step - 1) / 4) * 100}%` }}
+            />
+            <div className="grid grid-cols-5 gap-2 relative">
+              {STEPS.map((s) => {
+                const done   = s.id < step
+                const active = s.id === step
                 return (
-                  <div key={listing.id} className="flex items-center gap-2 p-2.5 rounded-xl bg-dark-600/50 hover:bg-dark-600 transition-all">
-                    {score && (
-                      <div className={`w-8 h-8 rounded-lg border-2 font-bold flex items-center justify-center text-xs ${gradeColors[score.grade] || 'bg-dark-600 border-dark-500 text-slate-500'}`}>
-                        {score.grade}
-                      </div>
-                    )}
-                    <div className="flex-1 min-w-0">
-                      <span className="font-mono text-[10px] font-bold text-brand-400">{listing.credit_id || '...'}</span>
-                      <p className="text-sm font-semibold text-white">{formatBRL(listing.amount)}</p>
+                  <div key={s.id} className="flex flex-col items-center gap-2 text-center">
+                    <div className={`w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm border-2 z-10 transition-all ${
+                      done   ? 'bg-[#c9a227] border-[#c9a227] text-[#0a1f12]' :
+                      active ? 'border-[#c9a227] text-[#c9a227] bg-[#c9a227]/10' :
+                               'border-white/15 text-white/25 bg-[#0a1f12]'
+                    }`}>
+                      {done ? '✓' : s.id}
                     </div>
-                    {score && <span className="text-[10px] text-slate-500">{score.score?.toFixed(0)}/100</span>}
+                    <div>
+                      <div className={`text-xs font-semibold ${active ? 'text-[#c9a227]' : done ? 'text-white/70' : 'text-white/25'}`}>
+                        {s.label}
+                      </div>
+                      <div className="text-white/30 text-[10px] leading-tight mt-0.5 hidden sm:block">
+                        {s.desc}
+                      </div>
+                    </div>
                   </div>
                 )
-              })
-            ) : (
-              <div className="text-center py-6">
-                <DollarSign size={24} className="mx-auto text-slate-600 mb-1" />
-                <p className="text-xs text-slate-500">Nenhum crédito publicado</p>
-                <Link href="/marketplace" className="text-xs text-brand-400 mt-1 inline-block">Publicar →</Link>
-              </div>
-            )}
-          </div>
-        </Card>
-
-        {/* Coluna 2: Matches */}
-        <Card className="p-4 flex flex-col overflow-hidden">
-          <div className="flex items-center justify-between mb-2 flex-shrink-0">
-            <h2 className="text-sm font-bold text-white">Matches Recentes</h2>
-            <Link href="/matching" className="text-xs text-brand-400 hover:text-brand-300 font-medium">Ver todos →</Link>
-          </div>
-          <div className="flex-1 overflow-y-auto space-y-2 scrollbar-thin">
-            {recentMatches && recentMatches.length > 0 ? (
-              recentMatches.map((match: any) => (
-                <div key={match.id} className="flex items-center justify-between p-2.5 rounded-xl bg-dark-600/50 hover:bg-dark-600 transition-all">
-                  <div className="flex items-center gap-2 min-w-0">
-                    <div className="w-8 h-8 rounded-lg bg-brand-500/15 text-brand-400 flex items-center justify-center flex-shrink-0">
-                      <GitMerge size={14} />
-                    </div>
-                    <div className="min-w-0">
-                      <p className="text-xs font-medium text-slate-900 truncate">
-                        {match.seller_company?.nome_fantasia || 'Cedente'} → {match.buyer_company?.nome_fantasia || 'Cessionário'}
-                      </p>
-                      <p className="text-[10px] text-slate-500">{match.agreed_discount}% desc.</p>
-                    </div>
-                  </div>
-                  <div className="text-right flex-shrink-0 ml-2">
-                    <p className="text-xs font-bold text-white">{formatBRL(match.matched_amount)}</p>
-                    <Badge variant={match.status === 'confirmed' ? 'success' : match.status === 'proposed' ? 'warning' : 'info'}>
-                      {match.status === 'confirmed' ? 'OK' : match.status === 'proposed' ? 'Prop.' : match.status}
-                    </Badge>
-                  </div>
-                </div>
-              ))
-            ) : (
-              <div className="text-center py-6">
-                <GitMerge size={24} className="mx-auto text-slate-600 mb-1" />
-                <p className="text-xs text-slate-500">Nenhum match ainda</p>
-                <p className="text-[10px] text-slate-600 mt-1">Publique créditos para iniciar</p>
-              </div>
-            )}
-          </div>
-        </Card>
-
-        {/* Coluna 3: Notificações + Ações */}
-        <div className="flex flex-col gap-3 min-h-0">
-          {/* Notificações */}
-          <Card className="p-4 flex flex-col flex-1 overflow-hidden">
-            <h3 className="text-sm font-bold text-slate-900 mb-2 flex-shrink-0">Notificações</h3>
-            <div className="flex-1 overflow-y-auto space-y-1.5 scrollbar-thin">
-              {notifications && notifications.length > 0 ? (
-                notifications.map((n: any) => (
-                  <div key={n.id} className="flex items-start gap-2 p-2 rounded-lg bg-brand-500/10">
-                    <span className="text-brand-400 mt-0.5">
-                      {n.type === 'match_found' ? <GitMerge size={12} /> :
-                       n.type === 'payment' ? <DollarSign size={12} /> :
-                       <AlertTriangle size={12} />}
-                    </span>
-                    <div className="min-w-0">
-                      <p className="text-[11px] font-medium text-slate-900 truncate">{n.title}</p>
-                      <p className="text-[10px] text-slate-500 truncate">{n.body}</p>
-                    </div>
-                  </div>
-                ))
-              ) : (
-                <p className="text-xs text-slate-500 text-center py-2">Nenhuma notificação</p>
-              )}
+              })}
             </div>
-          </Card>
-
-          {/* Ações Rápidas */}
-          <Card className="p-4 flex-shrink-0">
-            <h3 className="text-sm font-bold text-slate-900 mb-2">Ações Rápidas</h3>
-            <div className="space-y-1.5">
-              <Link href="/marketplace" className="flex items-center gap-2 p-2 rounded-xl bg-brand-500/15 hover:bg-brand-500/25 text-brand-400 text-xs font-medium transition-all">
-                <DollarSign size={14} /> Publicar Crédito
-              </Link>
-              <Link href="/demandas" className="flex items-center gap-2 p-2 rounded-xl bg-emerald-500/15 hover:bg-emerald-500/25 text-emerald-400 text-xs font-medium transition-all">
-                <TrendingUp size={14} /> Criar Demanda
-              </Link>
-              <Link href="/pipeline" className="flex items-center gap-2 p-2 rounded-xl bg-amber-500/15 hover:bg-amber-500/25 text-amber-400 text-xs font-medium transition-all">
-                <Clock size={14} /> Ver Pipeline
-              </Link>
-            </div>
-          </Card>
+          </div>
         </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+          {/* ── ESTIMATIVA ───────────────────────────────────────── */}
+          <div className="bg-white/[0.04] border border-white/10 rounded-2xl p-6">
+            <div className="flex items-center gap-2 mb-4">
+              <div className="w-8 h-8 bg-[#c9a227]/15 rounded-lg flex items-center justify-center text-[#c9a227] text-sm">💰</div>
+              <span className="text-sm font-semibold text-white/70">Estimativa de crédito</span>
+            </div>
+            <div className="mb-1">
+              <span className="text-3xl font-bold text-[#c9a227]">{fmt(estimMin)}</span>
+              <span className="text-white/40 text-sm ml-2">— {fmt(estimMax)}</span>
+            </div>
+            <p className="text-white/40 text-xs mt-2 leading-relaxed">
+              Estimativa preliminar baseada no seu perfil. O valor real será apurado após análise da EFD-Contribuições.
+            </p>
+            <div className="mt-4 flex items-center gap-2 text-white/35 text-xs">
+              <span className="w-1.5 h-1.5 bg-amber-400/60 rounded-full" />
+              Precisão aumenta com a documentação
+            </div>
+          </div>
+
+          {/* ── LIQUIDEZ ─────────────────────────────────────────── */}
+          <div className="bg-white/[0.04] border border-white/10 rounded-2xl p-6">
+            <div className="flex items-center gap-2 mb-4">
+              <div className="w-8 h-8 bg-emerald-500/15 rounded-lg flex items-center justify-center text-emerald-400 text-sm">⚡</div>
+              <span className="text-sm font-semibold text-white/70">Liquidez estimada</span>
+            </div>
+            <div className="space-y-3">
+              {[
+                { label: 'Valor líquido (após desconto)', val: fmt(estimMin * 0.72), cor: 'text-emerald-400' },
+                { label: 'Prazo de liquidação',          val: '30 – 90 dias',        cor: 'text-white' },
+                { label: 'Desconto médio de mercado',    val: '20 – 35%',            cor: 'text-white' },
+                { label: 'Plataforma',                   val: '100% digital',        cor: 'text-white' },
+              ].map(r => (
+                <div key={r.label} className="flex items-center justify-between">
+                  <span className="text-white/45 text-xs">{r.label}</span>
+                  <span className={`text-sm font-semibold ${r.cor}`}>{r.val}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* ── PRÓXIMO PASSO: UPLOAD EFD ───────────────────────── */}
+        <div className="bg-gradient-to-br from-[#c9a227]/12 to-[#c9a227]/4 border border-[#c9a227]/30 rounded-2xl p-6">
+          <div className="flex items-start gap-5 flex-wrap">
+            <div className="w-12 h-12 bg-[#c9a227]/20 rounded-xl flex items-center justify-center text-2xl flex-shrink-0">
+              📁
+            </div>
+            <div className="flex-1 min-w-0">
+              <div className="flex items-center gap-2 mb-1 flex-wrap">
+                <h3 className="font-bold text-[#c9a227]">Próximo passo: envie sua EFD-Contribuições</h3>
+                <span className="bg-[#c9a227]/20 text-[#c9a227] text-xs font-semibold px-2 py-0.5 rounded-full">Obrigatório</span>
+              </div>
+              <p className="text-white/60 text-sm leading-relaxed mb-4">
+                Envie os arquivos SPED dos últimos 5 anos (2020-2024). A apuração precisa leva em média 48h.
+                Seus dados são criptografados e a Relius não acessa seus sistemas fiscais.
+              </p>
+              <div className="flex flex-wrap gap-4 mb-5 text-sm">
+                {['Arquivo .txt do SPED', 'Últimos 5 anos', 'Qualquer regime'].map(i => (
+                  <span key={i} className="flex items-center gap-1.5 text-white/50">
+                    <span className="text-emerald-400 text-xs">✓</span>{i}
+                  </span>
+                ))}
+              </div>
+              <a
+                href="/enviar-efd"
+                className="inline-flex items-center gap-2 bg-[#c9a227] text-[#0a1f12] font-bold px-6 py-3 rounded-xl hover:bg-[#e0b730] transition-all text-sm"
+              >
+                📤 Enviar EFD-Contribuições
+              </a>
+            </div>
+          </div>
+        </div>
+
+        {/* ── COMO FUNCIONA RESUMIDO ───────────────────────────── */}
+        <div className="bg-white/[0.03] border border-white/8 rounded-2xl p-6">
+          <h2 className="text-sm font-semibold text-white/40 uppercase tracking-wider mb-4">O que acontece depois</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            {[
+              { n: '48h', title: 'Análise da EFD', desc: 'Motor calcula o crédito real apurável com base nos seus lançamentos fiscais.' },
+              { n: '72h', title: 'Oferta de compradores', desc: 'Compradores qualificados fazem propostas competitivas pelo seu crédito.' },
+              { n: '30d', title: 'Liquidação', desc: 'Contrato assinado digitalmente. Transferência em até 90 dias.' },
+            ].map(c => (
+              <div key={c.n} className="flex gap-4">
+                <div className="w-10 h-10 bg-[#c9a227]/10 rounded-xl flex items-center justify-center text-[#c9a227] font-bold text-sm flex-shrink-0">
+                  {c.n}
+                </div>
+                <div>
+                  <div className="font-semibold text-sm mb-1">{c.title}</div>
+                  <div className="text-white/40 text-xs leading-relaxed">{c.desc}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
       </div>
     </div>
   )
