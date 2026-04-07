@@ -1,3 +1,4 @@
+import { createClient } from '@supabase/supabase-js'
 /**
  * API Route: /api/nfe-cruzamento
  *
@@ -5,16 +6,15 @@
  * GET  - Retrieve cruzamento results for a company
  */
 
-import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs'
-import { cookies } from 'next/headers'
 import { NextRequest, NextResponse } from 'next/server'
 import { parseNfeXml, validateNfeForIcms } from '@/lib/nfe/nfe-parser'
 import { consultarSefaz, validarChaveNfe, getUfFromChave } from '@/lib/nfe/sefaz-provider'
+import { createServerSupabase } from '@/lib/supabase/server'
 
 // ─── GET: list cruzamentos for company ─────────────────────────────────────────
 export async function GET(request: NextRequest) {
   try {
-    const supabase = createRouteHandlerClient({ cookies })
+    const supabase = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.SUPABASE_SERVICE_ROLE_KEY!)
     const { data: { user }, error: authError } = await supabase.auth.getUser()
     if (authError || !user) {
       return NextResponse.json({ error: 'Não autenticado' }, { status: 401 })
@@ -71,7 +71,7 @@ export async function GET(request: NextRequest) {
 // ─── POST: upload + parse + validate + cross ────────────────────────────────────
 export async function POST(request: NextRequest) {
   try {
-    const supabase = createRouteHandlerClient({ cookies })
+    const supabase = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.SUPABASE_SERVICE_ROLE_KEY!)
     const { data: { user }, error: authError } = await supabase.auth.getUser()
     if (authError || !user) {
       return NextResponse.json({ error: 'Não autenticado' }, { status: 401 })
