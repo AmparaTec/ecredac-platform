@@ -68,11 +68,11 @@ export default function EnviarEFD() {
 
     /* registra na tabela efd_uploads */
     await supabase.from('efd_uploads').insert({
-      user_id:    userId,
-      file_path:  caminho,
-      file_name:  arquivo.name,
-      file_size:  arquivo.size,
-      status:     'aguardando_analise',
+      uploaded_by:     userId,
+      storage_path:    caminho,
+      file_name:       arquivo.name,
+      file_size_bytes: arquivo.size,
+      status:          'aguardando_analise',
     })
 
     setStatus('ok')
