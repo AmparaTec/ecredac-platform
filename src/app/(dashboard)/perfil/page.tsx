@@ -8,6 +8,7 @@ import {
   Key, SlidersHorizontal
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
+import { TrilhoTab } from '@/components/perfil/trilho-tab'
 
 /* ── Types ─────────────────────────────────────────────────────── */
 
@@ -391,6 +392,7 @@ export default function PerfilPage() {
     { id: 'pessoal',      label: 'Dados Pessoais', icon: FileText },
     { id: 'endereco',     label: 'Endereço',       icon: MapPin },
     { id: 'empresa',      label: 'Empresa',        icon: Building2 },
+    { id: 'trilho',   label: 'Trilho',   component: TrilhoTab },
     { id: 'seguranca',    label: 'Segurança',      icon: Shield },
     { id: 'notificacoes', label: 'Notificações',   icon: Bell },
   ]
