@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { createBrowserClient } from '@supabase/ssr'
 import type { User } from '@supabase/supabase-js'
+import { FeedbackButton } from '@/components/ui/feedback-button'
 
 const supabase = createBrowserClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -227,6 +228,7 @@ export default function DashboardCedentePage() {
         </div>
 
       </div>
+      <FeedbackButton />
     </div>
   )
 }
