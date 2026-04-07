@@ -1,8 +1,9 @@
 'use client'
 
-import { useState, useEffect, Suspense } from 'react'
+import { useState, useEffect, useRef, useCallback, Suspense } from 'react'
 import { useSearchParams, useRouter } from 'next/navigation'
 import { createBrowserClient } from '@supabase/ssr'
+import { FeedbackButton } from '@/components/ui/feedback-button'
 
 type Perfil = 'cedente' | 'comprador' | 'assessor' | null
 type Step = 1 | 2 | 3
@@ -70,7 +71,8 @@ function CadastroContent() {
   const [email, setEmail] = useState('')
   const [senha, setSenha] = useState('')
   const [confirmar, setConfirmar] = useState('')
-  const [showSenha, setShowSenha] = useState(false)
+  const [showSenha, setShowSenha]         = useState(false)
+  const [showConfirmar, setShowConfirmar] = useState(false)
   const [erroStep2, setErroStep2] = useState('')
 
   // Step 3 — KYC mínimo
@@ -144,13 +146,17 @@ function CadastroContent() {
       })
       if (authErr) throw authErr
 
-      // 2. Redirecionar para dashboard
-      if (authData.user) {
+      // 2. Redirecionar — só se houver sessão ativa (email confirm desativado)
+      //    Se session for null, Supabase pediu confirmação por email
+      if (authData.session) {
         const destino =
           perfil === 'comprador' ? '/marketplace' :
           perfil === 'assessor'  ? '/assessor' :
           '/dashboard'
         router.push(destino)
+      } else {
+        // Confirmação de email pendente → mostra tela de sucesso
+        setStep(4)
       }
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : 'Erro ao criar conta.'
@@ -174,6 +180,29 @@ function CadastroContent() {
 
   const stepLabels = ['Perfil', 'Dados', 'KYC']
   const perfilAtual = PERFIS.find(p => p.value === perfil)
+
+  // Step 4: email confirmation pending
+  if (step === 4) return (
+    <div className="min-h-screen bg-[#0a1f12] flex items-center justify-center p-4">
+      <div className="bg-white/5 border border-white/10 rounded-2xl p-10 max-w-md w-full text-center">
+        <div className="text-5xl mb-4">📧</div>
+        <h2 className="text-xl font-semibold text-white mb-2">Verifique seu email</h2>
+        <p className="text-white/60 text-sm mb-6">
+          Enviamos um link de confirmação para<br/>
+          <span className="text-[#c9a227] font-medium">{email}</span>
+        </p>
+        <p className="text-white/40 text-xs mb-8">
+          Clique no link do email para ativar sua conta e acessar o painel.
+        </p>
+        <a
+          href="/login"
+          className="block w-full py-3 rounded-xl bg-[#c9a227] text-[#0a1f12] font-semibold hover:bg-[#e2b42e] transition text-sm"
+        >
+          Já confirmei — fazer login
+        </a>
+      </div>
+    </div>
+  )
 
   return (
     <div className="min-h-screen bg-[#0a1f12] text-white">
@@ -349,19 +378,28 @@ function CadastroContent() {
 
               <div>
                 <label className="block text-sm font-medium text-white/75 mb-1.5">Confirmar senha</label>
-                <input
-                  type="password"
-                  value={confirmar}
-                  onChange={e => setConfirmar(e.target.value)}
-                  placeholder="Repita a senha"
-                  className={`w-full bg-white/5 border rounded-xl px-4 py-3 focus:outline-none transition-colors placeholder-white/25 ${
-                    confirmar && confirmar !== senha
-                      ? 'border-red-400/50 focus:border-red-400'
-                      : confirmar && confirmar === senha
-                      ? 'border-emerald-400/50 focus:border-emerald-400'
-                      : 'border-white/20 focus:border-[#c9a227]'
-                  }`}
-                />
+                <div className="relative">
+                  <input
+                    type={showConfirmar ? 'text' : 'password'}
+                    value={confirmar}
+                    onChange={e => setConfirmar(e.target.value)}
+                    placeholder="Repita a senha"
+                    className={`w-full bg-white/5 border rounded-xl px-4 py-3 pr-12 focus:outline-none transition-colors placeholder-white/25 ${
+                      confirmar && confirmar !== senha
+                        ? 'border-red-400/50 focus:border-red-400'
+                        : confirmar && confirmar === senha
+                        ? 'border-emerald-400/50 focus:border-emerald-400'
+                        : 'border-white/20 focus:border-[#c9a227]'
+                    }`}
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowConfirmar(!showConfirmar)}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-white/40 hover:text-white/70 transition-colors text-base"
+                  >
+                    {showConfirmar ? '🙈' : '👁'}
+                  </button>
+                </div>
               </div>
             </div>
 
@@ -490,6 +528,7 @@ function CadastroContent() {
           </div>
         )}
       </div>
+      <FeedbackButton />
     </div>
   )
 }
