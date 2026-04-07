@@ -9,7 +9,7 @@ import {
   ArrowLeftRight, Building2, Settings, LogOut,
   Users, Wallet, Send, Award, Briefcase, Shield, FileCheck, Gavel,
   MessageSquarePlus, X, Menu, SlidersHorizontal
-} from 'lucide-react'
+, Zap} from 'lucide-react'
 
 type UserRole = 'titular' | 'representante' | 'procurador'
 
@@ -21,6 +21,12 @@ interface NavItem {
 
 const companyNav: NavItem[] = [
   { href: '/dashboard',        label: 'Dashboard',       icon: LayoutDashboard },
+          {
+            href: '/creditos-federais',
+            label: 'Créditos Federais',
+            icon: Zap,
+            badge: 'Trilho A',
+          },
   { href: '/pipeline',         label: 'Pipeline',        icon: GitMerge },
   { href: '/marketplace',      label: 'Marketplace',     icon: DollarSign },
   { href: '/demandas',         label: 'Demandas',        icon: TrendingUp },
