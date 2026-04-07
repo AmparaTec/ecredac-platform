@@ -244,11 +244,11 @@ export async function executarDueDiligence(
 ): Promise<DueDiligenceResult> {
   // Buscar dados do cache
   const [cadesp, cnd_federal, cnd_estadual, cadin, conta_fiscal] = await Promise.all([
-    getCachedConsulta<CadespData>(supabase, 'cadesp', cnpj),
-    getCachedConsulta<CndData>(supabase, 'cnd_federal', cnpj),
-    getCachedConsulta<DebitoEstadualData>(supabase, 'cnd_estadual', cnpj),
-    getCachedConsulta<CadinData>(supabase, 'cadin', cnpj),
-    getCachedConsulta<ContaFiscalData>(supabase, 'conta_fiscal', cnpj),
+    getCachedConsulta<CadespData>(supabase as any, 'cadesp', cnpj),
+    getCachedConsulta<CndData>(supabase as any, 'cnd_federal', cnpj),
+    getCachedConsulta<DebitoEstadualData>(supabase as any, 'cnd_estadual', cnpj),
+    getCachedConsulta<CadinData>(supabase as any, 'cadin', cnpj),
+    getCachedConsulta<ContaFiscalData>(supabase as any, 'conta_fiscal', cnpj),
   ])
 
   // Verificar bloqueios
