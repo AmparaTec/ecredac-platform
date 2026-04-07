@@ -1,240 +1,236 @@
 import { redirect } from 'next/navigation'
 import { createServerSupabase } from '@/lib/supabase/server'
-import Link from 'next/link'
 
-export const metadata = {
-  title: 'Relius | Plataforma de Intermediação de Créditos PIS/COFINS',
-  description:
-    'Conectamos empresas com créditos PIS/COFINS acumulados a compradores qualificados. Verificação automática, contrato digital e liquidação segura.',
-}
-
-export default async function LandingPage() {
+export default async function HomePage() {
+  // Usuário autenticado → vai direto ao dashboard
   const supabase = createServerSupabase()
   const { data: { user } } = await supabase.auth.getUser()
   if (user) redirect('/dashboard')
 
   return (
-    <main className="min-h-screen bg-[#0a1f12] text-white">
+    <div className="min-h-screen bg-[#0a1f12] text-white overflow-x-hidden">
 
       {/* ── NAV ── */}
-      <nav className="border-b border-[#1e3d28] px-6 py-4">
-        <div className="max-w-7xl mx-auto flex items-center justify-between">
+      <nav className="sticky top-0 z-50 bg-[#0a1f12]/90 backdrop-blur border-b border-white/8">
+        <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <span className="text-xl font-bold tracking-tight text-white">Relius</span>
-            <span className="text-xs text-[#c9a227] font-medium uppercase tracking-widest">E-CREDac</span>
+            <span className="text-[#c9a227] font-bold text-xl tracking-tight">Relius</span>
+            <span className="hidden sm:block text-white/20 text-xs border border-white/10 px-2 py-0.5 rounded-full">
+              PIS/COFINS
+            </span>
           </div>
-          <div className="flex items-center gap-4">
-            <Link href="/login" className="text-sm text-gray-300 hover:text-white transition-colors">
+          <div className="flex items-center gap-3">
+            <a href="/login" className="text-sm text-white/60 hover:text-white transition-colors hidden sm:block">
               Entrar
-            </Link>
-            <Link
-              href="/register"
-              className="bg-[#c9a227] hover:bg-[#b8921f] text-black text-sm font-semibold px-4 py-2 rounded-lg transition-colors"
+            </a>
+            <a
+              href="/simular"
+              className="text-sm bg-[#c9a227] text-[#0a1f12] px-4 py-2 rounded-lg font-semibold hover:bg-[#e0b730] transition-colors"
             >
-              Cadastrar empresa
-            </Link>
+              Simular agora
+            </a>
           </div>
         </div>
       </nav>
 
       {/* ── HERO ── */}
-      <section className="px-6 py-24 text-center">
-        <div className="max-w-4xl mx-auto">
-          <div className="inline-block bg-[#c9a227]/10 border border-[#c9a227]/30 text-[#c9a227] text-xs font-semibold uppercase tracking-widest px-4 py-1.5 rounded-full mb-8">
-            Janela 2025–2026 · Reforma Tributária extingue PIS/COFINS em 2027
-          </div>
-          <h1 className="text-4xl md:text-6xl font-bold leading-tight mb-6">
-            O mercado de créditos{' '}
-            <span className="text-[#c9a227]">PIS/COFINS</span>{' '}
-            está aberto.
-            <br />Mas fecha em 2027.
-          </h1>
-          <p className="text-lg text-gray-300 max-w-2xl mx-auto mb-10 leading-relaxed">
-            Relius conecta empresas com créditos acumulados a compradores qualificados.
-            Verificação automática por EFD + NF-e. Contrato digital. Escrow seguro.
-            100% digital, sem burocracia.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link
-              href="/register?perfil=cedente"
-              className="bg-[#c9a227] hover:bg-[#b8921f] text-black font-bold px-8 py-4 rounded-xl text-lg transition-colors"
-            >
-              Tenho créditos para vender →
-            </Link>
-            <Link
-              href="/register?perfil=comprador"
-              className="border border-[#c9a227]/40 hover:border-[#c9a227] text-[#c9a227] font-bold px-8 py-4 rounded-xl text-lg transition-colors"
-            >
-              Quero comprar créditos →
-            </Link>
-          </div>
+      <section className="max-w-6xl mx-auto px-6 pt-20 pb-16 text-center">
+        <div className="inline-flex items-center gap-2 bg-[#c9a227]/10 border border-[#c9a227]/25 text-[#c9a227] text-xs font-semibold px-4 py-1.5 rounded-full mb-6 tracking-wide">
+          🏆 JANELA 2025–2026 · REFORMA TRIBUTÁRIA EXTINGUE PIS/COFINS EM 2027
         </div>
+
+        <h1 className="text-4xl sm:text-6xl font-bold leading-tight mb-6 max-w-4xl mx-auto">
+          Transforme seu crédito<br />
+          PIS/COFINS acumulado em{' '}
+          <span className="text-[#c9a227]">dinheiro no caixa</span>
+        </h1>
+
+        <p className="text-white/60 text-lg sm:text-xl max-w-2xl mx-auto mb-10 leading-relaxed">
+          Empresas exportadoras e setores isentos acumulam bilhões em créditos que não conseguem usar.
+          A Relius conecta você a compradores qualificados. 100% digital. Zero acesso aos seus sistemas fiscais.
+        </p>
+
+        <div className="flex flex-col sm:flex-row gap-4 justify-center mb-6">
+          <a
+            href="/simular"
+            className="inline-flex items-center justify-center gap-2 bg-[#c9a227] text-[#0a1f12] font-bold px-8 py-4 rounded-xl text-lg hover:bg-[#e0b730] transition-all shadow-lg shadow-[#c9a227]/20"
+          >
+            ⚡ Simular meu crédito — 30 segundos
+          </a>
+          <a
+            href="/cadastro"
+            className="inline-flex items-center justify-center gap-2 border border-white/20 text-white px-8 py-4 rounded-xl text-lg hover:border-white/40 hover:bg-white/5 transition-all"
+          >
+            Criar conta grátis
+          </a>
+        </div>
+
+        <p className="text-white/30 text-sm">
+          Gratuito · Sem upload de arquivo · Resultado em 30 segundos
+        </p>
       </section>
 
-      {/* ── STATS ── */}
-      <section className="border-y border-[#1e3d28] px-6 py-12">
-        <div className="max-w-5xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+      {/* ── STATS BAR ── */}
+      <section className="border-y border-white/8 bg-white/[0.02]">
+        <div className="max-w-6xl mx-auto px-6 py-8 grid grid-cols-2 sm:grid-cols-4 gap-6">
           {[
-            { value: 'R$ 70 bi', label: 'em créditos parados no Brasil' },
-            { value: '24 meses', label: 'de janela até a Reforma' },
-            { value: '100%', label: 'digital — sem visita presencial' },
-            { value: '72h', label: 'da verificação ao contrato' },
-          ].map((s) => (
-            <div key={s.label}>
-              <div className="text-3xl font-bold text-[#c9a227] mb-1">{s.value}</div>
-              <div className="text-sm text-gray-400">{s.label}</div>
+            { value: 'R$ 70 bi', label: 'em créditos sem liquidez (estimativa de mercado)', color: 'text-[#c9a227]' },
+            { value: '2027', label: 'fim do PIS/COFINS com a Reforma Tributária', color: 'text-red-400' },
+            { value: '100%', label: 'digital — sem acesso aos seus sistemas fiscais', color: 'text-white' },
+            { value: '30–90d', label: 'prazo médio para receber após assinatura', color: 'text-emerald-400' },
+          ].map((s, i) => (
+            <div key={i} className="text-center">
+              <div className={`text-2xl sm:text-3xl font-bold ${s.color} mb-1`}>{s.value}</div>
+              <div className="text-white/40 text-xs leading-snug">{s.label}</div>
             </div>
           ))}
         </div>
       </section>
 
-      {/* ── COMO FUNCIONA — CEDENTE ── */}
-      <section className="px-6 py-20">
-        <div className="max-w-5xl mx-auto">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold mb-3">Como funciona para quem tem créditos</h2>
-            <p className="text-gray-400">Processo 100% automatizado para cedentes PIS/COFINS</p>
-          </div>
-          <div className="grid md:grid-cols-5 gap-4">
-            {[
-              { n: '01', title: 'Cadastro', desc: 'Empresa + KYC digital em minutos' },
-              { n: '02', title: 'Upload EFD', desc: 'Arquivo SPED pipe-delimitado' },
-              { n: '03', title: 'Verificação', desc: 'Parser + cruzamento NF-e + SEFAZ' },
-              { n: '04', title: 'Marketplace', desc: 'Score + precificação automática' },
-              { n: '05', title: 'Liquidação', desc: 'Contrato ClickSign + Escrow Pagar.me' },
-            ].map((step, i) => (
-              <div key={step.n} className="relative">
-                <div className="bg-[#0d2818] border border-[#1e3d28] rounded-xl p-4 h-full">
-                  <div className="text-[#c9a227] text-xs font-bold mb-2">{step.n}</div>
-                  <div className="font-semibold text-sm mb-1">{step.title}</div>
-                  <div className="text-xs text-gray-400 leading-relaxed">{step.desc}</div>
-                </div>
-                {i < 4 && (
-                  <div className="hidden md:flex absolute top-1/2 -right-2.5 text-[#c9a227] text-xs z-10">›</div>
-                )}
-              </div>
-            ))}
-          </div>
+      {/* ── COMO FUNCIONA ── */}
+      <section className="max-w-6xl mx-auto px-6 py-20">
+        <div className="text-center mb-12">
+          <h2 className="text-3xl font-bold mb-3">Como funciona</h2>
+          <p className="text-white/50 max-w-xl mx-auto">
+            Do crédito parado à liquidez no caixa. Sem fricção humana no caminho crítico.
+          </p>
+        </div>
+
+        <div className="grid sm:grid-cols-5 gap-4">
+          {[
+            {
+              step: '01',
+              title: 'Simule em 30s',
+              desc: 'Informe o CNPJ e parâmetros básicos. Receba uma estimativa do seu crédito imediatamente.',
+              icon: '⚡',
+            },
+            {
+              step: '02',
+              title: 'Faça o upload da EFD',
+              desc: 'Envie sua EFD-Contribuições. O motor de IA calcula o crédito exato e gera o score de confiabilidade.',
+              icon: '📊',
+            },
+            {
+              step: '03',
+              title: 'Marketplace',
+              desc: 'Seu crédito verificado é publicado anonimamente. Compradores qualificados fazem propostas.',
+              icon: '🏦',
+            },
+            {
+              step: '04',
+              title: 'Contrato digital',
+              desc: 'Match feito → contrato de cessão gerado automaticamente e assinado eletronicamente na plataforma.',
+              icon: '✍️',
+            },
+            {
+              step: '05',
+              title: 'Escrow + Recebimento',
+              desc: 'Pagamento em escrow liberado conforme marcos. Você realiza o PER/DCOMP no e-CAC. Relius monitora.',
+              icon: '💰',
+            },
+          ].map((item, i) => (
+            <div
+              key={i}
+              className="bg-white/[0.03] border border-white/8 rounded-2xl p-5 relative"
+            >
+              <div className="text-3xl mb-3">{item.icon}</div>
+              <div className="text-[#c9a227] text-xs font-bold mb-1 tracking-widest">{item.step}</div>
+              <div className="font-semibold mb-2 text-sm">{item.title}</div>
+              <div className="text-white/45 text-xs leading-relaxed">{item.desc}</div>
+              {i < 4 && (
+                <div className="hidden sm:block absolute top-8 -right-2 text-white/15 text-lg">›</div>
+              )}
+            </div>
+          ))}
         </div>
       </section>
 
-      {/* ── PARA QUEM ── */}
-      <section className="px-6 py-16 bg-[#0d2818]">
-        <div className="max-w-5xl mx-auto grid md:grid-cols-2 gap-12">
-          <div>
-            <div className="inline-block text-[#c9a227] text-xs font-semibold uppercase tracking-widest mb-4">
-              Para cedentes
+      {/* ── PARA QUEM É ── */}
+      <section className="max-w-6xl mx-auto px-6 py-16">
+        <div className="grid sm:grid-cols-2 gap-6">
+          {/* Cedente */}
+          <div className="bg-white/[0.03] border border-white/10 rounded-2xl p-8">
+            <div className="w-12 h-12 bg-[#c9a227]/15 rounded-xl flex items-center justify-center text-2xl mb-5">
+              🏭
             </div>
-            <h3 className="text-2xl font-bold mb-4">Sua empresa acumula créditos PIS/COFINS?</h3>
-            <p className="text-gray-300 mb-6 leading-relaxed">
-              Exportadoras, indústrias, empresas em regime de substituição tributária e setores
-              desonerados acumulam créditos que nunca serão ressarcidos pelo governo.
-              Relius transforma esse passivo em caixa imediato.
+            <h3 className="text-xl font-bold mb-3">Para quem tem crédito</h3>
+            <p className="text-white/50 text-sm mb-5 leading-relaxed">
+              Exportadores, indústrias com insumos isentos, empresas do Lucro Real com saídas não tributadas. Seu crédito PIS/COFINS acumulado pode virar caixa agora — antes de 2027.
             </p>
-            <ul className="space-y-2">
+            <ul className="space-y-2 text-sm text-white/60 mb-6">
               {[
-                'Exportadores (crédito de insumos)',
-                'Indústrias com não-cumulatividade',
-                'Empresas com saldo credor recorrente',
-                'Setores com alíquota zero na saída',
-              ].map((item) => (
-                <li key={item} className="flex items-center gap-2 text-sm text-gray-300">
-                  <span className="text-[#c9a227]">✓</span> {item}
+                'Verificação automática via EFD + NF-e',
+                'Precificação baseada em mercado',
+                'Contrato e escrow automatizados',
+                'Você realiza o PER/DCOMP — Relius monitora',
+              ].map((item, i) => (
+                <li key={i} className="flex items-start gap-2">
+                  <span className="text-[#c9a227] flex-shrink-0 mt-0.5">✓</span>
+                  {item}
                 </li>
               ))}
             </ul>
+            <a
+              href="/simular"
+              className="block text-center bg-[#c9a227] text-[#0a1f12] font-bold py-3 rounded-xl hover:bg-[#e0b730] transition-colors"
+            >
+              Simular meu crédito →
+            </a>
           </div>
-          <div>
-            <div className="inline-block text-[#c9a227] text-xs font-semibold uppercase tracking-widest mb-4">
-              Para compradores
+
+          {/* Comprador */}
+          <div className="bg-white/[0.03] border border-white/10 rounded-2xl p-8">
+            <div className="w-12 h-12 bg-emerald-500/15 rounded-xl flex items-center justify-center text-2xl mb-5">
+              💼
             </div>
-            <h3 className="text-2xl font-bold mb-4">Reduza débitos federais com desconto</h3>
-            <p className="text-gray-300 mb-6 leading-relaxed">
-              Adquira créditos PIS/COFINS verificados com deságio e use para quitar
-              débitos tributários federais via PER/DCOMP. Economia real, crédito
-              rastreado e auditado pela plataforma.
+            <h3 className="text-xl font-bold mb-3">Para quem quer comprar</h3>
+            <p className="text-white/50 text-sm mb-5 leading-relaxed">
+              Empresas com débitos de PIS/COFINS ou IRPJ/CSLL podem adquirir créditos com desconto para compensação, reduzindo o custo tributário de forma legal e segura.
             </p>
-            <ul className="space-y-2">
+            <ul className="space-y-2 text-sm text-white/60 mb-6">
               {[
-                'Créditos verificados por EFD + NF-e',
-                'Deságio negociado via marketplace',
-                'Contrato digital com validade jurídica',
-                'Monitoramento PER/DCOMP em tempo real',
-              ].map((item) => (
-                <li key={item} className="flex items-center gap-2 text-sm text-gray-300">
-                  <span className="text-[#c9a227]">✓</span> {item}
+                'Créditos verificados com score de confiabilidade',
+                'Marketplace anônimo — identidade revelada no match',
+                'Due diligence fiscal automatizada',
+                'Escrow com liberação por marcos',
+              ].map((item, i) => (
+                <li key={i} className="flex items-start gap-2">
+                  <span className="text-emerald-400 flex-shrink-0 mt-0.5">✓</span>
+                  {item}
                 </li>
               ))}
             </ul>
+            <a
+              href="/cadastro?perfil=comprador"
+              className="block text-center border border-emerald-500/40 text-emerald-400 font-bold py-3 rounded-xl hover:bg-emerald-500/10 transition-colors"
+            >
+              Acessar marketplace →
+            </a>
           </div>
         </div>
       </section>
 
-      {/* ── TRILHO A vs B ── */}
-      <section className="px-6 py-20">
-        <div className="max-w-5xl mx-auto">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold mb-3">Dois mercados. Uma plataforma.</h2>
-          </div>
-          <div className="grid md:grid-cols-2 gap-6">
-            <div className="bg-[#0d2818] border border-[#c9a227]/30 rounded-2xl p-6">
-              <div className="flex items-center gap-2 mb-4">
-                <span className="bg-[#c9a227] text-black text-xs font-bold px-2 py-0.5 rounded">Trilho A</span>
-                <span className="text-sm font-semibold">Federal — PIS/COFINS</span>
-              </div>
-              <p className="text-gray-300 text-sm leading-relaxed mb-4">
-                100% automatizado. EFD parser, cruzamento NF-e, precificação por algoritmo,
-                contrato ClickSign e escrow Pagar.me. Do cadastro ao recebimento em dias.
-              </p>
-              <div className="text-xs text-[#c9a227] font-medium">✓ Disponível agora</div>
-            </div>
-            <div className="bg-[#0d2818] border border-[#1e3d28] rounded-2xl p-6">
-              <div className="flex items-center gap-2 mb-4">
-                <span className="bg-gray-600 text-white text-xs font-bold px-2 py-0.5 rounded">Trilho B</span>
-                <span className="text-sm font-semibold">Estadual — ICMS E-CredAc</span>
-              </div>
-              <p className="text-gray-300 text-sm leading-relaxed mb-4">
-                Pipeline curado pelo fundador. Créditos de ICMS acumulados (SP e outros estados).
-                Operação tailor-made para operações de maior complexidade.
-              </p>
-              <div className="text-xs text-gray-400 font-medium">Em breve — cadastre interesse</div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ── SEGURANÇA ── */}
-      <section className="px-6 py-16 bg-[#0d2818] border-y border-[#1e3d28]">
-        <div className="max-w-5xl mx-auto">
-          <div className="text-center mb-10">
-            <h2 className="text-2xl font-bold mb-2">Visibilidade total. Acesso zero.</h2>
-            <p className="text-gray-400 text-sm max-w-xl mx-auto">
-              Compradores acompanham o crédito em tempo real sem nunca acessar sistemas
-              fiscais do cedente. Segregação total de informações sensíveis.
-            </p>
-          </div>
-          <div className="grid md:grid-cols-3 gap-6">
+      {/* ── SEGURANÇA E COMPLIANCE ── */}
+      <section className="border-y border-white/8 bg-white/[0.02]">
+        <div className="max-w-6xl mx-auto px-6 py-16 text-center">
+          <h2 className="text-2xl font-bold mb-2">Seguro. Auditável. Sem acesso fiscal.</h2>
+          <p className="text-white/50 mb-10 max-w-xl mx-auto text-sm">
+            Sua empresa nunca cede acesso ao e-CAC, SEFAZ ou certificado digital. Todo o processo é rastreável.
+          </p>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
             {[
-              {
-                icon: '🔒',
-                title: 'KYC + PLD',
-                desc: 'Verificação de identidade, CNPJ e compliance automatizados antes de qualquer operação',
-              },
-              {
-                icon: '📋',
-                title: 'Contrato jurídico',
-                desc: 'Assinatura digital via ClickSign com validade legal e rastreabilidade completa',
-              },
-              {
-                icon: '🏦',
-                title: 'Escrow seguro',
-                desc: 'Pagar.me bloqueia o pagamento em escrow. Liberação por marcos verificados',
-              },
-            ].map((f) => (
-              <div key={f.title} className="text-center">
-                <div className="text-3xl mb-3">{f.icon}</div>
-                <div className="font-semibold mb-2">{f.title}</div>
-                <div className="text-sm text-gray-400 leading-relaxed">{f.desc}</div>
+              { icon: '🔐', title: 'KYC completo', desc: 'Validação de empresas e responsáveis antes de qualquer operação' },
+              { icon: '✍️', title: 'Contrato eletrônico', desc: 'Assinatura digital com validade jurídica' },
+              { icon: '🏦', title: 'Escrow protegido', desc: 'Pagamento em custódia liberado por marcos contratuais' },
+              { icon: '📋', title: 'LGPD & Auditoria', desc: 'Log imutável de todas as ações. Dados excluídos em 45 dias.' },
+            ].map((item, i) => (
+              <div
+                key={i}
+                className="bg-white/[0.03] border border-white/8 rounded-xl p-5 text-left"
+              >
+                <div className="text-2xl mb-3">{item.icon}</div>
+                <div className="font-semibold text-sm mb-1">{item.title}</div>
+                <div className="text-white/40 text-xs leading-snug">{item.desc}</div>
               </div>
             ))}
           </div>
@@ -242,47 +238,56 @@ export default async function LandingPage() {
       </section>
 
       {/* ── CTA FINAL ── */}
-      <section className="px-6 py-24 text-center">
-        <div className="max-w-2xl mx-auto">
-          <h2 className="text-4xl font-bold mb-4">
-            A janela fecha em{' '}
-            <span className="text-[#c9a227]">2027.</span>
-          </h2>
-          <p className="text-gray-300 mb-10 text-lg">
-            Cadastre sua empresa hoje. A verificação é gratuita.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link
-              href="/register"
-              className="bg-[#c9a227] hover:bg-[#b8921f] text-black font-bold px-10 py-4 rounded-xl text-lg transition-colors"
-            >
-              Começar agora — é gratuito
-            </Link>
-            <Link
-              href="/login"
-              className="border border-white/20 hover:border-white/40 text-white font-semibold px-10 py-4 rounded-xl text-lg transition-colors"
-            >
-              Já tenho conta
-            </Link>
-          </div>
-        </div>
+      <section className="max-w-4xl mx-auto px-6 py-20 text-center">
+        <h2 className="text-3xl sm:text-4xl font-bold mb-4 leading-tight">
+          Descubra quanto você tem<br />
+          parado em crédito{' '}
+          <span className="text-[#c9a227]">agora</span>
+        </h2>
+        <p className="text-white/50 mb-8 text-lg max-w-xl mx-auto">
+          Em 30 segundos você sabe o quanto pode transformar em caixa antes que a janela feche.
+        </p>
+        <a
+          href="/simular"
+          className="inline-flex items-center gap-2 bg-[#c9a227] text-[#0a1f12] font-bold px-10 py-4 rounded-xl text-lg hover:bg-[#e0b730] transition-all shadow-lg shadow-[#c9a227]/20 mb-4"
+        >
+          ⚡ Simular grátis — sem cadastro
+        </a>
+        <p className="text-white/25 text-sm">
+          Resultado imediato. Cadastro opcional para ver o relatório completo.
+        </p>
       </section>
 
       {/* ── FOOTER ── */}
-      <footer className="border-t border-[#1e3d28] px-6 py-10">
-        <div className="max-w-5xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-gray-500">
+      <footer className="border-t border-white/8">
+        <div className="max-w-6xl mx-auto px-6 py-10 flex flex-col sm:flex-row items-center justify-between gap-4">
           <div>
-            <span className="text-white font-bold">Relius</span>
-            <span className="text-[#c9a227] text-xs font-medium ml-2 uppercase tracking-widest">E-CREDac</span>
-            <span className="ml-4">© {new Date().getFullYear()} AmparaTec. Todos os direitos reservados.</span>
+            <div className="text-[#c9a227] font-bold text-lg mb-1">Relius</div>
+            <div className="text-white/30 text-xs">
+              Plataforma de intermediação de créditos PIS/COFINS. Brasil, 2026.
+            </div>
           </div>
-          <div className="flex gap-6">
-            <Link href="/termos-de-uso" className="hover:text-white transition-colors">Termos de uso</Link>
-            <Link href="/politica-de-privacidade" className="hover:text-white transition-colors">Privacidade</Link>
+          <div className="flex flex-wrap gap-x-6 gap-y-2 text-white/40 text-xs text-center">
+            <a href="/compliance/termos" className="hover:text-white/70 transition-colors">
+              Termos de Uso
+            </a>
+            <a href="/compliance/privacidade" className="hover:text-white/70 transition-colors">
+              Política de Privacidade
+            </a>
+            <a href="/login" className="hover:text-white/70 transition-colors">
+              Login
+            </a>
+            <a href="/cadastro" className="hover:text-white/70 transition-colors">
+              Cadastro
+            </a>
+          </div>
+          <div className="text-white/20 text-xs text-center sm:text-right">
+            © 2026 Relius · Todos os direitos reservados<br />
+            Não somos assessores fiscais. Não executamos PER/DCOMP.
           </div>
         </div>
       </footer>
 
-    </main>
+    </div>
   )
 }
