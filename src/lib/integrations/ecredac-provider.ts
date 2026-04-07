@@ -293,19 +293,19 @@ export async function listarOperacoesPendentes(
 export function createEcredacProvider(
   supabase: ReturnType<typeof createClient>,
   mode: 'manual' | 'rpa' | 'api' = 'manual'
-): IEcredacProvider {
+) as any: IEcredacProvider {
   switch (mode) {
     case 'manual':
-      return new EcredacManualProvider(supabase)
+      return new EcredacManualProvider(supabase as any)
     case 'rpa':
       // TODO: Sprint 5 — EcredacRpaProvider
       console.warn('RPA provider not yet implemented, falling back to manual')
-      return new EcredacManualProvider(supabase)
+      return new EcredacManualProvider(supabase as any)
     case 'api':
       // TODO: Fase 3 — quando SEFAZ disponibilizar API
       console.warn('API provider not available, falling back to manual')
-      return new EcredacManualProvider(supabase)
+      return new EcredacManualProvider(supabase as any)
     default:
-      return new EcredacManualProvider(supabase)
+      return new EcredacManualProvider(supabase as any)
   }
 }
