@@ -217,7 +217,7 @@ export async function POST(request: NextRequest) {
       }
 
       // Audit log
-      await insertAuditLog(supabase, {
+      await insertAuditLog(supabase as any, {
         transaction_id,
         user_id: user.id,
         user_name: profile?.full_name || 'Sistema',
@@ -264,7 +264,7 @@ export async function POST(request: NextRequest) {
       }
 
       // Audit log
-      await insertAuditLog(supabase, {
+      await insertAuditLog(supabase as any, {
         transaction_id,
         user_id: user.id,
         user_name: profile?.full_name || '',
@@ -339,7 +339,7 @@ export async function POST(request: NextRequest) {
         }
       }
 
-      await insertAuditLog(supabase, {
+      await insertAuditLog(supabase as any, {
         transaction_id,
         user_id: user.id,
         user_name: profile?.full_name || '',
@@ -391,7 +391,7 @@ export async function POST(request: NextRequest) {
       }
 
       // Audit log
-      await insertAuditLog(supabase, {
+      await insertAuditLog(supabase as any, {
         transaction_id,
         user_id: user.id,
         user_name: profile?.full_name || '',
