@@ -91,6 +91,14 @@ export default function LandingPage() {
               Descubra seu valor <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
             </Link>
           </div>
+          
+          <div className="pt-20 pb-4 relative w-full max-w-7xl mx-auto flex justify-center perspective-[1000px]">
+             <div className="relative w-full overflow-hidden rounded-[32px] border border-slate-200/50 shadow-float bg-white/50 backdrop-blur-sm transform transition-all hover:scale-[1.01] duration-500">
+                <img src="/dashboard-mockup.png" alt="Relius Platform Dashboard" className="w-full h-auto object-cover" />
+                <div className="absolute inset-0 rounded-[32px] ring-1 ring-inset ring-black/5 pointer-events-none"></div>
+             </div>
+          </div>
+
         </div>
       </section>
 
