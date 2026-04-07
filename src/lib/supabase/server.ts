@@ -9,7 +9,7 @@ export function createServerSupabase() {
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
     {
       cookies: {
-        getAll() as any {
+        getAll() {
           return cookieStore.getAll()
         },
         setAll(cookiesToSet: { name: string; value: string; options?: Record<string, unknown> }[]) {
@@ -33,7 +33,7 @@ export function createAdminSupabase() {
     process.env.SUPABASE_SERVICE_ROLE_KEY!,
     {
       cookies: {
-        getAll() as any { return [] },
+        getAll() { return [] },
         setAll() {},
       },
     }
