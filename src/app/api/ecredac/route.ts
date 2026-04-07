@@ -55,12 +55,12 @@ export async function GET(request: NextRequest) {
   }
 
   if (action === 'procuracao') {
-    const procuracao = await verificarProcuracaoAtiva(supabase, cnpjLimpo)
+    const procuracao = await verificarProcuracaoAtiva(supabase as any, cnpjLimpo)
     return NextResponse.json({ cnpj: cnpjLimpo, procuracao })
   }
 
   if (action === 'pendentes') {
-    const pendentes = await listarOperacoesPendentes(supabase, cnpjLimpo)
+    const pendentes = await listarOperacoesPendentes(supabase as any, cnpjLimpo)
     return NextResponse.json({ cnpj: cnpjLimpo, operacoes_pendentes: pendentes })
   }
 
@@ -106,7 +106,7 @@ export async function POST(request: NextRequest) {
     }
 
     const cnpjLimpo = cnpj.replace(/\\D/g, '')
-    const result = await registrarSaldoManual(supabase, {
+    const result = await registrarSaldoManual(supabase as any, {
       cnpj: cnpjLimpo,
       saldo_disponivel,
       saldo_bloqueado: saldo_bloqueado || 0,
@@ -184,7 +184,7 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    await atualizarProtocolo(supabase, protocolo, status, observacao)
+    await atualizarProtocolo(supabase as any, protocolo, status, observacao)
 
     return NextResponse.json({
       sucesso: true,
