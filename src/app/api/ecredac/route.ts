@@ -65,7 +65,7 @@ export async function GET(request: NextRequest) {
   }
 
   // Buscar saldo via provider
-  const provider = createEcredacProvider(supabase as any)
+  const provider = createEcredacProvider(supabase as any) as any
 
   if (action === 'extrato') {
     const extrato = await provider.consultarExtrato(cnpjLimpo)
@@ -155,7 +155,7 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    const provider = createEcredacProvider(supabase as any)
+    const provider = createEcredacProvider(supabase as any) as any
     const protocolo = await provider.iniciarTransferencia({
       cnpj_origem: cnpj_origem.replace(/\\D/g, ''),
       cnpj_destino: cnpj_destino.replace(/\\D/g, ''),
