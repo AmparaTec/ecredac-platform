@@ -392,7 +392,7 @@ export default function PerfilPage() {
     { id: 'pessoal',      label: 'Dados Pessoais', icon: FileText },
     { id: 'endereco',     label: 'Endereço',       icon: MapPin },
     { id: 'empresa',      label: 'Empresa',        icon: Building2 },
-    { id: 'trilho',       label: 'Trilho',         icon: Train },
+    { id: 'trilho',       label: 'Trilho',         icon: GitBranch },
     { id: 'seguranca',    label: 'Segurança',      icon: Shield },
     { id: 'notificacoes', label: 'Notificações',   icon: Bell },
   ]
