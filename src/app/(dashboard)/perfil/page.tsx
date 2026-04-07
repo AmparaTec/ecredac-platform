@@ -6,7 +6,8 @@ import {
   Shield, Save, CheckCircle, AlertTriangle, Loader2,
   Lock, Bell, CreditCard, ChevronRight, ToggleLeft, ToggleRight,
   Key, SlidersHorizontal
-} from 'lucide-react'
+,
+  GitBranch} from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { TrilhoTab } from '@/components/perfil/trilho-tab'
 
