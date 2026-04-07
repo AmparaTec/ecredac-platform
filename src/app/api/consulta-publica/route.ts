@@ -40,7 +40,7 @@ export async function GET(request: NextRequest) {
 
   // Se nao especificou tipo, executa due diligence completa
   if (!tipo) {
-    const result = await executarDueDiligence(supabase as any as any, cnpjLimpo, user.id)
+    const result = await executarDueDiligence(supabase as any, cnpjLimpo, user.id)
     return NextResponse.json({ due_diligence: result })
   }
 
@@ -171,7 +171,7 @@ export async function DELETE() {
     return NextResponse.json({ error: 'Acesso negado' }, { status: 403 })
   }
 
-  const removidos = await limparCacheExpirado(supabase)
+  const removidos = await limparCacheExpirado(supabase as any)
 
   return NextResponse.json({
     sucesso: true,
