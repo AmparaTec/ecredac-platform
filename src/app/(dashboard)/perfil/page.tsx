@@ -68,7 +68,7 @@ const EMPTY_NOTIF: NotifSettings = {
   whatsapp_matching: false, whatsapp_operacoes: false
 }
 
-type Tab = 'conta' | 'pessoal' | 'endereco' | 'empresa' | 'seguranca' | 'notificacoes'
+type Tab = 'conta' | 'pessoal' | 'endereco' | 'empresa' | 'seguranca' | 'notificacoes' | 'trilho'
 
 /* ── Helpers ────────────────────────────────────────────────────── */
 
